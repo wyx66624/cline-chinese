@@ -209,6 +209,7 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 					<VSCodeOption value="lmstudio">LM Studio</VSCodeOption>
 					<VSCodeOption value="ollama">Ollama</VSCodeOption>
 					<VSCodeOption value="litellm">LiteLLM</VSCodeOption>
+					<VSCodeOption value="dify">Dify</VSCodeOption>
 					<VSCodeOption value="asksage">AskSage</VSCodeOption>
 					<VSCodeOption value="xai">X AI</VSCodeOption>
 					<VSCodeOption value="sambanova">SambaNova</VSCodeOption>
@@ -1271,6 +1272,48 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 				</div>
 			)}
 
+			{selectedProvider === "dify" && (
+				<div>
+					<VSCodeTextField
+						value={apiConfiguration?.difyApiKey || ""}
+						style={{ width: "100%" }}
+						type="password"
+						onInput={handleInputChange("difyApiKey")}
+						placeholder="输入 API 密钥...">
+						<span style={{ fontWeight: 500 }}>Dify API 密钥</span>
+					</VSCodeTextField>
+
+					<VSCodeTextField
+						value={apiConfiguration?.difyBaseUrl || ""}
+						style={{ width: "100%", marginTop: 3 }}
+						type="url"
+						onInput={handleInputChange("difyBaseUrl")}
+						placeholder="输入 Dify 基础 URL...">
+						<span style={{ fontWeight: 500 }}>Dify 基础 URL</span>
+					</VSCodeTextField>
+
+					<p
+						style={{
+							fontSize: "12px",
+							marginTop: 3,
+							color: "var(--vscode-descriptionForeground)",
+						}}>
+						API 密钥和基础 URL 存储在本地，仅用于从此扩展发出 API 请求。
+					</p>
+				</div>
+			)}
+
+			{apiErrorMessage && (
+				<p
+					style={{
+						margin: "-10px 0 4px 0",
+						fontSize: 12,
+						color: "var(--vscode-errorForeground)",
+					}}>
+					{apiErrorMessage}
+				</p>
+			)}
+
 			{selectedProvider === "xai" && (
 				<div>
 					<VSCodeTextField
@@ -1699,6 +1742,12 @@ export function normalizeApiConfiguration(apiConfiguration?: ApiConfiguration): 
 			return {
 				selectedProvider: provider,
 				selectedModelId: apiConfiguration?.liteLlmModelId || "",
+				selectedModelInfo: openAiModelInfoSaneDefaults,
+			}
+		case "dify":
+			return {
+				selectedProvider: provider,
+				selectedModelId: "",
 				selectedModelInfo: openAiModelInfoSaneDefaults,
 			}
 		case "xai":

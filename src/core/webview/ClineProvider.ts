@@ -67,6 +67,7 @@ type SecretKey =
 	| "asksageApiKey"
 	| "xaiApiKey"
 	| "sambanovaApiKey"
+	| "difyApiKey"
 type GlobalStateKey =
 	| "apiProvider"
 	| "apiModelId"
@@ -99,6 +100,7 @@ type GlobalStateKey =
 	| "chatSettings"
 	| "vsCodeLmModelSelector"
 	| "userInfo"
+	| "difyBaseUrl"
 	| "previousModeApiProvider"
 	| "previousModeModelId"
 	| "previousModeThinkingBudgetTokens"
@@ -1157,6 +1159,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			liteLlmModelId,
 			liteLlmApiKey,
 			qwenApiLine,
+			difyApiKey,
+			difyBaseUrl,
 			asksageApiKey,
 			asksageApiUrl,
 			xaiApiKey,
@@ -1213,6 +1217,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		await this.updateGlobalState("thinkingBudgetTokens", thinkingBudgetTokens)
 		await this.storeSecret("clineApiKey", clineApiKey)
 		await this.storeSecret("sambanovaApiKey", sambanovaApiKey)
+		await this.storeSecret("difyApiKey", difyApiKey)
+		await this.updateGlobalState("difyBaseUrl", difyBaseUrl)
 		if (this.clineChinese) {
 			this.clineChinese.api = buildApiHandler(apiConfiguration)
 		}
@@ -2119,6 +2125,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			liteLlmBaseUrl,
 			liteLlmModelId,
 			userInfo,
+			difyApiKey,
+			difyBaseUrl,
 			previousModeApiProvider,
 			previousModeModelId,
 			previousModeModelInfo,
@@ -2183,6 +2191,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			this.getGlobalState("liteLlmBaseUrl") as Promise<string | undefined>,
 			this.getGlobalState("liteLlmModelId") as Promise<string | undefined>,
 			this.getGlobalState("userInfo") as Promise<UserInfo | undefined>,
+			this.getSecret("difyApiKey") as Promise<string | undefined>,
+			this.getGlobalState("difyBaseUrl") as Promise<string | undefined>,
 			this.getGlobalState("previousModeApiProvider") as Promise<ApiProvider | undefined>,
 			this.getGlobalState("previousModeModelId") as Promise<string | undefined>,
 			this.getGlobalState("previousModeModelInfo") as Promise<ModelInfo | undefined>,
@@ -2285,6 +2295,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 				liteLlmBaseUrl,
 				liteLlmModelId,
 				liteLlmApiKey,
+				difyApiKey,
+				difyBaseUrl,
 				asksageApiKey,
 				asksageApiUrl,
 				xaiApiKey,
@@ -2434,6 +2446,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			"mistralApiKey",
 			"clineApiKey",
 			"liteLlmApiKey",
+			"difyApiKey",
 			"asksageApiKey",
 			"xaiApiKey",
 			"sambanovaApiKey",
