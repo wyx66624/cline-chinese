@@ -116,12 +116,12 @@ type GlobalStateKey =
 	| "planActSeparateModelsSetting"
 
 export class ClineProvider implements vscode.WebviewViewProvider {
-	public static readonly sideBarId = "claude-dev.SidebarProvider"; // 用于 package.json 作为视图的 ID。由于 VSCode 根据其 ID 缓存视图，因此此值不能更改，更新 ID 会破坏扩展的现有实例。
-	public static readonly tabPanelId = "claude-dev.TabPanelProvider";
+	public static readonly sideBarId = "clineChinese.SidebarProvider"; // 用于 package.json 作为视图的 ID。由于 VSCode 根据其 ID 缓存视图，因此此值不能更改，更新 ID 会破坏扩展的现有实例。
+	public static readonly tabPanelId = "clineChinese.TabPanelProvider";
 	private static activeInstances: Set<ClineProvider> = new Set();
 	private disposables: vscode.Disposable[] = [];
 	private view?: vscode.WebviewView | vscode.WebviewPanel;
-	private cline?: Cline;
+	private clineChinese?: Cline;
 	workspaceTracker?: WorkspaceTracker;
 	mcpHub?: McpHub;
 	accountService?: ClineAccountService;
@@ -266,7 +266,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						text: JSON.stringify(await getTheme()),
 					});
 				}
-				if (e && e.affectsConfiguration("cline.mcpMarketplace.enabled")) {
+				if (e && e.affectsConfiguration("clineChinese.mcpMarketplace.enabled")) {
 					// 当市场选项卡设置更改时更新状态
 					await this.postStateToWebview();
 				}
@@ -285,7 +285,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		await this.clearTask(); // 确保在开始新任务之前不存在现有任务，尽管这不应该是可能的，因为用户必须在开始新任务之前清除任务
 		const { apiConfiguration, customInstructions, autoApprovalSettings, browserSettings, chatSettings } =
 			await this.getState();
-		this.cline = new Cline(
+		this.clineChinese = new Cline(
 			this,
 			apiConfiguration,
 			autoApprovalSettings,
@@ -301,7 +301,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		await this.clearTask();
 		const { apiConfiguration, customInstructions, autoApprovalSettings, browserSettings, chatSettings } =
 			await this.getState();
-		this.cline = new Cline(
+		this.clineChinese = new Cline(
 			this,
 			apiConfiguration,
 			autoApprovalSettings,
@@ -552,8 +552,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 					case "autoApprovalSettings":
 						if (message.autoApprovalSettings) {
 							await this.updateGlobalState("autoApprovalSettings", message.autoApprovalSettings);
-							if (this.cline) {
-								this.cline.autoApprovalSettings = message.autoApprovalSettings;
+							if (this.clineChinese) {
+								this.clineChinese.autoApprovalSettings = message.autoApprovalSettings;
 							}
 							await this.postStateToWebview();
 						}
@@ -561,8 +561,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 					case "browserSettings":
 						if (message.browserSettings) {
 							await this.updateGlobalState("browserSettings", message.browserSettings);
-							if (this.cline) {
-								this.cline.updateBrowserSettings(message.browserSettings);
+							if (this.clineChinese) {
+								this.clineChinese.updateBrowserSettings(message.browserSettings);
 							}
 							await this.postStateToWebview();
 						}
@@ -580,12 +580,12 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						});
 						break;
 					// case "relaunchChromeDebugMode":
-					// 	if (this.cline) {
-					// 		this.cline.browserSession.relaunchChromeDebugMode();
+					// 	if (this.clineChinese) {
+					// 		this.clineChinese.browserSession.relaunchChromeDebugMode();
 					// 	}
 					// 	break;
 					case "askResponse":
-						this.cline?.handleWebviewAskResponse(message.askResponse!, message.text, message.images);
+						this.clineChinese?.handleWebviewAskResponse(message.askResponse!, message.text, message.images);
 						break;
 					case "clearTask":
 						// newTask 将使用给定的任务文本启动新任务，而 clear task 将重置当前会话并允许启动新任务
@@ -604,7 +604,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						});
 						break;
 					case "exportCurrentTask":
-						const currentTaskId = this.cline?.taskId;
+						const currentTaskId = this.clineChinese?.taskId;
 						if (currentTaskId) {
 							this.exportTaskWithId(currentTaskId);
 						}
@@ -672,7 +672,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						break;
 					case "checkpointDiff": {
 						if (message.number) {
-							await this.cline?.presentMultifileDiff(message.number, false);
+							await this.clineChinese?.presentMultifileDiff(message.number, false);
 						}
 						break;
 					}
@@ -681,19 +681,19 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						// 取消任务等待任何打开的编辑器被还原并启动一个新的 cline 实例
 						if (message.number) {
 							// 等待消息加载
-							await pWaitFor(() => this.cline?.isInitialized === true, {
+							await pWaitFor(() => this.clineChinese?.isInitialized === true, {
 								timeout: 3_000,
 							}).catch(() => {
 								console.error("初始化新 cline 实例失败");
 							});
 							// 注意：cancelTask 等待 abortTask，abortTask 等待 diffViewProvider.revertChanges，revertChanges 允许我们重置到检查点，而不是在检查点重置的同时或之后调用 revertChanges 函数
-							await this.cline?.restoreCheckpoint(message.number, message.text! as ClineCheckpointRestore);
+							await this.clineChinese?.restoreCheckpoint(message.number, message.text! as ClineCheckpointRestore);
 						}
 						break;
 					}
 					case "taskCompletionViewChanges": {
 						if (message.number) {
-							await this.cline?.presentMultifileDiff(message.number, true);
+							await this.clineChinese?.presentMultifileDiff(message.number, true);
 						}
 						break;
 					}
@@ -715,7 +715,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						const uriScheme = vscode.env.uriScheme;
 
 						const authUrl = vscode.Uri.parse(
-							`https://app.cline.bot/auth?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(`${uriScheme || "vscode"}://saoudrizwan.claude-dev/auth`)}`,
+							`https://app.cline.bot/auth?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(`${uriScheme || "vscode"}://hybridtalentcomputing.cline-chinese/auth`)}`,
 						);
 						vscode.env.openExternal(authUrl);
 						break;
@@ -757,7 +757,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 
 							// 2. 如果禁用，则启用 MCP 设置
 							// 如果禁用，则启用 MCP 模式
-							const mcpConfig = vscode.workspace.getConfiguration("cline.mcp");
+							const mcpConfig = vscode.workspace.getConfiguration("clineChinese.mcp");
 							if (mcpConfig.get<string>("mode") !== "full") {
 								await mcpConfig.update("mode", "full", true);
 							}
@@ -773,7 +773,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 					}
 					// case "openMcpMarketplaceServerDetails": {
 					// 	if (message.text) {
-					// 		const response = await fetch(`https://api.cline.bot/v1/mcp/marketplace/item?mcpId=${message.mcpId}`);
+					// 		const response = await fetch(`https://api.clineChinese.bot/v1/mcp/marketplace/item?mcpId=${message.mcpId}`);
 					// 		const details: McpDownloadResponse = await response.json();
 
 					// 		if (details.readmeContent) {
@@ -873,7 +873,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						const settingsFilter = message.text || "";
 						await vscode.commands.executeCommand(
 							"workbench.action.openSettings",
-							`@ext:saoudrizwan.claude-dev ${settingsFilter}`.trim(), // 如果没有设置过滤器，则修剪空格
+							`@ext:hybridtalentcomputing.cline-chinese ${settingsFilter}`.trim(), // 如果没有设置过滤器，则修剪空格
 						);
 						break;
 					}
@@ -950,7 +950,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		const didSwitchToActMode = chatSettings.mode === "act";
 
 		// 捕获模式切换遥测 | 无论我们是否知道 taskId 都要捕获
-		telemetryService.captureModeSwitch(this.cline?.taskId ?? "0", chatSettings.mode);
+		telemetryService.captureModeSwitch(this.clineChinese?.taskId ?? "0", chatSettings.mode);
 
 		// 获取我们将在保存当前模式 API 信息后恢复的先前模型信息
 		const {
@@ -1048,9 +1048,9 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						break;
 				}
 
-				if (this.cline) {
+				if (this.clineChinese) {
 					const { apiConfiguration: updatedApiConfiguration } = await this.getState();
-					this.cline.api = buildApiHandler(updatedApiConfiguration);
+					this.clineChinese.api = buildApiHandler(updatedApiConfiguration);
 				}
 			}
 		}
@@ -1058,10 +1058,10 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		await this.updateGlobalState("chatSettings", chatSettings);
 		await this.postStateToWebview();
 
-		if (this.cline) {
-			this.cline.updateChatSettings(chatSettings);
-			if (this.cline.isAwaitingPlanResponse && didSwitchToActMode) {
-				this.cline.didRespondToPlanAskBySwitchingMode = true;
+		if (this.clineChinese) {
+			this.clineChinese.updateChatSettings(chatSettings);
+			if (this.clineChinese.isAwaitingPlanResponse && didSwitchToActMode) {
+				this.clineChinese.didRespondToPlanAskBySwitchingMode = true;
 				// 如果提供了 chatContent，则使用它，否则使用默认消息
 				await this.postMessageToWebview({
 					type: "invoke",
@@ -1076,28 +1076,28 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 	}
 
 	async cancelTask() {
-		if (this.cline) {
-			const { historyItem } = await this.getTaskWithId(this.cline.taskId)
+		if (this.clineChinese) {
+			const { historyItem } = await this.getTaskWithId(this.clineChinese.taskId)
 			try {
-				await this.cline.abortTask()
+				await this.clineChinese.abortTask()
 			} catch (error) {
 				console.error("任务中止失败", error)
 			}
 			await pWaitFor(
 				() =>
-					this.cline === undefined ||
-					this.cline.isStreaming === false ||
-					this.cline.didFinishAbortingStream ||
-					this.cline.isWaitingForFirstChunk, // 如果只处理了第一个块，则无需等待优雅中止（关闭编辑、浏览器等）
+					this.clineChinese === undefined ||
+					this.clineChinese.isStreaming === false ||
+					this.clineChinese.didFinishAbortingStream ||
+					this.clineChinese.isWaitingForFirstChunk, // 如果只处理了第一个块，则无需等待优雅中止（关闭编辑、浏览器等）
 				{
 					timeout: 3_000,
 				},
 			).catch(() => {
 				console.error("任务中止失败")
 			})
-			if (this.cline) {
+			if (this.clineChinese) {
 				// 'abandoned' 将防止此 cline 实例影响未来的 cline 实例 GUI。这可能发生在其挂起于流请求时
-				this.cline.abandoned = true
+				this.clineChinese.abandoned = true
 			}
 			await this.initClineWithHistoryItem(historyItem) // 再次清除任务，因此我们需要在上面手动中止任务
 			// await this.postStateToWebview() // 新的 Cline 实例将在准备好时发布状态。将其放在这里会导致向 webview 发送空消息数组，导致 virtuoso 必须重新加载整个列表
@@ -1107,8 +1107,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 	async updateCustomInstructions(instructions?: string) {
 		// 用户可能在清空字段
 		await this.updateGlobalState("customInstructions", instructions || undefined)
-		if (this.cline) {
-			this.cline.customInstructions = instructions || undefined
+		if (this.clineChinese) {
+			this.clineChinese.customInstructions = instructions || undefined
 		}
 	}
 
@@ -1213,8 +1213,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		await this.updateGlobalState("thinkingBudgetTokens", thinkingBudgetTokens)
 		await this.storeSecret("clineApiKey", clineApiKey)
 		await this.storeSecret("sambanovaApiKey", sambanovaApiKey)
-		if (this.cline) {
-			this.cline.api = buildApiHandler(apiConfiguration)
+		if (this.clineChinese) {
+			this.clineChinese.api = buildApiHandler(apiConfiguration)
 		}
 	}
 
@@ -1370,8 +1370,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 				clineApiKey: apiKey,
 			}
 
-			if (this.cline) {
-				this.cline.api = buildApiHandler(updatedConfig)
+			if (this.clineChinese) {
+				this.clineChinese.api = buildApiHandler(updatedConfig)
 			}
 
 			await this.postStateToWebview()
@@ -1598,8 +1598,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		await this.updateGlobalState("apiProvider", openrouter)
 		await this.storeSecret("openRouterApiKey", apiKey)
 		await this.postStateToWebview()
-		if (this.cline) {
-			this.cline.api = buildApiHandler({
+		if (this.clineChinese) {
+			this.clineChinese.api = buildApiHandler({
 				apiProvider: openrouter,
 				openRouterApiKey: apiKey,
 			})
@@ -1759,7 +1759,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 	// 编辑器和代码操作中的"添加到 Cline"上下文菜单
 	async addSelectedCodeToChat(code: string, filePath: string, languageId: string, diagnostics?: vscode.Diagnostic[]) {
 		// 确保侧边栏视图可见
-		await vscode.commands.executeCommand("claude-dev.SidebarProvider.focus")
+		await vscode.commands.executeCommand("clineChinese.SidebarProvider.focus")
 		await setTimeoutPromise(100)
 
 		// 将选中的代码发送到 webview
@@ -1782,7 +1782,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 	// 终端中的"添加到 Cline"上下文菜单
 	async addSelectedTerminalOutputToChat(output: string, terminalName: string) {
 		// 确保侧边栏视图可见
-		await vscode.commands.executeCommand("claude-dev.SidebarProvider.focus")
+		await vscode.commands.executeCommand("clineChinese.SidebarProvider.focus")
 		await setTimeoutPromise(100)
 
 		// 将选中的终端输出发送到 webview
@@ -1797,7 +1797,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 	// 代码操作中的"使用 Cline 修复"
 	async fixWithCline(code: string, filePath: string, languageId: string, diagnostics: vscode.Diagnostic[]) {
 		// 确保侧边栏视图可见
-		await vscode.commands.executeCommand("claude-dev.SidebarProvider.focus")
+		await vscode.commands.executeCommand("clineChinese.SidebarProvider.focus")
 		await setTimeoutPromise(100)
 
 		const fileMention = this.getFileMentionFromPath(filePath)
@@ -1871,7 +1871,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 	}
 
 	async showTaskWithId(id: string) {
-		if (id !== this.cline?.taskId) {
+		if (id !== this.clineChinese?.taskId) {
 			// 非当前任务
 			const { historyItem } = await this.getTaskWithId(id)
 			await this.initClineWithHistoryItem(historyItem) // 清除现有任务
@@ -1925,7 +1925,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		console.info("deleteTaskWithId: ", id)
 
 		try {
-			if (id === this.cline?.taskId) {
+			if (id === this.clineChinese?.taskId) {
 				await this.clearTask()
 				console.debug("已清除任务")
 			}
@@ -1997,9 +1997,9 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			apiConfiguration,
 			customInstructions,
 			uriScheme: vscode.env.uriScheme,
-			currentTaskItem: this.cline?.taskId ? (taskHistory || []).find((item) => item.id === this.cline?.taskId) : undefined,
-			checkpointTrackerErrorMessage: this.cline?.checkpointTrackerErrorMessage,
-			clineMessages: this.cline?.clineMessages || [],
+			currentTaskItem: this.clineChinese?.taskId ? (taskHistory || []).find((item) => item.id === this.clineChinese?.taskId) : undefined,
+			checkpointTrackerErrorMessage: this.clineChinese?.checkpointTrackerErrorMessage,
+			clineMessages: this.clineChinese?.clineMessages || [],
 			taskHistory: (taskHistory || [])
 				.filter((item) => item.ts && item.task)
 				.sort((a, b) => b.ts - a.ts)
@@ -2018,8 +2018,8 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 	}
 
 	async clearTask() {
-		this.cline?.abortTask()
-		this.cline = undefined // 删除对它的引用,这样一旦 promise 结束它就会被垃圾回收
+		this.clineChinese?.abortTask()
+		this.clineChinese = undefined // 删除对它的引用,这样一旦 promise 结束它就会被垃圾回收
 	}
 
 	// 缓存机制,用于跟踪每个提供程序实例的 webview 消息 + API 对话历史记录
@@ -2214,7 +2214,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		}
 
 		const o3MiniReasoningEffort = vscode.workspace
-			.getConfiguration("cline.modelSettings.o3Mini")
+			.getConfiguration("clineChinese.modelSettings.o3Mini")
 			.get("reasoningEffort", "medium")
 
 		const mcpMarketplaceEnabled = vscode.workspace.getConfiguration("cline").get<boolean>("mcpMarketplace.enabled", true)
@@ -2441,9 +2441,9 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		for (const key of secretKeys) {
 			await this.storeSecret(key, undefined)
 		}
-		if (this.cline) {
-			this.cline.abortTask()
-			this.cline = undefined
+		if (this.clineChinese) {
+			this.clineChinese.abortTask()
+			this.clineChinese = undefined
 		}
 		vscode.window.showInformationMessage("状态已重置")
 		await this.postStateToWebview()

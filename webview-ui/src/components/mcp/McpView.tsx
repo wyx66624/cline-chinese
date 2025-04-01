@@ -154,7 +154,7 @@ const McpView = ({ onDone }: McpViewProps) => {
 										onClick={() => {
 											vscode.postMessage({
 												type: "openExtensionSettings",
-												text: "cline.mcp",
+												text: "clineChinese.mcp",
 											})
 										}}
 										style={{ fontSize: "12px" }}>

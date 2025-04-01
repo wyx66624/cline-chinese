@@ -1,6 +1,6 @@
 {
-	"name": "claude-dev",
-	"displayName": "Cline",
+	"name": "cline-chinese",
+	"displayName": "Cline Chinese",
 	"description": "IDE 中的自主编码代理，能够在每一步都获得您的许可的情况下创建/编辑文件、运行命令、使用浏览器等。",
 	"version": "3.8.4",
 	"icon": "assets/icons/icon.png",
@@ -8,15 +8,15 @@
 		"vscode": "^1.84.0"
 	},
 	"author": {
-		"name": "Cline Bot Inc."
+		"name": "HybridTalentComputing"
 	},
 	"license": "Apache-2.0",
-	"publisher": "saoudrizwan",
+	"publisher": "HybridTalentComputing",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/cline/cline"
+		"url": "https://github.com/HybridTalentComputing/cline-chinese"
 	},
-	"homepage": "https://cline.bot",
+	"homepage": "https://github.com/HybridTalentComputing/cline-chinese",
 	"categories": [
 		"AI",
         "Chat",
@@ -51,80 +51,80 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "claude-dev-ActivityBar",
-					"title": "Cline",
+					"id": "cline-chinese-ActivityBar",
+					"title": "Cline Chinese",
 					"icon": "assets/icons/icon.svg"
 				}
 			]
 		},
 		"views": {
-			"claude-dev-ActivityBar": [
+			"cline-chinese-ActivityBar": [
 				{
 					"type": "webview",
-					"id": "claude-dev.SidebarProvider",
+					"id": "clineChinese.SidebarProvider",
 					"name": ""
 				}
 			]
 		},
 		"commands": [
 			{
-				"command": "cline.plusButtonClicked",
+				"command": "clineChinese.plusButtonClicked",
 				"title": "新建任务",
 				"icon": "$(add)"
 			},
 			{
-				"command": "cline.mcpButtonClicked",
+				"command": "clineChinese.mcpButtonClicked",
 				"title": "MCP 服务器",
 				"icon": "$(server)"
 			},
 			{
-				"command": "cline.historyButtonClicked",
+				"command": "clineChinese.historyButtonClicked",
 				"title": "历史记录",
 				"icon": "$(history)"
 			},
 			{
-				"command": "cline.popoutButtonClicked",
+				"command": "clineChinese.popoutButtonClicked",
 				"title": "在编辑器中打开",
 				"icon": "$(link-external)"
 			},
 			{
-				"command": "cline.accountButtonClicked",
+				"command": "clineChinese.accountButtonClicked",
 				"title": "账户",
 				"icon": "$(account)"
 			},
 			{
-				"command": "cline.settingsButtonClicked",
+				"command": "clineChinese.settingsButtonClicked",
 				"title": "设置",
 				"icon": "$(settings-gear)"
 			},
 			{
-				"command": "cline.openInNewTab",
+				"command": "clineChinese.openInNewTab",
 				"title": "在新标签页中打开",
 				"category": "Cline"
 			},
 			{
-				"command": "cline.dev.createTestTasks",
+				"command": "clineChinese.dev.createTestTasks",
 				"title": "创建测试任务",
 				"category": "Cline",
-				"when": "cline.isDevMode"
+				"when": "clineChinese.isDevMode"
 			},
 			{
-				"command": "cline.openDocumentation",
+				"command": "clineChinese.openDocumentation",
 				"title": "文档",
 				"icon": "$(book)"
 			},
 			{
-				"command": "cline.addToChat",
+				"command": "clineChinese.addToChat",
 				"title": "添加到 Cline",
 				"category": "Cline"
 			},
 			{
-				"command": "cline.addTerminalOutputToChat",
+				"command": "clineChinese.addTerminalOutputToChat",
 				"title": "添加到 Cline",
 				"category": "Cline"
 			},
 			{
-				"command": "cline.fixWithCline",
+				"command": "clineChinese.fixWithCline",
 				"title": "使用 Cline 修复",
 				"category": "Cline"
 			}
@@ -132,51 +132,51 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "cline.plusButtonClicked",
+					"command": "clineChinese.plusButtonClicked",
 					"group": "navigation@1",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.mcpButtonClicked",
+					"command": "clineChinese.mcpButtonClicked",
 					"group": "navigation@2",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.historyButtonClicked",
+					"command": "clineChinese.historyButtonClicked",
 					"group": "navigation@3",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.popoutButtonClicked",
+					"command": "clineChinese.popoutButtonClicked",
 					"group": "navigation@4",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.openDocumentation",
+					"command": "clineChinese.openDocumentation",
 					"group": "navigation@5",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.accountButtonClicked",
+					"command": "clineChinese.accountButtonClicked",
 					"group": "navigation@6",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.settingsButtonClicked",
+					"command": "clineChinese.settingsButtonClicked",
 					"group": "navigation@7",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				}
 			],
 			"editor/context": [
 				{
-					"command": "cline.addToChat",
+					"command": "clineChinese.addToChat",
 					"group": "navigation",
 					"when": "editorHasSelection"
 				}
 			],
 			"terminal/context": [
 				{
-					"command": "cline.addTerminalOutputToChat",
+					"command": "clineChinese.addTerminalOutputToChat",
 					"group": "navigation"
 				}
 			]
@@ -184,7 +184,7 @@
 		"configuration": {
 			"title": "Cline",
 			"properties": {
-				"cline.vsCodeLmModelSelector": {
+				"clineChinese.vsCodeLmModelSelector": {
 					"type": "object",
 					"properties": {
 						"vendor": {
@@ -198,7 +198,7 @@
 					},
 					"description": "VSCode 语言模型 API 设置"
 				},
-				"cline.mcp.mode": {
+				"clineChinese.mcp.mode": {
 					"type": "string",
 					"enum": [
 						"full",
@@ -213,17 +213,17 @@
 					"default": "full",
 					"description": "控制提示中是否包含 MCP，如果您只需要访问某些功能，可以减少令牌使用量。"
 				},
-				"cline.enableCheckpoints": {
+				"clineChinese.enableCheckpoints": {
 					"type": "boolean",
 					"default": true,
 					"description": "允许扩展在任务执行期间保存工作区的检查点。底层使用 git，可能不适用于大型工作区。"
 				},
-				"cline.disableBrowserTool": {
+				"clineChinese.disableBrowserTool": {
 					"type": "boolean",
 					"default": false,
 					"description": "禁止扩展启动浏览器会话。"
 				},
-				"cline.modelSettings.o3Mini.reasoningEffort": {
+				"clineChinese.modelSettings.o3Mini.reasoningEffort": {
 					"type": "string",
 					"enum": [
 						"low",
@@ -233,12 +233,12 @@
 					"default": "medium",
 					"description": "控制使用 o3-mini 模型时的推理强度。较高的值可能会导致更全面但响应较慢。"
 				},
-				"cline.chromeExecutablePath": {
+				"clineChinese.chromeExecutablePath": {
 					"type": "string",
 					"default": null,
 					"description": "用于浏览器功能的 Chrome 可执行文件路径。如果未设置，扩展将尝试自动查找或下载。"
 				},
-				"cline.preferredLanguage": {
+				"clineChinese.preferredLanguage": {
 					"type": "string",
 					"enum": [
 						"English",
@@ -263,7 +263,7 @@
 					"default": "English",
 					"description": "Cline 应用于交流的语言。"
 				},
-				"cline.mcpMarketplace.enabled": {
+				"clineChinese.mcpMarketplace.enabled": {
 					"type": "boolean",
 					"default": true,
 					"description": "控制是否启用 MCP 市场。"
