@@ -635,11 +635,13 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 						}}>
 						{apiConfiguration?.awsUseProfile ? (
 							<>
-								使用来自 ~/.aws/credentials 的 AWS 配置文件凭证。将配置文件名称留空以使用默认配置文件。这些凭证仅用于本地从此扩展发出 API 请求。
+								使用来自 ~/.aws/credentials 的 AWS
+								配置文件凭证。将配置文件名称留空以使用默认配置文件。这些凭证仅用于本地从此扩展发出 API 请求。
 							</>
 						) : (
 							<>
-								通过提供上述密钥或使用默认的 AWS 凭证提供程序进行身份验证，即 ~/.aws/credentials 或环境变量。这些凭证仅用于本地从此扩展发出 API 请求。
+								通过提供上述密钥或使用默认的 AWS 凭证提供程序进行身份验证，即 ~/.aws/credentials
+								或环境变量。这些凭证仅用于本地从此扩展发出 API 请求。
 							</>
 						)}
 					</p>
@@ -967,7 +969,8 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 							color: "var(--vscode-descriptionForeground)",
 						}}>
 						<span style={{ color: "var(--vscode-errorForeground)" }}>
-							(<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude 模型上效果最佳。能力较弱的模型可能无法按预期工作。)
+							(<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude
+							模型上效果最佳。能力较弱的模型可能无法按预期工作。)
 						</span>
 					</p>
 				</div>
@@ -997,7 +1000,8 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 							color: "var(--vscode-descriptionForeground)",
 						}}>
 						<span style={{ color: "var(--vscode-errorForeground)" }}>
-							(<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude 模型上效果最佳。能力较弱的模型可能无法按预期工作。)
+							(<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude
+							模型上效果最佳。能力较弱的模型可能无法按预期工作。)
 						</span>
 					</p>
 				</div>
@@ -1027,7 +1031,8 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 							color: "var(--vscode-descriptionForeground)",
 						}}>
 						<span style={{ color: "var(--vscode-errorForeground)" }}>
-							(<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude 模型上效果最佳。能力较弱的模型可能无法按预期工作。)
+							(<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude
+							模型上效果最佳。能力较弱的模型可能无法按预期工作。)
 						</span>
 					</p>
 				</div>
@@ -1076,7 +1081,8 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 									marginTop: "5px",
 									color: "var(--vscode-descriptionForeground)",
 								}}>
-								VS Code 语言模型 API 允许您运行其他 VS Code 扩展提供的模型（包括但不限于 GitHub Copilot）。开始的最简单方法是从 VS 市场安装 Copilot 扩展并启用 Claude 3.7 Sonnet。
+								VS Code 语言模型 API 允许您运行其他 VS Code 扩展提供的模型（包括但不限于 GitHub
+								Copilot）。开始的最简单方法是从 VS 市场安装 Copilot 扩展并启用 Claude 3.7 Sonnet。
 							</p>
 						)}
 
@@ -1151,7 +1157,8 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 						</VSCodeLink>{" "}
 						功能以便与此扩展一起使用。{" "}
 						<span style={{ color: "var(--vscode-errorForeground)" }}>
-							（<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude 模型上效果最佳。能力较弱的模型可能无法按预期工作。）
+							（<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude
+							模型上效果最佳。能力较弱的模型可能无法按预期工作。）
 						</span>
 					</p>
 				</div>
@@ -1257,7 +1264,8 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 							快速入门指南。
 						</VSCodeLink>
 						<span style={{ color: "var(--vscode-errorForeground)" }}>
-							（<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude 模型上效果最佳。能力较弱的模型可能无法按预期工作。）
+							（<span style={{ fontWeight: 500 }}>注意：</span> Cline 使用复杂的提示，并且在 Claude
+							模型上效果最佳。能力较弱的模型可能无法按预期工作。）
 						</span>
 					</p>
 				</div>
@@ -1536,8 +1544,7 @@ export const ModelInfoView = ({
 		),
 		modelInfo.supportsPromptCache && modelInfo.cacheReadsPrice && (
 			<span key="cacheReadsPrice">
-				<span style={{ fontWeight: 500 }}>缓存读取价格：</span> {formatPrice(modelInfo.cacheReadsPrice || 0)}/百万
-				令牌
+				<span style={{ fontWeight: 500 }}>缓存读取价格：</span> {formatPrice(modelInfo.cacheReadsPrice || 0)}/百万 令牌
 			</span>
 		),
 		modelInfo.outputPrice !== undefined && modelInfo.outputPrice > 0 && (

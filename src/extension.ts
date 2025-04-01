@@ -210,33 +210,36 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("clineChinese.addToChat", async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
-			const editor = vscode.window.activeTextEditor
-			if (!editor) {
-				return
-			}
+		vscode.commands.registerCommand(
+			"clineChinese.addToChat",
+			async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
+				const editor = vscode.window.activeTextEditor
+				if (!editor) {
+					return
+				}
 
-			// 如果提供了范围，则使用提供的范围，否则使用当前选择
-			// (vscode 命令默认在第一个参数中传递参数，因此我们需要确保它是一个 Range 对象)
-			const textRange = range instanceof vscode.Range ? range : editor.selection
-			const selectedText = editor.document.getText(textRange)
+				// 如果提供了范围，则使用提供的范围，否则使用当前选择
+				// (vscode 命令默认在第一个参数中传递参数，因此我们需要确保它是一个 Range 对象)
+				const textRange = range instanceof vscode.Range ? range : editor.selection
+				const selectedText = editor.document.getText(textRange)
 
-			if (!selectedText) {
-				return
-			}
+				if (!selectedText) {
+					return
+				}
 
-			// 获取文件路径和语言 ID
-			const filePath = editor.document.uri.fsPath
-			const languageId = editor.document.languageId
+				// 获取文件路径和语言 ID
+				const filePath = editor.document.uri.fsPath
+				const languageId = editor.document.languageId
 
-			// 发送到侧边栏提供程序
-			await sidebarProvider.addSelectedCodeToChat(
-				selectedText,
-				filePath,
-				languageId,
-				Array.isArray(diagnostics) ? diagnostics : undefined,
-			)
-		}),
+				// 发送到侧边栏提供程序
+				await sidebarProvider.addSelectedCodeToChat(
+					selectedText,
+					filePath,
+					languageId,
+					Array.isArray(diagnostics) ? diagnostics : undefined,
+				)
+			},
+		),
 	)
 
 	context.subscriptions.push(

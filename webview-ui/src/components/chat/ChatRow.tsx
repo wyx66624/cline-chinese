@@ -1062,7 +1062,9 @@ export const ChatRowContent = ({ message, isExpanded, onToggleExpand, lastModifi
 									</span>
 								</div>
 								<div>
-									Cline 将无法查看命令的输出。请更新 VSCode (<code>CMD/CTRL + Shift + P</code> → "Update") 并确保您使用的是受支持的 shell：zsh、bash、fish 或 PowerShell (<code>CMD/CTRL + Shift + P</code> → "Terminal: Select Default Profile")。{" "}
+									Cline 将无法查看命令的输出。请更新 VSCode (<code>CMD/CTRL + Shift + P</code> → "Update")
+									并确保您使用的是受支持的 shell：zsh、bash、fish 或 PowerShell (
+									<code>CMD/CTRL + Shift + P</code> → "Terminal: Select Default Profile")。{" "}
 									<a
 										href="https://github.com/cline/cline/wiki/Troubleshooting-%E2%80%90-Shell-Integration-Unavailable"
 										style={{

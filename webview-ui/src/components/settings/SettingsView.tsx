@@ -215,7 +215,7 @@ const SettingsView = ({ onDone }: SettingsViewProps) => {
 						style={{ width: "100%" }}
 						resize="vertical"
 						rows={4}
-						placeholder={'例如：“在末尾运行单元测试”，“使用 TypeScript 和 async/await”，“用西班牙语交流”'}
+						placeholder={"例如：“在末尾运行单元测试”，“使用 TypeScript 和 async/await”，“用西班牙语交流”"}
 						onInput={(e: any) => setCustomInstructions(e.target?.value ?? "")}>
 						<span style={{ fontWeight: "500" }}>自定义指令</span>
 					</VSCodeTextArea>
@@ -245,7 +245,8 @@ const SettingsView = ({ onDone }: SettingsViewProps) => {
 							marginTop: "5px",
 							color: "var(--vscode-descriptionForeground)",
 						}}>
-						在计划和执行模式之间切换将保留先前模式中使用的 API 和模型。例如，当使用强大的推理模型来构建计划，然后让更便宜的编码模型来执行时，这可能会很有用。
+						在计划和执行模式之间切换将保留先前模式中使用的 API
+						和模型。例如，当使用强大的推理模型来构建计划，然后让更便宜的编码模型来执行时，这可能会很有用。
 					</p>
 				</div>
 
@@ -265,7 +266,8 @@ const SettingsView = ({ onDone }: SettingsViewProps) => {
 							marginTop: "5px",
 							color: "var(--vscode-descriptionForeground)",
 						}}>
-						通过发送匿名使用数据和错误报告来帮助改进 Cline。绝不会发送任何代码、提示或个人信息。有关更多详细信息，请参阅我们的{" "}
+						通过发送匿名使用数据和错误报告来帮助改进
+						Cline。绝不会发送任何代码、提示或个人信息。有关更多详细信息，请参阅我们的{" "}
 						<VSCodeLink href="https://docs.cline.bot/more-info/telemetry" style={{ fontSize: "inherit" }}>
 							遥测概述
 						</VSCodeLink>{" "}

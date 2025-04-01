@@ -1672,10 +1672,7 @@ export class Cline {
 						return
 					}
 					const errorString = `${action}错误：${JSON.stringify(serializeError(error))}`
-					await this.say(
-						"error",
-						`${action}错误：\n${error.message ?? JSON.stringify(serializeError(error), null, 2)}`,
-					)
+					await this.say("error", `${action}错误：\n${error.message ?? JSON.stringify(serializeError(error), null, 2)}`)
 					// this.toolResults.push({
 					// 	type: "tool_result",
 					// 	tool_use_id: toolUseId,
@@ -1895,9 +1892,7 @@ export class Cline {
 									if (response !== "yesButtonClicked") {
 										// 用户发送了消息或按下了拒绝按钮
 										// TODO: 为其他工具拒绝响应添加类似上下文，以强调例如命令未运行
-										const fileDeniedNote = fileExists
-											? "文件未被更新，并保持其原始内容。"
-											: "文件未被创建。"
+										const fileDeniedNote = fileExists ? "文件未被更新，并保持其原始内容。" : "文件未被创建。"
 										pushToolResult(`用户拒绝了此操作。 ${fileDeniedNote}`)
 										if (text || images?.length) {
 											pushAdditionalToolFeedback(text, images)
@@ -2332,9 +2327,7 @@ export class Cline {
 										await this.say("browser_action_launch", url, undefined, false)
 										this.consecutiveAutoApprovedRequestsCount++
 									} else {
-										showNotificationForApprovalIfAutoApprovalEnabled(
-											`Cline 想要使用浏览器并启动 ${url}`,
-										)
+										showNotificationForApprovalIfAutoApprovalEnabled(`Cline 想要使用浏览器并启动 ${url}`)
 										this.removeLastPartialMessageIfExistsWithType("say", "browser_action_launch")
 										const didApprove = await askApproval("browser_action_launch", url)
 										if (!didApprove) {
@@ -2417,11 +2410,7 @@ export class Cline {
 
 										break
 									case "close":
-										pushToolResult(
-											formatResponse.toolResult(
-												`浏览器已关闭。您现在可以继续使用其他工具。`,
-											),
-										)
+										pushToolResult(formatResponse.toolResult(`浏览器已关闭。您现在可以继续使用其他工具。`))
 
 										break
 								}
@@ -2490,9 +2479,7 @@ export class Cline {
 									this.consecutiveAutoApprovedRequestsCount++
 									didAutoApprove = true
 								} else {
-									showNotificationForApprovalIfAutoApprovalEnabled(
-										`Cline 想要执行命令： ${command}`,
-									)
+									showNotificationForApprovalIfAutoApprovalEnabled(`Cline 想要执行命令： ${command}`)
 									// this.removeLastPartialMessageIfExistsWithType("say", "command")
 									const didApprove = await askApproval(
 										"command",
@@ -2510,8 +2497,7 @@ export class Cline {
 									timeoutId = setTimeout(() => {
 										showSystemNotification({
 											subtitle: "命令仍在运行",
-											message:
-												"一个自动批准的命令已运行 30 秒，可能需要您的注意。",
+											message: "一个自动批准的命令已运行 30 秒，可能需要您的注意。",
 										})
 									}, 30_000)
 								}
@@ -2586,10 +2572,7 @@ export class Cline {
 										parsedArguments = JSON.parse(mcp_arguments)
 									} catch (error) {
 										this.consecutiveMistakeCount++
-										await this.say(
-											"error",
-											`Cline 尝试使用 ${tool_name}，但 JSON 参数无效。正在重试...`,
-										)
+										await this.say("error", `Cline 尝试使用 ${tool_name}，但 JSON 参数无效。正在重试...`)
 										pushToolResult(
 											formatResponse.toolError(
 												formatResponse.invalidMcpToolArgumentError(server_name, tool_name),
@@ -2707,9 +2690,7 @@ export class Cline {
 									await this.say("use_mcp_server", completeMessage, undefined, false)
 									this.consecutiveAutoApprovedRequestsCount++
 								} else {
-									showNotificationForApprovalIfAutoApprovalEnabled(
-										`Cline 想要访问 ${server_name} 上的 ${uri}`,
-									)
+									showNotificationForApprovalIfAutoApprovalEnabled(`Cline 想要访问 ${server_name} 上的 ${uri}`)
 									this.removeLastPartialMessageIfExistsWithType("say", "use_mcp_server")
 									const didApprove = await askApproval("use_mcp_server", completeMessage)
 									if (!didApprove) {
@@ -3152,8 +3133,7 @@ export class Cline {
 					CheckpointTracker.create(this.taskId, this.providerRef.deref()?.context.globalStorageUri.fsPath),
 					{
 						milliseconds: 15_000,
-						message:
-							"检查点初始化时间过长。考虑在使用 git 的项目中重新打开 Cline，或禁用检查点。",
+						message: "检查点初始化时间过长。考虑在使用 git 的项目中重新打开 Cline，或禁用检查点。",
 					},
 				)
 			} catch (error) {
@@ -3247,11 +3227,7 @@ export class Cline {
 							type: "text",
 							text:
 								assistantMessage +
-								`\n\n[${
-									cancelReason === "streaming_failed"
-										? "响应被 API 错误中断"
-										: "响应被用户中断"
-								}]`,
+								`\n\n[${cancelReason === "streaming_failed" ? "响应被 API 错误中断" : "响应被用户中断"}]`,
 						},
 					],
 				})
@@ -3339,8 +3315,7 @@ export class Cline {
 					// 之前：我们需要让请求完成，以便 openrouter 获取生成详细信息
 					// 更新：中断请求提供更好的用户体验，代价是无法检索 API 成本
 					if (this.didAlreadyUseTool) {
-						assistantMessage +=
-							"\n\n[响应被工具使用结果中断。一次只能使用一个工具，并且应该放在消息的末尾。]"
+						assistantMessage += "\n\n[响应被工具使用结果中断。一次只能使用一个工具，并且应该放在消息的末尾。]"
 						break
 					}
 				}
@@ -3437,10 +3412,7 @@ export class Cline {
 				didEndLoop = recDidEndLoop
 			} else {
 				// 如果没有 assistant_responses，这意味着我们从 API 没有获得任何文本或 tool_use 内容块，我们应该假设这是一个错误
-				await this.say(
-					"error",
-					"意外的 API 响应：语言模型没有提供任何助手消息。这可能表明 API 或模型输出存在问题。",
-				)
+				await this.say("error", "意外的 API 响应：语言模型没有提供任何助手消息。这可能表明 API 或模型输出存在问题。")
 				await this.addToApiConversationHistory({
 					role: "assistant",
 					content: [
@@ -3648,7 +3620,7 @@ export class Cline {
 			details +=
 				"\n在此模式下，您应专注于信息收集、提问和构建解决方案。一旦您有了计划，请使用 plan_mode_respond 工具与用户进行对话交流。在收集到您所需的所有信息之前，请勿使用 plan_mode_respond 工具，例如使用 read_file 或 ask_followup_question。"
 			details +=
-				'\n（请记住：如果用户似乎希望您使用仅在行动模式下可用的工具，您应要求用户“切换到行动模式”（使用这些词） - 他们必须手动使用下面的计划/行动切换按钮来执行此操作。您无法自己切换到行动模式，必须等待用户在对计划满意后自己执行此操作。您也不能提供切换到行动模式的选项，因为这将是您需要手动引导用户执行的事情。）'
+				"\n（请记住：如果用户似乎希望您使用仅在行动模式下可用的工具，您应要求用户“切换到行动模式”（使用这些词） - 他们必须手动使用下面的计划/行动切换按钮来执行此操作。您无法自己切换到行动模式，必须等待用户在对计划满意后自己执行此操作。您也不能提供切换到行动模式的选项，因为这将是您需要手动引导用户执行的事情。）"
 		} else {
 			details += "\n行动模式"
 		}

@@ -31,17 +31,21 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 			</h3>
 			<ul style={{ margin: "0 0 8px", paddingLeft: "12px" }}>
 				<li>
-					<b>Cline Chinese特色功能：新增Dify Provider：</b> 使用自定义的Dify Provider，您可以轻松地使用Dify的强大功能，从而让Cline更加智能。
+					<b>Cline Chinese特色功能：新增Dify Provider：</b> 使用自定义的Dify
+					Provider，您可以轻松地使用Dify的强大功能，从而让Cline更加智能。
 				</li>
 				<li>
-					<b>添加到 Cline：</b> 在任何文件或终端中右键单击选定的文本，以快速将上下文添加到您当前的任务中！此外，当您看到灯泡图标时，选择“使用 Cline 修复”让 Cline 修复您代码中的错误。
+					<b>添加到 Cline：</b>{" "}
+					在任何文件或终端中右键单击选定的文本，以快速将上下文添加到您当前的任务中！此外，当您看到灯泡图标时，选择“使用
+					Cline 修复”让 Cline 修复您代码中的错误。
 				</li>
 				<li>
-					<b>账单仪表板：</b> 使用{" "}
-					<span className="codicon codicon-account" style={{ fontSize: 11 }}></span> Cline 账户，直接在扩展程序中跟踪您剩余的积分和交易历史记录！
+					<b>账单仪表板：</b> 使用 <span className="codicon codicon-account" style={{ fontSize: 11 }}></span> Cline
+					账户，直接在扩展程序中跟踪您剩余的积分和交易历史记录！
 				</li>
 				<li>
-					<b>更快的推理：</b> Cline/OpenRouter 用户可以按吞吐量、价格和延迟对使用的底层提供商进行排序。按吞吐量排序将输出更快的生成结果（成本更高）。
+					<b>更快的推理：</b> Cline/OpenRouter
+					用户可以按吞吐量、价格和延迟对使用的底层提供商进行排序。按吞吐量排序将输出更快的生成结果（成本更高）。
 				</li>
 				<li>
 					<b>增强的 MCP 支持：</b> 支持 GIF 的动态图像加载，以及一个新的删除按钮来清理失败的服务器。

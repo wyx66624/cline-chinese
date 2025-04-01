@@ -116,31 +116,31 @@ type GlobalStateKey =
 	| "planActSeparateModelsSetting"
 
 export class ClineProvider implements vscode.WebviewViewProvider {
-	public static readonly sideBarId = "clineChinese.SidebarProvider"; // 用于 package.json 作为视图的 ID。由于 VSCode 根据其 ID 缓存视图，因此此值不能更改，更新 ID 会破坏扩展的现有实例。
-	public static readonly tabPanelId = "clineChinese.TabPanelProvider";
-	private static activeInstances: Set<ClineProvider> = new Set();
-	private disposables: vscode.Disposable[] = [];
-	private view?: vscode.WebviewView | vscode.WebviewPanel;
-	private clineChinese?: Cline;
-	workspaceTracker?: WorkspaceTracker;
-	mcpHub?: McpHub;
-	accountService?: ClineAccountService;
-	private latestAnnouncementId = "march-22-2025"; // 当我们添加新公告时更新为某个唯一标识符
+	public static readonly sideBarId = "clineChinese.SidebarProvider" // 用于 package.json 作为视图的 ID。由于 VSCode 根据其 ID 缓存视图，因此此值不能更改，更新 ID 会破坏扩展的现有实例。
+	public static readonly tabPanelId = "clineChinese.TabPanelProvider"
+	private static activeInstances: Set<ClineProvider> = new Set()
+	private disposables: vscode.Disposable[] = []
+	private view?: vscode.WebviewView | vscode.WebviewPanel
+	private clineChinese?: Cline
+	workspaceTracker?: WorkspaceTracker
+	mcpHub?: McpHub
+	accountService?: ClineAccountService
+	private latestAnnouncementId = "march-22-2025" // 当我们添加新公告时更新为某个唯一标识符
 
 	constructor(
 		readonly context: vscode.ExtensionContext,
 		private readonly outputChannel: vscode.OutputChannel,
 	) {
-		this.outputChannel.appendLine("ClineProvider 实例化");
-		ClineProvider.activeInstances.add(this);
-		this.workspaceTracker = new WorkspaceTracker(this);
-		this.mcpHub = new McpHub(this);
-		this.accountService = new ClineAccountService(this);
+		this.outputChannel.appendLine("ClineProvider 实例化")
+		ClineProvider.activeInstances.add(this)
+		this.workspaceTracker = new WorkspaceTracker(this)
+		this.mcpHub = new McpHub(this)
+		this.accountService = new ClineAccountService(this)
 
 		// 清理遗留检查点
 		cleanupLegacyCheckpoints(this.context.globalStorageUri.fsPath, this.outputChannel).catch((error) => {
-			console.error("清理遗留检查点失败:", error);
-		});
+			console.error("清理遗留检查点失败:", error)
+		})
 	}
 
 	/*
@@ -149,66 +149,66 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 	- https://github.com/microsoft/vscode-extension-samples/blob/main/webview-sample/src/extension.ts
 	*/
 	async dispose() {
-		this.outputChannel.appendLine("正在处置 ClineProvider...");
-		await this.clearTask();
-		this.outputChannel.appendLine("已清除任务");
+		this.outputChannel.appendLine("正在处置 ClineProvider...")
+		await this.clearTask()
+		this.outputChannel.appendLine("已清除任务")
 		if (this.view && "dispose" in this.view) {
-			this.view.dispose();
-			this.outputChannel.appendLine("已处置 webview");
+			this.view.dispose()
+			this.outputChannel.appendLine("已处置 webview")
 		}
 		while (this.disposables.length) {
-			const x = this.disposables.pop();
+			const x = this.disposables.pop()
 			if (x) {
-				x.dispose();
+				x.dispose()
 			}
 		}
-		this.workspaceTracker?.dispose();
-		this.workspaceTracker = undefined;
-		this.mcpHub?.dispose();
-		this.mcpHub = undefined;
-		this.accountService = undefined;
-		this.outputChannel.appendLine("已处置所有可处置项");
-		ClineProvider.activeInstances.delete(this);
+		this.workspaceTracker?.dispose()
+		this.workspaceTracker = undefined
+		this.mcpHub?.dispose()
+		this.mcpHub = undefined
+		this.accountService = undefined
+		this.outputChannel.appendLine("已处置所有可处置项")
+		ClineProvider.activeInstances.delete(this)
 	}
 
 	// 认证方法
 	async handleSignOut() {
 		try {
-			await this.storeSecret("clineApiKey", undefined);
-			await this.updateGlobalState("apiProvider", "openrouter");
-			await this.postStateToWebview();
-			vscode.window.showInformationMessage("成功退出 Cline");
+			await this.storeSecret("clineApiKey", undefined)
+			await this.updateGlobalState("apiProvider", "openrouter")
+			await this.postStateToWebview()
+			vscode.window.showInformationMessage("成功退出 Cline")
 		} catch (error) {
-			vscode.window.showErrorMessage("注销失败");
+			vscode.window.showErrorMessage("注销失败")
 		}
 	}
 
 	async setUserInfo(info?: { displayName: string | null; email: string | null; photoURL: string | null }) {
-		await this.updateGlobalState("userInfo", info);
+		await this.updateGlobalState("userInfo", info)
 	}
 
 	public static getVisibleInstance(): ClineProvider | undefined {
-		return findLast(Array.from(this.activeInstances), (instance) => instance.view?.visible === true);
+		return findLast(Array.from(this.activeInstances), (instance) => instance.view?.visible === true)
 	}
 
 	async resolveWebviewView(webviewView: vscode.WebviewView | vscode.WebviewPanel) {
-		this.outputChannel.appendLine("正在解析 webview 视图");
-		this.view = webviewView;
+		this.outputChannel.appendLine("正在解析 webview 视图")
+		this.view = webviewView
 
 		webviewView.webview.options = {
 			// 允许在 webview 中使用脚本
 			enableScripts: true,
 			localResourceRoots: [this.context.extensionUri],
-		};
+		}
 
 		webviewView.webview.html =
 			this.context.extensionMode === vscode.ExtensionMode.Development
 				? await this.getHMRHtmlContent(webviewView.webview)
-				: this.getHtmlContent(webviewView.webview);
+				: this.getHtmlContent(webviewView.webview)
 
 		// 设置事件监听器以监听从 webview 视图上下文传递的消息
 		// 并根据接收到的消息执行代码
-		this.setWebviewMessageListener(webviewView.webview);
+		this.setWebviewMessageListener(webviewView.webview)
 
 		// 日志显示在底部面板 > 调试控制台
 		//console.log("注册监听器");
@@ -224,12 +224,12 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						this.postMessageToWebview({
 							type: "action",
 							action: "didBecomeVisible",
-						});
+						})
 					}
 				},
 				null,
 				this.disposables,
-			);
+			)
 		} else if ("onDidChangeVisibility" in webviewView) {
 			// 侧边栏
 			webviewView.onDidChangeVisibility(
@@ -238,23 +238,23 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						this.postMessageToWebview({
 							type: "action",
 							action: "didBecomeVisible",
-						});
+						})
 					}
 				},
 				null,
 				this.disposables,
-			);
+			)
 		}
 
 		// 监听视图何时被处置
 		// 当用户关闭视图或视图被程序性关闭时会发生这种情况
 		webviewView.onDidDispose(
 			async () => {
-				await this.dispose();
+				await this.dispose()
 			},
 			null,
 			this.disposables,
-		);
+		)
 
 		// 监听配置更改
 		vscode.workspace.onDidChangeConfiguration(
@@ -264,27 +264,27 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 					await this.postMessageToWebview({
 						type: "theme",
 						text: JSON.stringify(await getTheme()),
-					});
+					})
 				}
 				if (e && e.affectsConfiguration("clineChinese.mcpMarketplace.enabled")) {
 					// 当市场选项卡设置更改时更新状态
-					await this.postStateToWebview();
+					await this.postStateToWebview()
 				}
 			},
 			null,
 			this.disposables,
-		);
+		)
 
 		// 如果扩展正在启动新会话，则清除先前的任务状态
-		this.clearTask();
+		this.clearTask()
 
-		this.outputChannel.appendLine("webview 视图已解析");
+		this.outputChannel.appendLine("webview 视图已解析")
 	}
 
 	async initClineWithTask(task?: string, images?: string[]) {
-		await this.clearTask(); // 确保在开始新任务之前不存在现有任务，尽管这不应该是可能的，因为用户必须在开始新任务之前清除任务
+		await this.clearTask() // 确保在开始新任务之前不存在现有任务，尽管这不应该是可能的，因为用户必须在开始新任务之前清除任务
 		const { apiConfiguration, customInstructions, autoApprovalSettings, browserSettings, chatSettings } =
-			await this.getState();
+			await this.getState()
 		this.clineChinese = new Cline(
 			this,
 			apiConfiguration,
@@ -294,13 +294,13 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			customInstructions,
 			task,
 			images,
-		);
+		)
 	}
 
 	async initClineWithHistoryItem(historyItem: HistoryItem) {
-		await this.clearTask();
+		await this.clearTask()
 		const { apiConfiguration, customInstructions, autoApprovalSettings, browserSettings, chatSettings } =
-			await this.getState();
+			await this.getState()
 		this.clineChinese = new Cline(
 			this,
 			apiConfiguration,
@@ -311,12 +311,12 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			undefined,
 			undefined,
 			historyItem,
-		);
+		)
 	}
 
 	// 发送任何 JSON 可序列化数据到 React 应用
 	async postMessageToWebview(message: ExtensionMessage) {
-		await this.view?.webview.postMessage(message);
+		await this.view?.webview.postMessage(message)
 	}
 
 	/**
@@ -333,9 +333,9 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		// 然后将其转换为我们可以在 webview 中使用的 URI。
 
 		// 来自 React 构建输出的 CSS 文件
-		const stylesUri = getUri(webview, this.context.extensionUri, ["webview-ui", "build", "assets", "index.css"]);
+		const stylesUri = getUri(webview, this.context.extensionUri, ["webview-ui", "build", "assets", "index.css"])
 		// 来自 React 构建输出的 JS 文件
-		const scriptUri = getUri(webview, this.context.extensionUri, ["webview-ui", "build", "assets", "index.js"]);
+		const scriptUri = getUri(webview, this.context.extensionUri, ["webview-ui", "build", "assets", "index.js"])
 
 		// 来自 React 构建输出的 codicon 字体
 		// https://github.com/microsoft/vscode-extension-samples/blob/main/webview-codicons-sample/src/extension.ts
@@ -347,7 +347,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			"codicons",
 			"dist",
 			"codicon.css",
-		]);
+		])
 
 		// const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "assets", "main.js"))
 
@@ -368,7 +368,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 
 				在元标记中我们添加 nonce 属性：一个仅使用一次的加密 nonce 以允许脚本。服务器必须在每次传输策略时生成一个唯一的 nonce 值。提供一个无法猜测的 nonce 是至关重要的，因为否则绕过资源的策略是微不足道的。
 				*/
-		const nonce = getNonce();
+		const nonce = getNonce()
 
 		// 提示：安装 es6-string-html VS Code 扩展以启用下面的代码高亮
 		return /*html*/ `
@@ -389,7 +389,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
             <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
           </body>
         </html>
-      `;
+      `
 	}
 
 	/**
@@ -399,32 +399,32 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 	 * @returns 一个模板字符串字面量，包含应在 webview 面板中呈现的 HTML
 	 */
 	private async getHMRHtmlContent(webview: vscode.Webview): Promise<string> {
-		const localPort = 25463;
-		const localServerUrl = `localhost:${localPort}`;
+		const localPort = 25463
+		const localServerUrl = `localhost:${localPort}`
 
 		// 检查本地开发服务器是否正在运行。
 		try {
-			await axios.get(`http://${localServerUrl}`);
+			await axios.get(`http://${localServerUrl}`)
 		} catch (error) {
 			vscode.window.showErrorMessage(
 				"Cline: 本地 webview 开发服务器未运行，HMR 将无法工作。请在启动扩展之前运行 'npm run dev:webview' 以启用 HMR。使用捆绑的资产。",
-			);
+			)
 
-			return this.getHtmlContent(webview);
+			return this.getHtmlContent(webview)
 		}
 
-		const nonce = getNonce();
-		const stylesUri = getUri(webview, this.context.extensionUri, ["webview-ui", "build", "assets", "index.css"]);
+		const nonce = getNonce()
+		const stylesUri = getUri(webview, this.context.extensionUri, ["webview-ui", "build", "assets", "index.css"])
 		const codiconsUri = getUri(webview, this.context.extensionUri, [
 			"node_modules",
 			"@vscode",
 			"codicons",
 			"dist",
 			"codicon.css",
-		]);
+		])
 
-		const scriptEntrypoint = "src/main.tsx";
-		const scriptUri = `http://${localServerUrl}/${scriptEntrypoint}`;
+		const scriptEntrypoint = "src/main.tsx"
+		const scriptUri = `http://${localServerUrl}/${scriptEntrypoint}`
 
 		const reactRefresh = /*html*/ `
 			<script nonce="${nonce}" type="module">
@@ -434,7 +434,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 				window.$RefreshSig$ = () => (type) => type
 				window.__vite_plugin_react_preamble_installed__ = true
 			</script>
-		`;
+		`
 
 		const csp = [
 			"default-src 'none'",
@@ -443,7 +443,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			`img-src ${webview.cspSource} https: data:`,
 			`script-src 'unsafe-eval' https://* http://${localServerUrl} http://0.0.0.0:${localPort} 'nonce-${nonce}'`,
 			`connect-src https://* ws://${localServerUrl} ws://0.0.0.0:${localPort} http://${localServerUrl} http://0.0.0.0:${localPort}`,
-		];
+		]
 
 		return /*html*/ `
 			<!DOCTYPE html>
@@ -462,7 +462,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 					<script type="module" src="${scriptUri}"></script>
 				</body>
 			</html>
-		`;
+		`
 	}
 
 	/**
@@ -476,27 +476,27 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			async (message: WebviewMessage) => {
 				switch (message.type) {
 					case "authStateChanged":
-						await this.setUserInfo(message.user || undefined);
-						await this.postStateToWebview();
-						break;
+						await this.setUserInfo(message.user || undefined)
+						await this.postStateToWebview()
+						break
 					case "webviewDidLaunch":
-						this.postStateToWebview();
-						this.workspaceTracker?.populateFilePaths(); // 不等待
+						this.postStateToWebview()
+						this.workspaceTracker?.populateFilePaths() // 不等待
 						getTheme().then((theme) =>
 							this.postMessageToWebview({
 								type: "theme",
 								text: JSON.stringify(theme),
 							}),
-						);
+						)
 						// 在调用端点失败的情况下发布最后缓存的模型
 						this.readOpenRouterModels().then((openRouterModels) => {
 							if (openRouterModels) {
 								this.postMessageToWebview({
 									type: "openRouterModels",
 									openRouterModels,
-								});
+								})
 							}
-						});
+						})
 						// GUI 依赖于模型信息以保持最新，以提供最准确的定价，因此我们需要在启动时获取最新的详细信息。
 						// 我们为所有用户执行此操作，因为许多用户在 API 提供者之间切换，如果他们切换回 openrouter，则会显示过时的模型信息，如果我们没有在此时检索最新信息
 						// （请参见 normalizeApiConfiguration > openrouter）
@@ -507,31 +507,31 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 								this.postMessageToWebview({
 									type: "mcpMarketplaceCatalog",
 									mcpMarketplaceCatalog: mcpMarketplaceCatalog as McpMarketplaceCatalog,
-								});
+								})
 							}
-						});
-						this.silentlyRefreshMcpMarketplace();
+						})
+						this.silentlyRefreshMcpMarketplace()
 						this.refreshOpenRouterModels().then(async (openRouterModels) => {
 							if (openRouterModels) {
 								// 更新状态中的模型信息（这需要在这里完成，因为我们不想在设置打开时更新状态，并且我们可能在那时刷新模型）
-								const { apiConfiguration } = await this.getState();
+								const { apiConfiguration } = await this.getState()
 								if (apiConfiguration.openRouterModelId) {
 									await this.updateGlobalState(
 										"openRouterModelInfo",
 										openRouterModels[apiConfiguration.openRouterModelId],
-									);
-									await this.postStateToWebview();
+									)
+									await this.postStateToWebview()
 								}
 							}
-						});
+						})
 
 						// 如果用户已经选择加入遥测，则启用遥测服务
 						this.getStateToPostToWebview().then((state) => {
-							const { telemetrySetting } = state;
-							const isOptedIn = telemetrySetting === "enabled";
-							telemetryService.updateTelemetryState(isOptedIn);
-						});
-						break;
+							const { telemetrySetting } = state
+							const isOptedIn = telemetrySetting === "enabled"
+							telemetryService.updateTelemetryState(isOptedIn)
+						})
+						break
 					case "newTask":
 						// 应对 hello 消息命令时应运行的代码
 						//vscode.window.showInformationMessage(message.text!)
@@ -541,235 +541,235 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 						// 这也可以在扩展 .ts 中完成
 						//this.postMessageToWebview({ type: "text", text: `Extension: ${Date.now()}` });
 						// 初始化 Cline 的新实例将确保旧实例中任何正在运行的承诺不会影响我们的新任务。这本质上为新任务创建了一个全新的状态
-						await this.initClineWithTask(message.text, message.images);
-						break;
+						await this.initClineWithTask(message.text, message.images)
+						break
 					case "apiConfiguration":
 						if (message.apiConfiguration) {
-							await this.updateApiConfiguration(message.apiConfiguration);
+							await this.updateApiConfiguration(message.apiConfiguration)
 						}
-						await this.postStateToWebview();
-						break;
+						await this.postStateToWebview()
+						break
 					case "autoApprovalSettings":
 						if (message.autoApprovalSettings) {
-							await this.updateGlobalState("autoApprovalSettings", message.autoApprovalSettings);
+							await this.updateGlobalState("autoApprovalSettings", message.autoApprovalSettings)
 							if (this.clineChinese) {
-								this.clineChinese.autoApprovalSettings = message.autoApprovalSettings;
+								this.clineChinese.autoApprovalSettings = message.autoApprovalSettings
 							}
-							await this.postStateToWebview();
+							await this.postStateToWebview()
 						}
-						break;
+						break
 					case "browserSettings":
 						if (message.browserSettings) {
-							await this.updateGlobalState("browserSettings", message.browserSettings);
+							await this.updateGlobalState("browserSettings", message.browserSettings)
 							if (this.clineChinese) {
-								this.clineChinese.updateBrowserSettings(message.browserSettings);
+								this.clineChinese.updateBrowserSettings(message.browserSettings)
 							}
-							await this.postStateToWebview();
+							await this.postStateToWebview()
 						}
-						break;
+						break
 					case "togglePlanActMode":
 						if (message.chatSettings) {
-							await this.togglePlanActModeWithChatSettings(message.chatSettings, message.chatContent);
+							await this.togglePlanActModeWithChatSettings(message.chatSettings, message.chatContent)
 						}
-						break;
+						break
 					case "optionsResponse":
 						await this.postMessageToWebview({
 							type: "invoke",
 							invoke: "sendMessage",
 							text: message.text,
-						});
-						break;
+						})
+						break
 					// case "relaunchChromeDebugMode":
 					// 	if (this.clineChinese) {
 					// 		this.clineChinese.browserSession.relaunchChromeDebugMode();
 					// 	}
 					// 	break;
 					case "askResponse":
-						this.clineChinese?.handleWebviewAskResponse(message.askResponse!, message.text, message.images);
-						break;
+						this.clineChinese?.handleWebviewAskResponse(message.askResponse!, message.text, message.images)
+						break
 					case "clearTask":
 						// newTask 将使用给定的任务文本启动新任务，而 clear task 将重置当前会话并允许启动新任务
-						await this.clearTask();
-						await this.postStateToWebview();
-						break;
+						await this.clearTask()
+						await this.postStateToWebview()
+						break
 					case "didShowAnnouncement":
-						await this.updateGlobalState("lastShownAnnouncementId", this.latestAnnouncementId);
-						await this.postStateToWebview();
-						break;
+						await this.updateGlobalState("lastShownAnnouncementId", this.latestAnnouncementId)
+						await this.postStateToWebview()
+						break
 					case "selectImages":
-						const images = await selectImages();
+						const images = await selectImages()
 						await this.postMessageToWebview({
 							type: "selectedImages",
 							images,
-						});
-						break;
+						})
+						break
 					case "exportCurrentTask":
-						const currentTaskId = this.clineChinese?.taskId;
+						const currentTaskId = this.clineChinese?.taskId
 						if (currentTaskId) {
-							this.exportTaskWithId(currentTaskId);
+							this.exportTaskWithId(currentTaskId)
 						}
-						break;
+						break
 					case "showTaskWithId":
-						this.showTaskWithId(message.text!);
-						break;
+						this.showTaskWithId(message.text!)
+						break
 					case "deleteTaskWithId":
-						this.deleteTaskWithId(message.text!);
-						break;
+						this.deleteTaskWithId(message.text!)
+						break
 					case "exportTaskWithId":
-						this.exportTaskWithId(message.text!);
-						break;
+						this.exportTaskWithId(message.text!)
+						break
 					case "resetState":
-						await this.resetState();
-						break;
+						await this.resetState()
+						break
 					case "requestOllamaModels":
-						const ollamaModels = await this.getOllamaModels(message.text);
+						const ollamaModels = await this.getOllamaModels(message.text)
 						this.postMessageToWebview({
 							type: "ollamaModels",
 							ollamaModels,
-						});
-						break;
+						})
+						break
 					case "requestLmStudioModels":
-						const lmStudioModels = await this.getLmStudioModels(message.text);
+						const lmStudioModels = await this.getLmStudioModels(message.text)
 						this.postMessageToWebview({
 							type: "lmStudioModels",
 							lmStudioModels,
-						});
-						break;
+						})
+						break
 					case "requestVsCodeLmModels":
-						const vsCodeLmModels = await this.getVsCodeLmModels();
-						this.postMessageToWebview({ type: "vsCodeLmModels", vsCodeLmModels });
-						break;
+						const vsCodeLmModels = await this.getVsCodeLmModels()
+						this.postMessageToWebview({ type: "vsCodeLmModels", vsCodeLmModels })
+						break
 					case "refreshOpenRouterModels":
-						await this.refreshOpenRouterModels();
-						break;
+						await this.refreshOpenRouterModels()
+						break
 					case "refreshOpenAiModels":
-						const { apiConfiguration } = await this.getState();
+						const { apiConfiguration } = await this.getState()
 						const openAiModels = await this.getOpenAiModels(
 							apiConfiguration.openAiBaseUrl,
 							apiConfiguration.openAiApiKey,
-						);
-						this.postMessageToWebview({ type: "openAiModels", openAiModels });
-						break;
+						)
+						this.postMessageToWebview({ type: "openAiModels", openAiModels })
+						break
 					case "openImage":
-						openImage(message.text!);
-						break;
+						openImage(message.text!)
+						break
 					case "openInBrowser":
 						if (message.url) {
-							vscode.env.openExternal(vscode.Uri.parse(message.url));
+							vscode.env.openExternal(vscode.Uri.parse(message.url))
 						}
-						break;
+						break
 					case "fetchOpenGraphData":
-						this.fetchOpenGraphData(message.text!);
-						break;
+						this.fetchOpenGraphData(message.text!)
+						break
 					case "checkIsImageUrl":
-						this.checkIsImageUrl(message.text!);
-						break;
+						this.checkIsImageUrl(message.text!)
+						break
 					case "openFile":
-						openFile(message.text!);
-						break;
+						openFile(message.text!)
+						break
 					case "openMention":
-						openMention(message.text);
-						break;
+						openMention(message.text)
+						break
 					case "checkpointDiff": {
 						if (message.number) {
-							await this.clineChinese?.presentMultifileDiff(message.number, false);
+							await this.clineChinese?.presentMultifileDiff(message.number, false)
 						}
-						break;
+						break
 					}
 					case "checkpointRestore": {
-						await this.cancelTask(); // 我们不能在任务处于活动状态时更改消息历史，因为这可能会在编辑文件或运行命令的过程中，期望响应请求而不是被新消息取代，例如添加 deleted_api_reqs
+						await this.cancelTask() // 我们不能在任务处于活动状态时更改消息历史，因为这可能会在编辑文件或运行命令的过程中，期望响应请求而不是被新消息取代，例如添加 deleted_api_reqs
 						// 取消任务等待任何打开的编辑器被还原并启动一个新的 cline 实例
 						if (message.number) {
 							// 等待消息加载
 							await pWaitFor(() => this.clineChinese?.isInitialized === true, {
 								timeout: 3_000,
 							}).catch(() => {
-								console.error("初始化新 cline 实例失败");
-							});
+								console.error("初始化新 cline 实例失败")
+							})
 							// 注意：cancelTask 等待 abortTask，abortTask 等待 diffViewProvider.revertChanges，revertChanges 允许我们重置到检查点，而不是在检查点重置的同时或之后调用 revertChanges 函数
-							await this.clineChinese?.restoreCheckpoint(message.number, message.text! as ClineCheckpointRestore);
+							await this.clineChinese?.restoreCheckpoint(message.number, message.text! as ClineCheckpointRestore)
 						}
-						break;
+						break
 					}
 					case "taskCompletionViewChanges": {
 						if (message.number) {
-							await this.clineChinese?.presentMultifileDiff(message.number, true);
+							await this.clineChinese?.presentMultifileDiff(message.number, true)
 						}
-						break;
+						break
 					}
 					case "cancelTask":
-						this.cancelTask();
-						break;
+						this.cancelTask()
+						break
 					case "getLatestState":
-						await this.postStateToWebview();
-						break;
+						await this.postStateToWebview()
+						break
 					case "accountLoginClicked": {
 						// 生成用于状态验证的 nonce
-						const nonce = crypto.randomBytes(32).toString("hex");
-						await this.storeSecret("authNonce", nonce);
+						const nonce = crypto.randomBytes(32).toString("hex")
+						await this.storeSecret("authNonce", nonce)
 
 						// 打开浏览器进行带状态参数的身份验证
-						console.log("在账户页面点击登录按钮");
-						console.log("使用状态参数打开身份验证页面");
+						console.log("在账户页面点击登录按钮")
+						console.log("使用状态参数打开身份验证页面")
 
-						const uriScheme = vscode.env.uriScheme;
+						const uriScheme = vscode.env.uriScheme
 
 						const authUrl = vscode.Uri.parse(
 							`https://app.cline.bot/auth?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(`${uriScheme || "vscode"}://hybridtalentcomputing.cline-chinese/auth`)}`,
-						);
-						vscode.env.openExternal(authUrl);
-						break;
+						)
+						vscode.env.openExternal(authUrl)
+						break
 					}
 					case "accountLogoutClicked": {
-						await this.handleSignOut();
-						break;
+						await this.handleSignOut()
+						break
 					}
 					case "showAccountViewClicked": {
-						await this.postMessageToWebview({ type: "action", action: "accountButtonClicked" });
-						break;
+						await this.postMessageToWebview({ type: "action", action: "accountButtonClicked" })
+						break
 					}
 					case "fetchUserCreditsData": {
-						await this.fetchUserCreditsData();
-						break;
+						await this.fetchUserCreditsData()
+						break
 					}
 					case "showMcpView": {
-						await this.postMessageToWebview({ type: "action", action: "mcpButtonClicked" });
-						break;
+						await this.postMessageToWebview({ type: "action", action: "mcpButtonClicked" })
+						break
 					}
 					case "openMcpSettings": {
-						const mcpSettingsFilePath = await this.mcpHub?.getMcpSettingsFilePath();
+						const mcpSettingsFilePath = await this.mcpHub?.getMcpSettingsFilePath()
 						if (mcpSettingsFilePath) {
-							openFile(mcpSettingsFilePath);
+							openFile(mcpSettingsFilePath)
 						}
-						break;
+						break
 					}
 					case "fetchMcpMarketplace": {
-						await this.fetchMcpMarketplace(message.bool);
-						break;
+						await this.fetchMcpMarketplace(message.bool)
+						break
 					}
 					case "downloadMcp": {
 						if (message.mcpId) {
 							// 1. 如果我们处于计划模式，则切换到行动模式
-							const { chatSettings } = await this.getStateToPostToWebview();
+							const { chatSettings } = await this.getStateToPostToWebview()
 							if (chatSettings.mode === "plan") {
-								await this.togglePlanActModeWithChatSettings({ mode: "act" });
+								await this.togglePlanActModeWithChatSettings({ mode: "act" })
 							}
 
 							// 2. 如果禁用，则启用 MCP 设置
 							// 如果禁用，则启用 MCP 模式
-							const mcpConfig = vscode.workspace.getConfiguration("clineChinese.mcp");
+							const mcpConfig = vscode.workspace.getConfiguration("clineChinese.mcp")
 							if (mcpConfig.get<string>("mode") !== "full") {
-								await mcpConfig.update("mode", "full", true);
+								await mcpConfig.update("mode", "full", true)
 							}
 
 							// 3. 下载 MCP
-							await this.downloadMcp(message.mcpId);
+							await this.downloadMcp(message.mcpId)
 						}
-						break;
+						break
 					}
 					case "silentlyRefreshMcpMarketplace": {
-						await this.silentlyRefreshMcpMarketplace();
-						break;
+						await this.silentlyRefreshMcpMarketplace()
+						break
 					}
 					// case "openMcpMarketplaceServerDetails": {
 					// 	if (message.text) {
@@ -808,128 +808,128 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 					// }
 					case "toggleMcpServer": {
 						try {
-							await this.mcpHub?.toggleServerDisabled(message.serverName!, message.disabled!);
+							await this.mcpHub?.toggleServerDisabled(message.serverName!, message.disabled!)
 						} catch (error) {
-							console.error(`切换 MCP 服务器 ${message.serverName} 失败:`, error);
+							console.error(`切换 MCP 服务器 ${message.serverName} 失败:`, error)
 						}
-						break;
+						break
 					}
 					case "toggleToolAutoApprove": {
 						try {
-							await this.mcpHub?.toggleToolAutoApprove(message.serverName!, message.toolName!, message.autoApprove!);
+							await this.mcpHub?.toggleToolAutoApprove(message.serverName!, message.toolName!, message.autoApprove!)
 						} catch (error) {
-							console.error(`切换工具 ${message.toolName} 的自动批准失败:`, error);
+							console.error(`切换工具 ${message.toolName} 的自动批准失败:`, error)
 						}
-						break;
+						break
 					}
 					case "requestTotalTasksSize": {
-						this.refreshTotalTasksSize();
-						break;
+						this.refreshTotalTasksSize()
+						break
 					}
 					case "restartMcpServer": {
 						try {
-							await this.mcpHub?.restartConnection(message.text!);
+							await this.mcpHub?.restartConnection(message.text!)
 						} catch (error) {
-							console.error(`重试连接 ${message.text} 失败:`, error);
+							console.error(`重试连接 ${message.text} 失败:`, error)
 						}
-						break;
+						break
 					}
 					case "deleteMcpServer": {
 						if (message.serverName) {
-							this.mcpHub?.deleteServer(message.serverName);
+							this.mcpHub?.deleteServer(message.serverName)
 						}
-						break;
+						break
 					}
 					case "fetchLatestMcpServersFromHub": {
-						this.mcpHub?.sendLatestMcpServers();
-						break;
+						this.mcpHub?.sendLatestMcpServers()
+						break
 					}
 					case "searchCommits": {
-						const cwd = vscode.workspace.workspaceFolders?.map((folder) => folder.uri.fsPath).at(0);
+						const cwd = vscode.workspace.workspaceFolders?.map((folder) => folder.uri.fsPath).at(0)
 						if (cwd) {
 							try {
-								const commits = await searchCommits(message.text || "", cwd);
+								const commits = await searchCommits(message.text || "", cwd)
 								await this.postMessageToWebview({
 									type: "commitSearchResults",
 									commits,
-								});
+								})
 							} catch (error) {
-								console.error(`搜索提交时出错: ${JSON.stringify(error)}`);
+								console.error(`搜索提交时出错: ${JSON.stringify(error)}`)
 							}
 						}
-						break;
+						break
 					}
 					case "updateMcpTimeout": {
 						try {
 							if (message.serverName && message.timeout) {
-								await this.mcpHub?.updateServerTimeout(message.serverName, message.timeout);
+								await this.mcpHub?.updateServerTimeout(message.serverName, message.timeout)
 							}
 						} catch (error) {
-							console.error(`更新服务器 ${message.serverName} 的超时失败:`, error);
+							console.error(`更新服务器 ${message.serverName} 的超时失败:`, error)
 						}
-						break;
+						break
 					}
 					case "openExtensionSettings": {
-						const settingsFilter = message.text || "";
+						const settingsFilter = message.text || ""
 						await vscode.commands.executeCommand(
 							"workbench.action.openSettings",
 							`@ext:hybridtalentcomputing.cline-chinese ${settingsFilter}`.trim(), // 如果没有设置过滤器，则修剪空格
-						);
-						break;
+						)
+						break
 					}
 					case "invoke": {
 						if (message.text) {
 							await this.postMessageToWebview({
 								type: "invoke",
 								invoke: message.text as Invoke,
-							});
+							})
 						}
-						break;
+						break
 					}
 					// 遥测
 					case "openSettings": {
 						await this.postMessageToWebview({
 							type: "action",
 							action: "settingsButtonClicked",
-						});
-						break;
+						})
+						break
 					}
 					case "telemetrySetting": {
 						if (message.telemetrySetting) {
-							await this.updateTelemetrySetting(message.telemetrySetting);
+							await this.updateTelemetrySetting(message.telemetrySetting)
 						}
-						await this.postStateToWebview();
-						break;
+						await this.postStateToWebview()
+						break
 					}
 					case "updateSettings": {
 						// API 配置
 						if (message.apiConfiguration) {
-							await this.updateApiConfiguration(message.apiConfiguration);
+							await this.updateApiConfiguration(message.apiConfiguration)
 						}
 
 						// 自定义说明
-						await this.updateCustomInstructions(message.customInstructionsSetting);
+						await this.updateCustomInstructions(message.customInstructionsSetting)
 
 						// 遥测设置
 						if (message.telemetrySetting) {
-							await this.updateTelemetrySetting(message.telemetrySetting);
+							await this.updateTelemetrySetting(message.telemetrySetting)
 						}
 
 						// 计划行动设置
-						await this.updateGlobalState("planActSeparateModelsSetting", message.planActSeparateModelsSetting);
+						await this.updateGlobalState("planActSeparateModelsSetting", message.planActSeparateModelsSetting)
 
 						// 更新设置后，将状态发布到 webview
-						await this.postStateToWebview();
+						await this.postStateToWebview()
 
-						await this.postMessageToWebview({ type: "didUpdateSettings" });
-						break;
+						await this.postMessageToWebview({ type: "didUpdateSettings" })
+						break
 					}
 					case "clearAllTaskHistory": {
-						await this.deleteAllTaskHistory();
-						await this.postStateToWebview();
-						this.refreshTotalTasksSize();
-						this.postMessageToWebview({ type: "relinquishControl" });
-						break;
+						await this.deleteAllTaskHistory()
+						await this.postStateToWebview()
+						this.refreshTotalTasksSize()
+						this.postMessageToWebview({ type: "relinquishControl" })
+						break
 					}
 					// 在这里添加更多 switch case 语句，因为在 webview 上下文中创建了更多 webview 消息命令
 					// （即在 media/main.js 中）
@@ -937,20 +937,20 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			},
 			null,
 			this.disposables,
-		);
+		)
 	}
 
 	async updateTelemetrySetting(telemetrySetting: TelemetrySetting) {
-		await this.updateGlobalState("telemetrySetting", telemetrySetting);
-		const isOptedIn = telemetrySetting === "enabled";
-		telemetryService.updateTelemetryState(isOptedIn);
+		await this.updateGlobalState("telemetrySetting", telemetrySetting)
+		const isOptedIn = telemetrySetting === "enabled"
+		telemetryService.updateTelemetryState(isOptedIn)
 	}
 
 	async togglePlanActModeWithChatSettings(chatSettings: ChatSettings, chatContent?: ChatContent) {
-		const didSwitchToActMode = chatSettings.mode === "act";
+		const didSwitchToActMode = chatSettings.mode === "act"
 
 		// 捕获模式切换遥测 | 无论我们是否知道 taskId 都要捕获
-		telemetryService.captureModeSwitch(this.clineChinese?.taskId ?? "0", chatSettings.mode);
+		telemetryService.captureModeSwitch(this.clineChinese?.taskId ?? "0", chatSettings.mode)
 
 		// 获取我们将在保存当前模式 API 信息后恢复的先前模型信息
 		const {
@@ -961,14 +961,14 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			previousModeVsCodeLmModelSelector: newVsCodeLmModelSelector,
 			previousModeThinkingBudgetTokens: newThinkingBudgetTokens,
 			planActSeparateModelsSetting,
-		} = await this.getState();
+		} = await this.getState()
 
-		const shouldSwitchModel = planActSeparateModelsSetting === true;
+		const shouldSwitchModel = planActSeparateModelsSetting === true
 
 		if (shouldSwitchModel) {
 			// 保存此模式下使用的最后模型
-			await this.updateGlobalState("previousModeApiProvider", apiConfiguration.apiProvider);
-			await this.updateGlobalState("previousModeThinkingBudgetTokens", apiConfiguration.thinkingBudgetTokens);
+			await this.updateGlobalState("previousModeApiProvider", apiConfiguration.apiProvider)
+			await this.updateGlobalState("previousModeThinkingBudgetTokens", apiConfiguration.thinkingBudgetTokens)
 			switch (apiConfiguration.apiProvider) {
 				case "anthropic":
 				case "bedrock":
@@ -978,39 +978,39 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 				case "openai-native":
 				case "qwen":
 				case "deepseek":
-					await this.updateGlobalState("previousModeModelId", apiConfiguration.apiModelId);
-					break;
+					await this.updateGlobalState("previousModeModelId", apiConfiguration.apiModelId)
+					break
 				case "openrouter":
 				case "cline":
-					await this.updateGlobalState("previousModeModelId", apiConfiguration.openRouterModelId);
-					await this.updateGlobalState("previousModeModelInfo", apiConfiguration.openRouterModelInfo);
-					break;
+					await this.updateGlobalState("previousModeModelId", apiConfiguration.openRouterModelId)
+					await this.updateGlobalState("previousModeModelInfo", apiConfiguration.openRouterModelInfo)
+					break
 				case "vscode-lm":
 					// 重要的是我们不将 modelId 设置为此，因为它是对象而不是字符串（webview 期望模型 ID 为字符串）
-					await this.updateGlobalState("previousModeVsCodeLmModelSelector", apiConfiguration.vsCodeLmModelSelector);
-					break;
+					await this.updateGlobalState("previousModeVsCodeLmModelSelector", apiConfiguration.vsCodeLmModelSelector)
+					break
 				case "openai":
-					await this.updateGlobalState("previousModeModelId", apiConfiguration.openAiModelId);
-					await this.updateGlobalState("previousModeModelInfo", apiConfiguration.openAiModelInfo);
-					break;
+					await this.updateGlobalState("previousModeModelId", apiConfiguration.openAiModelId)
+					await this.updateGlobalState("previousModeModelInfo", apiConfiguration.openAiModelInfo)
+					break
 				case "ollama":
-					await this.updateGlobalState("previousModeModelId", apiConfiguration.ollamaModelId);
-					break;
+					await this.updateGlobalState("previousModeModelId", apiConfiguration.ollamaModelId)
+					break
 				case "lmstudio":
-					await this.updateGlobalState("previousModeModelId", apiConfiguration.lmStudioModelId);
-					break;
+					await this.updateGlobalState("previousModeModelId", apiConfiguration.lmStudioModelId)
+					break
 				case "litellm":
-					await this.updateGlobalState("previousModeModelId", apiConfiguration.liteLlmModelId);
-					break;
+					await this.updateGlobalState("previousModeModelId", apiConfiguration.liteLlmModelId)
+					break
 				case "requesty":
-					await this.updateGlobalState("previousModeModelId", apiConfiguration.requestyModelId);
-					break;
+					await this.updateGlobalState("previousModeModelId", apiConfiguration.requestyModelId)
+					break
 			}
 
 			// 恢复先前模式中使用的模型
 			if (newApiProvider || newModelId || newThinkingBudgetTokens !== undefined || newVsCodeLmModelSelector) {
-				await this.updateGlobalState("apiProvider", newApiProvider);
-				await this.updateGlobalState("thinkingBudgetTokens", newThinkingBudgetTokens);
+				await this.updateGlobalState("apiProvider", newApiProvider)
+				await this.updateGlobalState("thinkingBudgetTokens", newThinkingBudgetTokens)
 				switch (newApiProvider) {
 					case "anthropic":
 					case "bedrock":
@@ -1020,57 +1020,57 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 					case "openai-native":
 					case "qwen":
 					case "deepseek":
-						await this.updateGlobalState("apiModelId", newModelId);
-						break;
+						await this.updateGlobalState("apiModelId", newModelId)
+						break
 					case "openrouter":
 					case "cline":
-						await this.updateGlobalState("openRouterModelId", newModelId);
-						await this.updateGlobalState("openRouterModelInfo", newModelInfo);
-						break;
+						await this.updateGlobalState("openRouterModelId", newModelId)
+						await this.updateGlobalState("openRouterModelInfo", newModelInfo)
+						break
 					case "vscode-lm":
-						await this.updateGlobalState("vsCodeLmModelSelector", newVsCodeLmModelSelector);
-						break;
+						await this.updateGlobalState("vsCodeLmModelSelector", newVsCodeLmModelSelector)
+						break
 					case "openai":
-						await this.updateGlobalState("openAiModelId", newModelId);
-						await this.updateGlobalState("openAiModelInfo", newModelInfo);
-						break;
+						await this.updateGlobalState("openAiModelId", newModelId)
+						await this.updateGlobalState("openAiModelInfo", newModelInfo)
+						break
 					case "ollama":
-						await this.updateGlobalState("ollamaModelId", newModelId);
-						break;
+						await this.updateGlobalState("ollamaModelId", newModelId)
+						break
 					case "lmstudio":
-						await this.updateGlobalState("lmStudioModelId", newModelId);
-						break;
+						await this.updateGlobalState("lmStudioModelId", newModelId)
+						break
 					case "litellm":
-						await this.updateGlobalState("liteLlmModelId", newModelId);
-						break;
+						await this.updateGlobalState("liteLlmModelId", newModelId)
+						break
 					case "requesty":
-						await this.updateGlobalState("requestyModelId", newModelId);
-						break;
+						await this.updateGlobalState("requestyModelId", newModelId)
+						break
 				}
 
 				if (this.clineChinese) {
-					const { apiConfiguration: updatedApiConfiguration } = await this.getState();
-					this.clineChinese.api = buildApiHandler(updatedApiConfiguration);
+					const { apiConfiguration: updatedApiConfiguration } = await this.getState()
+					this.clineChinese.api = buildApiHandler(updatedApiConfiguration)
 				}
 			}
 		}
 
-		await this.updateGlobalState("chatSettings", chatSettings);
-		await this.postStateToWebview();
+		await this.updateGlobalState("chatSettings", chatSettings)
+		await this.postStateToWebview()
 
 		if (this.clineChinese) {
-			this.clineChinese.updateChatSettings(chatSettings);
+			this.clineChinese.updateChatSettings(chatSettings)
 			if (this.clineChinese.isAwaitingPlanResponse && didSwitchToActMode) {
-				this.clineChinese.didRespondToPlanAskBySwitchingMode = true;
+				this.clineChinese.didRespondToPlanAskBySwitchingMode = true
 				// 如果提供了 chatContent，则使用它，否则使用默认消息
 				await this.postMessageToWebview({
 					type: "invoke",
 					invoke: "sendMessage",
 					text: chatContent?.message || "PLAN_MODE_TOGGLE_RESPONSE",
 					images: chatContent?.images,
-				});
+				})
 			} else {
-				this.cancelTask();
+				this.cancelTask()
 			}
 		}
 	}
@@ -1802,9 +1802,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 
 		const fileMention = this.getFileMentionFromPath(filePath)
 		const problemsString = this.convertDiagnosticsToProblemsString(diagnostics)
-		await this.initClineWithTask(
-			`修复 ${fileMention} 中的以下代码\n\`\`\`\n${code}\n\`\`\`\n\n问题:\n${problemsString}`,
-		)
+		await this.initClineWithTask(`修复 ${fileMention} 中的以下代码\n\`\`\`\n${code}\n\`\`\`\n\n问题:\n${problemsString}`)
 
 		console.log("fixWithCline", code, filePath, languageId, diagnostics, problemsString)
 	}
@@ -1997,7 +1995,9 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			apiConfiguration,
 			customInstructions,
 			uriScheme: vscode.env.uriScheme,
-			currentTaskItem: this.clineChinese?.taskId ? (taskHistory || []).find((item) => item.id === this.clineChinese?.taskId) : undefined,
+			currentTaskItem: this.clineChinese?.taskId
+				? (taskHistory || []).find((item) => item.id === this.clineChinese?.taskId)
+				: undefined,
 			checkpointTrackerErrorMessage: this.clineChinese?.checkpointTrackerErrorMessage,
 			clineMessages: this.clineChinese?.clineMessages || [],
 			taskHistory: (taskHistory || [])
@@ -2373,7 +2373,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 
 			// 将数据发送回 webview
 			await this.postMessageToWebview({
-				type: "openGraphData", 
+				type: "openGraphData",
 				openGraphData: ogData,
 				url: url,
 			})
@@ -2420,7 +2420,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 		}
 		const secretKeys: SecretKey[] = [
 			"apiKey",
-			"openRouterApiKey", 
+			"openRouterApiKey",
 			"awsAccessKey",
 			"awsSecretKey",
 			"awsSessionToken",

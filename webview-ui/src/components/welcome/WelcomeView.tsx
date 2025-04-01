@@ -54,7 +54,8 @@ const WelcomeView = () => {
 					<VSCodeLink href="https://www.anthropic.com/claude/sonnet" style={{ display: "inline" }}>
 						Claude 3.7 Sonnet 的
 					</VSCodeLink>
-					智能编码能力以及访问工具，让我可以创建和编辑文件、探索复杂项目、使用浏览器和执行终端命令 <i>（当然，需要您的许可）</i>。我甚至可以使用 MCP 创建新工具并扩展我自己的能力。
+					智能编码能力以及访问工具，让我可以创建和编辑文件、探索复杂项目、使用浏览器和执行终端命令{" "}
+					<i>（当然，需要您的许可）</i>。我甚至可以使用 MCP 创建新工具并扩展我自己的能力。
 				</p>
 
 				<p style={{ color: "var(--vscode-descriptionForeground)" }}>

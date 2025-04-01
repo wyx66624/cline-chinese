@@ -813,7 +813,8 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 							<VSCodeLink href="https://www.anthropic.com/claude/sonnet" style={{ display: "inline" }}>
 								Claude 3.7 Sonnet 的
 							</VSCodeLink>
-							智能编码能力，我可以逐步处理复杂的软件开发任务。借助可以创建和编辑文件、探索复杂项目、使用浏览器和执行终端命令的工具（在您授权后），我可以以超越代码补全或技术支持的方式为您提供帮助。我甚至可以使用 MCP 创建新工具并扩展我自己的能力。
+							智能编码能力，我可以逐步处理复杂的软件开发任务。借助可以创建和编辑文件、探索复杂项目、使用浏览器和执行终端命令的工具（在您授权后），我可以以超越代码补全或技术支持的方式为您提供帮助。我甚至可以使用
+							MCP 创建新工具并扩展我自己的能力。
 						</p>
 					</div>
 					{taskHistory.length > 0 && <HistoryPreview showHistoryView={showHistoryView} />}
