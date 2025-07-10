@@ -35,7 +35,7 @@ const CreditsHistoryTable = ({ isLoading, usageData, paymentsData }: CreditsHist
 					<>
 						{activeTab === "usage" && (
 							<>
-								{usageData.length > 0 ? (
+								{usageData && usageData.length > 0 ? (
 									<VSCodeDataGrid>
 										<VSCodeDataGridRow row-type="header">
 											<VSCodeDataGridCell cell-type="columnheader" grid-column="1">
@@ -69,7 +69,7 @@ const CreditsHistoryTable = ({ isLoading, usageData, paymentsData }: CreditsHist
 									</VSCodeDataGrid>
 								) : (
 									<div className="flex justify-center items-center p-4">
-										<div className="text-[var(--vscode-descriptionForeground)]">暂无使用记录</div>
+										<div className="text-[var(--vscode-descriptionForeground)]">没有使用记录</div>
 									</div>
 								)}
 							</>
@@ -84,7 +84,7 @@ const CreditsHistoryTable = ({ isLoading, usageData, paymentsData }: CreditsHist
 												日期
 											</VSCodeDataGridCell>
 											<VSCodeDataGridCell cell-type="columnheader" grid-column="2">
-												总金额
+												总额
 											</VSCodeDataGridCell>
 											<VSCodeDataGridCell cell-type="columnheader" grid-column="3">
 												积分
@@ -103,7 +103,7 @@ const CreditsHistoryTable = ({ isLoading, usageData, paymentsData }: CreditsHist
 									</VSCodeDataGrid>
 								) : (
 									<div className="flex justify-center items-center p-4">
-										<div className="text-[var(--vscode-descriptionForeground)]">暂无充值记录</div>
+										<div className="text-[var(--vscode-descriptionForeground)]">没有充值记录</div>
 									</div>
 								)}
 							</>

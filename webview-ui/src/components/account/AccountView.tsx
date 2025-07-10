@@ -49,7 +49,7 @@ const AccountView = ({ onDone }: AccountViewProps) => {
 							wordWrap: "break-word",
 							maxWidth: "100%",
 						}}>
-						胜算云Router
+						胜算云
 					</VSCodeOption>
 					<VSCodeOption
 						className="text-[var(--vscode-foreground)] m-0"
@@ -189,7 +189,7 @@ export const ClineAccountView = ({ vendorCode, user }: ClineAccountViewProps) =>
 								href={
 									vendorCode == "cline"
 										? "https://app.cline.bot/credits"
-										: "https://router.shengsuanyun.com/user/bill"
+										: "https://console.shengsuanyun.com/user/overview"
 								}>
 								个人中心
 							</VSCodeButtonLink>
@@ -202,7 +202,7 @@ export const ClineAccountView = ({ vendorCode, user }: ClineAccountViewProps) =>
 					<VSCodeDivider className="w-full my-6" />
 
 					<div className="w-full flex flex-col items-center">
-						<div className="text-sm text-[var(--vscode-descriptionForeground)] mb-3">当前余额</div>
+						<div className="text-sm text-[var(--vscode-descriptionForeground)] mb-3">余额</div>
 
 						<div className="text-4xl font-bold text-[var(--vscode-foreground)] mb-6 flex items-center gap-2">
 							{isLoading ? (
@@ -244,7 +244,7 @@ export const ClineAccountView = ({ vendorCode, user }: ClineAccountViewProps) =>
 									增加额度
 								</VSCodeButtonLink>
 							) : (
-								<VSCodeButtonLink href="https://router.shengsuanyun.com/user/recharge" className="w-full">
+								<VSCodeButtonLink href="https://console.shengsuanyun.com/user/recharge" className="w-full">
 									充值
 								</VSCodeButtonLink>
 							)}
@@ -268,8 +268,8 @@ export const ClineAccountView = ({ vendorCode, user }: ClineAccountViewProps) =>
 					</VSCodeButton>
 
 					<p className="text-[var(--vscode-descriptionForeground)] text-xs text-center m-0">
-						继续即表示您同意<VSCodeLink href="https://cline.bot/tos">服务条款</VSCodeLink>和{" "}
-						<VSCodeLink href="https://cline.bot/privacy">隐私政策</VSCodeLink>。
+						继续，表示你同意 Cline <VSCodeLink href="https://cline.bot/tos">用户协议</VSCodeLink> 和{" "}
+						<VSCodeLink href="https://cline.bot/privacy">隐私政策.</VSCodeLink>
 					</p>
 					<div className="w-full flex justify-start mt-16">
 						<VSCodeLink
