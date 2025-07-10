@@ -1,11 +1,8 @@
 # Cline-Chinese (Cline中文汉化版) 🌏
 
-> 🎉 截止到2025.06.18，Cline Chinese在VS Code插件市场的下载量突破68k啦！感谢大家的支持！
+> 🎉 截止到2025.07.10，Cline Chinese在VS Code插件市场的下载量突破76k啦！感谢大家的支持！
 
-> 🎉 Cline Chinese与胜算云Router达成合作啦！Cline Chinese是著名开源AI编程助手Cline的汉化版，胜算云为促进中国AI行业开源生态繁荣，赞助Cline Chinese以助力中国开发者喜爱的开源AI编程工具生态快速发展。Cline Chinese与胜算云Router强强联手，极速开启AI编程新时代！全球模型都可调用，Claude sonnet 4、Claude opus 4、o3（最新低价）、Gemini 2.5 pro 0605、DeepSeek v3/r1(最新版)快速调用，与亚马逊云、微软azure、Google云（GCP）三大巨头官方合作，充值折扣（充500人民币只要450人民币，官方价格，模型直连），非逆向，支付宝/微信、可发票，可试用，实名/邀请好友享更多代金券，点击此处进行注册：
-[胜算云Router](https://router.shengsuanyun.com/auth?from=cline-chinese&callback_url=vscode://HybridTalentComputing.cline-chinese/ssy)
 
->注：胜算云Router相关问题，请扫描其[官网客服二维码](https://router.shengsuanyun.com/webp/relation-BMfLRnIZ.webp)进行咨询。
 
 
 <p align="center">
@@ -13,6 +10,14 @@
 [![MCP市场](https://img.shields.io/badge/MCP%E5%B8%82%E5%9C%BA-访问-blue)](https://www.mcp-home.com/) [![Cline Chinese文档](https://img.shields.io/badge/Cline%20Chinese-文档-blue)](https://hybridtalentcomputing.gitbook.io/cline-chinese-doc/) [![Discord](https://img.shields.io/badge/Discord-加入讨论-7289DA)](https://discord.gg/fhj9hqy89t) [![Version](https://img.shields.io/visual-studio-marketplace/v/HybridTalentComputing.cline-chinese)](https://marketplace.visualstudio.com/items?itemName=HybridTalentComputing.cline-chinese) [![Downloads](https://img.shields.io/visual-studio-marketplace/d/HybridTalentComputing.cline-chinese)](https://marketplace.visualstudio.com/items?itemName=HybridTalentComputing.cline-chinese) [![Rating](https://img.shields.io/visual-studio-marketplace/r/HybridTalentComputing.cline-chinese)](https://marketplace.visualstudio.com/items?itemName=HybridTalentComputing.cline-chinese)
 
 </p>
+
+## 赞助商
+<img width="1695" height="370" alt="胜算云" src="https://github.com/user-attachments/assets/5098e0e5-64e0-4184-b9bf-3f44da2f1f2c" />
+
+> 🎉 Cline Chinese与胜算云达成合作啦！Cline Chinese是著名开源AI编程助手Cline的汉化版，胜算云为促进中国AI行业开源生态繁荣，赞助Cline Chinese以助力中国开发者喜爱的开源AI编程工具生态快速发展。Cline Chinese与胜算云强强联手，极速开启AI编程新时代！全球模型都可调用，Claude sonnet 4、Claude opus 4、o3（最新低价）、Gemini 2.5 pro 0605、DeepSeek v3/r1(最新版)快速调用，与亚马逊云、微软azure、Google云（GCP）三大巨头官方合作，充值折扣（充500人民币只要450人民币，官方价格，模型直连），非逆向，支付宝/微信、可发票，可试用，实名/邀请好友享更多代金券，点击此处进行注册：
+[胜算云](https://router.shengsuanyun.com/auth?from=cline-chinese&callback_url=vscode://HybridTalentComputing.cline-chinese/ssy)
+
+>注：胜算云相关问题，请扫描其[官网客服二维码](https://router.shengsuanyun.com/webp/relation-BMfLRnIZ.webp)进行咨询。
 
 ## 项目地址
 https://github.com/HybridTalentComputing/cline-chinese
@@ -55,7 +60,7 @@ Cline-Chinese已发布到VSCode插件市场，欢迎感兴趣的小伙伴们下�
 
 ### 2025.06.17（ver.3.17.11）
    1. 同步近期cline更新。
-   2. 接入胜算云Router.
+   2. 接入胜算云.
 
 ### 2025.05.19（ver.3.16.1）
    1. 同步近期cline更新。
@@ -86,7 +91,7 @@ Cline-Chinese已发布到VSCode插件市场，欢迎感兴趣的小伙伴们下�
 感兴趣的可以扫码加入微信社群，一起交流学习AI（如果二维码失效，请查看github项目中的首页中，相同位置的群二维码, 或者加入Discord频道）：
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/5e5b337f-52d2-450b-a1e1-7b9a65949e03" alt="微信群二维码" width="250" />
+  <img src="https://github.com/user-attachments/assets/56bcba28-00de-43d3-8e68-3cfcdf637298" alt="微信群二维码" width="250" />
 </div>
 
 GitHub 项目地址：https://github.com/HybridTalentComputing/cline-chinese
