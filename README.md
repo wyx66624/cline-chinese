@@ -12,7 +12,7 @@
 </p>
 
 ## 赞助商
-<img width="1695" height="370" alt="胜算云" src="https://github.com/user-attachments/assets/5098e0e5-64e0-4184-b9bf-3f44da2f1f2c" />
+<img width="1200" alt="胜算云" src="https://github.com/user-attachments/assets/5098e0e5-64e0-4184-b9bf-3f44da2f1f2c" />
 
 > 🎉 Cline Chinese与胜算云达成合作啦！Cline Chinese是著名开源AI编程助手Cline的汉化版，胜算云为促进中国AI行业开源生态繁荣，赞助Cline Chinese以助力中国开发者喜爱的开源AI编程工具生态快速发展。Cline Chinese与胜算云强强联手，极速开启AI编程新时代！全球模型都可调用，Claude sonnet 4、Claude opus 4、o3（最新低价）、Gemini 2.5 pro 0605、DeepSeek v3/r1(最新版)快速调用，与亚马逊云、微软azure、Google云（GCP）三大巨头官方合作，充值折扣（充500人民币只要450人民币，官方价格，模型直连），非逆向，支付宝/微信、可发票，可试用，实名/邀请好友享更多代金券，点击此处进行注册：
 [胜算云](https://router.shengsuanyun.com/auth?from=cline-chinese&callback_url=vscode://HybridTalentComputing.cline-chinese/ssy)
