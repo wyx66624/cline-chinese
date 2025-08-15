@@ -1,47 +1,47 @@
 ---
-title: "Smol Command"
+title: "Smol 命令"
 sidebarTitle: "/smol"
 ---
 
-`/smol` (or its alias, `/compact`) is a slash command that compresses your conversation history while preserving essential context.
+`/smol`（或其别名 `/compact`）是一个斜杠命令，压缩您的对话历史，同时保留基本上下文。
 
-Unlike `/newtask` which creates a new task, `/smol` condenses your current conversation into a comprehensive summary, freeing up context window space while allowing you to continue working in the same task.
+与创建新任务的 `/newtask` 不同，`/smol` 将您当前的对话压缩为全面的摘要，释放上下文窗口空间，同时允许您在同一任务中继续工作。
 
-Think of it like summarizing the relevant parts of a conversation while discarding the rest.
+将其想象为总结对话的相关部分，同时丢弃其余部分。
 
-#### Using the `/smol` Slash Command
+#### 使用 `/smol` 斜杠命令
 
-When your context window is getting full but you want to continue in the same task:
+当您的上下文窗口正在填满但您想在同一任务中继续时：
 
 <Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/smol.png" alt="Using the /smol slash command" />
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/smol.png" alt="使用 /smol 斜杠命令" />
 </Frame>
 
--   Type `/smol` (or its alias `/compact`) in the chat input field
--   Cline will analyze your conversation and create a detailed summary that preserves essential information
--   You'll have a chance to review this summary and provide feedback if needed
--   Once accepted, the detailed conversation history is replaced with this condensed version
+-   在聊天输入字段中输入 `/smol`（或其别名 `/compact`）
+-   Cline 将分析您的对话并创建一个保留基本信息的详细摘要
+-   您将有机会审查此摘要并在需要时提供反馈
+-   一旦接受，详细的对话历史将被此压缩版本替换
 
-#### Example
+#### 示例
 
-I use `/smol` when I'm deep into a complex debugging session and need to continue in the same task. After exploring multiple approaches and examining several files, my context window gets crowded with all the back-and-forth.
+当我在复杂的调试会话中深入并需要在同一任务中继续时，我使用 `/smol`。在探索多种方法并检查几个文件后，我的上下文窗口被所有的来回交流填满了。
 
-By using `/smol`, I can condense all that exploration into a concise summary that captures what we've learned, which files we've examined, and what approaches we've tried. This frees up space to continue the debugging without losing the insights we've gained.
+通过使用 `/smol`，我可以将所有探索压缩为简洁的摘要，捕捉我们学到的内容、我们检查的文件以及我们尝试的方法。这释放了空间来继续调试，而不会失去我们获得的见解。
 
-The key difference from `/newtask` is that I'm staying in the same conversation flow rather than creating a separate task. This is particularly useful when I'm in the middle of something and don't want to context switch.
+与 `/newtask` 的关键区别是我保持在相同的对话流程中，而不是创建单独的任务。这在我处于某事中间且不想切换上下文时特别有用。
 
-#### Inspiration
+#### 灵感
 
-Here are powerful ways I use `/smol` in my workflow:
+以下是我在工作流程中使用 `/smol` 的强大方式：
 
--   During lengthy brainstorming sessions, I use `/smol` to condense our exploration before implementing the chosen solution, all within the same task.
--   When debugging complex issues that involve multiple file checks and test runs, I use `/smol` to summarize what we've learned while continuing the debugging process.
--   For iterative development, I use `/smol` after completing each feature to compress the implementation details while keeping the key decisions and approaches accessible.
--   When gathering requirements from multiple sources, I use `/smol` to distill the essential needs into a concise summary before moving to the design phase.
+-   在长时间的头脑风暴会议期间，我使用 `/smol` 在实施选定解决方案之前压缩我们的探索，都在同一任务中。
+-   当调试涉及多个文件检查和测试运行的复杂问题时，我使用 `/smol` 总结我们学到的内容，同时继续调试过程。
+-   对于迭代开发，我在完成每个功能后使用 `/smol` 压缩实施细节，同时保持关键决策和方法可访问。
+-   当从多个来源收集需求时，我在进入设计阶段之前使用 `/smol` 将基本需求提炼为简洁摘要。
 
 #### Smol vs Newtask
 
-People often ask me when to use `/smol` vs `/newtask`. Frankly, it's a matter of personal preference and what you're trying to achieve. Here are some guidelines:
+人们经常问我什么时候使用 `/smol` vs `/newtask`。坦率地说，这是个人偏好和您试图实现的目标的问题。以下是一些指导原则：
 
--   Use `/smol` when you're in the middle of something and want to keep going in the same task. It's perfect when you're deep in a debugging flow or brainstorming session and don't want to break your momentum. The downside? Once you compress your history, you can't get those detailed conversations back.
--   Use `/newtask` when you're at a logical transition point and want to start fresh. It's great for moving from planning to implementation, or when you want to preserve your full conversation history (since it creates a new task rather than overwriting your current one).
+-   当您处于某事中间并想在同一任务中继续时，使用 `/smol`。当您深入调试流程或头脑风暴会议且不想打破您的势头时，这是完美的。缺点？一旦您压缩历史，您就无法恢复那些详细的对话。
+-   当您处于逻辑转换点并想重新开始时，使用 `/newtask`。它非常适合从计划转向实施，或者当您想保留完整的对话历史时（因为它创建新任务而不是覆盖您当前的任务）。

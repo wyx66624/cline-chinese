@@ -1,40 +1,40 @@
 ---
-title: "Folder Mentions"
-sidebarTitle: "Folder Mentions"
+title: "文件夹提及"
+sidebarTitle: "文件夹提及"
 ---
 
-Folder mentions let you bring entire directories into your conversation with Cline. Just type `@/` followed by a folder path ending with a slash, and Cline gets access to the folder structure and its contents.
+文件夹提及让您可以将整个目录引入与 Cline 的对话中。只需输入 `@/` 后跟以斜杠结尾的文件夹路径，Cline 就能访问文件夹结构及其内容。
 
-When you type `@/` in chat, Cline shows your workspace files and folders. Navigate to the folder you want, make sure to include the trailing slash, and Cline will see the folder's structure and contents.
+当您在聊天中输入 `@/` 时，Cline 会显示您的工作区文件和文件夹。导航到您想要的文件夹，确保包含尾随斜杠，Cline 将看到文件夹的结构和内容。
 
-I use folder mentions when I need help understanding or refactoring a whole section of my codebase. Instead of referencing individual files one by one, I can just point to the entire directory:
-
-```
-I'm trying to understand how the authentication flow works in my app.
-Can you explain the structure and relationships between the files in @/src/auth/?
-```
-
-Cline can then see all the files in the auth directory, their contents, and how they relate to each other. This gives it the full context to explain complex interactions between multiple files.
-
-Folder mentions are also perfect for getting help with project organization. When I'm unsure if my project structure makes sense, I'll ask Cline to review it:
+当我需要帮助理解或重构代码库的整个部分时，我会使用文件夹提及。无需一个一个地引用单个文件，我可以直接指向整个目录：
 
 ```
-I'm setting up a new React project. Does this folder structure make sense? @/src/
-What would you change to make it more maintainable as the project grows?
+我正在尝试理解我的应用程序中的身份验证流程是如何工作的。
+您能解释 @/src/auth/ 中文件的结构和关系吗？
 ```
 
-Next time you're working with multiple related files, try using folder mentions instead of referencing each file individually. You'll get more comprehensive help because Cline can see the bigger picture of how everything fits together.
+然后 Cline 可以看到 auth 目录中的所有文件、它们的内容以及它们如何相互关联。这给它提供了解释多个文件之间复杂交互的完整上下文。
 
-## How It Works Under the Hood
+文件夹提及也非常适合获得项目组织的帮助。当我不确定我的项目结构是否有意义时，我会要求 Cline 审查它：
 
-When you use a folder mention in your message, here's what happens behind the scenes:
+```
+我正在设置一个新的 React 项目。这个文件夹结构有意义吗？@/src/
+随着项目的发展，您会改变什么来使其更易维护？
+```
 
-1. When you send your message, Cline detects the `@/path/to/folder/` pattern (with trailing slash) in your text
-2. The extension resolves the folder path relative to your workspace root
-3. It calls `fs.readdir()` to get a list of all files and subdirectories in that folder
-4. For each file in the directory, it checks if it's binary or text-based
-5. For text files, it extracts the complete content
-6. The folder structure and file contents are appended to your message in a structured format:
+下次您处理多个相关文件时，尝试使用文件夹提及而不是单独引用每个文件。您将获得更全面的帮助，因为 Cline 可以看到一切如何组合在一起的更大图景。
+
+## 幕后工作原理
+
+当您在消息中使用文件夹提及时，幕后会发生以下情况：
+
+1. 当您发送消息时，Cline 检测文本中的 `@/path/to/folder/` 模式（带尾随斜杠）
+2. 扩展解析相对于工作区根目录的文件夹路径
+3. 它调用 `fs.readdir()` 来获取该文件夹中所有文件和子目录的列表
+4. 对于目录中的每个文件，它检查是二进制还是基于文本
+5. 对于文本文件，它提取完整内容
+6. 文件夹结构和文件内容以结构化格式附加到您的消息中：
 
     ```
     <folder_content path="path/to/folder">
@@ -43,16 +43,16 @@ When you use a folder mention in your message, here's what happens behind the sc
     └── subfolder/
 
     <file_content path="path/to/folder/file1.txt">
-    [File content]
+    [文件内容]
     </file_content>
 
     <file_content path="path/to/folder/file2.js">
-    [File content]
+    [文件内容]
     </file_content>
     </folder_content>
     ```
 
-7. This enhanced message with the embedded folder structure and file contents is sent to the AI
-8. The AI can now "see" both the directory structure and the content of files within that directory
+7. 这个包含嵌入文件夹结构和文件内容的增强消息被发送给 AI
+8. AI 现在可以"看到"目录结构和该目录内文件的内容
 
-This process happens automatically whenever you use a folder mention, giving the AI a comprehensive view of your project structure and file contents.
+每当您使用文件夹提及时，这个过程都会自动发生，给 AI 提供项目结构和文件内容的全面视图。

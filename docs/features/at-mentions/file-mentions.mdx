@@ -1,45 +1,45 @@
 ---
-title: "File Mentions"
-sidebarTitle: "File Mentions"
+title: "文件提及"
+sidebarTitle: "文件提及"
 ---
 
-File mentions let you pull any file from your workspace directly into your conversation with Cline. No more copying and pasting code snippets - just type `@/` and point to the file you need help with.
+文件提及让您可以将工作区中的任何文件直接拉入与 Cline 的对话中。无需再复制和粘贴代码片段 - 只需输入 `@/` 并指向您需要帮助的文件。
 
-When you type `@/` in the chat, Cline shows your workspace files. Navigate through folders, select the file you want, and it's instantly available to Cline - complete with all imports, related functions, and surrounding context.
+当您在聊天中输入 `@/` 时，Cline 会显示您的工作区文件。浏览文件夹，选择您想要的文件，它立即对 Cline 可用 - 包括所有导入、相关函数和周围上下文。
 
-I use file mentions constantly when debugging. Instead of trying to figure out which parts of my code to copy over, I just reference the file directly:
+我在调试时经常使用文件提及。无需尝试弄清楚要复制代码的哪些部分，我只需直接引用文件：
 
 ```
-I'm getting this error when my form submits: @terminal
+当我的表单提交时遇到这个错误：@terminal
 
-Here's my component: @/src/components/ContactForm.jsx
+这是我的组件：@/src/components/ContactForm.jsx
 
-And the API endpoint: @/src/api/contact.js
+还有 API 端点：@/src/api/contact.js
 
-What am I missing?
+我遗漏了什么？
 ```
 
-This gives Cline everything it needs - the error message, the component code, and the API endpoint - all without me having to copy anything. Cline can see imports, dependencies, and all the surrounding context that might be causing the issue.
+这给 Cline 提供了它需要的一切 - 错误消息、组件代码和 API 端点 - 而无需我复制任何内容。Cline 可以看到导入、依赖项和可能导致问题的所有周围上下文。
 
-File mentions shine when you're dealing with complex bugs that span multiple files. Before, I'd have to carefully copy each relevant file, making sure I didn't miss anything important. Now I just reference each file with `@/` and Cline gets the complete picture.
+当您处理跨越多个文件的复杂错误时，文件提及会大放异彩。以前，我必须仔细复制每个相关文件，确保没有遗漏任何重要内容。现在我只需用 `@/` 引用每个文件，Cline 就能获得完整的图景。
 
-Next time you're stuck on a problem, try using file mentions instead of copying code. You'll save time and get better answers because Cline has all the context it needs.
+下次您遇到问题时，尝试使用文件提及而不是复制代码。您将节省时间并获得更好的答案，因为 Cline 拥有它需要的所有上下文。
 
-## How It Works Under the Hood
+## 幕后工作原理
 
-When you use a file mention in your message, here's what happens behind the scenes:
+当您在消息中使用文件提及时，幕后会发生以下情况：
 
-1. When you send your message, Cline detects the `@/path/to/file` pattern in your text
-2. The extension resolves the file path relative to your workspace root
-3. It checks if the file is binary (like an image) or text-based
-4. For text files, it reads the complete file content
-5. The file content is appended to your message in a structured format:
+1. 当您发送消息时，Cline 检测文本中的 `@/path/to/file` 模式
+2. 扩展解析相对于工作区根目录的文件路径
+3. 检查文件是二进制（如图像）还是基于文本
+4. 对于文本文件，它读取完整的文件内容
+5. 文件内容以结构化格式附加到您的消息中：
     ```
     <file_content path="path/to/file">
-    [Complete file content]
+    [完整文件内容]
     </file_content>
     ```
-6. This enhanced message with the embedded file content is sent to the AI
-7. The AI can now "see" the complete file content as if you had copied and pasted it
+6. 这个包含嵌入文件内容的增强消息被发送给 AI
+7. AI 现在可以"看到"完整的文件内容，就像您复制和粘贴它一样
 
-This seamless process happens automatically whenever you use a file mention, giving the AI full context without you having to manually copy anything.
+每当您使用文件提及时，这个无缝过程都会自动发生，给 AI 提供完整的上下文，而您无需手动复制任何内容。

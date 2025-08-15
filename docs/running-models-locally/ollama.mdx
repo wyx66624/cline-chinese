@@ -1,31 +1,31 @@
 ---
 title: "Ollama"
-description: "A quick guide to setting up Ollama for local AI model execution with Cline."
+description: "使用 Cline 设置 Ollama 进行本地 AI 模型执行的快速指南。"
 ---
 
-### 📋 Prerequisites
+### 📋 先决条件
 
--   Windows, macOS, or Linux computer
--   Cline installed in VS Code
+-   Windows、macOS 或 Linux 计算机
+-   在 VS Code 中安装 Cline
 
-### 🚀 Setup Steps
+### 🚀 设置步骤
 
-#### 1. Install Ollama
+#### 1. 安装 Ollama
 
--   Visit [ollama.com](https://ollama.com)
--   Download and install for your operating system
+-   访问 [ollama.com](https://ollama.com)
+-   为您的操作系统下载并安装
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(2)%20(1)%20(1).png"
-		alt="Ollama download page"
+		alt="Ollama 下载页面"
 	/>
 </Frame>
 
-#### 2. Choose and Download a Model
+#### 2. 选择并下载模型
 
--   Browse models at [ollama.com/search](https://ollama.com/search)
--   Select model and copy command:
+-   在 [ollama.com/search](https://ollama.com/search) 浏览模型
+-   选择模型并复制命令：
 
     ```bash
     ollama run [model-name]
@@ -34,13 +34,13 @@ description: "A quick guide to setting up Ollama for local AI model execution wi
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/ollama-model-grab%20(2).gif"
-		alt="Selecting a model in Ollama"
+		alt="在 Ollama 中选择模型"
 	/>
 </Frame>
 
--   Open your Terminal and run the command:
+-   打开您的终端并运行命令：
 
-    -   Example:
+    -   示例：
 
         ```bash
         ollama run llama2
@@ -49,40 +49,40 @@ description: "A quick guide to setting up Ollama for local AI model execution wi
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/starting-ollama-terminal%20(2).gif"
-		alt="Running Ollama in terminal"
+		alt="在终端中运行 Ollama"
 	/>
 </Frame>
 
-**✨ Your model is now ready to use within Cline!**
+**✨ 您的模型现在可以在 Cline 中使用了！**
 
-#### 3. Configure Cline
+#### 3. 配置 Cline
 
-1. Open VS Code
-2. Click Cline settings icon
-3. Select "Ollama" as API provider
-4. Enter configuration:
-    - Base URL: `http://localhost:11434/` (default value, can be left as is)
-    - Select the model from your available options
+1. 打开 VS Code
+2. 点击 Cline 设置图标
+3. 选择"Ollama"作为 API 提供商
+4. 输入配置：
+    - 基础 URL：`http://localhost:11434/`（默认值，可以保持原样）
+    - 从您的可用选项中选择模型
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/selecting-ollama-model-cline%20(3).gif"
-		alt="Configuring Cline with Ollama"
+		alt="使用 Ollama 配置 Cline"
 	/>
 </Frame>
 
-### ⚠️ Important Notes
+### ⚠️ 重要注意事项
 
--   Start Ollama before using with Cline
--   Keep Ollama running in background
--   First model download may take several minutes
+-   在使用 Cline 之前启动 Ollama
+-   在后台保持 Ollama 运行
+-   首次模型下载可能需要几分钟
 
-### 🔧 Troubleshooting
+### 🔧 故障排除
 
-If Cline can't connect to Ollama:
+如果 Cline 无法连接到 Ollama：
 
-1. Verify Ollama is running
-2. Check base URL is correct
-3. Ensure model is downloaded
+1. 验证 Ollama 正在运行
+2. 检查基础 URL 是否正确
+3. 确保模型已下载
 
-Need more info? Read the [Ollama Docs](https://github.com/ollama/ollama/blob/main/docs/api.md).
+需要更多信息？阅读 [Ollama 文档](https://github.com/ollama/ollama/blob/main/docs/api.md)。

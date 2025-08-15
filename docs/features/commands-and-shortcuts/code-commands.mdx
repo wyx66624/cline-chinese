@@ -1,129 +1,129 @@
 ---
-title: "Code Commands"
-sidebarTitle: "Code Commands"
+title: "代码命令"
+sidebarTitle: "代码命令"
 ---
 
-Cline's code commands bring AI assistance directly into your editor, letting you interact with your code without leaving your workflow. With a simple right-click, you can add code to Cline, and through the lightbulb menu, you can fix errors, get explanations, or improve your code.
+Cline 的代码命令将 AI 辅助直接带入您的编辑器，让您无需离开工作流程即可与代码交互。通过简单的右键点击，您可以将代码添加到 Cline，通过灯泡菜单，您可以修复错误、获得解释或改进代码。
 
-## Available Code Commands
+## 可用的代码命令
 
-When you interact with code in your editor, you can access Cline commands in two ways:
+当您在编辑器中与代码交互时，您可以通过两种方式访问 Cline 命令：
 
-### Right-Click Context Menu
+### 右键上下文菜单
 
-When you right-click on selected code, you'll see:
-
-<Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/code-commands.png" alt="Right Click Menu" />
-</Frame>
-
-#### Add to Cline
-
-The "Add to Cline" command sends your selected code to the Cline chat panel. This is perfect for:
-
--   Asking questions about specific code snippets
--   Requesting improvements or optimizations
--   Getting explanations of complex logic
-
-When you use this command, Cline automatically includes:
-
--   The file path (as a file mention)
--   The selected code with proper formatting
--   The programming language for accurate syntax highlighting
-
-### Lightbulb Menu (Code Actions)
-
-When you see a lightbulb icon in your editor, click it to access these Cline commands:
+当您右键点击选中的代码时，您会看到：
 
 <Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/lightbulb-actions.png" alt="Lightbulb Menu" />
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/code-commands.png" alt="右键菜单" />
 </Frame>
 
-#### Fix with Cline
+#### 添加到 Cline
 
-The "Fix with Cline" command appears in the lightbulb menu when your code has errors or warnings. This command:
+"添加到 Cline"命令将您选中的代码发送到 Cline 聊天面板。这非常适合：
 
-1. Captures the selected code
-2. Identifies the errors or warnings from VSCode's diagnostics
-3. Sends both to Cline with a request to fix the issues
-4. Provides a solution that addresses the specific problems
+-   询问特定代码片段的问题
+-   请求改进或优化
+-   获得复杂逻辑的解释
 
-This is incredibly useful for quickly resolving syntax errors, linter warnings, or type issues without having to manually describe the problem.
+当您使用此命令时，Cline 自动包含：
 
-#### Explain with Cline
+-   文件路径（作为文件提及）
+-   格式正确的选中代码
+-   编程语言以进行准确的语法高亮
 
-The "Explain with Cline" command helps you understand complex code. When you select code and use this command from the lightbulb menu, Cline:
+### 灯泡菜单（代码操作）
 
-1. Analyzes the selected code
-2. Provides a clear explanation of what the code does
-3. Breaks down complex logic into understandable parts
-4. Highlights important patterns or techniques used
+当您在编辑器中看到灯泡图标时，点击它以访问这些 Cline 命令：
 
-#### Improve with Cline
+<Frame>
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/lightbulb-actions.png" alt="灯泡菜单" />
+</Frame>
 
-The "Improve with Cline" command helps you enhance your code. When you select code and use this command from the lightbulb menu, Cline:
+#### 使用 Cline 修复
 
-1. Analyzes the selected code for potential improvements
-2. Suggests optimizations, refactorings, or better practices
-3. Explains the reasoning behind the suggested changes
-4. Provides improved code that maintains the original functionality
+当您的代码有错误或警告时，"使用 Cline 修复"命令会出现在灯泡菜单中。此命令：
 
-## How to Use Code Commands
+1. 捕获选中的代码
+2. 识别来自 VSCode 诊断的错误或警告
+3. 将两者发送给 Cline，请求修复问题
+4. 提供解决特定问题的解决方案
 
-Using Cline's code commands is simple:
+这对于快速解决语法错误、linter 警告或类型问题非常有用，而无需手动描述问题。
 
-### For Right-Click Commands:
+#### 使用 Cline 解释
 
-1. Select the code you want to work with
-2. Right-click to open the context menu
-3. Choose "Add to Cline"
-4. View the result in the Cline chat panel
+"使用 Cline 解释"命令帮助您理解复杂代码。当您选择代码并从灯泡菜单使用此命令时，Cline：
 
-### For Lightbulb Menu Commands:
+1. 分析选中的代码
+2. 提供代码功能的清晰解释
+3. 将复杂逻辑分解为可理解的部分
+4. 突出显示使用的重要模式或技术
 
-1. Select the code you want to work with
-2. Look for the lightbulb icon that appears in the editor gutter
-3. Click the lightbulb to see available actions
-4. Choose the appropriate Cline command (Fix, Explain, or Improve)
-5. View the result in the Cline chat panel
+#### 使用 Cline 改进
 
-After using any command, you can:
+"使用 Cline 改进"命令帮助您增强代码。当您选择代码并从灯泡菜单使用此命令时，Cline：
 
--   Ask follow-up questions
--   Request modifications to the solution
--   Apply the changes back to your code
+1. 分析选中的代码以寻找潜在改进
+2. 建议优化、重构或更好的实践
+3. 解释建议更改背后的原因
+4. 提供保持原始功能的改进代码
 
-## How It Works Under the Hood
+## 如何使用代码命令
 
-When you use a code command, here's what happens behind the scenes:
+使用 Cline 的代码命令很简单：
 
-1. **Code Selection**: The extension captures your selected code and its context
-2. **Metadata Collection**: Cline gathers important metadata:
+### 对于右键命令：
 
-    - File path and name
-    - Programming language
-    - Any associated diagnostics (errors/warnings)
-    - Surrounding code context when relevant
+1. 选择您想要处理的代码
+2. 右键点击打开上下文菜单
+3. 选择"添加到 Cline"
+4. 在 Cline 聊天面板中查看结果
 
-3. **Command Processing**:
+### 对于灯泡菜单命令：
 
-    - For "Add to Cline," the code is formatted and sent to the chat panel
-    - For "Fix with Cline," the code and diagnostics are analyzed and a fix is generated
-    - For "Explain with Cline," the code is analyzed to provide a clear explanation
-    - For "Improve with Cline," the code is analyzed for potential optimizations and improvements
+1. 选择您想要处理的代码
+2. 查找出现在编辑器装订线中的灯泡图标
+3. 点击灯泡查看可用操作
+4. 选择适当的 Cline 命令（修复、解释或改进）
+5. 在 Cline 聊天面板中查看结果
 
-4. **Integration with Chat**: The results appear in the Cline chat panel, where you can:
-    - See the AI's response
-    - Ask follow-up questions
-    - Apply suggested changes
+使用任何命令后，您可以：
 
-This seamless integration between your editor and Cline's AI capabilities makes it easy to get assistance without disrupting your coding flow.
+-   询问后续问题
+-   请求修改解决方案
+-   将更改应用回您的代码
 
-## Tips for Effective Use
+## 幕后工作原理
 
--   **Select complete logical units**: When possible, select entire functions, classes, or modules to give Cline complete context
--   **Include imports**: For language-specific help, include relevant imports so Cline understands dependencies
--   **Combine with @ mentions**: For complex issues, use code commands along with file or problem mentions for more context
--   **Use keyboard shortcuts**: Speed up your workflow by [assigning keyboard shortcuts](/features/commands-and-shortcuts/keyboard-shortcuts) to common code commands
+当您使用代码命令时，幕后会发生以下情况：
 
-Next time you're struggling with a piece of code, try using Cline's code commands instead of switching to a separate chat interface. You'll be amazed at how much more efficient your workflow becomes when AI assistance is integrated directly into your editor.
+1. **代码选择**：扩展捕获您选中的代码及其上下文
+2. **元数据收集**：Cline 收集重要元数据：
+
+    - 文件路径和名称
+    - 编程语言
+    - 任何相关的诊断（错误/警告）
+    - 相关时的周围代码上下文
+
+3. **命令处理**：
+
+    - 对于"添加到 Cline"，代码被格式化并发送到聊天面板
+    - 对于"使用 Cline 修复"，分析代码和诊断并生成修复
+    - 对于"使用 Cline 解释"，分析代码以提供清晰解释
+    - 对于"使用 Cline 改进"，分析代码以寻找潜在优化和改进
+
+4. **与聊天集成**：结果出现在 Cline 聊天面板中，您可以在其中：
+    - 查看 AI 的响应
+    - 询问后续问题
+    - 应用建议的更改
+
+您的编辑器和 Cline 的 AI 功能之间的这种无缝集成使得在不中断编码流程的情况下获得帮助变得容易。
+
+## 有效使用技巧
+
+-   **选择完整的逻辑单元**：尽可能选择整个函数、类或模块以给 Cline 完整上下文
+-   **包含导入**：对于特定语言的帮助，包含相关导入以便 Cline 理解依赖关系
+-   **与 @ 提及结合**：对于复杂问题，使用代码命令以及文件或问题提及以获得更多上下文
+-   **使用键盘快捷键**：通过[为常用代码命令分配键盘快捷键](/features/commands-and-shortcuts/keyboard-shortcuts)来加速您的工作流程
+
+下次您在处理代码时遇到困难，尝试使用 Cline 的代码命令而不是切换到单独的聊天界面。当 AI 辅助直接集成到您的编辑器中时，您会对工作流程变得多么高效感到惊讶。

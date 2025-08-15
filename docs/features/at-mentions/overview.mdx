@@ -1,118 +1,112 @@
 ---
-title: "@ Mentions Overview"
-sidebarTitle: "Overview"
+title="@ 提及概述"
+sidebarTitle: "概述"
 ---
 
-@ mentions are one of Cline's most powerful features, letting you seamlessly bring external context into your conversations. Instead of copying and pasting code, error messages, or documentation, you can simply reference them with an @ symbol.
+@ 提及是 Cline 最强大的功能之一，让您可以将外部上下文无缝地引入对话中。无需复制和粘贴代码、错误消息或文档，您只需用 @ 符号引用它们即可。
 
 <Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/at-mentions.png" alt="@ Mentions Overview" />
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/at-mentions.png" alt="@ 提及概述" />
 </Frame>
 
-When you type `@` in the chat input, Cline shows a menu of available mention types. These mentions let you reference files, folders, problems, terminal output, git changes, and even web content directly in your conversations.
+当您在聊天输入中输入 `@` 时，Cline 会显示可用提及类型的菜单。这些提及让您可以直接在对话中引用文件、文件夹、问题、终端输出、git 更改，甚至网络内容。
 
-## Available @ Mentions
+## 可用的 @ 提及
 
-Cline supports several types of @ mentions, each designed to bring different kinds of context into your conversations:
+Cline 支持几种类型的 @ 提及，每种都旨在将不同类型的上下文引入您的对话中：
 
 <Columns cols={2}>
-  <Card title="File Mentions" icon="file" href="/features/at-mentions/file-mentions">
-    Reference any file in your workspace with `@/path/to/file`. Cline sees the complete file content, including imports, related
-    functions, and surrounding context.
+  <Card title="文件提及" icon="file" href="/features/at-mentions/file-mentions">
+    使用 `@/path/to/file` 引用工作区中的任何文件。Cline 看到完整的文件内容，包括导入、相关函数和周围上下文。
   </Card>
 
 {" "}
 
-<Card title="Folder Mentions" icon="folder" href="/features/at-mentions/folder-mentions">
-	Reference entire directories with `@/path/to/folder/`. Cline sees the folder structure and all file contents, perfect for
-	understanding complex interactions between multiple files.
+<Card title="文件夹提及" icon="folder" href="/features/at-mentions/folder-mentions">
+	使用 `@/path/to/folder/` 引用整个目录。Cline 看到文件夹结构和所有文件内容，非常适合理解多个文件之间的复杂交互。
 </Card>
 
 {" "}
 
-<Card title="Problem Mentions" icon="triangle-exclamation" href="/features/at-mentions/problem-mentions">
-	Use `@problems` to show Cline all the errors and warnings in your workspace. Cline sees the complete list with file locations
-	and error messages.
+<Card title="问题提及" icon="triangle-exclamation" href="/features/at-mentions/problem-mentions">
+	使用 `@problems` 向 Cline 显示工作区中的所有错误和警告。Cline 看到带有文件位置和错误消息的完整列表。
 </Card>
 
 {" "}
 
-<Card title="Terminal Mentions" icon="terminal" href="/features/at-mentions/terminal-mentions">
-	Use `@terminal` to share your recent terminal output. Cline sees the complete output with formatting preserved, perfect for
-	debugging build errors or test failures.
+<Card title="终端提及" icon="terminal" href="/features/at-mentions/terminal-mentions">
+	使用 `@terminal` 共享您最近的终端输出。Cline 看到格式保持完整的输出，非常适合调试构建错误或测试失败。
 </Card>
 
 {" "}
 
-<Card title="Git Mentions" icon="code-branch" href="/features/at-mentions/git-mentions">
-	Reference uncommitted changes with `@git-changes` or specific commits with `@[commit-hash]`. Cline sees the complete diff,
-	commit message, and other relevant information.
+<Card title="Git 提及" icon="code-branch" href="/features/at-mentions/git-mentions">
+	使用 `@git-changes` 引用未提交的更改，或使用 `@[commit-hash]` 引用特定提交。Cline 看到完整的差异、提交消息和其他相关信息。
 </Card>
 
-  <Card title="URL Mentions" icon="globe" href="/features/at-mentions/url-mentions">
-    Reference web content with `@https://example.com`. Cline fetches and sees the complete webpage content, perfect for
-    referencing documentation or GitHub issues.
+  <Card title="URL 提及" icon="globe" href="/features/at-mentions/url-mentions">
+    使用 `@https://example.com` 引用网络内容。Cline 获取并看到完整的网页内容，非常适合引用文档或 GitHub 问题。
   </Card>
 </Columns>
 
-## Why @ Mentions Matter
+## 为什么 @ 提及很重要
 
-@ mentions transform how you interact with Cline by:
+@ 提及通过以下方式改变您与 Cline 的交互：
 
-1. **Eliminating copy-paste**: No more copying and pasting code, error messages, or terminal output. Just reference them directly.
+1. **消除复制粘贴**：不再需要复制和粘贴代码、错误消息或终端输出。只需直接引用它们。
 
-2. **Preserving context**: Cline sees the complete context, including imports, related functions, and surrounding code that might be relevant.
+2. **保持上下文**：Cline 看到完整的上下文，包括导入、相关函数和可能相关的周围代码。
 
-3. **Maintaining formatting**: Terminal output, error messages, and web content keep their formatting, making them easier to understand.
+3. **保持格式**：终端输出、错误消息和网络内容保持其格式，使它们更容易理解。
 
-4. **Enabling complex workflows**: Combine multiple @ mentions to give Cline a complete picture of your problem:
-
-    ```
-    I'm getting these errors: @problems
-
-    Here's my component: @/src/components/Form.jsx
-    And the API endpoint: @/src/api/users.js
-
-    The error happens when I submit: @terminal
-
-    I think this commit might have caused it: @a1b2c3d
-    ```
-
-## Getting Started
-
-To use @ mentions:
-
-1. Type `@` in the chat input
-2. Select the type of mention from the menu or continue typing
-3. For files and folders, navigate through your workspace structure
-4. Send your message as usual
-
-Cline will automatically process the mentions and include the referenced content in the context sent to the AI.
-
-Try using @ mentions in your next conversation with Cline - you'll be amazed at how much more efficient and effective your interactions become when you can seamlessly bring in external context.
-
-## How It Works Under the Hood
-
-When you use @ mentions in your messages, there's a sophisticated process happening behind the scenes:
-
-1. **Detection**: When you send a message, Cline scans the text for @ mention patterns using regular expressions
-2. **Processing**: For each detected mention, Cline:
-    - Determines the mention type (file, folder, problems, terminal, git, URL)
-    - Fetches the relevant content (file contents, terminal output, etc.)
-    - Formats the content appropriately
-3. **Enhancement**: The original message is enhanced with structured data:
+4. **启用复杂工作流程**：组合多个 @ 提及以给 Cline 提供问题的完整图景：
 
     ```
-    Your original message with @/path/to/file
+    我遇到这些错误：@problems
+
+    这是我的组件：@/src/components/Form.jsx
+    还有 API 端点：@/src/api/users.js
+
+    错误发生在提交时：@terminal
+
+    我认为这个提交可能导致了它：@a1b2c3d
+    ```
+
+## 开始使用
+
+要使用 @ 提及：
+
+1. 在聊天输入中输入 `@`
+2. 从菜单中选择提及类型或继续输入
+3. 对于文件和文件夹，浏览您的工作区结构
+4. 像往常一样发送消息
+
+Cline 将自动处理提及并将引用的内容包含在发送给 AI 的上下文中。
+
+在您与 Cline 的下一次对话中尝试使用 @ 提及 - 当您可以无缝地引入外部上下文时，您会对交互变得多么高效和有效感到惊讶。
+
+## 幕后工作原理
+
+当您在消息中使用 @ 提及时，幕后会发生一个复杂的过程：
+
+1. **检测**：当您发送消息时，Cline 使用正则表达式扫描文本中的 @ 提及模式
+2. **处理**：对于每个检测到的提及，Cline：
+    - 确定提及类型（文件、文件夹、问题、终端、git、URL）
+    - 获取相关内容（文件内容、终端输出等）
+    - 适当地格式化内容
+3. **增强**：原始消息通过结构化数据增强：
+
+    ```
+    您的原始消息与 @/path/to/file
 
     <file_content path="/path/to/file">
-    [Complete file content]
+    [完整文件内容]
     </file_content>
     ```
 
-4. **Context Inclusion**: This enhanced message with all the embedded content is sent to the AI model
-5. **Seamless Response**: The AI can now "see" all the referenced content as if you had manually copied and pasted it
+4. **上下文包含**：这个包含所有嵌入内容的增强消息被发送给 AI 模型
+5. **无缝响应**：AI 现在可以"看到"所有引用的内容，就像您手动复制和粘贴它们一样
 
-This entire process happens automatically and seamlessly whenever you use @ mentions, giving the AI complete context without you having to manually copy anything.
+每当您使用 @ 提及时，这整个过程都会自动和无缝地发生，给 AI 提供完整的上下文，而您无需手动复制任何内容。
 
-Each type of @ mention has its own specific implementation details, which you can find in their respective documentation pages.
+每种类型的 @ 提及都有其特定的实施细节，您可以在各自的文档页面中找到。

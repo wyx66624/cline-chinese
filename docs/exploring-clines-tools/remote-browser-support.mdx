@@ -1,114 +1,114 @@
 ---
-title: "Remote Browser Support"
-description: "Remote browser support allows Cline to utilize a remote Chrome instance, leveraging authentication tokens and session cookies relevant to certain web development test cases."
+title: "远程浏览器支持"
+description: "远程浏览器支持允许 Cline 利用远程 Chrome 实例，利用与某些 Web 开发测试用例相关的身份验证令牌和会话 cookie。"
 icon: globe-pointer
 ---
 
-The Remote Browser feature in Cline allows the AI assistant to interact with web content directly through a controlled browser instance. This enables several powerful capabilities:
+Cline 中的远程浏览器功能允许 AI 助手通过受控的浏览器实例直接与 Web 内容交互。这实现了几个强大的功能：
 
--   Viewing and interacting with websites
--   Testing locally running web applications
--   Monitoring console logs and errors
--   Performing browser actions like clicking, typing, and scrolling
+-   查看和与网站交互
+-   测试本地运行的 Web 应用程序
+-   监控控制台日志和错误
+-   执行浏览器操作，如点击、输入和滚动
 
-## Remote Browser in Cline
+## Cline 中的远程浏览器
 
-### What is Remote Browser?
+### 什么是远程浏览器？
 
-Remote Browser allows Cline to view and interact with websites directly. This feature enables Cline to:
+远程浏览器允许 Cline 直接查看和与网站交互。此功能使 Cline 能够：
 
--   Visit websites and view their content
--   Test your locally running web applications
--   Fill out forms and click on elements
--   Capture screenshots of what it sees
--   Scroll through pages to see more content
+-   访问网站并查看其内容
+-   测试您本地运行的 Web 应用程序
+-   填写表单并点击元素
+-   捕获所看到内容的截图
+-   滚动页面以查看更多内容
 
-### How to Use Remote Browser
+### 如何使用远程浏览器
 
-#### Basic Commands
+#### 基本命令
 
-You can ask Cline to use the browser with simple instructions:
+您可以通过简单指令要求 Cline 使用浏览器：
 
--   **Open a website**: "Use the browser to check the website at [https://example.com](https://example.com/)"
--   **Click on elements**: "Click the login button"
--   **Type text**: "Type 'Hello world' in the search box"
--   **Scroll the page**: "Scroll down to see more content"
--   **Close the browser**: "Close the browser now"
+-   **打开网站**："使用浏览器检查 [https://example.com](https://example.com/) 的网站"
+-   **点击元素**："点击登录按钮"
+-   **输入文本**："在搜索框中输入'Hello world'"
+-   **滚动页面**："向下滚动以查看更多内容"
+-   **关闭浏览器**："现在关闭浏览器"
 
-#### Example Workflows
+#### 示例工作流程
 
-**Testing a Web Application:**
-
-```javascript
-Can you start my React app with "npm start" and then check if it's working properly at http://localhost:3000?
-```
-
-**Analyzing a Website:**
+**测试 Web 应用程序：**
 
 ```javascript
-Can you visit https://example.com and tell me what you think about its design and layout?
+您能使用"npm start"启动我的 React 应用程序，然后检查它在 http://localhost:3000 是否正常工作吗？
 ```
 
-**Filling Out a Form:**
+**分析网站：**
 
 ```javascript
-Please go to https://example.com/contact, fill out the contact form with some test data, and submit it.
+您能访问 https://example.com 并告诉我您对其设计和布局的看法吗？
 ```
 
-### Important Things to Know
-
-#### One Browser at a Time
-
-Cline can only use one browser at a time. If you want to visit a different website, you can either:
-
--   Ask Cline to navigate to a new URL within the same browser session
--   Ask Cline to close the current browser and open a new one
-
-#### Browser Must Be Closed Before Using Other Tools
-
-If you want Cline to edit files or run commands after using the browser, you must first ask it to close the browser:
+**填写表单：**
 
 ```javascript
-Close the browser and then update the CSS file to fix the alignment issue we saw.
+请访问 https://example.com/contact，用一些测试数据填写联系表单，然后提交它。
 ```
 
-#### What Cline Sees
+### 重要须知
 
-The browser has a fixed viewport size (900x600 pixels by default), similar to a small laptop screen. Cline will share screenshots after each action so you can see exactly what it sees.
+#### 一次只能使用一个浏览器
 
-#### Console Logs
+Cline 一次只能使用一个浏览器。如果您想访问不同的网站，您可以：
 
-Cline captures browser console logs, which can be helpful for debugging web applications. These logs are included with each screenshot.
+-   要求 Cline 在同一浏览器会话中导航到新的 URL
+-   要求 Cline 关闭当前浏览器并打开一个新的
 
-### Common Use Cases
+#### 使用其他工具前必须关闭浏览器
 
--   **Web Development**: Test your websites and web applications
--   **UI/UX Review**: Get feedback on website design and usability
--   **Content Research**: Have Cline browse websites to gather information
--   **Form Testing**: Verify that forms work correctly
--   **Responsive Design Testing**: Check how websites look at different screen sizes
+如果您希望 Cline 在使用浏览器后编辑文件或运行命令，您必须首先要求它关闭浏览器：
 
-### Troubleshooting
+```javascript
+关闭浏览器，然后更新 CSS 文件以修复我们看到的对齐问题。
+```
 
--   **If a website doesn't load**: Try providing a direct URL with the http:// or https:// prefix
--   **If clicking doesn't work**: Try describing the location of the element more precisely
--   **If the browser seems stuck**: Ask Cline to close the browser and try again
+#### Cline 看到什么
 
-### Using Remote Browser with VS Code in WSL
+浏览器具有固定的视口大小（默认 900x600 像素），类似于小型笔记本电脑屏幕。Cline 将在每个操作后分享截图，以便您可以看到它确切看到的内容。
 
-When running VS Code in WSL, you'll need to configure Windows to allow WSL to connect to Chrome. Follow these steps:
+#### 控制台日志
 
-#### Open PowerShell as Administrator and Run:
+Cline 捕获浏览器控制台日志，这对于调试 Web 应用程序很有帮助。这些日志包含在每个截图中。
+
+### 常见用例
+
+-   **Web 开发**：测试您的网站和 Web 应用程序
+-   **UI/UX 审查**：获得网站设计和可用性的反馈
+-   **内容研究**：让 Cline 浏览网站以收集信息
+-   **表单测试**：验证表单是否正确工作
+-   **响应式设计测试**：检查网站在不同屏幕尺寸下的外观
+
+### 故障排除
+
+-   **如果网站不加载**：尝试提供带有 http:// 或 https:// 前缀的直接 URL
+-   **如果点击不起作用**：尝试更精确地描述元素的位置
+-   **如果浏览器似乎卡住**：要求 Cline 关闭浏览器并重试
+
+### 在 WSL 中使用 VS Code 的远程浏览器
+
+在 WSL 中运行 VS Code 时，您需要配置 Windows 以允许 WSL 连接到 Chrome。按照以下步骤操作：
+
+#### 以管理员身份打开 PowerShell 并运行：
 
 ```powershell
-# Allow WSL to connect to Chrome's debugging port
+# 允许 WSL 连接到 Chrome 的调试端口
 New-NetFirewallRule -DisplayName "WSL Chrome Debug" -Direction Inbound -LocalPort 9222 -Protocol TCP -Action Allow
 ```
 
-#### Configure Cline in VS Code:
+#### 在 VS Code 中配置 Cline：
 
-1. Open VS Code settings
-2. Search for "Cline: Chrome Executable Path"
-3. Set the value to the path of your Chrome executable (e.g., `C:\Program Files\Google\Chrome\Application\chrome.exe`)
+1. 打开 VS Code 设置
+2. 搜索"Cline: Chrome Executable Path"
+3. 将值设置为 Chrome 可执行文件的路径（例如，`C:\Program Files\Google\Chrome\Application\chrome.exe`）
 
-Cline should now be able to use the Remote Browser feature from within WSL.
+Cline 现在应该能够从 WSL 内使用远程浏览器功能。

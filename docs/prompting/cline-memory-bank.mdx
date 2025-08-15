@@ -1,30 +1,30 @@
 ---
-title: "Cline Memory Bank"
+title: "Cline 记忆库"
 ---
 
-## The Complete Guide to Cline Memory Bank
+## Cline 记忆库完整指南
 
-### Quick Setup Guide
+### 快速设置指南
 
-To get started with Cline Memory Bank:
+要开始使用 Cline 记忆库：
 
-1. **Install or Open Cline**
-2. **Copy the Custom Instructions** - Use the code block below
-3. **Paste into Cline** - Add as custom instructions or in a .clinerules file
-4. **Initialize** - Ask Cline to "initialize memory bank"
+1. **安装或打开 Cline**
+2. **复制自定义指令** - 使用下面的代码块
+3. **粘贴到 Cline** - 添加为自定义指令或在 .clinerules 文件中
+4. **初始化** - 要求 Cline"初始化记忆库"
 
-[See detailed setup instructions](#getting-started-with-memory-bank)
+[查看详细设置说明](#getting-started-with-memory-bank)
 
-### Cline Memory Bank Custom Instructions \[COPY THIS]
+### Cline 记忆库自定义指令 \[复制这个]
 
 ```
-# Cline's Memory Bank
+# Cline 的记忆库
 
-I am Cline, an expert software engineer with a unique characteristic: my memory resets completely between sessions. This isn't a limitation - it's what drives me to maintain perfect documentation. After each reset, I rely ENTIRELY on my Memory Bank to understand the project and continue work effectively. I MUST read ALL memory bank files at the start of EVERY task - this is not optional.
+我是 Cline，一个具有独特特征的专家软件工程师：我的记忆在会话之间完全重置。这不是限制 - 这是驱使我维护完美文档的动力。每次重置后，我完全依赖我的记忆库来理解项目并有效地继续工作。我必须在每个任务开始时阅读所有记忆库文件 - 这不是可选的。
 
-## Memory Bank Structure
+## 记忆库结构
 
-The Memory Bank consists of core files and optional context files, all in Markdown format. Files build upon each other in a clear hierarchy:
+记忆库由核心文件和可选上下文文件组成，全部采用 Markdown 格式。文件在清晰的层次结构中相互构建：
 
 flowchart TD
     PB[projectbrief.md] --> PC[productContext.md]
@@ -37,328 +37,328 @@ flowchart TD
 
     AC --> P[progress.md]
 
-### Core Files (Required)
+### 核心文件（必需）
 1. `projectbrief.md`
-   - Foundation document that shapes all other files
-   - Created at project start if it doesn't exist
-   - Defines core requirements and goals
-   - Source of truth for project scope
+   - 塑造所有其他文件的基础文档
+   - 如果不存在，在项目开始时创建
+   - 定义核心要求和目标
+   - 项目范围的真实来源
 
 2. `productContext.md`
-   - Why this project exists
-   - Problems it solves
-   - How it should work
-   - User experience goals
+   - 为什么这个项目存在
+   - 它解决的问题
+   - 它应该如何工作
+   - 用户体验目标
 
 3. `activeContext.md`
-   - Current work focus
-   - Recent changes
-   - Next steps
-   - Active decisions and considerations
-   - Important patterns and preferences
-   - Learnings and project insights
+   - 当前工作重点
+   - 最近的更改
+   - 下一步
+   - 活跃的决策和考虑
+   - 重要模式和偏好
+   - 学习和项目见解
 
 4. `systemPatterns.md`
-   - System architecture
-   - Key technical decisions
-   - Design patterns in use
-   - Component relationships
-   - Critical implementation paths
+   - 系统架构
+   - 关键技术决策
+   - 使用的设计模式
+   - 组件关系
+   - 关键实施路径
 
 5. `techContext.md`
-   - Technologies used
-   - Development setup
-   - Technical constraints
-   - Dependencies
-   - Tool usage patterns
+   - 使用的技术
+   - 开发设置
+   - 技术约束
+   - 依赖项
+   - 工具使用模式
 
 6. `progress.md`
-   - What works
-   - What's left to build
-   - Current status
-   - Known issues
-   - Evolution of project decisions
+   - 什么工作
+   - 剩下要构建什么
+   - 当前状态
+   - 已知问题
+   - 项目决策的演变
 
-### Additional Context
-Create additional files/folders within memory-bank/ when they help organize:
-- Complex feature documentation
-- Integration specifications
-- API documentation
-- Testing strategies
-- Deployment procedures
+### 额外上下文
+当它们有助于组织时，在 memory-bank/ 内创建额外文件/文件夹：
+- 复杂功能文档
+- 集成规范
+- API 文档
+- 测试策略
+- 部署程序
 
-## Core Workflows
+## 核心工作流程
 
-### Plan Mode
+### 计划模式
 flowchart TD
-    Start[Start] --> ReadFiles[Read Memory Bank]
-    ReadFiles --> CheckFiles{Files Complete?}
+    Start[开始] --> ReadFiles[读取记忆库]
+    ReadFiles --> CheckFiles{文件完整？}
 
-    CheckFiles -->|No| Plan[Create Plan]
-    Plan --> Document[Document in Chat]
+    CheckFiles -->|否| Plan[创建计划]
+    Plan --> Document[在聊天中记录]
 
-    CheckFiles -->|Yes| Verify[Verify Context]
-    Verify --> Strategy[Develop Strategy]
-    Strategy --> Present[Present Approach]
+    CheckFiles -->|是| Verify[验证上下文]
+    Verify --> Strategy[制定策略]
+    Strategy --> Present[呈现方法]
 
-### Act Mode
+### 执行模式
 flowchart TD
-    Start[Start] --> Context[Check Memory Bank]
-    Context --> Update[Update Documentation]
-    Update --> Execute[Execute Task]
-    Execute --> Document[Document Changes]
+    Start[开始] --> Context[检查记忆库]
+    Context --> Update[更新文档]
+    Update --> Execute[执行任务]
+    Execute --> Document[记录更改]
 
-## Documentation Updates
+## 文档更新
 
-Memory Bank updates occur when:
-1. Discovering new project patterns
-2. After implementing significant changes
-3. When user requests with **update memory bank** (MUST review ALL files)
-4. When context needs clarification
+记忆库更新发生在：
+1. 发现新的项目模式
+2. 实施重大更改后
+3. 当用户请求**更新记忆库**时（必须审查所有文件）
+4. 当上下文需要澄清时
 
 flowchart TD
-    Start[Update Process]
+    Start[更新过程]
 
     subgraph Process
-        P1[Review ALL Files]
-        P2[Document Current State]
-        P3[Clarify Next Steps]
-        P4[Document Insights & Patterns]
+        P1[审查所有文件]
+        P2[记录当前状态]
+        P3[澄清下一步]
+        P4[记录见解和模式]
 
         P1 --> P2 --> P3 --> P4
     end
 
     Start --> Process
 
-Note: When triggered by **update memory bank**, I MUST review every memory bank file, even if some don't require updates. Focus particularly on activeContext.md and progress.md as they track current state.
+注意：当由**更新记忆库**触发时，我必须审查每个记忆库文件，即使有些不需要更新。特别关注 activeContext.md 和 progress.md，因为它们跟踪当前状态。
 
-REMEMBER: After every memory reset, I begin completely fresh. The Memory Bank is my only link to previous work. It must be maintained with precision and clarity, as my effectiveness depends entirely on its accuracy.
+记住：每次记忆重置后，我完全重新开始。记忆库是我与之前工作的唯一联系。它必须保持精确和清晰，因为我的有效性完全取决于其准确性。
 ```
 
-### What is the Cline Memory Bank?
+### 什么是 Cline 记忆库？
 
-The Memory Bank is a structured documentation system that allows Cline to maintain context across sessions. It transforms Cline from a stateless assistant into a persistent development partner that can effectively "remember" your project details over time.
+记忆库是一个结构化的文档系统，允许 Cline 在会话之间维护上下文。它将 Cline 从无状态助手转变为持久的开发伙伴，可以有效地"记住"您的项目细节。
 
-#### Key Benefits
+#### 主要优势
 
--   **Context Preservation**: Maintain project knowledge across sessions
--   **Consistent Development**: Experience predictable interactions with Cline
--   **Self-Documenting Projects**: Create valuable project documentation as a side effect
--   **Scalable to Any Project**: Works with projects of any size or complexity
--   **Technology Agnostic**: Functions with any tech stack or language
+-   **上下文保持**：在会话之间维护项目知识
+-   **一致的开发**：体验与 Cline 的可预测交互
+-   **自文档化项目**：作为副作用创建有价值的项目文档
+-   **可扩展到任何项目**：适用于任何大小或复杂性的项目
+-   **技术无关**：适用于任何技术栈或语言
 
-### How Memory Bank Works
+### 记忆库如何工作
 
-The Memory Bank isn't a Cline-specific feature - it's a methodology for managing AI context through structured documentation. When you instruct Cline to "follow custom instructions," it reads the Memory Bank files to rebuild its understanding of your project.
-
-<Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(15).png" alt="Memory Bank Workflow" />
-</Frame>
-
-#### Understanding the Files
-
-Memory Bank files are simply markdown files you create in your project. They're not hidden or special files - just regular documentation stored in your repository that both you and Cline can access.
-
-Files are organized in a hierarchical structure that builds up a complete picture of your project:
+记忆库不是 Cline 特定功能 - 它是通过结构化文档管理 AI 上下文的方法论。当您指示 Cline"遵循自定义指令"时，它会读取记忆库文件以重建对您项目的理解。
 
 <Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(16).png" alt="Memory Bank File Structure" />
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(15).png" alt="记忆库工作流程" />
 </Frame>
 
-### Memory Bank Files Explained
+#### 理解文件
 
-#### Core Files
+记忆库文件是您在项目中创建的简单 markdown 文件。它们不是隐藏或特殊文件 - 只是存储在您仓库中的常规文档，您和 Cline 都可以访问。
+
+文件按层次结构组织，构建您项目的完整图景：
+
+<Frame>
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(16).png" alt="记忆库文件结构" />
+</Frame>
+
+### 记忆库文件说明
+
+#### 核心文件
 
 1. **projectbrief.md**
-    - The foundation of your project
-    - High-level overview of what you're building
-    - Core requirements and goals
-    - Example: "Building a React web app for inventory management with barcode scanning"
+    - 您项目的基础
+    - 您正在构建内容的高级概述
+    - 核心要求和目标
+    - 示例："构建具有条形码扫描功能的 React Web 应用程序用于库存管理"
 2. **productContext.md**
-    - Explains why the project exists
-    - Describes the problems being solved
-    - Outlines how the product should work
-    - Example: "The inventory system needs to support multiple warehouses and real-time updates"
+    - 解释项目存在的原因
+    - 描述正在解决的问题
+    - 概述产品应该如何工作
+    - 示例："库存系统需要支持多个仓库和实时更新"
 3. **activeContext.md**
-    - The most frequently updated file
-    - Contains current work focus and recent changes
-    - Tracks active decisions and considerations
-    - Stores important patterns and learnings
-    - Example: "Currently implementing the barcode scanner component; last session completed the API integration"
+    - 最频繁更新的文件
+    - 包含当前工作重点和最近更改
+    - 跟踪活跃的决策和考虑
+    - 存储重要模式和学习
+    - 示例："目前正在实施条形码扫描器组件；上次会话完成了 API 集成"
 4. **systemPatterns.md**
-    - Documents the system architecture
-    - Records key technical decisions
-    - Lists design patterns in use
-    - Explains component relationships
-    - Example: "Using Redux for state management with a normalized store structure"
+    - 记录系统架构
+    - 记录关键技术决策
+    - 列出使用的设计模式
+    - 解释组件关系
+    - 示例："使用 Redux 进行状态管理，具有规范化的存储结构"
 5. **techContext.md**
-    - Lists technologies and frameworks used
-    - Describes development setup
-    - Notes technical constraints
-    - Records dependencies and tool configurations
-    - Example: "React 18, TypeScript, Firebase, Jest for testing"
+    - 列出使用的技术和框架
+    - 描述开发设置
+    - 记录技术约束
+    - 记录依赖项和工具配置
+    - 示例："React 18、TypeScript、Firebase、Jest 用于测试"
 6. **progress.md**
-    - Tracks what works and what's left to build
-    - Records current status of features
-    - Lists known issues and limitations
-    - Documents the evolution of project decisions
-    - Example: "User authentication complete; inventory management 80% complete; reporting not started"
+    - 跟踪什么工作和剩下要构建什么
+    - 记录功能的当前状态
+    - 列出已知问题和限制
+    - 记录项目决策的演变
+    - 示例："用户身份验证完成；库存管理 80% 完成；报告未开始"
 
-#### Additional Context
+#### 额外上下文
 
-Create additional files when needed to organize:
+在需要时创建额外文件以组织：
 
--   Complex feature documentation
--   Integration specifications
--   API documentation
--   Testing strategies
--   Deployment procedures
+-   复杂功能文档
+-   集成规范
+-   API 文档
+-   测试策略
+-   部署程序
 
-### Getting Started with Memory Bank
+### 开始使用记忆库
 
-#### First-Time Setup
+#### 首次设置
 
-1. Create a `memory-bank/` folder in your project root
-2. Have a basic project brief ready (can be technical or non-technical)
-3. Ask Cline to "initialize memory bank"
-
-<Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(17).png" alt="Memory Bank Setup" />
-</Frame>
-
-#### Project Brief Tips
-
--   Start simple - it can be as detailed or high-level as you like
--   Focus on what matters most to you
--   Cline will help fill in gaps and ask questions
--   You can update it as your project evolves
-
-### Working with Cline
-
-#### Core Workflows
-
-**Plan Mode**
-
-Start in this mode for strategy discussions and high-level planning.
-
-**Act Mode**
-
-Use this for implementation and executing specific tasks.
-
-#### Key Commands
-
--   **"follow your custom instructions"** - This tells Cline to read the Memory Bank files and continue where you left off (use this at the start of tasks)
--   **"initialize memory bank"** - Use when starting a new project
--   **"update memory bank"** - Triggers a full documentation review and update during a task
--   Toggle Plan/Act modes based on your current needs
-
-#### Documentation Updates
-
-Memory Bank updates should automatically occur when:
-
-1. You discover new patterns in your project
-2. After implementing significant changes
-3. When you explicitly request with **"update memory bank"**
-4. When you feel context needs clarification
-
-### Frequently Asked Questions
-
-#### Where are the memory bank files stored?
-
-The Memory Bank files are regular markdown files stored in your project repository, typically in a `memory-bank/` folder. They're not hidden system files - they're designed to be part of your project documentation.
-
-#### Should I use custom instructions or .clinerules?
-
-Either approach works - it's based on your preference:
-
--   **Custom Instructions**: Applied globally to all Cline conversations. Good for consistent behavior across all projects.
--   **.clinerules file**: Project-specific and stored in your repository. Good for per-project customization.
-
-Both methods achieve the same goal - the choice depends on whether you want global or local application of the Memory Bank system.
-
-#### Managing Context Windows
-
-As you work with Cline, your context window will eventually fill up (note the progress bar). When you notice Cline's responses slowing down or references to earlier parts of the conversation becoming less accurate, it's time to:
-
-1. Ask Cline to **"update memory bank"** to document the current state
-2. Start a new conversation/task
-3. Ask Cline to **"follow your custom instructions"** in the new conversation
-
-This workflow ensures that important context is preserved in your Memory Bank files before the context window is cleared, allowing you to continue seamlessly in a fresh conversation.
+1. 在项目根目录创建 `memory-bank/` 文件夹
+2. 准备基本项目简介（可以是技术性或非技术性）
+3. 要求 Cline"初始化记忆库"
 
 <Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(18).png" alt="Memory Bank Context Window" />
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(17).png" alt="记忆库设置" />
 </Frame>
 
-#### How often should I update the memory bank?
+#### 项目简介提示
 
-Update the Memory Bank after significant milestones or changes in direction. For active development, updates every few sessions can be helpful. Use the **"update memory bank"** command when you want to ensure all context is preserved. However, you will notice Cline automatically updating the Memory Bank as well.
+-   从简单开始 - 可以是您喜欢的详细或高级
+-   专注于对您最重要的事情
+-   Cline 将帮助填补空白并提出问题
+-   您可以在项目发展时更新它
 
-#### Does this work with other AI tools beyond Cline?
+### 与 Cline 合作
 
-Yes! The Memory Bank concept is a documentation methodology that can work with any AI assistant that can read documentation files. The specific commands might differ, but the structured approach to maintaining context works across tools.
+#### 核心工作流程
 
-#### How does the memory bank relate to context window limitations?
+**计划模式**
 
-The Memory Bank helps manage context limitations by storing important information in a structured format that can be efficiently loaded when needed. This prevents context bloat while ensuring critical information is available.
+在此模式下开始进行策略讨论和高级规划。
 
-#### Can the memory bank concept be used for non-coding projects?
+**执行模式**
 
-Absolutely! The Memory Bank approach works for any project that benefits from structured documentation - from writing books to planning events. The file structure might vary, but the concept remains powerful.
+用于实施和执行特定任务。
 
-#### Is this different from using README files?
+#### 关键命令
 
-While similar in concept, the Memory Bank provides a more structured and comprehensive approach specifically designed to maintain context across AI sessions. It goes beyond what a single README typically covers.
+-   **"遵循您的自定义指令"** - 这告诉 Cline 读取记忆库文件并继续您离开的地方（在任务开始时使用）
+-   **"初始化记忆库"** - 在开始新项目时使用
+-   **"更新记忆库"** - 在任务期间触发完整的文档审查和更新
+-   根据您当前需求切换计划/执行模式
 
-### Best Practices
+#### 文档更新
 
-#### Getting Started
+记忆库更新应该在以下情况下自动发生：
 
--   Start with a basic project brief and let the structure evolve
--   Let Cline help create the initial structure
--   Review and adjust files as needed to match your workflow
+1. 您在项目中发现新模式
+2. 实施重大更改后
+3. 当您明确请求**"更新记忆库"**时
+4. 当您觉得上下文需要澄清时
 
-#### Ongoing Work
+### 常见问题
 
--   Let patterns emerge naturally as you work
--   Don't force documentation updates - they should happen organically
--   Trust the process - the value compounds over time
--   Watch for context confirmation at the start of sessions
+#### 记忆库文件存储在哪里？
 
-#### Documentation Flow
+记忆库文件是存储在您项目仓库中的常规 markdown 文件，通常在 `memory-bank/` 文件夹中。它们不是隐藏的系统文件 - 它们被设计为项目文档的一部分。
 
--   **projectbrief.md** is your foundation
--   **activeContext.md** changes most frequently
--   **progress.md** tracks your milestones
--   All files collectively maintain project intelligence
+#### 我应该使用自定义指令还是 .clinerules？
 
-### Detailed Setup Instructions
+两种方法都有效 - 基于您的偏好：
 
-#### For Custom Instructions (Global)
+-   **自定义指令**：全局应用于所有 Cline 对话。适合在所有项目中保持一致的行为。
+-   **.clinerules 文件**：项目特定并存储在您的仓库中。适合每个项目的自定义。
 
-1. Open VSCode
-2. Click the Cline extension settings ⚙️
-3. Find "Custom Instructions"
-4. Copy and paste the complete Memory Bank instructions from the top of this guide
+两种方法都实现相同目标 - 选择取决于您是否希望全局或本地应用记忆库系统。
 
-#### For .clinerules (Project-Specific)
+#### 管理上下文窗口
 
-1. Create a `.clinerules` file in your project root
-2. Copy and paste the Memory Bank instructions from the top of this guide
-3. Save the file
-4. Cline will automatically apply these rules when working in this project
+当您与 Cline 合作时，您的上下文窗口最终会填满（注意进度条）。当您注意到 Cline 的响应变慢或对对话早期部分的引用变得不那么准确时，是时候：
 
-### Remember
+1. 要求 Cline**"更新记忆库"**以记录当前状态
+2. 开始新的对话/任务
+3. 在新对话中要求 Cline**"遵循您的自定义指令"**
 
-The Memory Bank is Cline's only link to previous work. Its effectiveness depends entirely on maintaining clear, accurate documentation and confirming context preservation in every interaction.
+这个工作流程确保在上下文窗口清除之前，重要上下文保存在您的记忆库文件中，允许您在新对话中无缝继续。
 
-_For more information, reference our_ [_blog_](https://cline.bot/blog/memory-bank-how-to-make-cline-an-ai-agent-that-never-forgets) _on Cline Memory Bank_
+<Frame>
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(18).png" alt="记忆库上下文窗口" />
+</Frame>
+
+#### 我应该多久更新一次记忆库？
+
+在重要里程碑或方向变化后更新记忆库。对于活跃开发，每几个会话更新一次会很有帮助。当您想确保所有上下文都得到保存时，使用**"更新记忆库"**命令。但是，您会注意到 Cline 也会自动更新记忆库。
+
+#### 这适用于 Cline 之外的其他 AI 工具吗？
+
+是的！记忆库概念是一个文档方法论，可以与任何能够读取文档文件的 AI 助手一起工作。具体命令可能不同，但维护上下文的结构化方法适用于各种工具。
+
+#### 记忆库如何与上下文窗口限制相关？
+
+记忆库通过以结构化格式存储重要信息来帮助管理上下文限制，这些信息可以在需要时高效加载。这防止上下文膨胀，同时确保关键信息可用。
+
+#### 记忆库概念可以用于非编码项目吗？
+
+绝对可以！记忆库方法适用于任何受益于结构化文档的项目 - 从写书到规划活动。文件结构可能不同，但概念仍然强大。
+
+#### 这与使用 README 文件不同吗？
+
+虽然在概念上相似，但记忆库提供了更结构化和全面的方法，专门设计用于在 AI 会话之间维护上下文。它超越了单个 README 通常涵盖的内容。
+
+### 最佳实践
+
+#### 开始
+
+-   从基本项目简介开始，让结构自然发展
+-   让 Cline 帮助创建初始结构
+-   根据需要审查和调整文件以匹配您的工作流程
+
+#### 持续工作
+
+-   让模式在您工作时自然出现
+-   不要强制文档更新 - 它们应该有机地发生
+-   信任过程 - 价值会随时间复合
+-   在会话开始时注意上下文确认
+
+#### 文档流程
+
+-   **projectbrief.md** 是您的基础
+-   **activeContext.md** 变化最频繁
+-   **progress.md** 跟踪您的里程碑
+-   所有文件共同维护项目智能
+
+### 详细设置说明
+
+#### 对于自定义指令（全局）
+
+1. 打开 VSCode
+2. 点击 Cline 扩展设置 ⚙️
+3. 找到"自定义指令"
+4. 从本指南顶部复制并粘贴完整的记忆库指令
+
+#### 对于 .clinerules（项目特定）
+
+1. 在项目根目录创建 `.clinerules` 文件
+2. 从本指南顶部复制并粘贴记忆库指令
+3. 保存文件
+4. Cline 将在此项目中工作时自动应用这些规则
+
+### 记住
+
+记忆库是 Cline 与之前工作的唯一联系。其有效性完全取决于维护清晰、准确的文档，并在每次交互中确认上下文保持。
+
+_有关更多信息，请参考我们关于 Cline 记忆库的_[_博客_](https://cline.bot/blog/memory-bank-how-to-make-cline-an-ai-agent-that-never-forgets)
 
 ---
 
-### Contributing to Cline Memory Bank
+### 为 Cline 记忆库做出贡献
 
-This guide is maintained by the Cline and the Cline Discord Community:
+本指南由 Cline 和 Cline Discord 社区维护：
 
 -   nickbaumann98
 -   Krylo
@@ -366,4 +366,4 @@ This guide is maintained by the Cline and the Cline Discord Community:
 
 ---
 
-_The Memory Bank methodology is an open approach to AI context management and can be adapted to different tools and workflows._
+_记忆库方法论是 AI 上下文管理的开放方法，可以适应不同的工具和工作流程。_

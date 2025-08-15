@@ -1,25 +1,25 @@
 ---
-title: "MCP Servers"
+title: "MCP 服务器"
 ---
 
-**Model Context Protocol (MCP) servers expand Cline's capabilities by providing standardized access to external data sources and executable functions. By implementing MCP servers, LLM tools can dynamically retrieve and incorporate relevant information from both local and remote data sources. This capability ensures that the models operate with the most current and contextually appropriate data, improving the accuracy and relevance of their outputs.**
+**模型上下文协议（MCP）服务器通过提供对外部数据源和可执行功能的标准化访问来扩展 Cline 的能力。通过实施 MCP 服务器，LLM 工具可以动态检索和整合来自本地和远程数据源的相关信息。这种能力确保模型使用最新和上下文适当的数据运行，提高其输出的准确性和相关性。**
 
 ---
 
-### Secure Architecture Fundamentals
+### 安全架构基础
 
-MCP servers follow a client-server architecture where hosts (LLM applications like Cline) initiate connections through a transport layer to MCP servers. This architecture inherently provides security benefits as it maintains clear separation between components. Enterprise deployments should focus on the proper implementation of this architecture to ensure secure operations, particularly regarding the message exchange patterns and connection lifecycle management. For MCP architecture details, see [MCP Architecture](https://modelcontextprotocol.io/docs/concepts/architecture), and for latest specifications, see [MCP Specifications](https://spec.modelcontextprotocol.io/specification/2024-11-05/).
+MCP 服务器遵循客户端-服务器架构，其中主机（如 Cline 等 LLM 应用程序）通过传输层启动与 MCP 服务器的连接。这种架构本质上提供安全优势，因为它维护组件之间的清晰分离。企业部署应专注于正确实施这种架构以确保安全操作，特别是关于消息交换模式和连接生命周期管理。有关 MCP 架构详情，请参阅 [MCP 架构](https://modelcontextprotocol.io/docs/concepts/architecture)，有关最新规范，请参阅 [MCP 规范](https://spec.modelcontextprotocol.io/specification/2024-11-05/)。
 
-### Transport Layer Security
+### 传输层安全
 
-For enterprise environments, selecting the appropriate transport mechanism is crucial. While stdio transport works efficiently for local processes, HTTP with Server-Sent Events (SSE) transport requires additional security measures. TLS should be used for all remote connections whenever possible. This is especially important when MCP servers are deployed across different network segments within corporate infrastructure.
+对于企业环境，选择适当的传输机制至关重要。虽然 stdio 传输对本地进程有效工作，但带有服务器发送事件（SSE）的 HTTP 传输需要额外的安全措施。应尽可能对所有远程连接使用 TLS。当 MCP 服务器部署在企业基础设施的不同网络段中时，这一点尤其重要。
 
-### Message Validation and Access Control
+### 消息验证和访问控制
 
-The MCP architecture defines standard error codes and message types (Requests, Results, Errors, and Notifications), providing a structured framework for secure communication. Security teams should consider message validation, sanitizing inputs, checking message size limits, and verifying JSON-RPC format. Additionally, implementing resource protection through access controls, path validation, and request rate limiting helps prevent potential abuse of MCP server capabilities.
+MCP 架构定义了标准错误代码和消息类型（请求、结果、错误和通知），为安全通信提供结构化框架。安全团队应考虑消息验证、输入清理、检查消息大小限制和验证 JSON-RPC 格式。此外，通过访问控制、路径验证和请求速率限制实施资源保护有助于防止 MCP 服务器功能的潜在滥用。
 
-### Monitoring and Compliance
+### 监控和合规
 
-For enterprise compliance requirements, implementing comprehensive logging of protocol events, message flows, and errors is essential. The MCP architecture supports diagnostic capabilities including health checks, connection state monitoring, and resource usage tracking. Organizations should extend these capabilities to meet their specific compliance needs, particularly for audit trails of all MCP server interactions and resource access patterns.
+对于企业合规要求，实施协议事件、消息流和错误的综合日志记录至关重要。MCP 架构支持诊断功能，包括健康检查、连接状态监控和资源使用跟踪。组织应扩展这些功能以满足其特定合规需求，特别是所有 MCP 服务器交互和资源访问模式的审计跟踪。
 
-By leveraging the client-server design of the MCP architecture and implementing appropriate security controls at each layer, enterprises can safely integrate MCP servers into their environments while maintaining their security posture and meeting regulatory requirements.
+通过利用 MCP 架构的客户端-服务器设计并在每一层实施适当的安全控制，企业可以安全地将 MCP 服务器集成到其环境中，同时保持其安全态势并满足监管要求。

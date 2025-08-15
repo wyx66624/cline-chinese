@@ -1,65 +1,63 @@
 ---
-title: "Commands & Shortcuts Overview"
-sidebarTitle: "Overview"
+title: "命令和快捷键概述"
+sidebarTitle: "概述"
 ---
 
-Cline integrates directly into VSCode's interface, letting you access AI assistance without disrupting your workflow. These integrations appear as commands in context menus, keyboard shortcuts, and quick fixes throughout the editor.
+Cline 直接集成到 VSCode 的界面中，让您在不中断工作流程的情况下访问 AI 帮助。这些集成在编辑器的上下文菜单、键盘快捷键和快速修复中显示为命令。
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/editor-integration.png"
-		alt="Editor Integration Overview"
+		alt="编辑器集成概述"
 	/>
 </Frame>
 
-### What are Editor Integrations?
+### 什么是编辑器集成？
 
-Editor integrations are commands and shortcuts that let you use Cline right where you're working. Instead of switching to the Cline panel first, you can select code, right-click, and immediately send it to Cline for help.
-These integrations appear in different places throughout VSCode:
+编辑器集成是让您在工作时直接使用 Cline 的命令和快捷键。您无需先切换到 Cline 面板，而是可以选择代码，右键点击，并立即将其发送给 Cline 寻求帮助。
+这些集成在 VSCode 的不同地方出现：
 
--   In the editor context menu (right-click menu) - "Add to Cline"
--   In the terminal context menu - "Add to Cline"
--   In the Source Control view - "Generate Commit Message"
--   As keyboard shortcuts - Various Cline commands
--   As Quick Fix options (lightbulb menu) - "Fix with Cline", "Explain with Cline", "Improve with Cline"
+-   在编辑器上下文菜单（右键菜单）中 - "添加到 Cline"
+-   在终端上下文菜单中 - "添加到 Cline"
+-   在源代码控制视图中 - "生成提交消息"
+-   作为键盘快捷键 - 各种 Cline 命令
+-   作为快速修复选项（灯泡菜单） - "用 Cline 修复"、"用 Cline 解释"、"用 Cline 改进"
 
-### Available Editor Integrations
+### 可用的编辑器集成
 
-Cline offers several editor integrations, each designed to enhance different aspects of your development workflow:
+Cline 提供多种编辑器集成，每种都旨在增强您开发工作流程的不同方面：
 
 <Columns cols={2}>
-  <Card title="Code Commands" icon="code" href="/features/commands-and-shortcuts/code-commands">
-    Right-click on code to add it to Cline, or use the lightbulb menu to fix errors, explain code, or improve it. Cline sees the complete code context, including imports and surrounding functions.
+  <Card title="代码命令" icon="code" href="/features/commands-and-shortcuts/code-commands">
+    右键点击代码将其添加到 Cline，或使用灯泡菜单修复错误、解释代码或改进代码。Cline 看到完整的代码上下文，包括导入和周围函数。
   </Card>
 
 {" "}
 
-<Card title="Terminal Integration" icon="terminal" href="/features/commands-and-shortcuts/terminal-integration">
-	Add terminal output to Cline with a right-click or use `@terminal` mentions. Perfect for debugging build errors, test
-	failures, or runtime issues.
+<Card title="终端集成" icon="terminal" href="/features/commands-and-shortcuts/terminal-integration">
+	通过右键点击将终端输出添加到 Cline，或使用 `@terminal` 提及。非常适合调试构建错误、测试失败或运行时问题。
 </Card>
 
 {" "}
 
-<Card title="Git Integration" icon="code-branch" href="/features/commands-and-shortcuts/git-integration">
-	Generate commit messages, explain diffs, or analyze changes with Cline's Git integration. Cline understands your version
-	control context.
+<Card title="Git 集成" icon="code-branch" href="/features/commands-and-shortcuts/git-integration">
+	使用 Cline 的 Git 集成生成提交消息、解释差异或分析更改。Cline 理解您的版本控制上下文。
 </Card>
 
 {" "}
 
-<Card title="Keyboard Shortcuts" icon="keyboard" href="/features/commands-and-shortcuts/keyboard-shortcuts">
-	Speed up your workflow with keyboard shortcuts for common Cline actions. Quickly add code to chat, fix errors, or improve your code.
+<Card title="键盘快捷键" icon="keyboard" href="/features/commands-and-shortcuts/keyboard-shortcuts">
+	使用常见 Cline 操作的键盘快捷键加速您的工作流程。快速将代码添加到聊天、修复错误或改进您的代码。
 </Card>
 </Columns>
 
-### How They Work
+### 它们如何工作
 
-When you use these commands, Cline:
+当您使用这些命令时，Cline：
 
--   Captures the relevant context (selected code, file path, terminal output, etc.)
--   Focuses the Cline interface
--   Creates a conversation with the captured context
--   In some cases, automatically generates a suggested prompt
+-   捕获相关上下文（选中的代码、文件路径、终端输出等）
+-   聚焦 Cline 界面
+-   使用捕获的上下文创建对话
+-   在某些情况下，自动生成建议的提示
 
-Behind the scenes, these commands use VSCode's extension API to register commands, access editor state, and control VSCode's interface.
+在幕后，这些命令使用 VSCode 的扩展 API 来注册命令、访问编辑器状态和控制 VSCode 的界面。

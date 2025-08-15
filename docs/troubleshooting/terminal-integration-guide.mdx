@@ -1,38 +1,38 @@
 ---
-title: "Terminal Integration Troubleshooting Guide"
-sidebarTitle: "Terminal Troubleshooting"
-description: "Complete guide to resolving terminal integration issues in Cline"
+title: "终端集成故障排除指南"
+sidebarTitle: "终端故障排除"
+description: "解决 Cline 中终端集成问题的完整指南"
 ---
 
-This guide helps you resolve terminal integration issues in Cline. Terminal integration is crucial for Cline to execute commands and read their output, enabling it to understand errors, test results, and command responses.
+本指南帮助您解决 Cline 中的终端集成问题。终端集成对于 Cline 执行命令和读取其输出至关重要，使其能够理解错误、测试结果和命令响应。
 
 <Tip>
-	If you're experiencing terminal issues, try switching to a simpler shell like `bash` in the Cline settings, under "Terminal Settings"
+	如果您遇到终端问题，请尝试在 Cline 设置中切换到更简单的 shell，如 `bash`，在"终端设置"下
 
-    This resolves most terminal integration problems.
+    这解决了大多数终端集成问题。
 
 </Tip>
 
-## Quick Diagnosis Flowchart
+## 快速诊断流程图
 
-Follow this flowchart to quickly identify your issue:
+按照此流程图快速识别您的问题：
 
 ```mermaid
 graph TD
-    A[Terminal Issue] --> B{Can Cline execute commands?}
-    B -->|No| C[Shell Integration Unavailable]
-    B -->|Yes| D{Can Cline see the output?}
-    D -->|No| E[Output Capture Failed]
-    D -->|Yes| F{Is the output corrupted?}
-    F -->|Yes| G[Character Filtering Issue]
-    F -->|No| H{Does the command hang?}
-    H -->|Yes| I[Long-Running Command Issue]
-    H -->|No| J[Check Terminal Settings]
+    A[终端问题] --> B{Cline 能执行命令吗？}
+    B -->|否| C[Shell 集成不可用]
+    B -->|是| D{Cline 能看到输出吗？}
+    D -->|否| E[输出捕获失败]
+    D -->|是| F{输出是否损坏？}
+    F -->|是| G[字符过滤问题]
+    F -->|否| H{命令是否挂起？}
+    H -->|是| I[长时间运行命令问题]
+    H -->|否| J[检查终端设置]
 
-    C --> K[Try Solution 1]
-    E --> L[Try Solution 2]
-    G --> M[Try Solution 3]
-    I --> N[Try Solution 4]
+    C --> K[尝试解决方案 1]
+    E --> L[尝试解决方案 2]
+    G --> M[尝试解决方案 3]
+    I --> N[尝试解决方案 4]
 
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style K fill:#9f9,stroke:#333,stroke-width:2px
@@ -41,191 +41,189 @@ graph TD
     style N fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
-## Common Issues & Quick Solutions
+## 常见问题和快速解决方案
 
-### 1. Shell Integration Unavailable
+### 1. Shell 集成不可用
 
-**Symptoms:**
+**症状：**
 
--   Message: "Shell Integration Unavailable"
--   Commands execute but Cline can't read output
--   Terminal works fine manually but not with Cline
+-   消息："Shell 集成不可用"
+-   命令执行但 Cline 无法读取输出
+-   终端手动工作正常但与 Cline 不工作
 
-**Quick Solutions:**
+**快速解决方案：**
 
 #### macOS
 
--   **Switch to bash**
+-   **切换到 bash**
 
-    1. Go to Cline Settings
-    2. Left-Click the **"Terminal Settings"** tab
-    3. Navigate to **"Default Terminal Profile"** and select **"bash"** from the drop-down menu
+    1. 转到 Cline 设置
+    2. 左键点击**"终端设置"**标签
+    3. 导航到**"默认终端配置文件"**并从下拉菜单中选择**"bash"**
 
--   **Disable Oh-My-Zsh temporarily**:
+-   **临时禁用 Oh-My-Zsh**：
 
-    1. If using zsh, enter `mv ~/.zshrc ~/.zshrc.backup` into the terminal
-    2. Restart VSCode
+    1. 如果使用 zsh，在终端中输入 `mv ~/.zshrc ~/.zshrc.backup`
+    2. 重启 VSCode
 
--   **Set environment**:
-    1.a For Zsh users, use one of the following Zsh commands to edit your shell profile:
+-   **设置环境**：
+    1.a 对于 Zsh 用户，使用以下 Zsh 命令之一编辑您的 shell 配置文件：
 
           - `nano ~/.zshrc`
           - `vim ~/.zshrc`
           - `code ~/.zshrc`
 
-    1.b For Bash users
+    1.b 对于 Bash 用户
 
           - nano ~/.bash_profile
 
-    2. Add the following to your shell config: `export TERM=xterm-256color`
-    3. Save your configuration
+    2. 将以下内容添加到您的 shell 配置：`export TERM=xterm-256color`
+    3. 保存您的配置
 
 #### Windows
 
--   **Use PowerShell 7**
+-   **使用 PowerShell 7**
 
-    1. Install from Microsoft Store
-    2. Go to Cline Settings
-    3. Left-Click the **"Terminal Settings"** tab
-    4. Navigate to **"Default Terminal Profile"** and select **"PowerShell 7"** from the drop-down menu
+    1. 从 Microsoft Store 安装
+    2. 转到 Cline 设置
+    3. 左键点击**"终端设置"**标签
+    4. 导航到**"默认终端配置文件"**并从下拉菜单中选择**"PowerShell 7"**
 
--   **Disable Windows ConPTY**
+-   **禁用 Windows ConPTY**
 
-    1. Navigate to your VSCode Settings
-    2. Enter "Integrated: Windows Enable Conpty" into the Settings searchbar
-    3. Uncheck the option
+    1. 导航到您的 VSCode 设置
+    2. 在设置搜索栏中输入"Integrated: Windows Enable Conpty"
+    3. 取消勾选该选项
 
--   **Try Command Prompt**
-    1. Go to Cline Settings
-    2. Left-Click the **"Terminal Settings"** tab
-    3. Navigate to **"Default Terminal Profile"** and select **"Command Prompt"** from the drop-down menu
+-   **尝试命令提示符**
+    1. 转到 Cline 设置
+    2. 左键点击**"终端设置"**标签
+    3. 导航到**"默认终端配置文件"**并从下拉菜单中选择**"命令提示符"**
 
 #### Linux
 
--   **Use bash**
+-   **使用 bash**
 
-    1. Go to Cline Settings
-    2. Left-Click the **"Terminal Settings"** tab
-    3. Navigate to **"Default Terminal Profile"** and select **"bash"** from the drop-down menu
+    1. 转到 Cline 设置
+    2. 左键点击**"终端设置"**标签
+    3. 导航到**"默认终端配置文件"**并从下拉菜单中选择**"bash"**
 
--   **Check permissions**
+-   **检查权限**
 
-    1. Ensure VSCode has terminal access permissions
+    1. 确保 VSCode 有终端访问权限
 
--   **Disable custom prompts**
-    1. Comment out prompt customizations in `.bashrc`
+-   **禁用自定义提示符**
+    1. 在 `.bashrc` 中注释掉提示符自定义
 
-### 2. Command Output Not Visible
+### 2. 命令输出不可见
 
-**Symptoms:**
+**症状：**
 
--   Cline states in chat: "[Command is running but producing no output]"
--   Commands complete but Cline doesn't see results
--   Commands work sometimes but not consistently
+-   Cline 在聊天中声明："[命令正在运行但不产生输出]"
+-   命令完成但 Cline 看不到结果
+-   命令有时工作但不一致
 
-**Solutions:**
+**解决方案：**
 
--   **Increase Shell Integration Timeout**
+-   **增加 Shell 集成超时**
 
-    1. Within Cline, left-click the **Settings** button in the top right-hand corner of the chat window
-    2. Once in the **Settings** window, left-click the **"Terminal Settings"** tab from the left-hand column
-    3. Navigate to "Shell integration timeout (seconds)" and enter **"10"** into the text field
+    1. 在 Cline 中，左键点击聊天窗口右上角的**设置**按钮
+    2. 进入**设置**窗口后，从左列左键点击**"终端设置"**标签
+    3. 导航到"Shell 集成超时（秒）"并在文本字段中输入**"10"**
 
--   **Disable Terminal Reuse**
+-   **禁用终端重用**
 
-    1. Within Cline, left-click the **Settings** button in the top right-hand corner of the chat window
-    2. Once in the **Settings** window, left-click the **"Terminal Settings"** tab from the left-hand column
-    3. Look for **"Enable aggressive terminal reuse"**, and **uncheck** this option
+    1. 在 Cline 中，左键点击聊天窗口右上角的**设置**按钮
+    2. 进入**设置**窗口后，从左列左键点击**"终端设置"**标签
+    3. 查找**"启用激进终端重用"**，并**取消勾选**此选项
 
--   **Check for interfering extensions**
-    1. Disable other terminal-related VSCode extensions
+-   **检查干扰扩展**
+    1. 禁用其他终端相关的 VSCode 扩展
 
-### 3. Character Filtering Issues
+### 3. 字符过滤问题
 
-**Symptoms:**
+**症状：**
 
--   Commas missing from output (JSON appears corrupted)
--   Special characters stripped from terminal output
--   Syntax errors that don't appear when running manually
+-   输出中缺少逗号（JSON 显示损坏）
+-   从终端输出中剥离特殊字符
+-   手动运行时不会出现的语法错误
 
-**Solution:**
-This is a known bug in output processing. Workarounds:
+**解决方案：**
+这是输出处理中的已知错误。解决方法：
 
--   Recommend AI to use file output instead
-    1. Tell Cline in chat or Cline rules, to use `command > output.txt` before reading the file/s
-
-<Tip>
-	This family of issues is only partially solved in the latest Cline versions, so if you still face this, create a GitHub issue
-	if it is a persistent problem.
-</Tip>
-
-### 4. Long-Running Commands & Progress Bars
-
-**Symptoms:**
-
--   Docker builds never complete in Cline
--   Progress bars consume thousands of tokens
--   The Cline button "Proceed while running" doesn't work properly in chat
+-   建议 AI 使用文件输出
+    1. 在聊天或 Cline 规则中告诉 Cline，在读取文件之前使用 `command > output.txt`
 
 <Tip>
-	This family of issues has been solved in latest Cline versions but if you still face any issues, then create a GitHub issue
-	for this.
+	这类问题在最新版本的 Cline 中只是部分解决，所以如果您仍然面临这个问题，如果这是一个持续的问题，请创建 GitHub issue。
 </Tip>
 
-## Terminal Settings Explained
+### 4. 长时间运行的命令和进度条
 
-Access these in Cline by clicking the settings icon, and navigating to the "Terminal Settings" section:
+**症状：**
 
-### Default Terminal Profile
+-   Docker 构建在 Cline 中永远不会完成
+-   进度条消耗数千个令牌
+-   Cline 按钮"运行时继续"在聊天中不能正常工作
 
--   **What it does**: Selects which shell Cline uses for commands
--   **When to change**: If experiencing shell integration issues with your default shell
--   **Recommended**: - macOS: bash (if zsh has issues) - Windows: PowerShell 7 - Linux: bash
+<Tip>
+	这类问题在最新版本的 Cline 中已经解决，但如果您仍然面临任何问题，请为此创建 GitHub issue。
+</Tip>
 
-### Shell Integration Timeout
+## 终端设置说明
 
--   **What it does**: How long Cline waits for the terminal to be ready
--   **Default**: 4 seconds
--   **When to increase**:
-    -   Slow shell startup (heavy .zshrc/.bashrc)
-    -   WSL environments
-    -   SSH connections
--   **Recommended**: - Start with 10 seconds if having issues
+在 Cline 中点击设置图标并导航到"终端设置"部分来访问这些：
 
-### Enable Aggressive Terminal Reuse
+### 默认终端配置文件
 
--   **What it does**: Reuses existing terminals even if not in the correct directory
--   **When to disable**:
-    -   Commands execute in wrong directory
-    -   Virtual environment issues
-    -   Terminal state corruption
--   **Trade-off**: - Disabling creates more terminals but ensures clean state
+-   **作用**：选择 Cline 用于命令的 shell
+-   **何时更改**：如果您的默认 shell 出现 shell 集成问题
+-   **推荐**：- macOS：bash（如果 zsh 有问题）- Windows：PowerShell 7 - Linux：bash
 
-### Terminal Output Line Limit
+### Shell 集成超时
 
--   **What it does**: Limits how many lines Cline reads from terminal output
--   **Default**: 500 lines
--   **When to adjust**:
-    -   Increase for verbose build outputs
-    -   Decrease if hitting token limits
-    -   Set to 100 for commands with progress bars
+-   **作用**：Cline 等待终端准备就绪的时间
+-   **默认**：4 秒
+-   **何时增加**：
+    -   缓慢的 shell 启动（重的 .zshrc/.bashrc）
+    -   WSL 环境
+    -   SSH 连接
+-   **推荐**：- 如果有问题，从 10 秒开始
 
-## Platform-Specific Solutions
+### 启用激进终端重用
 
-### macOS Issues
+-   **作用**：重用现有终端，即使不在正确的目录中
+-   **何时禁用**：
+    -   命令在错误目录中执行
+    -   虚拟环境问题
+    -   终端状态损坏
+-   **权衡**：- 禁用创建更多终端但确保清洁状态
 
-#### Oh-My-Zsh Conflicts
+### 终端输出行限制
 
-Oh-My-Zsh often interferes with shell integration. Solutions:
+-   **作用**：限制 Cline 从终端输出读取的行数
+-   **默认**：500 行
+-   **何时调整**：
+    -   为详细构建输出增加
+    -   如果达到令牌限制则减少
+    -   对于有进度条的命令设置为 100
 
-1. Create a minimal `.zshrc` for VSCode:
+## 平台特定解决方案
+
+### macOS 问题
+
+#### Oh-My-Zsh 冲突
+
+Oh-My-Zsh 经常干扰 shell 集成。解决方案：
+
+1. 为 VSCode 创建最小的 `.zshrc`：
     ```bash
     # ~/.zshrc-vscode
     export TERM=xterm-256color
     export PAGER=cat
-    # Minimal PATH and environment setup
+    # 最小 PATH 和环境设置
     ```
-2. Configure VSCode to use it:
+2. 配置 VSCode 使用它：
     ```json
     {
     	"terminal.integrated.env.osx": {
@@ -234,114 +232,114 @@ Oh-My-Zsh often interferes with shell integration. Solutions:
     }
     ```
 
-#### macOS 15+ Issues
+#### macOS 15+ 问题
 
-Recent macOS versions have stricter terminal permissions:
+最近的 macOS 版本有更严格的终端权限：
 
-1. System Preferences → Privacy & Security → Developer Tools
-2. Add Visual Studio Code
-3. Restart VSCode completely
+1. 系统偏好设置 → 隐私与安全 → 开发者工具
+2. 添加 Visual Studio Code
+3. 完全重启 VSCode
 
-### Windows Issues
+### Windows 问题
 
-If you're using Windows and still experiencing issues with shell integration after trying the previous steps, it's recommended you use Git Bash (or PowerShell).
+如果您使用 Windows 并在尝试之前的步骤后仍然遇到 shell 集成问题，建议您使用 Git Bash（或 PowerShell）。
 
 ### Git Bash
 
-Git Bash is a terminal emulator that provides a Unix-like command line experience on Windows. To use Git Bash, you need to:
+Git Bash 是一个终端模拟器，在 Windows 上提供类似 Unix 的命令行体验。要使用 Git Bash，您需要：
 
-1. Download and run the Git for Windows installer from [https://git-scm.com/downloads/win](https://git-scm.com/downloads/win)
-2. Quit and re-open VSCode
-3. Press `Ctrl + Shift + P` to open the Command Palette
-4. Type "Terminal: Select Default Profile" and choose it
-5. Select "Git Bash"
+1. 从 [https://git-scm.com/downloads/win](https://git-scm.com/downloads/win) 下载并运行 Git for Windows 安装程序
+2. 退出并重新打开 VSCode
+3. 按 `Ctrl + Shift + P` 打开命令面板
+4. 输入"Terminal: Select Default Profile"并选择它
+5. 选择"Git Bash"
 
 ### PowerShell
 
-If you'd still like to use PowerShell, make sure you're using an updated version (at least v7+).
-  - Check your current PowerShell version by running: `$PSVersionTable.PSVersion`
-  - If your version is below 7, [update PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4#installing-powershell-7).
+如果您仍然想使用 PowerShell，请确保您使用的是更新版本（至少 v7+）。
+  - 通过运行以下命令检查您当前的 PowerShell 版本：`$PSVersionTable.PSVersion`
+  - 如果您的版本低于 7，[更新 PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.4#installing-powershell-7)。
 
-You may also need to adjust your PowerShell execution policy. By default, PowerShell restricts script execution for security reasons.
+您可能还需要调整 PowerShell 执行策略。默认情况下，PowerShell 出于安全原因限制脚本执行。
 
-#### Understanding PowerShell Execution Policies
+#### 理解 PowerShell 执行策略
 
-PowerShell uses execution policies to determine which scripts can run on your system. Here are the most common policies:
+PowerShell 使用执行策略来确定哪些脚本可以在您的系统上运行。以下是最常见的策略：
 
-- `Restricted`: No PowerShell scripts can run. This is the default setting.
-- `AllSigned`: All scripts, including local ones, must be signed by a trusted publisher.
-- `RemoteSigned`: Scripts created locally can run, but scripts downloaded from the internet must be signed.
-- `Unrestricted`: No restrictions. Any script can run, though you will be warned before running internet-downloaded scripts.
+- `Restricted`：无法运行 PowerShell 脚本。这是默认设置。
+- `AllSigned`：所有脚本，包括本地脚本，必须由受信任的发布者签名。
+- `RemoteSigned`：本地创建的脚本可以运行，但从互联网下载的脚本必须签名。
+- `Unrestricted`：无限制。任何脚本都可以运行，尽管在运行互联网下载的脚本之前会收到警告。
 
-For development work in VSCode, the `RemoteSigned` policy is generally recommended. It allows locally created scripts to run without restrictions while maintaining security for downloaded scripts. To learn more about PowerShell execution policies and understand the security implications of changing them, visit Microsoft's documentation: [About Execution Policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies).
+对于 VSCode 中的开发工作，通常推荐 `RemoteSigned` 策略。它允许本地创建的脚本无限制运行，同时保持下载脚本的安全性。要了解有关 PowerShell 执行策略的更多信息并理解更改它们的安全影响，请访问 Microsoft 的文档：[关于执行策略](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies)。
 
-#### Steps to Change the Execution Policy
+#### 更改执行策略的步骤
 
-1. Open PowerShell as an Administrator: Press `Win + X` and select "Windows PowerShell (Administrator)" or "Windows Terminal (Administrator)".
+1. 以管理员身份打开 PowerShell：按 `Win + X` 并选择"Windows PowerShell (管理员)"或"Windows Terminal (管理员)"。
 
-2. Check Current Execution Policy by running this command:
+2. 通过运行此命令检查当前执行策略：
      ```powershell
      Get-ExecutionPolicy
      ```
-   - If the output is already `RemoteSigned`, `Unrestricted`, or `Bypass`, you likely don't need to change your execution policy. These policies should allow shell integration to work.
-   - If the output is `Restricted` or `AllSigned`, you may need to change your policy to enable shell integration.
+   - 如果输出已经是 `RemoteSigned`、`Unrestricted` 或 `Bypass`，您可能不需要更改执行策略。这些策略应该允许 shell 集成工作。
+   - 如果输出是 `Restricted` 或 `AllSigned`，您可能需要更改策略以启用 shell 集成。
 
-3. Change the Execution Policy by running the following command:
+3. 通过运行以下命令更改执行策略：
      ```powershell
      Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
      ```
-   - This sets the policy to `RemoteSigned` for the current user only, which is safer than changing it system-wide.
+   - 这仅为当前用户设置策略为 `RemoteSigned`，这比系统范围更改更安全。
 
-4. Confirm the Change by typing `Y` and pressing Enter when prompted.
+4. 在提示时通过输入 `Y` 并按 Enter 确认更改。
 
-5. Verify the Policy Change by running `Get-ExecutionPolicy` again to confirm the new setting.
+5. 通过再次运行 `Get-ExecutionPolicy` 验证策略更改以确认新设置。
 
-6. Restart VSCode and try the shell integration again.
+6. 重启 VSCode 并再次尝试 shell 集成。
 
 
-#### WSL Integration
+#### WSL 集成
 
-For WSL issues:
+对于 WSL 问题：
 
-1. Use WSL extension for VSCode
-2. Open folder in WSL: `code .` from WSL terminal
-3. Select "WSL Bash" as terminal profile in Cline
+1. 为 VSCode 使用 WSL 扩展
+2. 在 WSL 中打开文件夹：从 WSL 终端运行 `code .`
+3. 在 Cline 中选择"WSL Bash"作为终端配置文件
 
-#### Path Issues
+#### 路径问题
 
-Windows path problems:
+Windows 路径问题：
 
-1. Use forward slashes in Cline: `C:/Users/...`
-2. Quote paths with spaces: `"C:/Program Files/..."`
-3. Avoid `~` - use full paths
+1. 在 Cline 中使用正斜杠：`C:/Users/...`
+2. 用引号包围有空格的路径：`"C:/Program Files/..."`
+3. 避免使用 `~` - 使用完整路径
 
-### Linux/SSH/Container Issues
+### Linux/SSH/容器问题
 
-#### SSH Connections
+#### SSH 连接
 
-For remote development:
+对于远程开发：
 
-1. Install Cline on the remote machine, not locally
-2. Use SSH extension's integrated terminal
-3. Increase timeout to 15+ seconds
+1. 在远程机器上安装 Cline，而不是本地
+2. 使用 SSH 扩展的集成终端
+3. 将超时增加到 15+ 秒
 
-#### Docker Containers
+#### Docker 容器
 
-When developing in containers:
+在容器中开发时：
 
-1. Install Cline in the container
-2. Use Dev Containers extension
-3. Ensure shell integration scripts are available
+1. 在容器中安装 Cline
+2. 使用 Dev Containers 扩展
+3. 确保 shell 集成脚本可用
 
-## Shell-Specific Fixes
+## Shell 特定修复
 
 ### Zsh
 
 ```bash
-# Add to ~/.zshrc
+# 添加到 ~/.zshrc
 export TERM=xterm-256color
 export PAGER=cat
-# Disable fancy prompts for VSCode
+# 为 VSCode 禁用花哨提示符
 if [[ "$TERM_PROGRAM" == "vscode" ]]; then
     PS1="%n@%m %1~ %# "
 fi
@@ -350,10 +348,10 @@ fi
 ### Bash
 
 ```bash
-# Add to ~/.bashrc
+# 添加到 ~/.bashrc
 export TERM=xterm-256color
 export PAGER=cat
-# Simple prompt for VSCode
+# 为 VSCode 简单提示符
 if [[ "$TERM_PROGRAM" == "vscode" ]]; then
     PS1='\u@\h:\w\$ '
 fi
@@ -362,10 +360,10 @@ fi
 ### Fish
 
 ```fish
-# Add to ~/.config/fish/config.fish
+# 添加到 ~/.config/fish/config.fish
 set -x TERM xterm-256color
 set -x PAGER cat
-# Disable fancy features in VSCode
+# 在 VSCode 中禁用花哨功能
 if test "$TERM_PROGRAM" = "vscode"
     function fish_prompt
         echo (whoami)'@'(hostname)':'(pwd)'> '
@@ -376,56 +374,56 @@ end
 ### PowerShell
 
 ```powershell
-# Add to $PROFILE
+# 添加到 $PROFILE
 $env:PAGER = "cat"
-# Disable progress bars
+# 禁用进度条
 $ProgressPreference = 'SilentlyContinue'
 ```
 
-## Advanced Troubleshooting
+## 高级故障排除
 
-### Debug Mode
+### 调试模式
 
-Enable terminal debugging to see what's happening:
+启用终端调试以查看发生了什么：
 
-1. Open VSCode Command Palette (Cmd/Ctrl+Shift+P)
-2. Run: "Developer: Set Log Level..."
-3. Choose "Trace"
-4. Check Output panel → "Cline" for terminal logs
+1. 打开 VSCode 命令面板（Cmd/Ctrl+Shift+P）
+2. 运行："Developer: Set Log Level..."
+3. 选择"Trace"
+4. 检查输出面板 → "Cline" 以获取终端日志
 
-### Manual Shell Integration Test
+### 手动 Shell 集成测试
 
-Test if shell integration works at all:
+测试 shell 集成是否完全工作：
 
 ```bash
-# In VSCode terminal
-echo $TERM_PROGRAM  # Should show "vscode"
-echo $VSCODE_SHELL_INTEGRATION  # Should be "1"
+# 在 VSCode 终端中
+echo $TERM_PROGRAM  # 应该显示 "vscode"
+echo $VSCODE_SHELL_INTEGRATION  # 应该是 "1"
 ```
 
-## FAQ
+## 常见问题
 
-### Why does Cline create so many terminals?
+### 为什么 Cline 创建这么多终端？
 
-When shell integration fails, Cline can't reuse terminals safely (they might be running long processes). Enable shell integration or adjust the terminal reuse setting.
+当 shell 集成失败时，Cline 无法安全地重用终端（它们可能正在运行长进程）。启用 shell 集成或调整终端重用设置。
 
-### Can I use my custom shell (nushell, xonsh, etc.)?
+### 我可以使用我的自定义 shell（nushell、xonsh 等）吗？
 
-Cline officially supports bash, zsh, fish, and PowerShell. Custom shells may work but aren't guaranteed. Use bash as a fallback.
+Cline 正式支持 bash、zsh、fish 和 PowerShell。自定义 shell 可能工作但不能保证。使用 bash 作为后备。
 
-### Why do some commands work but others don't?
+### 为什么有些命令工作但其他不工作？
 
-Commands that use interactive features (pagers, progress bars, curses) often fail. Set `PAGER=cat` and use non-interactive flags.
+使用交互功能的命令（分页器、进度条、curses）经常失败。设置 `PAGER=cat` 并使用非交互标志。
 
-### How do I know if shell integration is working?
+### 我怎么知道 shell 集成是否工作？
 
-Working integration shows command output in Cline's chat. Failed integration shows "Shell Integration Unavailable" or "[Command is running but producing no output]".
+工作的集成在 Cline 的聊天中显示命令输出。失败的集成显示"Shell 集成不可用"或"[命令正在运行但不产生输出]"。
 
-## Still Having Issues?
+## 仍然有问题？
 
-If you've tried everything:
+如果您已经尝试了一切：
 
-1. **Collect Debug Info**:
+1. **收集调试信息**：
 
     ```bash
     echo "Shell: $SHELL"
@@ -435,12 +433,11 @@ If you've tried everything:
     bash --version
     ```
 
-2. **Report the Issue**:
-    - Use `/reportbug` in Cline github issues
-    - Include your debug info
-    - Mention which solutions you tried
+2. **报告问题**：
+    - 在 Cline github issues 中使用 `/reportbug`
+    - 包含您的调试信息
+    - 提及您尝试了哪些解决方案
 
 <Tip>
-	Remember: Most terminal issues are resolved by switching to bash and increasing the timeout. Start there before trying complex
-	solutions.
+	记住：大多数终端问题通过切换到 bash 和增加超时来解决。在尝试复杂解决方案之前从那里开始。
 </Tip>

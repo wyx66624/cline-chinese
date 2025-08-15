@@ -1,45 +1,45 @@
 ---
-title: "Terminal Mentions"
-sidebarTitle: "Terminal Mentions"
+title: "终端提及"
+sidebarTitle: "终端提及"
 ---
 
-The terminal mention lets you bring your terminal output directly into your conversation with Cline. Just type `@terminal` and Cline can see the recent output from your terminal.
+终端提及让您可以将终端输出直接引入与 Cline 的对话中。只需输入 `@terminal`，Cline 就能看到您终端的最近输出。
 
-When you type `@` in chat, select "Terminal" from the menu or just type `@terminal` directly. Cline will immediately see the recent output from your active terminal, including error messages, build logs, or command results.
+当您在聊天中输入 `@` 时，从菜单中选择"终端"或直接输入 `@terminal`。Cline 将立即看到您活动终端的最近输出，包括错误消息、构建日志或命令结果。
 
-I use the terminal mention all the time when I'm dealing with build errors, test failures, or debugging output. Instead of trying to copy and paste terminal output (which often loses formatting), I just ask:
-
-```
-I'm getting this error when running my tests: @terminal
-
-What's causing this and how can I fix it?
-```
-
-This gives Cline the complete terminal output with all its formatting intact. Cline can then analyze the error messages, stack traces, and surrounding context to provide more accurate help.
-
-The terminal mention is especially powerful when combined with file mentions. When I'm debugging a failed API call, I'll reference both:
+当我在处理构建错误、测试失败或调试输出时，我会一直使用终端提及。无需尝试复制和粘贴终端输出（这通常会丢失格式），我只需询问：
 
 ```
-I'm getting this error when calling my API: @terminal
+运行测试时遇到这个错误：@terminal
 
-Here's my API client code: @/src/api/client.js
-And the endpoint implementation: @/src/server/routes/users.js
-
-What am I doing wrong?
+是什么原因导致的，我如何修复它？
 ```
 
-This approach gives Cline everything it needs - the exact error output, the client code, and the server implementation - all without me having to copy anything manually.
+这给 Cline 提供了格式完整的完整终端输出。然后 Cline 可以分析错误消息、堆栈跟踪和周围上下文，以提供更准确的帮助。
 
-Next time you're running into issues with command output or build errors, try using `@terminal` instead of copying the output. You'll get more accurate help because Cline can see the complete terminal context with proper formatting.
+当与文件提及结合使用时，终端提及特别强大。当我调试失败的 API 调用时，我会引用两者：
 
-## How It Works Under the Hood
+```
+调用我的 API 时遇到这个错误：@terminal
 
-When you use the terminal mention in your message, here's what happens behind the scenes:
+这是我的 API 客户端代码：@/src/api/client.js
+还有端点实现：@/src/server/routes/users.js
 
-1. When you send your message, Cline detects the `@terminal` pattern in your text
-2. The extension calls `getLatestTerminalOutput()` which accesses VSCode's terminal API
-3. It captures the recent output buffer from your active terminal
-4. The terminal output is appended to your message in a structured format:
+我做错了什么？
+```
+
+这种方法给 Cline 提供了它需要的一切 - 确切的错误输出、客户端代码和服务器实现 - 而无需我手动复制任何内容。
+
+下次您遇到命令输出或构建错误问题时，尝试使用 `@terminal` 而不是复制输出。您将获得更准确的帮助，因为 Cline 可以看到格式正确的完整终端上下文。
+
+## 幕后工作原理
+
+当您在消息中使用终端提及时，幕后会发生以下情况：
+
+1. 当您发送消息时，Cline 检测文本中的 `@terminal` 模式
+2. 扩展调用 `getLatestTerminalOutput()` 来访问 VSCode 的终端 API
+3. 它捕获您活动终端的最近输出缓冲区
+4. 终端输出以结构化格式附加到您的消息中：
 
     ```
     <terminal_output>
@@ -50,24 +50,24 @@ When you use the terminal mention in your message, here's what happens behind th
     FAIL src/components/__tests__/Button.test.js
     ● Button component › renders correctly
 
-    [Complete terminal output with formatting preserved]
+    [格式保持完整的完整终端输出]
     </terminal_output>
     ```
 
-5. This enhanced message with the embedded terminal output is sent to the AI
-6. The AI can now "see" the complete terminal output with all formatting preserved
+5. 这个包含嵌入终端输出的增强消息被发送给 AI
+6. AI 现在可以"看到"格式保持完整的完整终端输出
 
-This process happens automatically whenever you use the terminal mention, giving the AI access to your command results, error messages, and other terminal output without you having to copy it manually.
+每当您使用终端提及时，这个过程都会自动发生，给 AI 提供对您命令结果、错误消息和其他终端输出的访问权限，而您无需手动复制它。
 
-## Troubleshooting Terminal Issues
+## 终端问题故障排除
 
-If you're experiencing issues with terminal mentions or terminal integration in general (such as "Shell Integration Unavailable" or commands not showing output), please refer to our comprehensive [Terminal Integration Troubleshooting Guide](/troubleshooting/terminal-integration-guide).
+如果您遇到终端提及或终端集成的一般问题（如"Shell Integration Unavailable"或命令不显示输出），请参考我们的综合[终端集成故障排除指南](/troubleshooting/terminal-integration-guide)。
 
-Common issues include:
+常见问题包括：
 
--   Terminal mentions not capturing output
--   "Shell Integration Unavailable" messages in Cline chat
--   Commands executing but output not visible to Cline
--   Terminal integration working inconsistently
+-   终端提及不捕获输出
+-   Cline 聊天中显示"Shell Integration Unavailable"消息
+-   命令执行但输出对 Cline 不可见
+-   终端集成工作不一致
 
-The troubleshooting guide provides platform-specific solutions and detailed configuration steps to resolve these issues.
+故障排除指南提供了特定平台的解决方案和详细的配置步骤来解决这些问题。

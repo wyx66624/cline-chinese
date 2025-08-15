@@ -1,63 +1,63 @@
 ---
-title: "Security Concerns"
+title: "安全担忧"
 ---
 
-## Enterprise Security with Cline
+## 企业安全与 Cline
 
-#### Cline addresses enterprise security concerns through its unique client-side architecture that prioritizes data privacy, secure cloud integration, and transparent operations. Below is a comprehensive overview of how Cline maintains robust security measures for enterprise environments.
+#### Cline 通过其独特的客户端架构解决企业安全担忧，该架构优先考虑数据隐私、安全云集成和透明操作。以下是 Cline 如何为企业环境维护强大安全措施的全面概述。
 
 ---
 
-### Client-Side Architecture
+### 客户端架构
 
-Cline operates exclusively as a client-side VSCode extension with zero server-side components. This fundamental design choice ensures that your code and data remain within your secure environment at all times. Unlike traditional AI assistants that send data to external servers for processing, Cline connects directly to your chosen cloud provider's AI endpoints, keeping all sensitive information within your infrastructure boundaries.
+Cline 专门作为客户端 VSCode 扩展运行，零服务器端组件。这种基本设计选择确保您的代码和数据始终保持在您的安全环境中。与将数据发送到外部服务器进行处理的传统 AI 助手不同，Cline 直接连接到您选择的云提供商的 AI 端点，将所有敏感信息保持在您的基础设施边界内。
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/cline-arch.png"
-		alt="Cline's relationship to local and remote assets"
+		alt="Cline 与本地和远程资产的关系"
 	/>
 </Frame>
 
-### Data Privacy Commitment
+### 数据隐私承诺
 
-Cline implements a strict zero data retention policy, meaning your intellectual property never leaves your secure environment. The extension does not collect, store, or transmit your code to any central servers. This approach significantly reduces potential attack vectors that might otherwise be introduced through data transmission to third-party systems. Telemetry collection is optional and requires explicit consent.
+Cline 实施严格的零数据保留政策，这意味着您的知识产权永远不会离开您的安全环境。扩展不会收集、存储或传输您的代码到任何中央服务器。这种方法显著减少了可能通过向第三方系统传输数据而引入的潜在攻击向量。遥测收集是可选的，需要明确同意。
 
-### Cloud Provider Integration
+### 云提供商集成
 
-Enterprise teams can access cutting-edge AI models through their existing cloud deployments. Cline supports seamless integration with:
+企业团队可以通过其现有云部署访问尖端 AI 模型。Cline 支持与以下服务的无缝集成：
 
 -   AWS Bedrock
 -   Google Cloud Vertex AI
 -   Microsoft Azure
 
-These integrations utilize your organization's existing security credentials, including native IAM role assumption for AWS. This ensures that all AI processing occurs within your corporate cloud environment, maintaining compliance with your established security protocols.
+这些集成利用您组织的现有安全凭据，包括 AWS 的原生 IAM 角色承担。这确保所有 AI 处理都在您的企业云环境中进行，保持与您已建立安全协议的合规性。
 
-### Open-Source Transparency
+### 开源透明度
 
-Cline's codebase is completely open-source, allowing for comprehensive security auditing by your internal teams. This transparency enables security professionals to verify exactly how the extension functions and confirm that it adheres to your organization's security requirements. Organizations can review the code to ensure it aligns with their security policies before deployment.
+Cline 的代码库完全开源，允许您的内部团队进行全面安全审计。这种透明度使安全专业人员能够准确验证扩展如何运行，并确认它符合您组织的安全要求。组织可以在部署前审查代码以确保其符合其安全策略。
 
-### Controlled Modifications
+### 受控修改
 
-The extension implements safeguards against unauthorized changes to your codebase. Cline requires explicit user approval for all file modifications and terminal commands, preventing accidental or unwanted alterations. This approval-based workflow maintains the integrity of your projects while still providing AI assistance.
+扩展实施保护措施以防止对您代码库的未经授权更改。Cline 要求对所有文件修改和终端命令进行明确的用户批准，防止意外或不需要的更改。这种基于批准的工作流程在提供 AI 帮助的同时维护项目的完整性。
 
-### Enterprise Deployment Support
+### 企业部署支持
 
-For organizations with strict security review processes, Cline provides comprehensive documentation including detailed deployment diagrams, sequence diagrams illustrating all data flows, and complete security posture documentation. These materials facilitate thorough security reviews and help demonstrate compliance with enterprise data handling standards and regulations.
+对于具有严格安全审查流程的组织，Cline 提供综合文档，包括详细的部署图、说明所有数据流的序列图和完整的安全态势文档。这些材料促进彻底的安全审查，并帮助证明与企业数据处理标准和法规的合规性。
 
-### Access Control
+### 访问控制
 
-Enterprise editions of Cline (planned for Q2 2025) will include centralized administration features that allow organizations to:
+Cline 的企业版（计划于 2025 年第二季度推出）将包括集中管理功能，允许组织：
 
--   Manage user access with customizable permission levels
--   Provision accounts with corporate credentials
--   Immediately revoke access when needed
--   Control which AI providers and LLM endpoints can be used
--   Deploy standardized settings across the organization
--   Prevent unauthorized use of personal API keys
+-   使用可自定义权限级别管理用户访问
+-   使用企业凭据配置账户
+-   在需要时立即撤销访问权限
+-   控制可以使用哪些 AI 提供商和 LLM 端点
+-   在整个组织部署标准化设置
+-   防止未经授权使用个人 API 密钥
 
-### Compliance and Governance
+### 合规性和治理
 
-Cline's architecture supports compliance with data sovereignty requirements and enterprise data handling regulations. The planned Enterprise Complete edition will further enhance governance with detailed audit logging, compliance reporting, and automated policy enforcement mechanisms.
+Cline 的架构支持符合数据主权要求和企业数据处理法规。计划中的企业完整版将通过详细的审计日志记录、合规报告和自动化政策执行机制进一步增强治理。
 
-By combining client-side processing, direct cloud provider integration, and transparent operations, Cline offers enterprise teams a secure way to leverage AI assistance while maintaining strict control over their sensitive code and data.
+通过结合客户端处理、直接云提供商集成和透明操作，Cline 为企业团队提供了一种安全的方式来利用 AI 帮助，同时对其敏感代码和数据保持严格控制。

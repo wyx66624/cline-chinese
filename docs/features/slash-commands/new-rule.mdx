@@ -1,42 +1,42 @@
 ---
-title: "New Rule Command"
+title: "新规则命令"
 sidebarTitle: "/newrule"
 ---
 
-`/newrule` is a slash command that lets you teach Cline your preferred way of working. It creates a markdown file in your `.clinerules` directory that acts like persistent instructions for how Cline should behave when helping with your projects.
+`/newrule` 是一个斜杠命令，让您可以教 Cline 您喜欢的工作方式。它在您的 `.clinerules` 目录中创建一个 markdown 文件，作为 Cline 在帮助您的项目时应该如何行为的持久指令。
 
-Think of it as setting up house rules that Cline will always follow, so you don't have to repeat your preferences in every conversation.
+将其想象为设置 Cline 将始终遵循的房屋规则，这样您就不必在每次对话中重复您的偏好。
 
-#### Using the `/newrule` Slash Command
+#### 使用 `/newrule` 斜杠命令
 
-When you want Cline to consistently follow certain guidelines:
+当您希望 Cline 始终遵循某些指导原则时：
 
--   Type `/newrule` in the chat
--   Cline will help you create a structured rule file by asking about your preferences for:
-    -   Communication style (verbose vs. concise)
-    -   Development workflows
-    -   Coding standards
-    -   Project context
-    -   Any other specific guidelines
--   You'll review the rule file before it's created
--   Once approved, Cline creates a markdown file in your `.clinerules` directory that will automatically be loaded for future conversations
+-   在聊天中输入 `/newrule`
+-   Cline 将通过询问您的偏好来帮助您创建结构化规则文件：
+    -   沟通风格（详细 vs. 简洁）
+    -   开发工作流程
+    -   编码标准
+    -   项目上下文
+    -   任何其他特定指导原则
+-   您将在创建之前审查规则文件
+-   一旦批准，Cline 在您的 `.clinerules` 目录中创建一个 markdown 文件，该文件将在未来的对话中自动加载
 
-#### Example
+#### 示例
 
-I used `/newrule` when I was fed up with repeating the same instructions on every new task. I had specific preferences for how I wanted my React components structured, which testing library to use, and even my preferred variable naming style.
+当我对在每个新任务中重复相同指令感到厌倦时，我使用了 `/newrule`。我对如何构建 React 组件、使用哪个测试库，甚至我首选的变量命名风格有特定偏好。
 
-Instead of typing these preferences each time, I just used `/newrule` and worked with Cline to create a detailed rule file. We built a markdown file that covered everything from code organization to my preference for functional components over class components.
+而不是每次都输入这些偏好，我只是使用 `/newrule` 并与 Cline 合作创建详细的规则文件。我们构建了一个 markdown 文件，涵盖从代码组织到我偏好函数组件而非类组件的所有内容。
 
-Now whenever I chat with Cline about my React project, it automatically follows these guidelines without me having to remind it. The best part is that I can create different rule files for different projects, so Cline adapts to whatever codebase I'm working on.
+现在每当我与 Cline 讨论我的 React 项目时，它会自动遵循这些指导原则，而无需我提醒。最好的部分是，我可以为不同项目创建不同的规则文件，所以 Cline 适应我正在处理的任何代码库。
 
-#### Inspiration
+#### 灵感
 
-Here's how I use `/newrule` to make my development smoother:
+以下是我如何使用 `/newrule` 使我的开发更顺畅：
 
--   I created a rule file for each major project with specific architectural patterns and library preferences, so Cline always generates code that matches our existing codebase.
+-   我为每个主要项目创建了一个规则文件，包含特定的架构模式和库偏好，所以 Cline 总是生成与我们现有代码库匹配的代码。
 
--   For my team's shared projects, we have a common rule file that ensures consistent code style and documentation practices regardless of who's using Cline.
+-   对于我团队的共享项目，我们有一个通用规则文件，确保一致的代码风格和文档实践，无论谁在使用 Cline。
 
--   When working with legacy code, I made a rule file that reminds Cline about the quirks and constraints of the old system, so it never suggests modern approaches that won't integrate well.
+-   在处理遗留代码时，我制作了一个规则文件，提醒 Cline 旧系统的怪癖和约束，所以它永远不会建议无法很好集成的现代方法。
 
--   I even have a personal rule file for my side projects with all my opinionated preferences - two-space indentation, arrow functions everywhere, and my exact folder structure requirements.
+-   我甚至为我的副项目有一个个人规则文件，包含我所有的固执偏好 - 两个空格缩进、到处都是箭头函数，以及我的确切文件夹结构要求。

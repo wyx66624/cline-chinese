@@ -1,65 +1,65 @@
 ---
-title: "Workflows"
-sidebarTitle: "Workflows"
+title: "工作流程"
+sidebarTitle: "工作流程"
 ---
 
-Workflows allow you to define a series of steps to guide Cline through a repetitive set of tasks, such as deploying a service or submitting a PR.
+工作流程允许您定义一系列步骤来指导 Cline 完成重复性任务，例如部署服务或提交 PR。
 
-To invoke a workflow, type `/[workflow-name.md]` in the chat.
+要调用工作流程，在聊天中输入 `/[workflow-name.md]`。
 
-## How to Create and Use Workflows
+## 如何创建和使用工作流程
 
-Workflows live alongside [Cline Rules](/features/cline-rules). Creating one is straightforward:
+工作流程与 [Cline 规则](/features/cline-rules) 并存。创建一个很简单：
 
 <Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/workflows.png" alt="Workflows tab in Cline" />
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/workflows.png" alt="Cline 中的工作流程选项卡" />
 </Frame>
 
-1. Create a markdown file with clear instructions for the steps Cline should take
-2. Save it with a `.md` extension in your workflows directory
-3. To trigger a workflow, just type `/` followed by the workflow filename
-4. Provide any required parameters when prompted
+1. 创建一个 markdown 文件，包含 Cline 应该采取的步骤的清晰说明
+2. 将其保存为 `.md` 扩展名到您的工作流程目录中
+3. 要触发工作流程，只需输入 `/` 后跟工作流程文件名
+4. 在提示时提供任何必需的参数
 
-The real power comes from how you structure your workflow files. You can:
+真正的力量来自您如何构建工作流程文件。您可以：
 
--   Leverage Cline's [built-in tools](/exploring-clines-tools/cline-tools-guide) like `ask_followup_question`, `read_file`, `search_files`, and `new_task`
--   Use command-line tools you already have installed like `gh` or `docker`
--   Reference external [MCP tool calls](/mcp/mcp-overview) like Slack or Whatsapp
--   Chain multiple actions together in a specific sequence
+-   利用 Cline 的 [内置工具](/exploring-clines-tools/cline-tools-guide)，如 `ask_followup_question`、`read_file`、`search_files` 和 `new_task`
+-   使用您已经安装的命令行工具，如 `gh` 或 `docker`
+-   引用外部 [MCP 工具调用](/mcp/mcp-overview)，如 Slack 或 Whatsapp
+-   在特定序列中将多个操作链接在一起
 
-## Real-world Example
+## 真实世界示例
 
-I created a PR Review workflow that's already saving me tons of time.
+我创建了一个 PR 审查工作流程，已经为我节省了大量时间。
 
-````md pr-review.md [expandable]
-You have access to the `gh` terminal command. I already authenticated it for you. Please review it to use the PR that I asked you to review. You're already in the `cline` repo.
+````md pr-review.md [可展开]
+您可以访问 `gh` 终端命令。我已经为您进行了身份验证。请审查它以使用我要求您审查的 PR。您已经在 `cline` 仓库中。
 
 <detailed_sequence_of_steps>
 
-# GitHub PR Review Process - Detailed Sequence of Steps
+# GitHub PR 审查过程 - 详细步骤序列
 
-## 1. Gather PR Information
+## 1. 收集 PR 信息
 
-1. Get the PR title, description, and comments:
+1. 获取 PR 标题、描述和评论：
 
     ```bash
     gh pr view <PR-number> --json title,body,comments
     ```
 
-2. Get the full diff of the PR:
+2. 获取 PR 的完整差异：
     ```bash
     gh pr diff <PR-number>
     ```
 
-## 2. Understand the Context
+## 2. 理解上下文
 
-1. Identify which files were modified in the PR:
+1. 识别 PR 中修改了哪些文件：
 
     ```bash
     gh pr view <PR-number> --json files
     ```
 
-2. Examine the original files in the main branch to understand the context:
+2. 检查主分支中的原始文件以理解上下文：
 
     ```xml
     <read_file>
@@ -67,7 +67,7 @@ You have access to the `gh` terminal command. I already authenticated it for you
     </read_file>
     ```
 
-3. For specific sections of a file, you can use search_files:
+3. 对于文件的特定部分，您可以使用 search_files：
     ```xml
     <search_files>
     <path>path/to/directory</path>
@@ -76,128 +76,128 @@ You have access to the `gh` terminal command. I already authenticated it for you
     </search_files>
     ```
 
-## 3. Analyze the Changes
+## 3. 分析更改
 
-1. For each modified file, understand:
+1. 对于每个修改的文件，理解：
 
-    - What was changed
-    - Why it was changed (based on PR description)
-    - How it affects the codebase
-    - Potential side effects
+    - 更改了什么
+    - 为什么更改（基于 PR 描述）
+    - 它如何影响代码库
+    - 潜在的副作用
 
-2. Look for:
-    - Code quality issues
-    - Potential bugs
-    - Performance implications
-    - Security concerns
-    - Test coverage
+2. 寻找：
+    - 代码质量问题
+    - 潜在错误
+    - 性能影响
+    - 安全担忧
+    - 测试覆盖
 
-## 4. Ask for User Confirmation
+## 4. 请求用户确认
 
-1. Before making a decision, ask the user if you should approve the PR, providing your assessment and justification:
-
-    ```xml
-    <ask_followup_question>
-    <question>Based on my review of PR #<PR-number>, I recommend [approving/requesting changes]. Here's my justification:
-
-    [Detailed justification with key points about the PR quality, implementation, and any concerns]
-
-    Would you like me to proceed with this recommendation?</question>
-    <options>["Yes, approve the PR", "Yes, request changes", "No, I'd like to discuss further"]</options>
-    </ask_followup_question>
-    ```
-
-## 5. Ask if User Wants a Comment Drafted
-
-1. After the user decides on approval/rejection, ask if they would like a comment drafted:
+1. 在做出决定之前，询问用户是否应该批准 PR，提供您的评估和理由：
 
     ```xml
     <ask_followup_question>
-    <question>Would you like me to draft a comment for this PR that you can copy and paste?</question>
-    <options>["Yes, please draft a comment", "No, I'll handle the comment myself"]</options>
+    <question>基于我对 PR #<PR-number> 的审查，我建议[批准/请求更改]。这是我的理由：
+
+    [关于 PR 质量、实施和任何担忧的详细理由和要点]
+
+    您希望我继续这个建议吗？</question>
+    <options>["是的，批准 PR", "是的，请求更改", "不，我想进一步讨论"]</options>
     </ask_followup_question>
     ```
 
-2. If the user wants a comment drafted, provide a well-structured comment they can copy:
+## 5. 询问用户是否想要起草评论
+
+1. 在用户决定批准/拒绝后，询问他们是否想要起草评论：
+
+    ```xml
+    <ask_followup_question>
+    <question>您希望我为这个 PR 起草一个您可以复制粘贴的评论吗？</question>
+    <options>["是的，请起草评论", "不，我会自己处理评论"]</options>
+    </ask_followup_question>
+    ```
+
+2. 如果用户想要起草评论，提供一个结构良好的评论，他们可以复制：
 
     ```
-    Thank you for this PR! Here's my assessment:
+    感谢您的 PR！这是我的评估：
 
-    [Detailed assessment with key points about the PR quality, implementation, and any suggestions]
+    [关于 PR 质量、实施和任何建议的详细评估和要点]
 
-    [Include specific feedback on code quality, functionality, and testing]
+    [包括关于代码质量、功能和测试的具体反馈]
     ```
 
-## 6. Make a Decision
+## 6. 做出决定
 
-1. Approve the PR if it meets quality standards:
+1. 如果 PR 符合质量标准，批准它：
 
     ```bash
-    # For single-line comments:
-    gh pr review <PR-number> --approve --body "Your approval message"
+    # 对于单行评论：
+    gh pr review <PR-number> --approve --body "您的批准消息"
 
-    # For multi-line comments with proper whitespace formatting:
+    # 对于具有适当空白格式的多行评论：
     cat << EOF | gh pr review <PR-number> --approve --body-file -
-    Thanks @username for this PR! The implementation looks good.
+    感谢 @username 的 PR！实施看起来很好。
 
-    I particularly like how you've handled X and Y.
+    我特别喜欢您如何处理 X 和 Y。
 
-    Great work!
+    干得好！
     EOF
     ```
 
-2. Request changes if improvements are needed:
+2. 如果需要改进，请求更改：
 
     ```bash
-    # For single-line comments:
-    gh pr review <PR-number> --request-changes --body "Your feedback message"
+    # 对于单行评论：
+    gh pr review <PR-number> --request-changes --body "您的反馈消息"
 
-    # For multi-line comments with proper whitespace formatting:
+    # 对于具有适当空白格式的多行评论：
     cat << EOF | gh pr review <PR-number> --request-changes --body-file -
-    Thanks @username for this PR!
+    感谢 @username 的 PR！
 
-    The implementation looks promising, but there are a few things to address:
+    实施看起来很有希望，但有几件事需要解决：
 
-    1. Issue one
-    2. Issue two
+    1. 问题一
+    2. 问题二
 
-    Please make these changes and we can merge this.
+    请进行这些更改，然后我们可以合并这个。
     EOF
     ```
 
-    Note: The `cat << EOF | ... --body-file -` approach preserves all whitespace and formatting without requiring temporary files. The `-` parameter tells the command to read from standard input.
+    注意：`cat << EOF | ... --body-file -` 方法保留所有空白和格式，无需临时文件。`-` 参数告诉命令从标准输入读取。
     </detailed_sequence_of_steps>
 
 <example_review_process>
 
-# Example PR Review Process
+# PR 审查过程示例
 
-Let's walk through a real example of reviewing PR #3627 which fixes the thinking mode calculation for Claude 3.7 models.
+让我们通过审查 PR #3627 的真实示例来了解，该 PR 修复了 Claude 3.7 模型的思考模式计算。
 
-## Step 1: Gather PR Information
+## 步骤 1：收集 PR 信息
 
 ```bash
-# Get PR details
+# 获取 PR 详情
 gh pr view 3627 --json title,body,comments
 
-# Get the full diff
+# 获取完整差异
 gh pr diff 3627
 ```
 
-## Step 2: Understand the Context
+## 步骤 2：理解上下文
 
 ```xml
-# Examine the original files to understand what's being changed
+# 检查原始文件以理解正在更改的内容
 <read_file>
 <path>src/shared/api.ts</path>
 </read_file>
 
-# Look at the ThinkingBudgetSlider component implementation
+# 查看 ThinkingBudgetSlider 组件实施
 <read_file>
 <path>webview-ui/src/components/settings/ThinkingBudgetSlider.tsx</path>
 </read_file>
 
-# Check how thinking mode is currently handled in API providers
+# 检查 API 提供商中当前如何处理思考模式
 <search_files>
 <path>src/api/providers</path>
 <regex>reasoningOn</regex>
@@ -205,62 +205,62 @@ gh pr diff 3627
 </search_files>
 ```
 
-## Step 3: Analyze the Changes
+## 步骤 3：分析更改
 
-From the PR information and code examination, we can see that:
+从 PR 信息和代码检查中，我们可以看到：
 
-1. The PR fixes an issue with the thinking mode budget calculation for Claude 3.7 models
-2. Currently, the thinking budget is incorrectly calculated as 80% of maxTokens (8192), resulting in 6553 tokens
-3. Claude 3.7 actually supports a much larger thinking budget (up to 64000 tokens)
-4. The PR adds a `thinkingConfig` property with `maxBudget: 64000` to model definitions
-5. It updates API handlers to use this value when reasoning mode is enabled
-6. It enhances the slider component to calculate max values based on model-specific percentages
-7. Comprehensive tests were added to verify the calculations
+1. PR 修复了 Claude 3.7 模型思考模式预算计算的问题
+2. 目前，思考预算被错误地计算为 maxTokens (8192) 的 80%，结果为 6553 个令牌
+3. Claude 3.7 实际上支持更大的思考预算（最多 64000 个令牌）
+4. PR 添加了 `thinkingConfig` 属性，`maxBudget: 64000` 到模型定义
+5. 它更新 API 处理器以在启用推理模式时使用此值
+6. 它增强了滑块组件以基于模型特定百分比计算最大值
+7. 添加了综合测试以验证计算
 
-## Step 4: Ask for User Confirmation
-
-```xml
-<ask_followup_question>
-<question>Based on my review of PR #3627, I recommend approving this PR. Here's my justification:
-
-1. The PR correctly fixes the thinking mode budget calculation for Claude 3.7 models
-2. It properly implements the thinkingConfig.maxBudget property (64000) for Claude 3.7 models
-3. It applies the appropriate percentage (50%) for the slider calculation
-4. The changes are well-tested with comprehensive unit tests
-5. The implementation is clean and follows the project's coding standards
-6. The PR includes helpful screenshots demonstrating the fix
-
-Would you like me to proceed with approving this PR?</question>
-<options>["Yes, approve the PR", "No, I'd like to discuss further", "Let me review it myself first"]</options>
-</ask_followup_question>
-```
-
-## Step 5: Ask if User Wants a Comment Drafted
+## 步骤 4：请求用户确认
 
 ```xml
 <ask_followup_question>
-<question>Would you like me to draft a comment for this PR that you can copy and paste?</question>
-<options>["Yes, please draft a comment", "No, I'll handle the comment myself"]</options>
+<question>基于我对 PR #3627 的审查，我建议批准这个 PR。这是我的理由：
+
+1. PR 正确修复了 Claude 3.7 模型的思考模式预算计算
+2. 它正确实施了 Claude 3.7 模型的 thinkingConfig.maxBudget 属性 (64000)
+3. 它为滑块计算应用了适当的百分比 (50%)
+4. 更改经过全面测试，具有综合单元测试
+5. 实施干净，遵循项目的编码标准
+6. PR 包括有助于演示修复的截图
+
+您希望我继续批准这个 PR 吗？</question>
+<options>["是的，批准 PR", "不，我想进一步讨论", "让我先自己审查一下"]</options>
 </ask_followup_question>
 ```
 
-## Step 6: Make a Decision
+## 步骤 5：询问用户是否想要起草评论
+
+```xml
+<ask_followup_question>
+<question>您希望我为这个 PR 起草一个您可以复制粘贴的评论吗？</question>
+<options>["是的，请起草评论", "不，我会自己处理评论"]</options>
+</ask_followup_question>
+```
+
+## 步骤 6：做出决定
 
 ```bash
-# Option 1: Simple one-line comment
-gh pr review 3627 --approve --body "This PR looks good! It correctly fixes the thinking mode budget calculation for Claude 3.7 models."
+# 选项 1：简单的单行评论
+gh pr review 3627 --approve --body "这个 PR 看起来很好！它正确修复了 Claude 3.7 模型的思考模式预算计算。"
 
-# Option 2: Multi-line comment with proper whitespace formatting
+# 选项 2：具有适当空白格式的多行评论
 cat << EOF | gh pr review 3627 --approve --body-file -
-This PR looks good! It correctly fixes the thinking mode budget calculation for Claude 3.7 models.
+这个 PR 看起来很好！它正确修复了 Claude 3.7 模型的思考模式预算计算。
 
-I particularly like:
-1. The proper implementation of thinkingConfig.maxBudget property (64000)
-2. The appropriate percentage (50%) for the slider calculation
-3. The comprehensive unit tests
-4. The clean implementation that follows project coding standards
+我特别喜欢：
+1. thinkingConfig.maxBudget 属性 (64000) 的正确实施
+2. 滑块计算的适当百分比 (50%)
+3. 综合单元测试
+4. 遵循项目编码标准的干净实施
 
-Great work!
+干得好！
 EOF
 ```
 
@@ -268,178 +268,178 @@ EOF
 
 <common_gh_commands>
 
-# Common GitHub CLI Commands for PR Review
+# PR 审查的常用 GitHub CLI 命令
 
-## Basic PR Commands
+## 基本 PR 命令
 
 ```bash
-# List open PRs
+# 列出开放的 PR
 gh pr list
 
-# View a specific PR
+# 查看特定 PR
 gh pr view <PR-number>
 
-# View PR with specific fields
+# 查看具有特定字段的 PR
 gh pr view <PR-number> --json title,body,comments,files,commits
 
-# Check PR status
+# 检查 PR 状态
 gh pr status
 ```
 
-## Diff and File Commands
+## 差异和文件命令
 
 ```bash
-# Get the full diff of a PR
+# 获取 PR 的完整差异
 gh pr diff <PR-number>
 
-# List files changed in a PR
+# 列出 PR 中更改的文件
 gh pr view <PR-number> --json files
 
-# Check out a PR locally
+# 在本地检出 PR
 gh pr checkout <PR-number>
 ```
 
-## Review Commands
+## 审查命令
 
 ```bash
-# Approve a PR (single-line comment)
-gh pr review <PR-number> --approve --body "Your approval message"
+# 批准 PR（单行评论）
+gh pr review <PR-number> --approve --body "您的批准消息"
 
-# Approve a PR (multi-line comment with proper whitespace)
+# 批准 PR（具有适当空白的多行评论）
 cat << EOF | gh pr review <PR-number> --approve --body-file -
-Your multi-line
-approval message with
+您的多行
+批准消息，具有
 
-proper whitespace formatting
+适当的空白格式
 EOF
 
-# Request changes on a PR (single-line comment)
-gh pr review <PR-number> --request-changes --body "Your feedback message"
+# 在 PR 上请求更改（单行评论）
+gh pr review <PR-number> --request-changes --body "您的反馈消息"
 
-# Request changes on a PR (multi-line comment with proper whitespace)
+# 在 PR 上请求更改（具有适当空白的多行评论）
 cat << EOF | gh pr review <PR-number> --request-changes --body-file -
-Your multi-line
-change request with
+您的多行
+更改请求，具有
 
-proper whitespace formatting
+适当的空白格式
 EOF
 
-# Add a comment review (without approval/rejection)
-gh pr review <PR-number> --comment --body "Your comment message"
+# 添加评论审查（无批准/拒绝）
+gh pr review <PR-number> --comment --body "您的评论消息"
 
-# Add a comment review with proper whitespace
+# 添加具有适当空白的评论审查
 cat << EOF | gh pr review <PR-number> --comment --body-file -
-Your multi-line
-comment with
+您的多行
+评论，具有
 
-proper whitespace formatting
+适当的空白格式
 EOF
 ```
 
-## Additional Commands
+## 附加命令
 
 ```bash
-# View PR checks status
+# 查看 PR 检查状态
 gh pr checks <PR-number>
 
-# View PR commits
+# 查看 PR 提交
 gh pr view <PR-number> --json commits
 
-# Merge a PR (if you have permission)
+# 合并 PR（如果您有权限）
 gh pr merge <PR-number> --merge
 ```
 
 </common_gh_commands>
 
 <general_guidelines_for_commenting>
-When reviewing a PR, please talk normally and like a friendly reviwer. You should keep it short, and start out by thanking the author of the pr and @ mentioning them.
+在审查 PR 时，请正常说话，像一个友好的审查者。您应该保持简短，首先感谢 PR 的作者并 @ 提及他们。
 
-Whether or not you approve the PR, you should then give a quick summary of the changes without being too verbose or definitive, staying humble like that this is your understanding of the changes. Kind of how I'm talking to you right now.
+无论您是否批准 PR，您都应该对更改进行快速总结，不要太冗长或确定，保持谦逊，就像这是您对更改的理解一样。就像我现在对您说话的方式。
 
-If you have any suggestions, or things that need to be changed, request changes instead of approving the PR.
+如果您有任何建议或需要更改的事情，请请求更改而不是批准 PR。
 
-Leaving inline comments in code is good, but only do so if you have something specific to say about the code. And make sure you leave those comments first, and then request changes in the PR with a short comment explaining the overall theme of what you're asking them to change.
+在代码中留下内联评论很好，但只有在您对代码有具体要说的话时才这样做。确保您先留下这些评论，然后在 PR 中请求更改，并简短评论解释您要求他们更改的整体主题。
 </general_guidelines_for_commenting>
 
 <example_comments_that_i_have_written_before>
 <brief_approve_comment>
-Looks good, though we should make this generic for all providers & models at some point
+看起来很好，虽然我们应该在某个时候为所有提供商和模型使其通用
 </brief_approve_comment>
 <brief_approve_comment>
-Will this work for models that may not match across OR/Gemini? Like the thinking models?
+这对于可能不匹配 OR/Gemini 的模型会有效吗？比如思考模型？
 </brief_approve_comment>
 <approve_comment>
-This looks great! I like how you've handled the global endpoint support - adding it to the ModelInfo interface makes total sense since it's just another capability flag, similar to how we handle other model features.
+这看起来很棒！我喜欢您如何处理全局端点支持 - 将其添加到 ModelInfo 接口完全有意义，因为它只是另一个能力标志，类似于我们处理其他模型功能的方式。
 
-The filtered model list approach is clean and will be easier to maintain than hardcoding which models work with global endpoints. And bumping the genai library was obviously needed for this to work.
+过滤模型列表方法很干净，比硬编码哪些模型适用于全局端点更容易维护。提升 genai 库显然是为了使其工作。
 
-Thanks for adding the docs about the limitations too - good for users to know they can't use context caches with global endpoints but might get fewer 429 errors.
+感谢您也添加了关于限制的文档 - 用户知道他们不能将上下文缓存与全局端点一起使用但可能获得更少的 429 错误是好事。
 </approve_comment>
 <requesst_changes_comment>
-This is awesome. Thanks @scottsus.
+这很棒。感谢 @scottsus。
 
-My main concern though - does this work for all the possible VS Code themes? We struggled with this initially which is why it's not super styled currently. Please test and share screenshots with the different themes to make sure before we can merge
-</request_changes_comment>
+不过我的主要担忧 - 这对所有可能的 VS Code 主题都有效吗？我们最初为此挣扎，这就是为什么它目前没有超级样式化的原因。请在我们可以合并之前测试并与不同主题分享截图
+</requesst_changes_comment>
 <request_changes_comment>
-Hey, the PR looks good overall but I'm concerned about removing those timeouts. Those were probably there for a reason - VSCode's UI can be finicky with timing.
+嘿，PR 整体看起来很好，但我担心移除那些超时。那些可能是有原因的 - VSCode 的 UI 对时间很敏感。
 
-Could you add back the timeouts after focusing the sidebar? Something like:
+您能在聚焦侧边栏后重新添加超时吗？像这样：
 
 ```typescript
 await vscode.commands.executeCommand("claude-dev.SidebarProvider.focus")
-await setTimeoutPromise(100) // Give UI time to update
+await setTimeoutPromise(100) // 给 UI 时间更新
 visibleWebview = WebviewProvider.getSidebarInstance()
 ```
 
 </request_changes_comment>
 <request_changes_comment>
-Heya @alejandropta thanks for working on this!
+嘿 @alejandropta 感谢您为此工作！
 
-A few notes:
-1 - Adding additional info to the environment variables is fairly problematic because env variables get appended to **every single message**. I don't think this is justifiable for a somewhat niche use case.
-2 - Adding this option to settings to include that could be an option, but we want our options to be simple and straightforward for new users
-3 - We're working on revisualizing the way our settings page is displayed/organized, and this could potentially be reconciled once that is in and our settings page is more clearly delineated.
+几个注意事项：
+1 - 向环境变量添加额外信息相当有问题，因为环境变量会附加到**每条消息**。我认为对于有点小众的用例来说这是不合理的。
+2 - 将此选项添加到设置中可能是一个选项，但我们希望我们的选项对新用户来说简单明了
+3 - 我们正在重新可视化设置页面的显示/组织方式，一旦完成并且我们的设置页面更清晰地划分，这可能会得到协调。
 
-So until the settings page is update, and this is added to settings in a way that's clean and doesn't confuse new users, I don't think we can merge this. Please bear with us.
+所以在设置页面更新之前，并且这在设置中以干净的方式添加并且不会让新用户困惑，我认为我们不能合并这个。请耐心等待我们。
 </request_changes_comment>
 <request_changes_comment>
-Also, don't forget to add a changeset since this fixes a user-facing bug.
+另外，不要忘记添加变更集，因为这会修复面向用户的错误。
 
-The architectural change is solid - moving the focus logic to the command handlers makes sense. Just don't want to introduce subtle timing issues by removing those timeouts.
+架构更改是坚实的 - 将焦点逻辑移动到命令处理器是有意义的。只是不想通过移除那些超时来引入微妙的时间问题。
 </request_changes_comment>
 </example_comments_that_i_have_written_before>
 ````
 
-When I get a new PR to review, I used to manually gather context: checking the PR description, examining the diff, looking at surrounding files, and finally forming an opinion. Now I just:
+当我收到新的 PR 要审查时，我过去手动收集上下文：检查 PR 描述、检查差异、查看周围文件，最后形成意见。现在我只是：
 
-1. Type `/pr-review.md` in chat
-2. Paste in the PR number
-3. Let Cline handle everything else
+1. 在聊天中输入 `/pr-review.md`
+2. 粘贴 PR 编号
+3. 让 Cline 处理其他一切
 
-My workflow uses the `gh` command-line tool and Cline's built in `ask_followup_question` to:
+我的工作流程使用 `gh` 命令行工具和 Cline 内置的 `ask_followup_question` 来：
 
--   Pull the PR description and comments
--   Examine the diff
--   Check surrounding files for context
--   Analyze potential issues
--   Asks me if it's cool approve it if everything looks good, with justification for why it should be approved
--   If I say "yes," Cline automatically approves the PR with the `gh` command
+-   拉取 PR 描述和评论
+-   检查差异
+-   检查周围文件以获取上下文
+-   分析潜在问题
+-   如果一切看起来都很好，询问我是否可以批准它，并提供为什么应该批准的理由
+-   如果我说"是"，Cline 使用 `gh` 命令自动批准 PR
 
-This has taken my PR review process from a manual, multi-step operation to a single command that gives me everything I need to make an informed decision.
+这使我的 PR 审查过程从手动、多步骤操作转变为单一命令，为我提供做出明智决定所需的一切。
 
-> This is just one example of a workflow file. You can find more in our [prompts repository](https://github.com/cline/prompts) for inspiration.
+> 这只是工作流程文件的一个示例。您可以在我们的 [提示仓库](https://github.com/cline/prompts) 中找到更多灵感。
 
-## Building Your Own Workflows
+## 构建您自己的工作流程
 
-The beauty of workflows is they're completely customizable to your needs. You might create workflows for all kinds of repetitive tasks:
+工作流程的美妙之处在于它们完全可以根据您的需求定制。您可能为各种重复性任务创建工作流程：
 
--   For releases, you could have a workflow that grabs all merged PRs, builds a changelog, and handles version bumps.
--   Setting up new projects is perfect for workflows. Just run one command to create your folder structure, install dependencies, and set up configs.
--   Need to create a report? Create a workflow that grabs stats from different sources and formats them exactly how you like. You can even visualize them with a charting library and then make a presentation out of it with a library like [slidev](https://sli.dev/).
--   You can even use workflows to draft messages to your team using an MCP server like Slack or Whatsapp after you submit a PR.
+-   对于发布，您可以有一个工作流程来抓取所有合并的 PR，构建变更日志，并处理版本提升。
+-   设置新项目非常适合工作流程。只需运行一个命令来创建您的文件夹结构、安装依赖项和设置配置。
+-   需要创建报告？创建一个工作流程，从不同来源抓取统计数据并按照您喜欢的方式格式化它们。您甚至可以使用图表库可视化它们，然后使用像 [slidev](https://sli.dev/) 这样的库制作演示文稿。
+-   您甚至可以使用工作流程在提交 PR 后使用 Slack 或 Whatsapp 等 MCP 服务器向您的团队起草消息。
 
-With Workflows, your imagination is the limit. The true potential comes from spotting those annoying repetitive tasks you do all the time.
+使用工作流程，您的想象力是极限。真正的潜力来自发现您一直做的那些烦人的重复性任务。
 
-If you can describe something as "first I do X, then Y, then Z" - that's a perfect workflow candidate.
+如果您可以将某事描述为"首先我做 X，然后 Y，然后 Z" - 那是一个完美的工作流程候选者。
 
-Start with something small that bugs you, turn it into a workflow, and keep refining it. You'll be shocked how much of your day can be automated this way.
+从困扰您的小事开始，将其转变为工作流程，并不断改进它。您会惊讶地发现您的一天中有多少可以通过这种方式自动化。

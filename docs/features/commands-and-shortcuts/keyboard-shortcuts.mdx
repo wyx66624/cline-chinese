@@ -1,103 +1,103 @@
 ---
-title: "Keyboard Shortcuts"
-sidebarTitle: "Keyboard Shortcuts"
+title: "键盘快捷键"
+sidebarTitle: "键盘快捷键"
 ---
 
-Cline's keyboard shortcuts let you access AI assistance without taking your hands off the keyboard. Speed up your workflow by using hotkeys for common Cline actions.
+Cline 的键盘快捷键让您无需将手从键盘上移开即可访问 AI 辅助。通过使用常用 Cline 操作的热键来加速您的工作流程。
 
-## Default Keyboard Shortcuts
+## 默认键盘快捷键
 
-Cline comes with the following built-in keyboard shortcuts to streamline your workflow:
+Cline 配备以下内置键盘快捷键来简化您的工作流程：
 
-| Action                  | Windows/Linux | macOS   | Condition                    | Description                               |
+| 操作                    | Windows/Linux | macOS   | 条件                        | 描述                               |
 | ----------------------- | ------------- | ------- | ---------------------------- | ----------------------------------------- |
-| Add to Cline            | `Ctrl+'`      | `Cmd+'` | When text is selected        | Adds selected code to Cline chat          |
-| Focus Chat Input        | `Ctrl+'`      | `Cmd+'` | When no text is selected     | Focuses the Cline chat input field        |
-| Generate Commit Message | (unset)       | (unset) | When Git is the SCM provider | Available through the Source Control view |
+| 添加到 Cline            | `Ctrl+'`      | `Cmd+'` | 当选择文本时        | 将选中的代码添加到 Cline 聊天          |
+| 聚焦聊天输入        | `Ctrl+'`      | `Cmd+'` | 当没有选择文本时     | 聚焦 Cline 聊天输入字段        |
+| 生成提交消息 | (未设置)       | (未设置) | 当 Git 是 SCM 提供商时 | 通过源代码控制视图可用 |
 
-## Available Commands for Custom Shortcuts
+## 自定义快捷键的可用命令
 
-While Cline has only a few default keyboard shortcuts, you can assign your own shortcuts to any of these commands:
+虽然 Cline 只有几个默认键盘快捷键，但您可以为以下任何命令分配自己的快捷键：
 
-| Command ID                                                                               | Description                                   |
+| 命令 ID                                                                               | 描述                                   |
 | ---------------------------------------------------------------------------------------- | --------------------------------------------- |
-| [`cline.openInNewTab`](/features/commands-and-shortcuts/overview)                        | Opens Cline in a new editor tab               |
-| [`cline.addToChat`](/features/commands-and-shortcuts/code-commands)                      | Adds selected code to Cline chat              |
-| [`cline.addTerminalOutputToChat`](/features/commands-and-shortcuts/terminal-integration) | Adds terminal output to Cline                 |
-| `cline.focusChatInput`                                                                   | Focuses the Cline chat input field            |
-| [`cline.generateGitCommitMessage`](/features/commands-and-shortcuts/git-integration)     | Generates a commit message for staged changes |
-| [`cline.explainCode`](/features/commands-and-shortcuts/code-commands)                    | Explains selected code                        |
-| [`cline.improveCode`](/features/commands-and-shortcuts/code-commands)                    | Suggests improvements for selected code       |
-| [`cline.fixWithCline`](/features/commands-and-shortcuts/code-commands)                   | Fixes code with errors                        |
-| `claude-dev.SidebarProvider.focus`                                                       | Opens and focuses the Cline sidebar           |
+| [`cline.openInNewTab`](/features/commands-and-shortcuts/overview)                        | 在新编辑器标签页中打开 Cline               |
+| [`cline.addToChat`](/features/commands-and-shortcuts/code-commands)                      | 将选中的代码添加到 Cline 聊天              |
+| [`cline.addTerminalOutputToChat`](/features/commands-and-shortcuts/terminal-integration) | 将终端输出添加到 Cline                 |
+| `cline.focusChatInput`                                                                   | 聚焦 Cline 聊天输入字段            |
+| [`cline.generateGitCommitMessage`](/features/commands-and-shortcuts/git-integration)     | 为暂存的更改生成提交消息 |
+| [`cline.explainCode`](/features/commands-and-shortcuts/code-commands)                    | 解释选中的代码                        |
+| [`cline.improveCode`](/features/commands-and-shortcuts/code-commands)                    | 为选中的代码建议改进       |
+| [`cline.fixWithCline`](/features/commands-and-shortcuts/code-commands)                   | 修复有错误的代码                        |
+| `claude-dev.SidebarProvider.focus`                                                       | 打开并聚焦 Cline 侧边栏           |
 
-## Customizing Keyboard Shortcuts
+## 自定义键盘快捷键
 
-You can customize Cline's keyboard shortcuts to match your preferences:
+您可以自定义 Cline 的键盘快捷键以匹配您的偏好：
 
-1. Open the Keyboard Shortcuts editor in VSCode:
+1. 在 VSCode 中打开键盘快捷键编辑器：
 
-    - Press `Ctrl+K Ctrl+S` (Windows/Linux) or `Cmd+K Cmd+S` (macOS)
-    - Or go to File > Preferences > Keyboard Shortcuts
+    - 按 `Ctrl+K Ctrl+S`（Windows/Linux）或 `Cmd+K Cmd+S`（macOS）
+    - 或转到文件 > 首选项 > 键盘快捷键
 
-2. Search for "Cline" to see all available commands
+2. 搜索"Cline"以查看所有可用命令
 
-3. Click on the pencil icon next to any command to change its shortcut
+3. 点击任何命令旁边的铅笔图标以更改其快捷键
 
-4. Press the keys you want to assign to that command
+4. 按您想要分配给该命令的键
 
-5. Press Enter to save the new shortcut
+5. 按 Enter 保存新快捷键
 
-## Suggested Custom Shortcuts
+## 建议的自定义快捷键
 
-Here are some suggested shortcuts you might find useful:
+以下是一些您可能觉得有用的建议快捷键：
 
-| Action                | Suggested Shortcut             | Command ID                                | Description                   |
+| 操作                | 建议快捷键             | 命令 ID                                | 描述                   |
 | --------------------- | ------------------------------ | ----------------------------------------- | ----------------------------- |
-| Open Cline Sidebar    | `Ctrl+Shift+C` / `Cmd+Shift+C` | `claude-dev.SidebarProvider.focus`        | Opens the Cline sidebar panel |
-| New Task              | `Alt+N`                        | `cline.plusButtonClicked`                 | Starts a new Cline task       |
-| Add Terminal to Cline | `Alt+T`                        | `cline.addTerminalOutputToChat`           | Adds terminal output to Cline |
-| Clear Current Task    | `Alt+C`                        | (Requires custom keybinding to UI action) | Clears the current task       |
+| 打开 Cline 侧边栏    | `Ctrl+Shift+C` / `Cmd+Shift+C` | `claude-dev.SidebarProvider.focus`        | 打开 Cline 侧边栏面板 |
+| 新任务              | `Alt+N`                        | `cline.plusButtonClicked`                 | 启动新的 Cline 任务       |
+| 将终端添加到 Cline | `Alt+T`                        | `cline.addTerminalOutputToChat`           | 将终端输出添加到 Cline |
+| 清除当前任务    | `Alt+C`                        | (需要自定义键绑定到 UI 操作) | 清除当前任务       |
 
-## Keyboard-Only Workflow
+## 仅键盘工作流程
 
-With the right shortcuts, you can use Cline without ever touching the mouse:
+使用正确的快捷键，您可以无需触摸鼠标即可使用 Cline：
 
-1. Select code with keyboard navigation (`Shift+Arrow` keys)
-2. Send to Cline with `Ctrl+'` / `Cmd+'`
-3. Type your question and press Enter
-4. Review the response and apply suggestions
+1. 使用键盘导航选择代码（`Shift+Arrow` 键）
+2. 使用 `Ctrl+'` / `Cmd+'` 发送给 Cline
+3. 输入您的问题并按 Enter
+4. 审查响应并应用建议
 
-## Editor Integration Shortcuts
+## 编辑器集成快捷键
 
-Cline's keyboard shortcuts integrate seamlessly with VSCode's built-in shortcuts:
+Cline 的键盘快捷键与 VSCode 的内置快捷键无缝集成：
 
--   Use VSCode's selection shortcuts (`Ctrl+L` / `Cmd+L` to select line, etc.) before sending code to Cline
--   Combine with VSCode's split editor shortcuts to view code and Cline side by side
--   Use VSCode's terminal focus shortcut (`` Ctrl+` `` / `` Cmd+` ``) before capturing terminal output
+-   在将代码发送给 Cline 之前使用 VSCode 的选择快捷键（`Ctrl+L` / `Cmd+L` 选择行等）
+-   与 VSCode 的分割编辑器快捷键结合使用，以并排查看代码和 Cline
+-   在捕获终端输出之前使用 VSCode 的终端聚焦快捷键（`` Ctrl+` `` / `` Cmd+` ``）
 
-## Tips for Effective Use
+## 有效使用技巧
 
--   **Learn the default shortcut first**: The `Ctrl+'` / `Cmd+'` shortcut is versatile - it adds selected code to chat when text is selected, or focuses the chat input when nothing is selected
--   **Create muscle memory**: Use keyboard shortcuts consistently to build habits
--   **Customize for your workflow**: Assign shortcuts to commands you use frequently
--   **Consider ergonomics**: Choose shortcuts that are comfortable for your keyboard layout
+-   **首先学习默认快捷键**：`Ctrl+'` / `Cmd+'` 快捷键是多功能的 - 当选择文本时它将选中的代码添加到聊天，或当没有选择任何内容时聚焦聊天输入
+-   **创建肌肉记忆**：一致地使用键盘快捷键来建立习惯
+-   **为工作流程自定义**：为经常使用的命令分配快捷键
+-   **考虑人体工程学**：选择对您的键盘布局舒适的快捷键
 
-Keyboard shortcuts may seem like a small optimization, but they can significantly speed up your workflow when using Cline regularly. By keeping your hands on the keyboard, you maintain your coding flow while still getting AI assistance exactly when you need it.
+键盘快捷键可能看起来像是一个小优化，但当您经常使用 Cline 时，它们可以显著加速您的工作流程。通过将手放在键盘上，您保持编码流程，同时在需要时仍然获得 AI 辅助。
 
-## How to Find All Available Commands
+## 如何查找所有可用命令
 
-To see all Cline commands that can be assigned shortcuts:
+要查看可以分配快捷键的所有 Cline 命令：
 
-1. Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
-2. Type "Cline" to filter the list
-3. Browse the available commands
+1. 打开命令面板（`Ctrl+Shift+P` / `Cmd+Shift+P`）
+2. 输入"Cline"以过滤列表
+3. 浏览可用命令
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/editor-integration.png"
-		alt="Editor Integration Overview"
+		alt="编辑器集成概述"
 	/>
 </Frame>
 
-This helps you discover features you might not have known about and assign shortcuts to the ones you use most frequently.
+这有助于您发现可能不知道的功能，并为最常用的功能分配快捷键。

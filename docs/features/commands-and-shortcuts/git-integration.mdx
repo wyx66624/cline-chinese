@@ -1,71 +1,70 @@
 ---
-title: "Generate Commit Message"
-sidebarTitle: "Generate Commit Message"
+title: "生成提交消息"
+sidebarTitle: "生成提交消息"
 ---
 
-Cline's Git integration brings AI assistance directly to your version control workflow. Generate commit messages without leaving your editor.
+Cline 的 Git 集成将 AI 辅助直接带到您的版本控制工作流程中。无需离开编辑器即可生成提交消息。
 
-## Generate Commit Message
+## 生成提交消息
 
-One of the most useful Git integrations is the ability to automatically generate meaningful commit messages:
+最有用的 Git 集成之一是能够自动生成有意义的提交消息：
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/generate-commit-message-with-cline.png"
-		alt="Generate Commit Message with Cline"
+		alt="使用 Cline 生成提交消息"
 	/>
 </Frame>
 
-1. Make your changes and stage them in Git
-2. Click the robot icon in the Source Control view or run the "Generate Commit Message with Cline" command
-3. Cline analyzes your changes and generates a descriptive commit message
-4. The message is automatically inserted into the commit message input box
+1. 进行更改并在 Git 中暂存它们
+2. 点击源代码控制视图中的机器人图标或运行"使用 Cline 生成提交消息"命令
+3. Cline 分析您的更改并生成描述性提交消息
+4. 消息自动插入到提交消息输入框中
 
-The generated commit messages:
+生成的提交消息：
 
--   Start with a concise summary (50-72 characters)
--   Use imperative mood (e.g., "Add feature" not "Added feature")
--   Describe what was changed and why
--   Follow Git best practices
+-   以简洁摘要开头（50-72 个字符）
+-   使用祈使语气（例如，"Add feature"而不是"Added feature"）
+-   描述发生了什么变化以及为什么
+-   遵循 Git 最佳实践
 
-This feature saves time and ensures your commit history is consistent and informative.
+此功能节省时间并确保您的提交历史一致且信息丰富。
 
 <Tip>
-	For information about using `@git-changes` and `@[commit-hash]` mentions in your chat messages, see the [Git
-	Mentions](/features/at-mentions/git-mentions) documentation.
+	有关在聊天消息中使用 `@git-changes` 和 `@[commit-hash]` 提及的信息，请参阅[Git 提及](/features/at-mentions/git-mentions)文档。
 </Tip>
 
-## How It Works
+## 工作原理
 
-When you use Cline's commit message generation feature, here's what happens behind the scenes:
+当您使用 Cline 的提交消息生成功能时，幕后会发生以下情况：
 
-1. Cline retrieves the current Git diff using `getWorkingState()`
-2. It formats this diff into a specialized prompt for the AI
-3. The AI analyzes the changes and generates an appropriate commit message
-4. The message is extracted and inserted into the Git commit message input box
+1. Cline 使用 `getWorkingState()` 检索当前 Git 差异
+2. 它将此差异格式化为 AI 的专门提示
+3. AI 分析更改并生成适当的提交消息
+4. 提取消息并将其插入到 Git 提交消息输入框中
 
-This process uses your current Cline API configuration, so the quality of the generated messages matches your chosen AI model.
+此过程使用您当前的 Cline API 配置，因此生成消息的质量与您选择的 AI 模型匹配。
 
-## Tips for Effective Use
+## 有效使用技巧
 
--   **Generate commit messages for complex changes**: The AI excels at summarizing multiple related changes into a coherent message.
+-   **为复杂更改生成提交消息**：AI 擅长将多个相关更改总结为连贯的消息。
 
--   **Review and edit generated messages**: While the AI generates high-quality messages, it's always good practice to review and adjust them if needed.
+-   **审查和编辑生成的消息**：虽然 AI 生成高质量消息，但审查并在需要时调整它们始终是好的做法。
 
--   **Stage related changes together**: For the best results, stage related changes together so the AI can generate a cohesive message.
+-   **一起暂存相关更改**：为了获得最佳结果，一起暂存相关更改，以便 AI 可以生成连贯的消息。
 
--   **Use for consistent commit history**: Using the generate commit message feature helps maintain a consistent style across your commit history.
+-   **用于一致的提交历史**：使用生成提交消息功能有助于在您的提交历史中保持一致的风格。
 
-## How It Works Under the Hood
+## 幕后工作原理
 
-The commit message generation leverages VSCode's Git extension API to access repository information:
+提交消息生成利用 VSCode 的 Git 扩展 API 来访问存储库信息：
 
-1. When you trigger the command:
-    - Cline gets the current diff
-    - It sends this to the AI with specific instructions for commit message formatting
-    - It parses the AI's response
-    - It accesses the Git extension API to set the commit message
+1. 当您触发命令时：
+    - Cline 获取当前差异
+    - 将其发送给 AI，并提供提交消息格式的特定说明
+    - 解析 AI 的响应
+    - 访问 Git 扩展 API 来设置提交消息
 
-This integration with Git makes it easy to generate high-quality commit messages without disrupting your workflow.
+与 Git 的这种集成使得在不中断工作流程的情况下生成高质量提交消息变得容易。
 
-Next time you're struggling to write a good commit message, try using Cline's commit message generation. You'll save time and improve your version control workflow with AI assistance right where you need it.
+下次您在写好的提交消息时遇到困难，尝试使用 Cline 的提交消息生成。您将节省时间并通过在需要的地方提供 AI 辅助来改进您的版本控制工作流程。

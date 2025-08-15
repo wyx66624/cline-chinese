@@ -1,46 +1,46 @@
 ---
-title: "URL Mentions"
-sidebarTitle: "URL Mentions"
+title: "URL 提及"
+sidebarTitle: "URL 提及"
 ---
 
-URL mentions let you bring web content directly into your conversation with Cline. Just type `@` followed by any URL, and Cline can see the content of that webpage without you having to copy and paste anything.
+URL 提及让您可以将网页内容直接引入与 Cline 的对话中。只需输入 `@` 后跟任何 URL，Cline 就能看到该网页的内容，而您无需复制和粘贴任何内容。
 
-When you type `@` in chat followed by a URL (like `@https://example.com`), Cline will fetch the content of that webpage and include it in the context. This works for documentation pages, GitHub issues, Stack Overflow questions, or any other web content you want to reference.
+当您在聊天中输入 `@` 后跟 URL（如 `@https://example.com`）时，Cline 将获取该网页的内容并将其包含在上下文中。这适用于文档页面、GitHub 问题、Stack Overflow 问题或您想要引用的任何其他网页内容。
 
-I use URL mentions constantly when I'm working with external APIs or libraries. Instead of trying to explain how an API works or copying documentation snippets, I just reference the docs directly:
-
-```
-I'm trying to implement authentication with this API: @https://api.example.com/docs/auth
-
-Can you help me write the code to get an access token based on these docs?
-```
-
-This gives Cline the complete documentation page, so it can see all the authentication requirements, endpoints, parameters, and examples. Cline can then provide more accurate and comprehensive help based on the official documentation.
-
-URL mentions are especially useful for referencing GitHub issues or discussions:
+当我在处理外部 API 或库时，我会经常使用 URL 提及。无需尝试解释 API 如何工作或复制文档片段，我只需直接引用文档：
 
 ```
-I'm trying to fix this issue in our project: @https://github.com/our-org/our-repo/issues/123
+我正在尝试使用这个 API 实现身份验证：@https://api.example.com/docs/auth
 
-Here's my current implementation: @/src/components/Feature.jsx
-
-What changes do I need to make to address the issue?
+您能帮助我根据这些文档编写获取访问令牌的代码吗？
 ```
 
-This shows Cline the complete GitHub issue, including the description, comments, and any code snippets or screenshots. Cline can then help you implement a solution that directly addresses the reported issue.
+这给 Cline 提供了完整的文档页面，所以它可以查看所有身份验证要求、端点、参数和示例。然后 Cline 可以基于官方文档提供更准确和全面的帮助。
 
-Next time you're working with external documentation or online resources, try using URL mentions instead of copying and pasting content. You'll get more accurate help because Cline can see the complete context of the webpage, including formatting, code examples, and surrounding information.
+URL 提及对于引用 GitHub 问题或讨论特别有用：
 
-## How It Works Under the Hood
+```
+我正在尝试修复我们项目中的这个问题：@https://github.com/our-org/our-repo/issues/123
 
-When you use a URL mention in your message, here's what happens behind the scenes:
+这是我当前的实现：@/src/components/Feature.jsx
 
-1. When you send your message, Cline detects the `@http://...` or `@https://...` pattern in your text
-2. The extension launches a headless browser (Puppeteer) in the background
-3. It navigates to the URL and waits for the page to load completely
-4. The browser captures the page content, including text, formatting, and code examples
-5. The content is converted to a Markdown format that preserves the structure
-6. This content is appended to your message in a structured format:
+我需要做什么更改来解决这个问题？
+```
+
+这向 Cline 显示完整的 GitHub 问题，包括描述、评论和任何代码片段或截图。然后 Cline 可以帮助您实现直接解决报告问题的解决方案。
+
+下次您处理外部文档或在线资源时，尝试使用 URL 提及而不是复制和粘贴内容。您将获得更准确的帮助，因为 Cline 可以看到网页的完整上下文，包括格式、代码示例和周围信息。
+
+## 幕后工作原理
+
+当您在消息中使用 URL 提及时，幕后会发生以下情况：
+
+1. 当您发送消息时，Cline 检测文本中的 `@http://...` 或 `@https://...` 模式
+2. 扩展在后台启动无头浏览器（Puppeteer）
+3. 它导航到 URL 并等待页面完全加载
+4. 浏览器捕获页面内容，包括文本、格式和代码示例
+5. 内容被转换为保持结构的 Markdown 格式
+6. 此内容以结构化格式附加到您的消息中：
 
     ```
     <url_content url="https://example.com/docs">
@@ -55,11 +55,11 @@ When you use a URL mention in your message, here's what happens behind the scene
       password: 'pass'
     });
 
-    [Complete webpage content in Markdown format]
+    [Markdown 格式的完整网页内容]
     </url_content>
     ```
 
-7. The browser is then closed to free up resources
-8. This enhanced message with the embedded webpage content is sent to the AI
+7. 然后关闭浏览器以释放资源
+8. 这个包含嵌入网页内容的增强消息被发送给 AI
 
-This process happens automatically whenever you use a URL mention, giving the AI access to the complete content of the webpage without you having to copy and paste anything.
+每当您使用 URL 提及时，这个过程都会自动发生，给 AI 提供对网页完整内容的访问权限，而您无需复制和粘贴任何内容。
