@@ -1,94 +1,93 @@
 ---
 title: "Claude Code"
-description: "Use your Claude Max or Pro subscription with Cline instead of paying per token. Learn how to set up and configure the Claude Code provider."
+description: "在 Cline 中使用您的 Claude Max 或 Pro 订阅，而不是按令牌付费。学习如何设置和配置 Claude Code 提供商。"
 ---
 
-**Website:** [https://docs.anthropic.com/en/docs/claude-code/setup](https://docs.anthropic.com/en/docs/claude-code/setup)
+**网站：** [https://docs.anthropic.com/en/docs/claude-code/setup](https://docs.anthropic.com/en/docs/claude-code/setup)
 
-The Claude Code provider lets you use your existing Claude subscription with Cline. If you have Claude Max or Pro, this means you can use Claude in Cline without paying extra API costs.
+Claude Code 提供商让您可以在 Cline 中使用现有的 Claude 订阅。如果您有 Claude Max 或 Pro，这意味着您可以在 Cline 中使用 Claude，而无需支付额外的 API 费用。
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/claude-code-use-opus.gif"
-		alt="Using the Claude Code provider in Cline with Opus model"
+		alt="在 Cline 中使用 Claude Code 提供商与 Opus 模型"
 	/>
 </Frame>
 
-## Setup
+## 设置
 
-First, you'll need to install and authenticate Claude Code on your system:
+首先，您需要在系统上安装和认证 Claude Code：
 
-1. **Install Claude Code**: Follow Anthropic's [official setup guide](https://docs.anthropic.com/en/docs/claude-code/setup) to install and authenticate the Claude CLI.
+1. **安装 Claude Code**：按照 Anthropic 的[官方设置指南](https://docs.anthropic.com/en/docs/claude-code/setup)安装和认证 Claude CLI。
 
-2. **Configure in Cline**:
-    - Open Cline settings (⚙️ icon)
-    - Select **Claude Code** from the **API Provider** dropdown
-    - Set the path to your Claude CLI executable (usually just `claude` if it's in your PATH)
+2. **在 Cline 中配置**：
+    - 打开 Cline 设置（⚙️ 图标）
+    - 从**API 提供商**下拉菜单中选择**Claude Code**
+    - 设置 Claude CLI 可执行文件的路径（如果它在您的 PATH 中，通常只是 `claude`）
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/claude-code-setup.gif"
-		alt="Setting up the Claude Code provider in Cline"
+		alt="在 Cline 中设置 Claude Code 提供商"
 	/>
 </Frame>
 
 <br />
 
-<Accordion title="Windows Setup">
-	Anthropic introduced full support for Claude Code on Windows. Follow the [instructions on how to set up Claude Code
-	normally](#setup) and make sure you have the latest Claude Code and Cline versions.
+<Accordion title="Windows 设置">
+	Anthropic 在 Windows 上引入了对 Claude Code 的完全支持。按照[如何正常设置 Claude Code 的说明](#setup)，并确保您有最新的 Claude Code 和 Cline 版本。
 </Accordion>
 
-### Finding your Claude Code path
+### 查找您的 Claude Code 路径
 
-If you're not sure where Claude Code is installed:
+如果您不确定 Claude Code 安装在哪里：
 
--   **macOS / Linux**: Run `which claude` in your terminal
--   **Windows (Command Prompt)**: Run `where claude`
--   **Windows (PowerShell)**: Run `Get-Command claude`
+-   **macOS / Linux**：在终端中运行 `which claude`
+-   **Windows（命令提示符）**：运行 `where claude`
+-   **Windows（PowerShell）**：运行 `Get-Command claude`
 
-## Supported Models
+## 支持的模型
 
-The Claude Code provider supports these models:
+Claude Code 提供商支持这些模型：
 
--   `claude-sonnet-4-20250514` (Recommended)
+-   `claude-sonnet-4-20250514`（推荐）
 -   `claude-opus-4-1-20250805`
 -   `claude-opus-4-20250514`
 -   `claude-3-7-sonnet-20250219`
 -   `claude-3-5-sonnet-20241022`
 -   `claude-3-5-haiku-20241022`
 
-## How it works
+## 工作原理
 
-When you use Claude Code with Cline, here's what happens behind the scenes:
+当您在 Cline 中使用 Claude Code 时，以下是幕后发生的事情：
 
-Cline wraps the Claude Code CLI to handle your requests. Each time you send a message, Cline starts a new `claude` process, sends your conversation, and streams the response back. The AI reasoning comes from Claude Code, but all the actual file editing, terminal commands, and other tools are handled by Cline.
+Cline 包装 Claude Code CLI 来处理您的请求。每次您发送消息时，Cline 启动一个新的 `claude` 进程，发送您的对话，并将响应流式传输回来。AI 推理来自 Claude Code，但所有实际的文件编辑、终端命令和其他工具都由 Cline 处理。
 
-The main difference you'll notice is that responses don't stream character-by-character like other providers. Instead, Claude Code processes your full request before sending back the complete response.
+您会注意到的主要区别是响应不像其他提供商那样逐字符流式传输。相反，Claude Code 在发送完整响应之前处理您的完整请求。
 
-## Limitations
+## 限制
 
-There are a few things to keep in mind with Claude Code:
+使用 Claude Code 时需要注意几件事：
 
--   Images in your messages get converted to text placeholders since Claude Code doesn't support image uploads through the CLI
--   Prompt caching isn't available with this provider
--   Responses don't stream in real-time like other providers
+-   您消息中的图像被转换为文本占位符，因为 Claude Code 不支持通过 CLI 上传图像
+-   此提供商不支持提示缓存
+-   响应不像其他提供商那样实时流式传输
 
-## Troubleshooting
+## 故障排除
 
-If you run into issues:
+如果您遇到问题：
 
-**Authentication problems**: Make sure you're logged into Claude Code with your subscription account. Run `claude auth status` to check.
+**身份验证问题**：确保您使用订阅账户登录 Claude Code。运行 `claude auth status` 进行检查。
 
-**Path issues**: Double-check that the Claude CLI path in Cline's settings is correct. Try running `claude --version` in your terminal to verify it's working.
+**路径问题**：仔细检查 Cline 设置中的 Claude CLI 路径是否正确。尝试在终端中运行 `claude --version` 以验证它是否正常工作。
 
-**Still having trouble?** We're actively improving this integration. Report issues on our [GitHub](https://github.com/cline/cline/issues) or ask for help in our [Discord](https://discord.gg/cline).
+**仍然有问题？** 我们正在积极改进此集成。在我们的 [GitHub](https://github.com/cline/cline/issues) 上报告问题，或在我们的 [Discord](https://discord.gg/cline) 中寻求帮助。
 
-## Usage with subscriptions
+## 订阅使用
 
-If you have a Claude Max subscription, your usage in Cline shows up as $0.00 in the billing interface since you're not paying additional API costs. Your usage still counts against your subscription limits, but you won't see per-token charges.
+如果您有 Claude Max 订阅，您在 Cline 中的使用在计费界面中显示为 $0.00，因为您不支付额外的 API 费用。您的使用仍然计入您的订阅限制，但您不会看到按令牌收费。
 
-For more details about using Claude Code with your subscription, check out Anthropic's documentation:
+有关在订阅中使用 Claude Code 的更多详细信息，请查看 Anthropic 的文档：
 
--   [Claude Code Setup Guide](https://docs.anthropic.com/en/docs/claude-code/setup)
--   [Using Claude Code with Pro/Max Plans](https://support.anthropic.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan)
+-   [Claude Code 设置指南](https://docs.anthropic.com/en/docs/claude-code/setup)
+-   [在 Pro/Max 计划中使用 Claude Code](https://support.anthropic.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan)

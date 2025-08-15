@@ -1,67 +1,67 @@
 ---
-title: "Editing Messages"
-sidebarTitle: "Editing Messages"
+title: "编辑消息"
+sidebarTitle: "编辑消息"
 ---
 
-Cline allows you to edit chat messages in a task after they've been submitted. This feature lets you refine your requests without starting a new task, helping you get better results with minimal disruption to your workflow.
+Cline 允许您在任务提交后编辑聊天消息。此功能让您可以在不启动新任务的情况下完善请求，帮助您获得更好的结果，同时最小化对工作流程的干扰。
 
-## When to Edit Messages
+## 何时编辑消息
 
-You might want to edit a message when:
+当以下情况时，您可能想要编辑消息：
 
--   You didn't get the results you wanted
--   You thought of a better way to phrase your request
--   You need to add more information or context
--   You made a typo or error in your original message
+-   您没有得到想要的结果
+-   您想到了更好的表达请求的方式
+-   您需要添加更多信息或上下文
+-   您在原始消息中犯了拼写错误或错误
 
-## How to Edit Messages
+## 如何编辑消息
 
-1. Click on any message in the conversation (except the initial task message)
-2. Edit the text as needed
-3. Use the restore options to resubmit your request
+1. 点击对话中的任何消息（除了初始任务消息）
+2. 根据需要编辑文本
+3. 使用恢复选项重新提交您的请求
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/message-editing.png"
-		alt="Message editing interface"
+		alt="消息编辑界面"
 	/>
 </Frame>
 
-## Restore Options
+## 恢复选项
 
-When you edit a message, you have two options for restoring:
+当您编辑消息时，您有两个恢复选项：
 
-### Restore Chat
+### 恢复聊天
 
-The "Restore Chat" option:
+"恢复聊天"选项：
 
--   Restores just the task state
--   Re-submits an API request with your edited message
--   Preserves all file changes made up to that point
--   Is useful when you want to keep the current state of your workspace
+-   仅恢复任务状态
+-   使用您编辑的消息重新提交 API 请求
+-   保留到该点为止所做的所有文件更改
+-   当您想保持工作区的当前状态时很有用
 
-### Restore All
+### 恢复全部
 
-The "Restore All" option:
+"恢复全部"选项：
 
--   Restores both the task state and workspace state
--   Re-submits an API request with your edited message
--   Reverts your workspace to how it was at that point in the conversation
--   Uses [checkpoints](/features/checkpoints) under the hood to restore your workspace
--   Is useful when you want to try a completely different approach
+-   恢复任务状态和工作区状态
+-   使用您编辑的消息重新提交 API 请求
+-   将您的工作区恢复到对话中该点的状态
+-   在后台使用[检查点](/features/checkpoints)来恢复您的工作区
+-   当您想尝试完全不同的方法时很有用
 
-## Keyboard Shortcuts
+## 键盘快捷键
 
-When editing a message, you can use these keyboard shortcuts:
+编辑消息时，您可以使用这些键盘快捷键：
 
--   **Escape**: Exit edit mode without making changes
--   **Enter**: Restore just the task (equivalent to "Restore Chat")
--   **Cmd/Ctrl + Enter**: Restore the task and workspace (equivalent to "Restore All")
--   **Shift + Enter**: Insert a new line / line break in your message
+-   **Escape**：退出编辑模式而不进行更改
+-   **Enter**：仅恢复任务（等同于"恢复聊天"）
+-   **Cmd/Ctrl + Enter**：恢复任务和工作区（等同于"恢复全部"）
+-   **Shift + Enter**：在消息中插入新行/换行符
 
-## Best Practices
+## 最佳实践
 
--   Use message editing for minor adjustments to your requests
--   For major changes in direction, consider starting a new task
--   When using "Restore All," be aware that any file changes made after that message will be reverted
--   Edit messages closer to the beginning of a conversation to avoid losing significant progress
+-   使用消息编辑对请求进行小的调整
+-   对于方向的重大变化，考虑启动新任务
+-   使用"恢复全部"时，请注意该消息之后所做的任何文件更改都将被恢复
+-   编辑对话开始附近的消息，以避免失去重要进度

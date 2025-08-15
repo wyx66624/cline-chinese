@@ -1,296 +1,293 @@
 ---
-title: "Focus Chain"
-sidebarTitle: "Focus Chain"
+title: "焦点链"
+sidebarTitle: "焦点链"
 ---
 
-Focus Chain is a task management enhancement feature in Cline that provides automatic todo list management with real-time progress tracking throughout your tasks. 
+焦点链是 Cline 中的任务管理增强功能，提供自动待办事项列表管理，并在整个任务过程中进行实时进度跟踪。
 
-This enables Cline to work on long-horizon tasks, seamlessly managing the context sent to LLMs, and keeping Cline on track across many context window resets.
+这使 Cline 能够处理长期任务，无缝管理发送给 LLM 的上下文，并在多次上下文窗口重置中保持 Cline 的正轨。
 
 <Tip>
-  Focus Chain works particularly well with Cline's [Deep Planning slash command](/features/slash-commands/deep-planning), providing seamless progress tracking for implementation tasks created through the [planning process](/features/plan-and-act).
+  焦点链与 Cline 的[深度规划斜杠命令](/features/slash-commands/deep-planning)配合得特别好，为通过[规划过程](/features/plan-and-act)创建的实现任务提供无缝进度跟踪。
 </Tip>
 
-## Key Features
+## 主要功能
 
-### Automatic Todo List Generation
+### 自动待办事项列表生成
 
-Cline analyzes your task and automatically creates a comprehensive todo list with:
-- Clear, actionable items in markdown checklist format
-- Logical breakdown of complex tasks into manageable steps
-- Real-time updates as work progresses
+Cline 分析您的任务并自动创建全面的待办事项列表，包括：
+- 清晰、可操作的 markdown 清单格式项目
+- 将复杂任务逻辑分解为可管理的步骤
+- 随着工作进展的实时更新
 
-### User-Editable Todo Lists
+### 用户可编辑的待办事项列表
 
-Todo lists are stored as editable markdown files:
-- Direct editing through your preferred markdown editor
-- Automatic detection of changes you make
-- Seamless integration back into Cline's workflow
-- Quick access through the edit button in the task header
+待办事项列表存储为可编辑的 markdown 文件：
+- 通过您首选的 markdown 编辑器直接编辑
+- 自动检测您所做的更改
+- 无缝集成回 Cline 的工作流程
+- 通过任务头部的编辑按钮快速访问
 
-### Visual Progress Tracking
+### 可视化进度跟踪
 
-The task header displays clear progress indicators:
-- **Step counters** showing current progress (e.g., "3/8")
-- **Completed items** clearly marked with checkmarks
-- **Current work** highlighted with indicators
-- **Expandable view** to see the full todo list
+任务头部显示清晰的进度指示器：
+- **步骤计数器**显示当前进度（例如，"3/8"）
+- **已完成项目**用勾选标记清晰标记
+- **当前工作**用指示器高亮显示
+- **可展开视图**查看完整待办事项列表
 
-### Smart Reminder System
+### 智能提醒系统
 
-Configurable reminders ensure todo lists stay current:
-- Default reminder every 6 messages (customizable 1-100)
-- Automatic prompts when switching from Plan Mode to Act Mode
-- User-triggered updates when todo lists are manually edited
+可配置的提醒确保待办事项列表保持最新：
+- 默认每 6 条消息提醒一次（可自定义 1-100）
+- 从计划模式切换到执行模式时的自动提示
+- 手动编辑待办事项列表时的用户触发更新
 
-
-## Getting Started
+## 开始使用
 
 <Steps>
-  <Step title="Open Cline Settings">
-      - Click the gear icon in the Cline sidebar
-      - Navigate to the "Features" section
+  <Step title="打开 Cline 设置">
+      - 点击 Cline 侧边栏中的齿轮图标
+      - 导航到"功能"部分
   </Step>
-  <Step title="Enable Focus Chain">
-      - Check "Enable Focus Chain"
-      - Optionally adjust "Remind Cline Interval" (default: 6 messages)
+  <Step title="启用焦点链">
+      - 勾选"启用焦点链"
+      - 可选调整"提醒 Cline 间隔"（默认：6 条消息）
   </Step>
-  <Step title="Start a New Task">
-      - Begin a new task
-      - Cline will automatically start creating and managing todo lists
+  <Step title="开始新任务">
+      - 开始新任务
+      - Cline 将自动开始创建和管理待办事项列表
   </Step>
 </Steps>
 
-| Setting | Default | Range | Description |
-|---------|---------|-------|-------------|
-| Enable Focus Chain | Disabled | On/Off | Enables enhanced task progress tracking |
-| Remind Cline Interval | 6 | 1-100 messages | How often Cline updates the todo list |
+| 设置 | 默认值 | 范围 | 描述 |
+|------|--------|------|------|
+| 启用焦点链 | 禁用 | 开/关 | 启用增强的任务进度跟踪 |
+| 提醒 Cline 间隔 | 6 | 1-100 条消息 | Cline 更新待办事项列表的频率 |
 
-## Usage Examples
+## 使用示例
 
-#### 1. Task Initiation
+#### 1. 任务启动
 
-When you start a new task with Focus Chain enabled:
+当您启用焦点链开始新任务时：
 
-``` markdown User Request
-User: "Create a user authentication system for my React app"
+``` markdown 用户请求
+用户："为我的 React 应用创建用户认证系统"
 
-Cline: [Analyzes request and creates todo list]
+Cline：[分析请求并创建待办事项列表]
 ```
 
-#### 2. Todo List Created
+#### 2. 待办事项列表创建
 
-Cline creates a comprehensive plan for the task, stored in a markdown file:
+Cline 为任务创建全面计划，存储在 markdown 文件中：
 
-```markdown Todo List Created
-- [ ] Set up project structure
-- [ ] Install authentication dependencies
-- [ ] Create user registration component
-- [ ] Implement login functionality
-- [ ] Add password validation
-- [ ] Set up user database schema
-- [ ] Write authentication tests
-- [ ] Deploy to staging environment
+```markdown 待办事项列表创建
+- [ ] 设置项目结构
+- [ ] 安装认证依赖项
+- [ ] 创建用户注册组件
+- [ ] 实现登录功能
+- [ ] 添加密码验证
+- [ ] 设置用户数据库模式
+- [ ] 编写认证测试
+- [ ] 部署到暂存环境
 ```
 
-#### 3. Progress Tracking
+#### 3. 进度跟踪
 
-As Cline works, the task header shows real-time progress:
+当 Cline 工作时，任务头部显示实时进度：
 
-```markdown Todo List Header
-[3/8] Implement login functionality     ⌄
+```markdown 待办事项列表头部
+[3/8] 实现登录功能     ⌄
 ```
 
-Click to expand and see the full list:
+点击展开查看完整列表：
 
-```markdown Full Todo List
-✓ Set up project structure
-✓ Install authentication dependencies
-✓ Create user registration component
-○ Implement login functionality  ← Currently working
-○ Add password validation
-○ Set up user database schema
-○ Write authentication tests
-○ Deploy to staging environment
+```markdown 完整待办事项列表
+✓ 设置项目结构
+✓ 安装认证依赖项
+✓ 创建用户注册组件
+○ 实现登录功能  ← 当前正在工作
+○ 添加密码验证
+○ 设置用户数据库模式
+○ 编写认证测试
+○ 部署到暂存环境
 ```
 
-#### 4. User Editing
+#### 4. 用户编辑
 
-Need to tweak the todo list? No problem.
+需要调整待办事项列表？没问题。
 
 <Steps>
-  <Step title="Open the todo list">
-    Click the edit button in the expanded todo view
+  <Step title="打开待办事项列表">
+    点击展开的待办事项视图中的编辑按钮
   </Step>
-  <Step title="Edit the markdown file">
-    A markdown file opens in your editor:
+  <Step title="编辑 markdown 文件">
+    一个 markdown 文件在您的编辑器中打开：
 
-    ```markdown Editing Todo List
-    # Focus Chain Todo List for Task abc123
+    ```markdown 编辑待办事项列表
+    # 任务 abc123 的焦点链待办事项列表
 
-    <!-- Edit this markdown file to update your focus chain todo list -->
-    <!-- Use - [ ] for incomplete items and - [x] for completed items -->
+    <!-- 编辑此 markdown 文件以更新您的焦点链待办事项列表 -->
+    <!-- 使用 - [ ] 表示未完成项目，- [x] 表示已完成项目 -->
 
-    - [x] Set up project structure
-    - [x] Install authentication dependencies (e.g., Firebase Auth)
-    - [x] Create user registration component
-    - [ ] Implement login functionality
-    - [ ] Add password reset feature
-    - [ ] Set up protected routes
-    - [ ] Implement logout functionality
-    - [ ] Add user profile page
-    - [ ] Write authentication tests
-    - [ ] Deploy to staging environment
+    - [x] 设置项目结构
+    - [x] 安装认证依赖项（例如，Firebase Auth）
+    - [x] 创建用户注册组件
+    - [ ] 实现登录功能
+    - [ ] 添加密码重置功能
+    - [ ] 设置受保护路由
+    - [ ] 实现登出功能
+    - [ ] 添加用户资料页面
+    - [ ] 编写认证测试
+    - [ ] 部署到暂存环境
 
-    <!-- Save this file to update the task's todo list -->
+    <!-- 保存此文件以更新任务的待办事项列表 -->
     ```
   </Step>
-  <Step title="Make your changes">
-    Add, remove, or reorder items as needed
+  <Step title="进行更改">
+    根据需要添加、删除或重新排序项目
   </Step>
-  <Step title="Save the file">
-    Cline automatically detects and uses your updates
+  <Step title="保存文件">
+    Cline 自动检测并使用您的更新
   </Step>
 </Steps>
 
-## File Structure
+## 文件结构
 
-### Todo List Storage
+### 待办事项列表存储
 
-Todo lists are stored as markdown files in your task directory:
+待办事项列表存储为 markdown 文件在您的任务目录中：
 
 ``` markdown
-<VSCode Global Storage>/
+<VSCode 全局存储>/
   tasks/
     <taskId>/
       focus_chain_taskid_<taskId>.md
-      ... other task files
+      ... 其他任务文件
 ```
 
-### Markdown Format
+### Markdown 格式
 
-Todo files use standard markdown checklist syntax:
+待办事项文件使用标准 markdown 清单语法：
 
-```markdown Example Todo Syntax
-# Focus Chain Todo List for Task abc123
+```markdown 示例待办事项语法
+# 任务 abc123 的焦点链待办事项列表
 
-<!-- Edit this markdown file to update your focus chain todo list -->
-<!-- Use the format: - [ ] for incomplete items and - [x] for completed items -->
+<!-- 编辑此 markdown 文件以更新您的焦点链待办事项列表 -->
+<!-- 使用格式：- [ ] 表示未完成项目，- [x] 表示已完成项目 -->
 
-- [x] Set up project structure
-- [x] Install authentication dependencies
-- [ ] Create user registration component
-- [ ] Implement login functionality
-- [ ] Add password validation
-- [ ] Set up user database schema
-- [ ] Write authentication tests
-- [ ] Deploy to staging environment
+- [x] 设置项目结构
+- [x] 安装认证依赖项
+- [ ] 创建用户注册组件
+- [ ] 实现登录功能
+- [ ] 添加密码验证
+- [ ] 设置用户数据库模式
+- [ ] 编写认证测试
+- [ ] 部署到暂存环境
 
-<!-- Save this file and the todo list will be updated in the task -->
+<!-- 保存此文件，待办事项列表将在任务中更新 -->
 ```
 
+## 与计划/执行模式集成
 
-## Integration with Plan/Act Mode
+焦点链与 Cline 的[计划/执行模式](/features/plan-and-act)无缝配合：
 
-Focus Chain works seamlessly with Cline's [Plan/Act mode](/features/plan-and-act):
-
-- **Plan Mode**: Optional todo lists for presenting concrete steps
-- **Act Mode**: Automatic todo creation when switching from Plan Mode
+- **计划模式**：可选的待办事项列表，用于呈现具体步骤
+- **执行模式**：从计划模式切换时自动创建待办事项
 
 <Tip>
-  For complex projects, start in Plan Mode to discuss and refine your approach before switching to Act Mode for implementation.
+  对于复杂项目，先在计划模式中讨论和完善您的方法，然后在准备开始工作时切换到执行模式。
 </Tip>
 
-## Best Practices
+## 最佳实践
 
 <AccordionGroup>
-  <Accordion title="For Effective Todo Lists">
-    1. **Start with Clear Requests**
-      - Provide detailed initial task descriptions
-      - Include specific requirements and constraints
-      - Mention any preferred technologies or approaches
+  <Accordion title="有效待办事项列表">
+    1. **从清晰请求开始**
+      - 提供详细的初始任务描述
+      - 包含具体要求 and 约束
+      - 提及任何首选技术或方法
 
-    2. **Review Generated Lists**
-      - Check that Cline's breakdown aligns with your expectations
-      - Verify that all important steps are included
-      - Ensure the order makes sense for your project
+    2. **审查生成的列表**
+      - 检查 Cline 的分解是否符合您的期望
+      - 验证是否包含所有重要步骤
+      - 确保顺序对您的项目有意义
 
-    3. **Edit When Needed**
-      - Add missing steps you identify
-      - Remove unnecessary items
-      - Reorder steps for better workflow
-      - Add more specific details to general items
+    3. **需要时编辑**
+      - 添加您识别的缺失步骤
+      - 删除不必要的项目
+      - 重新排序步骤以获得更好的工作流程
+      - 为一般项目添加更具体的细节
   </Accordion>
-  <Accordion title="For Complex Projects">
-    1. **Use Plan Mode First**
-      - Discuss the approach before implementation
-      - Refine requirements through conversation
-      - Switch to Act Mode when ready to begin work
+  <Accordion title="复杂项目">
+    1. **首先使用计划模式**
+      - 在实现之前讨论方法
+      - 通过对话完善要求
+      - 准备开始工作时切换到执行模式
 
-    2. **Break Down Large Tasks**
-      - Split complex projects into smaller, manageable tasks
-      - Create separate todo lists for different components
-      - Focus on one major area at a time
+    2. **分解大任务**
+      - 将复杂项目分解为更小、可管理的任务
+      - 为不同组件创建单独的待办事项列表
+      - 一次专注于一个主要领域
 
-    3. **Regular Reviews**
-      - Check progress periodically during long tasks
-      - Update todo lists as requirements evolve
-      - Communicate changes to Cline through edits
+    3. **定期审查**
+      - 在长任务期间定期检查进度
+      - 随着要求的发展更新待办事项列表
+      - 通过编辑与 Cline 沟通更改
   </Accordion>
-  <Accordion title="For Collaboration">
-    1. **Share Todo Files**
-      - Todo markdown files can be shared with team members
-      - Include in version control for project documentation
-      - Use as basis for project planning discussions
+  <Accordion title="协作">
+    1. **分享待办事项文件**
+      - 待办事项 markdown 文件可以与团队成员分享
+      - 包含在版本控制中作为项目文档
+      - 用作项目规划讨论的基础
 
-    2. **Consistent Format**
-      - Follow the standard markdown checklist format
-      - Keep item descriptions clear and actionable
-      - Use consistent terminology across todo lists
+    2. **一致格式**
+      - 遵循标准 markdown 清单格式
+      - 保持项目描述清晰和可操作
+      - 在待办事项列表中使用一致的术语
   </Accordion>
 </AccordionGroup>
 
+## 故障排除
 
-## Troubleshooting
-
-Having issues? Try these quick fixes:
+遇到问题？尝试这些快速修复：
 
 <AccordionGroup>
-  <Accordion title="Todo list not updating?">
-    - Check that Focus Chain is enabled in settings
-    - Focus Chain may not work as well with smaller, less capable models
-    - Ensure file permissions are correct in the task directory
+  <Accordion title="待办事项列表不更新？">
+    - 检查设置中是否启用了焦点链
+    - 焦点链可能不适用于较小、能力较弱的模型
+    - 确保任务目录中的文件权限正确
   </Accordion>
-  <Accordion title="Can't edit todo file?">
-    - Verify your editor supports markdown
-    - Check VSCode has write permissions for the directory
+  <Accordion title="无法编辑待办事项文件？">
+    - 验证您的编辑器支持 markdown
+    - 检查 VSCode 对目录有写入权限
   </Accordion>
-  <Accordion title="Progress not displaying?">
-    - Ensure todo items use correct syntax (`- [ ]` and `- [x]`)
-    - Verify the markdown file is properly formatted
+  <Accordion title="进度不显示？">
+    - 确保待办事项项目使用正确语法（`- [ ]` 和 `- [x]`）
+    - 验证 markdown 文件格式正确
   </Accordion>
 </AccordionGroup>
 
-Still stuck? Use the [/reportbug](/features/slash-commands/report-bug) command in Cline to get help.
+仍然卡住？在 Cline 中使用 [/reportbug](/features/slash-commands/report-bug) 命令获得帮助。
 
-## Technical Details (for the curious)
+## 技术细节（供好奇者参考）
 
 <AccordionGroup>
-  <Accordion title="File Monitoring">
-    - Real-time file watching detects changes to todo markdown files
-    - Automatic synchronization between file edits and UI updates
-    - Graceful handling of file creation, modification, and deletion
+  <Accordion title="文件监控">
+    - 实时文件监控检测待办事项 markdown 文件的更改
+    - 文件编辑和 UI 更新之间的自动同步
+    - 优雅处理文件创建、修改和删除
   </Accordion>
-  <Accordion title="Progress Calculation">
-    - Dynamic counting of completed vs. total todo items
-    - Support for both `- [x]` and `- [X]` completion syntax
-    - Unicode symbols (✓, ○) for enhanced visual display
+  <Accordion title="进度计算">
+    - 动态计算已完成 vs. 总待办事项项目
+    - 支持 `- [x]` 和 `- [X]` 完成语法
+    - Unicode 符号（✓, ○）用于增强视觉显示
   </Accordion>
-  <Accordion title="Privacy Considerations">
-    - Todo lists stored locally in VSCode workspace
-    - No todo content transmitted to external services
-    - Usage telemetry (can be disabled in settings)
+  <Accordion title="隐私考虑">
+    - 待办事项列表本地存储在 VSCode 工作区
+    - 不向外部服务传输待办事项内容
+    - 使用遥测（可在设置中禁用）
   </Accordion>
 </AccordionGroup>
 
-Focus Chain turns Cline into your personal project manager, keeping you on track and your tasks organized. Give it a try on your next project!
+焦点链将 Cline 变成您的个人项目经理，保持您的正轨和任务组织。在您的下一个项目中试试它！

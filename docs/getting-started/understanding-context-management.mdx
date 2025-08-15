@@ -1,181 +1,181 @@
 ---
-title: "Context Management"
-description: "Context is key to getting the most out of Cline"
+title: "上下文管理"
+description: "上下文是充分利用 Cline 的关键"
 ---
 
-> 💡 **Quick Reference**
+> 💡 **快速参考**
 >
-> -   Context = The information Cline knows about your project
-> -   Context Window = How much information Cline can hold at once
-> -   Use context files to maintain project knowledge
-> -   Reset when the context window gets full
+> -   上下文 = Cline 了解您项目的信息
+> -   上下文窗口 = Cline 一次可以保存多少信息
+> -   使用上下文文件维护项目知识
+> -   当上下文窗口满时重置
 
-## Understanding Context & Context Windows
+## 理解上下文和上下文窗口
 
-<Frame caption="In a world of infinite context, the context window is what Cline currently has available">
+<Frame caption="在无限上下文的世界中，上下文窗口是 Cline 目前可用的内容">
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(2).png"
-		alt="In a world of infinite context, the context window is what Cline currently has available"
+		alt="在无限上下文的世界中，上下文窗口是 Cline 目前可用的内容"
 	/>
 </Frame>
 
-Think of working with Cline like collaborating with a thorough, proactive teammate:
+将使用 Cline 想象为与一个彻底、主动的队友协作：
 
-### How Context is Built
+### 上下文如何构建
 
-Cline actively builds context in two ways:
+Cline 以两种方式主动构建上下文：
 
-1. **Automatic Context Gathering (i.e. Cline-driven)**
-    - Proactively reads related files
-    - Explores project structure
-    - Analyzes patterns and relationships
-    - Maps dependencies and imports
-    - Asks clarifying questions
-2. **User-Guided Context**
-    - Share specific files
-    - Provide documentation
-    - Answer Cline's questions
-    - Guide focus areas
-    - Share design thoughts and requirements
+1. **自动上下文收集（即 Cline 驱动）**
+    - 主动读取相关文件
+    - 探索项目结构
+    - 分析模式和关系
+    - 映射依赖关系和导入
+    - 提出澄清问题
+2. **用户指导的上下文**
+    - 分享特定文件
+    - 提供文档
+    - 回答 Cline 的问题
+    - 指导重点领域
+    - 分享设计想法和要求
 
-💡 **Key Point**: Cline isn't passive - it actively seeks to understand your project. You can either let it explore or guide its focus, especially in [Plan](https://docs.cline.bot/features/plan-and-act) mode.
+💡 **关键点**：Cline 不是被动的——它主动寻求理解您的项目。您可以让它探索或指导其重点，特别是在[计划](https://docs.cline.bot/features/plan-and-act)模式下。
 
-### Context & Context Windows
+### 上下文和上下文窗口
 
-Think of context like a whiteboard you and Cline share:
+将上下文想象为您和 Cline 共享的白板：
 
--   **Context** is all the information available:
-    -   What Cline has discovered
-    -   What you've shared
-    -   Your conversation history
-    -   Project requirements
-    -   Previous decisions
--   **Context Window** is the size of the whiteboard itself:
-    -   Measured in tokens (1 token ≈ 3/4 of an English word)
-    -   Each model has a fixed size:
-        -   Claude 3.5 Sonnet: 200,000 tokens
-        -   DeepSeek: 64,000 tokens
-    -   When the whiteboard is full, Cline automatically summarizes the conversation to free up space
-        -   [Learn about Automatic Context Summarization](/features/automatic-context-summarization)
-        -   [How Cline manages context under the hood](https://cline.bot/blog/understanding-the-new-context-window-progress-bar-in-cline)
+-   **上下文**是所有可用信息：
+    -   Cline 发现的内容
+    -   您分享的内容
+    -   您的对话历史
+    -   项目要求
+    -   之前的决定
+-   **上下文窗口**是白板本身的大小：
+    -   以令牌为单位测量（1 个令牌 ≈ 3/4 个英语单词）
+    -   每个模型都有固定大小：
+        -   Claude 3.5 Sonnet：200,000 令牌
+        -   DeepSeek：64,000 令牌
+    -   当白板满时，Cline 自动总结对话以释放空间
+        -   [了解自动上下文总结](/features/automatic-context-summarization)
+        -   [Cline 如何在幕后管理上下文](https://cline.bot/blog/understanding-the-new-context-window-progress-bar-in-cline)
 
-⚠️ **Important**: Having a large context window (like Claude's 200k tokens) doesn't mean you should fill it completely. Just like a cluttered whiteboard, too much information can make it harder to focus on what's important.
+⚠️ **重要**：拥有大的上下文窗口（如 Claude 的 200k 令牌）并不意味着您应该完全填满它。就像杂乱的白板一样，太多信息会使专注于重要内容变得困难。
 
-## Understanding the Context Window Progress Bar
+## 理解上下文窗口进度条
 
-Cline provides a visual way to monitor your context window usage through a progress bar:
+Cline 通过进度条提供了一种可视化方式来监控您的上下文窗口使用情况：
 
-<Frame caption="Visual representation of the context window usage">
+<Frame caption="上下文窗口使用的可视化表示">
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(1)%20(1).png"
-		alt="Context window progress bar"
+		alt="上下文窗口进度条"
 	/>
 </Frame>
 
-### Reading the Bar
+### 读取进度条
 
--   ↑ shows input tokens (what you've sent to the LLM)
--   ↓ shows output tokens (what the LLM has generated)
--   The progress bar visualizes how much of your context window you've used
--   The total shows your model's maximum capacity (e.g., 200k for Claude 3.5-Sonnet)
+-   ↑ 显示输入令牌（您发送给 LLM 的内容）
+-   ↓ 显示输出令牌（LLM 生成的内容）
+-   进度条可视化您已使用的上下文窗口量
+-   总数显示您模型的最大容量（例如，Claude 3.5-Sonnet 为 200k）
 
-### When to Watch the Bar
+### 何时关注进度条
 
--   During long coding sessions
--   When working with multiple files
--   Before starting complex tasks
--   When Cline seems to lose context
+-   在长时间编码会话期间
+-   当处理多个文件时
+-   在开始复杂任务之前
+-   当 Cline 似乎失去上下文时
 
-💡 **Tip**: With [Automatic Context Summarization](/features/automatic-context-summarization), Cline can now handle long conversations automatically. When combined with [Focus Chain](/features/focus-chain), you can work on complex projects that span multiple context windows without losing progress.
+💡 **提示**：通过[自动上下文总结](/features/automatic-context-summarization)，Cline 现在可以自动处理长对话。当与[焦点链](/features/focus-chain)结合时，您可以处理跨越多个上下文窗口的复杂项目，而不会失去进度。
 
-## Automatic Context Management
+## 自动上下文管理
 
-Cline now includes intelligent features to manage context automatically:
+Cline 现在包含智能功能来自动管理上下文：
 
-### Automatic Context Summarization
+### 自动上下文总结
 
-When your conversation approaches the context window limit, Cline automatically:
-- Creates a comprehensive summary of the conversation
-- Preserves all essential technical details and decisions
-- Seamlessly continues work without interruption
-- Maintains full task continuity
+当您的对话接近上下文窗口限制时，Cline 自动：
+- 创建对话的全面总结
+- 保留所有基本技术细节和决定
+- 无缝继续工作而不中断
+- 保持完整的任务连续性
 
-This means you can work on larger projects without manually managing context. [Learn more about Automatic Context Summarization](/features/automatic-context-summarization).
+这意味着您可以处理更大的项目，而无需手动管理上下文。[了解更多关于自动上下文总结](/features/automatic-context-summarization)。
 
-### Focus Chain Integration
+### 焦点链集成
 
-When combined with [Focus Chain](/features/focus-chain), Cline can:
-- Maintain todo lists across context resets
-- Track progress through multiple summarizations
-- Keep working on long-horizon tasks without losing direction
+当与[焦点链](/features/focus-chain)结合时，Cline 可以：
+- 在上下文重置中维护待办事项列表
+- 通过多次总结跟踪进度
+- 继续处理长期任务而不失去方向
 
-## Working with Context Files
+## 使用上下文文件
 
-Context files help maintain understanding across sessions. They serve as documentation specifically designed to help AI assistants understand your project.
+上下文文件有助于在会话之间维护理解。它们作为专门设计的文档，帮助 AI 助手理解您的项目。
 
-#### Approaches to Context Files
+#### 上下文文件的方法
 
-1. **Evergreen Project Context (i.e.** [**Memory Bank**](https://docs.cline.bot/prompting/cline-memory-bank)**)**
-    - Living documentation that evolves with your project
-    - Updated as architecture and patterns emerge
-    - Example: The Memory Bank pattern maintains files like `techContext.md` and `systemPatterns.md`
-    - Useful for long-running projects and teams
-2. **Task-Specific Context (i.e.** [**Structured Approach**](https://cline.bot/blog/building-advanced-software-with-cline-a-structured-approach)**)**
+1. **常青项目上下文（即**[**记忆库**](https://docs.cline.bot/prompting/cline-memory-bank)**）**
+    - 随项目发展的活文档
+    - 随着架构和模式的出现而更新
+    - 示例：记忆库模式维护像 `techContext.md` 和 `systemPatterns.md` 这样的文件
+    - 适用于长期项目和团队
+2. **任务特定上下文（即**[**结构化方法**](https://cline.bot/blog/building-advanced-software-with-cline-a-structured-approach)**）**
 
-    - Created for specific implementation tasks
-    - Document requirements, constraints, and decisions
-    - Example:
+    - 为特定实现任务创建
+    - 记录要求、约束和决定
+    - 示例：
 
         ```markdown
         # auth-system-implementation.md
 
-        ## Requirements
+        ## 要求
 
-        -   OAuth2 implementation
-        -   Support for Google and GitHub
-        -   Rate limiting on auth endpoints
+        -   OAuth2 实现
+        -   支持 Google 和 GitHub
+        -   认证端点的速率限制
 
-        ## Technical Decisions
+        ## 技术决定
 
-        -   Using Passport.js for provider integration
-        -   JWT for session management
-        -   Redis for rate limiting
+        -   使用 Passport.js 进行提供商集成
+        -   JWT 用于会话管理
+        -   Redis 用于速率限制
         ```
 
-3. **Knowledge Transfer Docs**
-    - Switch to plan mode and ask Cline to document everything you've accomplished so far, along with the remaining steps, in a markdown file.
-    - Copy the contents of the markdown file.
-    - Start a new task using that content as context.
+3. **知识转移文档**
+    - 切换到计划模式，要求 Cline 将您迄今为止完成的所有内容以及剩余步骤记录在 markdown 文件中。
+    - 复制 markdown 文件的内容。
+    - 使用该内容作为上下文开始新任务。
 
-#### Using Context Files Effectively
+#### 有效使用上下文文件
 
-1. **Structure and Format**
-    - Use clear, consistent organization
-    - Include relevant examples
-    - Link related concepts
-    - Keep information focused
-2. **Maintenance**
-    - Update after significant changes
-    - Version control your context files
-    - Remove outdated information
-    - Document key decisions
+1. **结构和格式**
+    - 使用清晰、一致的组织
+    - 包含相关示例
+    - 链接相关概念
+    - 保持信息重点
+2. **维护**
+    - 在重大更改后更新
+    - 版本控制您的上下文文件
+    - 删除过时信息
+    - 记录关键决定
 
-## Practical Tips
+## 实用技巧
 
-1. **Starting New Projects**
-    - Let Cline explore the codebase
-    - Answer its questions about structure and patterns
-    - Consider setting up basic context files
-    - Document key design decisions
-2. **Ongoing Development**
-    - Update context files with significant changes
-    - Share relevant documentation
-    - Use Plan mode for complex discussions
-    - Start fresh sessions when needed
-3. **Team Projects**
-    - Share common context files (consider using [.clinerules](https://docs.cline.bot/features/cline-rules) files in project roots)
-    - Document architectural decisions
-    - Maintain consistent patterns
-    - Keep documentation current
+1. **开始新项目**
+    - 让 Cline 探索代码库
+    - 回答其关于结构和模式的问题
+    - 考虑设置基本上下文文件
+    - 记录关键设计决定
+2. **持续开发**
+    - 用重大更改更新上下文文件
+    - 分享相关文档
+    - 对复杂讨论使用计划模式
+    - 在需要时开始新会话
+3. **团队项目**
+    - 分享通用上下文文件（考虑在项目根目录使用 [.clinerules](https://docs.cline.bot/features/cline-rules) 文件）
+    - 记录架构决定
+    - 维护一致的模式
+    - 保持文档最新
 
-Remember: The goal is to help Cline maintain consistent understanding of your project across sessions.
+记住：目标是帮助 Cline 在会话之间保持对您项目的一致理解。

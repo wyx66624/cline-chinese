@@ -1,107 +1,107 @@
 ---
-title: "MCP Overview"
-description: "Learn about Model Context Protocol (MCP) servers, their capabilities, and how Cline can help build and use them. MCP standardizes how applications provide context to LLMs, acting like a USB-C port for AI applications."
+title: "MCP 概述"
+description: "了解模型上下文协议（MCP）服务器、其功能以及 Cline 如何帮助构建和使用它们。MCP 标准化了应用程序如何向 LLM 提供上下文，就像 AI 应用程序的 USB-C 端口一样。"
 ---
 
-## Quick Links
+## 快速链接
 
--   [Building MCP Servers from GitHub](/mcp/adding-mcp-servers-from-github)
--   [Building Custom MCP Servers from Scratch](/mcp/mcp-server-development-protocol)
+-   [从 GitHub 构建 MCP 服务器](/mcp/adding-mcp-servers-from-github)
+-   [从零开始构建自定义 MCP 服务器](/mcp/mcp-server-development-protocol)
 
-## Overview
+## 概述
 
-Model Context Protocol is an open protocol that standardizes how applications provide context to LLMs. Think of MCP like a USB-C port for AI applications; it provides a standardized way to connect AI models to different data sources and tools. MCP servers act as intermediaries between large language models (LLMs), such as Claude, and external tools or data sources. They are small programs that expose functionalities to LLMs, enabling them to interact with the outside world through the MCP. An MCP server is essentially like an API that an LLM can use.
+模型上下文协议是一个开放协议，标准化了应用程序如何向 LLM 提供上下文。将 MCP 想象为 AI 应用程序的 USB-C 端口；它提供了一种标准化的方式将 AI 模型连接到不同的数据源和工具。MCP 服务器充当大型语言模型（LLM）（如 Claude）与外部工具或数据源之间的中介。它们是向 LLM 暴露功能的小程序，使 LLM 能够通过 MCP 与外部世界交互。MCP 服务器本质上就像 LLM 可以使用的 API。
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/mcp-diagram.png"
-		alt="MCP diagram showing how MCP servers connect LLMs to external tools and data sources"
+		alt="MCP 图表显示 MCP 服务器如何将 LLM 连接到外部工具和数据源"
 	/>
 </Frame>
 
-## Key Concepts
+## 关键概念
 
-MCP servers define a set of "**tools,**" which are functions the LLM can execute. These tools offer a wide range of capabilities.
+MCP 服务器定义了一组"**工具**"，这些是 LLM 可以执行的函数。这些工具提供了广泛的功能。
 
-**Here's how MCP works:**
+**MCP 的工作原理：**
 
--   **MCP hosts** discover the capabilities of connected servers and load their tools, prompts, and resources.
--   **Resources** provide consistent access to read-only data, akin to file paths or database queries.
--   **Security** is ensured as servers isolate credentials and sensitive data. Interactions require explicit user approval.
+-   **MCP 主机**发现连接服务器的功能并加载其工具、提示和资源。
+-   **资源**提供对只读数据的一致访问，类似于文件路径或数据库查询。
+-   **安全性**通过服务器隔离凭据和敏感数据来确保。交互需要明确的用户批准。
 
-## Use Cases
+## 使用案例
 
-The potential of MCP servers is vast. They can be used for a variety of purposes.
+MCP 服务器的潜力是巨大的。它们可以用于各种目的。
 
-**Here are some concrete examples of how MCP servers can be used:**
+**以下是 MCP 服务器如何使用的一些具体示例：**
 
--   **Web Services and API Integration:**
-    -   Monitor GitHub repositories for new issues
-    -   Post updates to Twitter based on specific triggers
-    -   Retrieve real-time weather data for location-based services
--   **Browser Automation:**
-    -   Automate web application testing
-    -   Scrape e-commerce sites for price comparisons
-    -   Generate screenshots for website monitoring
--   **Database Queries:**
-    -   Generate weekly sales reports
-    -   Analyze customer behavior patterns
-    -   Create real-time dashboards for business metrics
--   **Project and Task Management:**
-    -   Automate Jira ticket creation based on code commits
-    -   Generate weekly progress reports
-    -   Create task dependencies based on project requirements
--   **Codebase Documentation:**
-    -   Generate API documentation from code comments
-    -   Create architecture diagrams from code structure
-    -   Maintain up-to-date README files
+-   **Web 服务和 API 集成：**
+    -   监控 GitHub 仓库的新问题
+    -   基于特定触发器在 Twitter 上发布更新
+    -   为基于位置的服务检索实时天气数据
+-   **浏览器自动化：**
+    -   自动化 Web 应用程序测试
+    -   抓取电子商务网站进行价格比较
+    -   为网站监控生成截图
+-   **数据库查询：**
+    -   生成每周销售报告
+    -   分析客户行为模式
+    -   为业务指标创建实时仪表板
+-   **项目和任务管理：**
+    -   基于代码提交自动化 Jira 票据创建
+    -   生成每周进度报告
+    -   基于项目要求创建任务依赖关系
+-   **代码库文档：**
+    -   从代码注释生成 API 文档
+    -   从代码结构创建架构图
+    -   维护最新的 README 文件
 
-## Getting Started
+## 开始使用
 
-Cline does not come with any pre-installed MCP servers. You'll need to find and install them separately.
+Cline 没有预装任何 MCP 服务器。您需要单独查找和安装它们。
 
-**Choose the right approach for your needs:**
+**为您的需求选择正确的方法：**
 
--   **Community Repositories:** Check for community-maintained lists of MCP servers on GitHub. See [Adding MCP Servers from Github](/mcp/adding-mcp-servers-from-github)
--   **Cline Marketplace:** Install one from Cline's [MCP Marketplace](/mcp/mcp-marketplace)
--   **Ask Cline:** You can ask Cline to help you find or create MCP servers
--   **Build Your Own:** Create custom MCP servers using the [MCP SDK](https://github.com/modelcontextprotocol/)
--   **Customize Existing Servers:** Modify existing servers to fit your specific requirements
+-   **社区仓库：** 在 GitHub 上查找社区维护的 MCP 服务器列表。请参阅[从 GitHub 添加 MCP 服务器](/mcp/adding-mcp-servers-from-github)
+-   **Cline 市场：** 从 Cline 的 [MCP 市场](/mcp/mcp-marketplace) 安装一个
+-   **询问 Cline：** 您可以要求 Cline 帮助您查找或创建 MCP 服务器
+-   **构建您自己的：** 使用 [MCP SDK](https://github.com/modelcontextprotocol/) 创建自定义 MCP 服务器
+-   **自定义现有服务器：** 修改现有服务器以适应您的特定要求
 
-## Integration with Cline
+## 与 Cline 集成
 
-Cline simplifies the building and use of MCP servers through its AI capabilities.
+Cline 通过其 AI 功能简化了 MCP 服务器的构建和使用。
 
-### Building MCP Servers
+### 构建 MCP 服务器
 
--   **Natural language understanding:** Instruct Cline in natural language to build an MCP server by describing its functionalities. Cline will interpret your instructions and generate the necessary code.
--   **Cloning and building servers:** Cline can clone existing MCP server repositories from GitHub and build them automatically.
--   **Configuration and dependency management:** Cline handles configuration files, environment variables, and dependencies.
--   **Troubleshooting and debugging:** Cline helps identify and resolve errors during development.
+-   **自然语言理解：** 用自然语言指导 Cline 通过描述其功能来构建 MCP 服务器。Cline 将解释您的指令并生成必要的代码。
+-   **克隆和构建服务器：** Cline 可以从 GitHub 克隆现有的 MCP 服务器仓库并自动构建它们。
+-   **配置和依赖管理：** Cline 处理配置文件、环境变量和依赖项。
+-   **故障排除和调试：** Cline 帮助识别和解决开发过程中的错误。
 
-### Using MCP Servers
+### 使用 MCP 服务器
 
--   **Tool execution:** Cline seamlessly integrates with MCP servers, allowing you to execute their defined tools.
--   **Context-aware interactions:** Cline can intelligently suggest using relevant tools based on conversation context.
--   **Dynamic integrations:** Combine multiple MCP server capabilities for complex tasks. For example, Cline could use a GitHub server to get data and a Notion server to create a formatted report.
+-   **工具执行：** Cline 与 MCP 服务器无缝集成，允许您执行其定义的工具。
+-   **上下文感知交互：** Cline 可以基于对话上下文智能地建议使用相关工具。
+-   **动态集成：** 结合多个 MCP 服务器功能完成复杂任务。例如，Cline 可以使用 GitHub 服务器获取数据，使用 Notion 服务器创建格式化报告。
 
-## Security Considerations
+## 安全考虑
 
-When working with MCP servers, it's important to follow security best practices:
+在使用 MCP 服务器时，遵循安全最佳实践很重要：
 
--   **Authentication:** Always use secure authentication methods for API access
--   **Environment Variables:** Store sensitive information in environment variables
--   **Access Control:** Limit server access to authorized users only
--   **Data Validation:** Validate all inputs to prevent injection attacks
--   **Logging:** Implement secure logging practices without exposing sensitive data
+-   **身份验证：** 始终为 API 访问使用安全的身份验证方法
+-   **环境变量：** 在环境变量中存储敏感信息
+-   **访问控制：** 将服务器访问限制为仅授权用户
+-   **数据验证：** 验证所有输入以防止注入攻击
+-   **日志记录：** 实施安全的日志记录实践而不暴露敏感数据
 
-## Resources
+## 资源
 
-There are various resources available for finding and learning about MCP servers.
+有各种资源可用于查找和学习 MCP 服务器。
 
-**Here are some links to resources for finding and learning about MCP servers:**
+**以下是一些用于查找和学习 MCP 服务器的资源链接：**
 
--   **GitHub Repositories:** [https://github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) and [https://github.com/punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers)
--   **Online Directories:** [https://mcpservers.org/](https://mcpservers.org/), [https://mcp.so/](https://mcp.so/), and [https://glama.ai/mcp/servers](https://glama.ai/mcp/servers)
--   **PulseMCP:** [https://www.pulsemcp.com/](https://www.pulsemcp.com/)
--   **YouTube Tutorial (AI-Driven Coder):** A video guide for building and using MCP servers: [https://www.youtube.com/watch?v=b5pqTNiuuJg](https://www.youtube.com/watch?v=b5pqTNiuuJg)
+-   **GitHub 仓库：** [https://github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) 和 [https://github.com/punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers)
+-   **在线目录：** [https://mcpservers.org/](https://mcpservers.org/)、[https://mcp.so/](https://mcp.so/) 和 [https://glama.ai/mcp/servers](https://glama.ai/mcp/servers)
+-   **PulseMCP：** [https://www.pulsemcp.com/](https://www.pulsemcp.com/)
+-   **YouTube 教程（AI-Driven Coder）：** 构建和使用 MCP 服务器的视频指南：[https://www.youtube.com/watch?v=b5pqTNiuuJg](https://www.youtube.com/watch?v=b5pqTNiuuJg)

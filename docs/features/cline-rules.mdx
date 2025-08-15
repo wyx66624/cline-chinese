@@ -1,75 +1,75 @@
-Cline Rules allow you to provide Cline with system-level guidance. Think of them as a persistent way to include context and preferences for your projects or globally for every conversation.
+Cline 规则允许您为 Cline 提供系统级指导。将它们视为为您的项目或全局为每次对话包含上下文和偏好的持久方式。
 
-## Creating a Rule
+## 创建规则
 
-You can create a rule by clicking the `+` button in the Rules tab. This will open a new file in your IDE which you can use to write your rule.
+您可以通过点击规则标签中的 `+` 按钮来创建规则。这将在您的 IDE 中打开一个新文件，您可以用它来编写规则。
 
 <Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/cline-rules.png" alt="Create a Rule" />
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/cline-rules.png" alt="创建规则" />
 </Frame>
 
-Once you save the file:
+保存文件后：
 
--   Your rule will be stored in the `.clinerules/` directory in your project (if it's a Workspace Rule)
--   Or in the Global Rules directory (if it's a Global Rule):
+-   您的规则将存储在项目中的 `.clinerules/` 目录中（如果是工作区规则）
+-   或存储在全局规则目录中（如果是全局规则）：
 
-### Global Rules Directory Location
+### 全局规则目录位置
 
-The location of your Global Rules directory depends on your operating system:
+全局规则目录的位置取决于您的操作系统：
 
-| Operating System | Default Location | Notes |
-|------------------|------------------|-------|
-| **Windows** | `Documents\Cline\Rules` | Uses system Documents folder |
-| **macOS** | `~/Documents/Cline/Rules` | Uses user Documents folder |
-| **Linux/WSL** | `~/Documents/Cline/Rules` | May fall back to `~/Cline/Rules` on some systems |
+| 操作系统 | 默认位置 | 备注 |
+|----------|----------|------|
+| **Windows** | `Documents\Cline\Rules` | 使用系统文档文件夹 |
+| **macOS** | `~/Documents/Cline/Rules` | 使用用户文档文件夹 |
+| **Linux/WSL** | `~/Documents/Cline/Rules` | 在某些系统上可能回退到 `~/Cline/Rules` |
 
-> **Note for Linux/WSL users**: If you don't find your global rules in `~/Documents/Cline/Rules`, check `~/Cline/Rules` as the location may vary depending on your system configuration and whether the Documents directory exists.
+> **Linux/WSL 用户注意**：如果您在 `~/Documents/Cline/Rules` 中找不到全局规则，请检查 `~/Cline/Rules`，因为位置可能因系统配置和文档目录是否存在而异。
 
-You can also have Cline create a rule for you by using the [`/newrule` slash command](/features/slash-commands/new-rule) in the chat.
+您也可以通过在聊天中使用 [`/newrule` 斜杠命令](/features/slash-commands/new-rule) 让 Cline 为您创建规则。
 
-```markdown Example Cline Rule Structure [expandable]
-# Project Guidelines
+```markdown 示例 Cline 规则结构 [可展开]
+# 项目指南
 
-## Documentation Requirements
+## 文档要求
 
--   Update relevant documentation in /docs when modifying features
--   Keep README.md in sync with new capabilities
--   Maintain changelog entries in CHANGELOG.md
+-   修改功能时更新 /docs 中的相关文档
+-   保持 README.md 与新功能同步
+-   在 CHANGELOG.md 中维护变更日志条目
 
-## Architecture Decision Records
+## 架构决策记录
 
-Create ADRs in /docs/adr for:
+在 /docs/adr 中为以下内容创建 ADR：
 
--   Major dependency changes
--   Architectural pattern changes
--   New integration patterns
--   Database schema changes
-    Follow template in /docs/adr/template.md
+-   主要依赖项更改
+-   架构模式更改
+-   新集成模式
+-   数据库模式更改
+    遵循 /docs/adr/template.md 中的模板
 
-## Code Style & Patterns
+## 代码风格和模式
 
--   Generate API clients using OpenAPI Generator
--   Use TypeScript axios template
--   Place generated code in /src/generated
--   Prefer composition over inheritance
--   Use repository pattern for data access
--   Follow error handling pattern in /src/utils/errors.ts
+-   使用 OpenAPI Generator 生成 API 客户端
+-   使用 TypeScript axios 模板
+-   将生成的代码放在 /src/generated
+-   优先使用组合而非继承
+-   对数据访问使用存储库模式
+-   遵循 /src/utils/errors.ts 中的错误处理模式
 
-## Testing Standards
+## 测试标准
 
--   Unit tests required for business logic
--   Integration tests for API endpoints
--   E2E tests for critical user flows
+-   业务逻辑需要单元测试
+-   API 端点需要集成测试
+-   关键用户流程需要 E2E 测试
 ```
 
-### Key Benefits
+### 主要优势
 
-1. **Version Controlled**: The `.clinerules` file becomes part of your project's source code
-2. **Team Consistency**: Ensures consistent behavior across all team members
-3. **Project-Specific**: Rules and standards tailored to each project's needs
-4. **Institutional Knowledge**: Maintains project standards and practices in code
+1. **版本控制**：`.clinerules` 文件成为项目源代码的一部分
+2. **团队一致性**：确保所有团队成员的行为一致
+3. **项目特定**：根据每个项目需求定制的规则和标准
+4. **制度知识**：在代码中维护项目标准和实践
 
-Place the `.clinerules` file in your project's root directory:
+将 `.clinerules` 文件放在项目的根目录中：
 
 ```
 your-project/
@@ -79,96 +79,96 @@ your-project/
 └── ...
 ```
 
-Cline's system prompt, on the other hand, is not user-editable ([here's where you can find it](https://github.com/cline/cline/blob/main/src/core/prompts/system.ts)). For a broader look at prompt engineering best practices, check out [this resource](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview).
+另一方面，Cline 的系统提示不是用户可编辑的（[您可以在这里找到它](https://github.com/cline/cline/blob/main/src/core/prompts/system.ts)）。有关提示工程最佳实践的更广泛了解，请查看[此资源](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)。
 
-### Tips for Writing Effective Cline Rules
+### 编写有效 Cline 规则的技巧
 
--   Be Clear and Concise: Use simple language and avoid ambiguity.
--   Focus on Desired Outcomes: Describe the results you want, not the specific steps.
--   Test and Iterate: Experiment to find what works best for your workflow.
+-   清晰简洁：使用简单语言并避免歧义。
+-   专注于期望结果：描述您想要的结果，而不是具体步骤。
+-   测试和迭代：实验找到最适合您工作流程的方法。
 
-### .clinerules/ Folder System
+### .clinerules/ 文件夹系统
 
 ```
 your-project/
-├── .clinerules/              # Folder containing active rules
-│   ├── 01-coding.md          # Core coding standards
-│   ├── 02-documentation.md   # Documentation requirements
-│   └── current-sprint.md     # Rules specific to current work
+├── .clinerules/              # 包含活动规则的文件夹
+│   ├── 01-coding.md          # 核心编码标准
+│   ├── 02-documentation.md   # 文档要求
+│   └── current-sprint.md     # 特定于当前工作的规则
 ├── src/
 └── ...
 ```
 
-Cline automatically processes **all Markdown files** inside the `.clinerules/` directory, combining them into a unified set of rules. The numeric prefixes (optional) help organize files in a logical sequence.
+Cline 自动处理 `.clinerules/` 目录内的**所有 Markdown 文件**，将它们组合成统一的规则集。数字前缀（可选）帮助以逻辑顺序组织文件。
 
-#### Using a Rules Bank
+#### 使用规则库
 
-For projects with multiple contexts or teams, maintain a rules bank directory:
+对于具有多个上下文或团队的项目，维护规则库目录：
 
 ```
 your-project/
-├── .clinerules/              # Active rules - automatically applied
+├── .clinerules/              # 活动规则 - 自动应用
 │   ├── 01-coding.md
 │   └── client-a.md
 │
-├── clinerules-bank/          # Repository of available but inactive rules
-│   ├── clients/              # Client-specific rule sets
+├── clinerules-bank/          # 可用但不活动的规则库
+│   ├── clients/              # 客户端特定规则集
 │   │   ├── client-a.md
 │   │   └── client-b.md
-│   ├── frameworks/           # Framework-specific rules
+│   ├── frameworks/           # 框架特定规则
 │   │   ├── react.md
 │   │   └── vue.md
-│   └── project-types/        # Project type standards
+│   └── project-types/        # 项目类型标准
 │       ├── api-service.md
 │       └── frontend-app.md
 └── ...
 ```
 
-#### Benefits of the Folder Approach
+#### 文件夹方法的优势
 
-1. **Contextual Activation**: Copy only relevant rules from the bank to the active folder
-2. **Easier Maintenance**: Update individual rule files without affecting others
-3. **Team Flexibility**: Different team members can activate rules specific to their current task
-4. **Reduced Noise**: Keep the active ruleset focused and relevant
+1. **上下文激活**：仅从库复制相关规则到活动文件夹
+2. **更容易维护**：更新单个规则文件而不影响其他文件
+3. **团队灵活性**：不同团队成员可以激活特定于其当前任务的规则
+4. **减少噪音**：保持活动规则集专注和相关
 
-#### Usage Examples
+#### 使用示例
 
-Switch between client projects:
+在客户端项目之间切换：
 
 ```bash
-# Switch to Client B project
+# 切换到客户端 B 项目
 rm .clinerules/client-a.md
 cp clinerules-bank/clients/client-b.md .clinerules/
 ```
 
-Adapt to different tech stacks:
+适应不同的技术栈：
 
 ```bash
-# Frontend React project
+# 前端 React 项目
 cp clinerules-bank/frameworks/react.md .clinerules/
 ```
 
-#### Implementation Tips
+#### 实施技巧
 
--   Keep individual rule files focused on specific concerns
--   Use descriptive filenames that clearly indicate the rule's purpose
--   Consider git-ignoring the active `.clinerules/` folder while tracking the `clinerules-bank/`
--   Create team scripts to quickly activate common rule combinations
+-   保持单个规则文件专注于特定关注点
+-   使用描述性文件名，清楚表明规则的用途
+-   考虑 git-ignore 活动 `.clinerules/` 文件夹，同时跟踪 `clinerules-bank/`
+-   创建团队脚本以快速激活常见规则组合
 
-The folder system transforms your Cline rules from a static document into a dynamic knowledge system that adapts to your team's changing contexts and requirements.
+文件夹系统将您的 Cline 规则从静态文档转换为动态知识系统，适应团队不断变化的上下文和要求。
 
-### Managing Rules with the Toggleable Popover
+### 使用可切换弹出窗口管理规则
 
-To make managing both single `.clinerules` files and the folder system even easier, Cline v3.13 introduces a dedicated popover UI directly accessible from the chat interface.
+为了使管理单个 `.clinerules` 文件和文件夹系统更加容易，Cline v3.13 引入了专门的弹出窗口 UI，可以直接从聊天界面访问。
 
-Located conveniently under the chat input field, this popover allows you to:
+位于聊天输入字段下方，这个弹出窗口允许您：
 
--   **Instantly See Active Rules:** View which global rules (from your user settings) and workspace rules (`.clinerules` file or folder contents) are currently active.
--   **Quickly Toggle Rules:** Enable or disable specific rule files within your workspace `.clinerules/` folder with a single click. This is perfect for activating context-specific rules (like `react-rules.md` or `memory-bank.md`) only when needed.
--   **Easily Add/Manage Rules:** Quickly create a workspace `.clinerules` file or folder if one doesn't exist, or add new rule files to an existing folder.
+-   **立即查看活动规则**：查看哪些全局规则（来自您的用户设置）和工作区规则（`.clinerules` 文件或文件夹内容）当前处于活动状态。
+-   **快速切换规则**：一键启用或禁用工作区 `.clinerules/` 文件夹内的特定规则文件。这非常适合仅在需要时激活上下文特定规则（如 `react-rules.md` 或 `memory-bank.md`）。
+-   **轻松添加/管理规则**：如果不存在，快速创建工作区 `.clinerules` 文件或文件夹，或将新规则文件添加到现有文件夹。
 
-This UI significantly simplifies switching contexts and managing different sets of instructions without needing to manually edit files or configurations during a conversation.
+这个 UI 显著简化了上下文切换和不同指令集的管理，无需在对话期间手动编辑文件或配置。
 
 <Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(1).png" alt="Cline Logo" />
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(1).png" alt="Cline 标志" />
 </Frame>

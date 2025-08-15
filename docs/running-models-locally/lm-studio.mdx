@@ -1,90 +1,90 @@
 ---
 title: "LM Studio"
-description: "A quick guide to setting up LM Studio for local AI model execution with Cline."
+description: "在 Cline 中使用 LM Studio 进行本地 AI 模型执行的快速指南。"
 ---
 
-## 🤖 Setting Up LM Studio with Cline
+## 🤖 在 Cline 中设置 LM Studio
 
-Run AI models locally using LM Studio with Cline.
+使用 LM Studio 在本地运行 AI 模型与 Cline。
 
-### 📋 Prerequisites
+### 📋 先决条件
 
--   Windows, macOS, or Linux computer with AVX2 support
--   Cline installed in VS Code
+-   支持 AVX2 的 Windows、macOS 或 Linux 计算机
+-   在 VS Code 中安装 Cline
 
-### 🚀 Setup Steps
+### 🚀 设置步骤
 
-#### 1. Install LM Studio
+#### 1. 安装 LM Studio
 
--   Visit [lmstudio.ai](https://lmstudio.ai)
--   Download and install for your operating system
+-   访问 [lmstudio.ai](https://lmstudio.ai)
+-   为您的操作系统下载并安装
 
 <Frame>
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(7).png" alt="LM Studio download page" />
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(7).png" alt="LM Studio 下载页面" />
 </Frame>
 
-#### 2. Launch LM Studio
+#### 2. 启动 LM Studio
 
--   Open the installed application
--   You'll see four tabs on the left: **Chat**, **Developer** (where you will start the server), **My Models** (where your downloaded models are stored), **Discover** (add new models)
+-   打开已安装的应用程序
+-   您将在左侧看到四个标签：**聊天**、**开发者**（您将在这里启动服务器）、**我的模型**（您下载的模型存储位置）、**发现**（添加新模型）
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(10).png"
-		alt="LM Studio interface overview"
+		alt="LM Studio 界面概述"
 	/>
 </Frame>
 
-#### 3. Download a Model
+#### 3. 下载模型
 
--   Browse the "Discover" page
--   Select and download your preferred model
--   Wait for download to complete
+-   浏览"发现"页面
+-   选择并下载您首选的模型
+-   等待下载完成
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/lm-studio-download-model.gif"
-		alt="Downloading a model in LM Studio"
+		alt="在 LM Studio 中下载模型"
 	/>
 </Frame>
 
-#### 4. Start the Server
+#### 4. 启动服务器
 
--   Navigate to the "Developer" tab
--   Toggle the server switch to "Running"
--   Note: The server will run at `http://localhost:1234`
+-   导航到"开发者"标签
+-   将服务器开关切换到"运行"
+-   注意：服务器将在 `http://localhost:1234` 运行
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/lm-studio-starting-server.gif"
-		alt="Starting the LM Studio server"
+		alt="启动 LM Studio 服务器"
 	/>
 </Frame>
 
-#### 5. Configure Cline
+#### 5. 配置 Cline
 
-1. Open VS Code
-2. Click Cline settings icon
-3. Select "LM Studio" as API provider
-4. Select your model from the available options
+1. 打开 VS Code
+2. 点击 Cline 设置图标
+3. 选择"LM Studio"作为 API 提供商
+4. 从可用选项中选择您的模型
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/lm-studio-select-model-cline.gif"
-		alt="Configuring Cline with LM Studio"
+		alt="使用 LM Studio 配置 Cline"
 	/>
 </Frame>
 
-### ⚠️ Important Notes
+### ⚠️ 重要注意事项
 
--   Start LM Studio before using with Cline
--   Keep LM Studio running in background
--   First model download may take several minutes depending on size
--   Models are stored locally after download
+-   在使用 Cline 之前启动 LM Studio
+-   在后台保持 LM Studio 运行
+-   首次模型下载可能需要几分钟，具体取决于大小
+-   模型下载后存储在本地
 
-### 🔧 Troubleshooting
+### 🔧 故障排除
 
-1. If Cline can't connect to LM Studio:
-2. Verify LM Studio server is running (check Developer tab)
-3. Ensure a model is loaded
-4. Check your system meets hardware requirements
+1. 如果 Cline 无法连接到 LM Studio：
+2. 验证 LM Studio 服务器正在运行（检查开发者标签）
+3. 确保模型已加载
+4. 检查您的系统是否满足硬件要求

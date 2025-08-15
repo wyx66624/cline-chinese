@@ -1,109 +1,109 @@
 ---
-title: "Read Me First"
+title: "首先阅读"
 ---
 
-## Running Local Models with Cline: What You Need to Know 🤖
+## 在 Cline 中运行本地模型：您需要知道什么 🤖
 
-Cline is a powerful AI coding assistant that uses tool-calling to help you write, analyze, and modify code. While running models locally can save on API costs, there's an important trade-off: local models are significantly less reliable at using these essential tools.
+Cline 是一个强大的 AI 编码助手，使用工具调用来帮助您编写、分析和修改代码。虽然运行本地模型可以节省 API 成本，但有一个重要的权衡：本地模型在使用这些基本工具时明显不太可靠。
 
-## Why Local Models Are Different 🔬
+## 为什么本地模型不同 🔬
 
-When you run a "local version" of a model, you're actually running a drastically simplified copy of the original. This process, called distillation, is like trying to compress a professional chef's knowledge into a basic cookbook – you keep the simple recipes but lose the complex techniques and intuition.
+当您运行模型的"本地版本"时，您实际上运行的是原始模型的极大简化副本。这个过程称为蒸馏，就像试图将专业厨师的知识压缩到基础食谱中一样 - 您保留了简单的食谱，但失去了复杂的技术和直觉。
 
-Local models are created by training a smaller model to imitate a larger one, but they typically only retain 1-26% of the original model's capacity. This massive reduction means:
+本地模型是通过训练较小的模型来模仿较大的模型而创建的，但它们通常只保留原始模型容量的 1-26%。这种大幅减少意味着：
 
--   Less ability to understand complex contexts
--   Reduced capability for multi-step reasoning
--   Limited tool-use abilities
--   Simplified decision-making process
+-   理解复杂上下文的能力降低
+-   多步推理能力降低
+-   工具使用能力有限
+-   决策过程简化
 
-Think of it like running your development environment on a calculator instead of a computer – it might handle basic tasks, but complex operations become unreliable or impossible.
+将其想象为在计算器而不是计算机上运行您的开发环境 - 它可能处理基本任务，但复杂操作变得不可靠或不可能。
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(4).png"
-		alt="Local model comparison diagram"
+		alt="本地模型比较图"
 	/>
 </Frame>
 
-### What Actually Happens
+### 实际发生的情况
 
-When you run a local model with Cline:
+当您在 Cline 中运行本地模型时：
 
-#### Performance Impact 📉
+#### 性能影响 📉
 
--   Responses are 5-10x slower than cloud services
--   System resources (CPU, GPU, RAM) get heavily utilized
--   Your computer may become less responsive for other tasks
+-   响应比云服务慢 5-10 倍
+-   系统资源（CPU、GPU、RAM）被大量使用
+-   您的计算机对其他任务的响应可能变慢
 
-#### Tool Reliability Issues 🛠️
+#### 工具可靠性问题 🛠️
 
--   Code analysis becomes less accurate
--   File operations may be unreliable
--   Browser automation capabilities are reduced
--   Terminal commands might fail more often
--   Complex multi-step tasks often break down
+-   代码分析变得不太准确
+-   文件操作可能不可靠
+-   浏览器自动化功能减少
+-   终端命令可能更频繁地失败
+-   复杂的多步任务经常崩溃
 
-### Hardware Requirements 💻
+### 硬件要求 💻
 
-You'll need at minimum:
+您至少需要：
 
--   Modern GPU with 8GB+ VRAM (RTX 3070 or better)
--   32GB+ system RAM
--   Fast SSD storage
--   Good cooling solution
+-   具有 8GB+ VRAM 的现代 GPU（RTX 3070 或更好）
+-   32GB+ 系统 RAM
+-   快速 SSD 存储
+-   良好的冷却解决方案
 
-Even with this hardware, you'll be running smaller, less capable versions of models:
+即使有这种硬件，您也将运行更小、功能更弱的模型版本：
 
-| Model Size | What You Get                                            |
-| ---------- | ------------------------------------------------------- |
-| 7B models  | Basic coding, limited tool use                          |
-| 14B models | Better coding, unstable tool use                        |
-| 32B models | Good coding, inconsistent tool use                      |
-| 70B models | Best local performance, but requires expensive hardware |
+| 模型大小 | 您获得什么                                                |
+| -------- | --------------------------------------------------------- |
+| 7B 模型  | 基本编码，工具使用有限                                    |
+| 14B 模型 | 更好的编码，工具使用不稳定                                |
+| 32B 模型 | 良好的编码，工具使用不一致                                |
+| 70B 模型 | 最佳本地性能，但需要昂贵的硬件                            |
 
-Put simply, the cloud (API) versions of these models are the full-bore version of the model. The full version of DeepSeek-R1 is 671B. These distilled models are essentially "watered-down" versions of the cloud model.
+简单来说，这些模型的云（API）版本是模型的完整版本。DeepSeek-R1 的完整版本是 671B。这些蒸馏模型本质上是云模型的"稀释"版本。
 
-### Practical Recommendations 💡
+### 实用建议 💡
 
-#### Consider This Approach
+#### 考虑这种方法
 
-1. Use cloud models for:
-    - Complex development tasks
-    - When tool reliability is crucial
-    - Multi-step operations
-    - Critical code changes
-2. Use local models for:
-    - Simple code completion
-    - Basic documentation
-    - When privacy is paramount
-    - Learning and experimentation
+1. 对以下情况使用云模型：
+    - 复杂的开发任务
+    - 当工具可靠性至关重要时
+    - 多步操作
+    - 关键代码更改
+2. 对以下情况使用本地模型：
+    - 简单的代码完成
+    - 基本文档
+    - 当隐私至关重要时
+    - 学习和实验
 
-#### If You Must Go Local
+#### 如果您必须使用本地模型
 
--   Start with smaller models
--   Keep tasks simple and focused
--   Save work frequently
--   Be prepared to switch to cloud models for complex operations
--   Monitor system resources
+-   从小模型开始
+-   保持任务简单和专注
+-   经常保存工作
+-   准备为复杂操作切换到云模型
+-   监控系统资源
 
-### Common Issues 🚨
+### 常见问题 🚨
 
--   **"Tool execution failed":** Local models often struggle with complex tool chains. Simplify your prompt.
--   **"No connection could be made because the target machine actively refused it":** This usually means that the Ollama or LM Studio server isn't running, or is running on a different port/address than Cline is configured to use. Double-check the Base URL address in your API Provider settings.
--   **"Cline is having trouble...":** Increase your model's context length to its maximum size.
--   **Slow or incomplete responses:** Local models can be slower than cloud-based models, especially on less powerful hardware. If performance is an issue, try using a smaller model. Expect significantly longer processing times.
--   **System stability:** Watch for high GPU/CPU usage and temperature
--   **Context limitations:** Local models often have smaller context windows than cloud models. Break tasks down into smaller pieces.
+-   **"工具执行失败"：** 本地模型经常在复杂工具链上挣扎。简化您的提示。
+-   **"无法建立连接，因为目标计算机主动拒绝它"：** 这通常意味着 Ollama 或 LM Studio 服务器没有运行，或者运行在与 Cline 配置使用的端口/地址不同的端口/地址上。仔细检查 API 提供商设置中的基础 URL 地址。
+-   **"Cline 遇到问题..."：** 将模型的上下文长度增加到其最大大小。
+-   **响应缓慢或不完整：** 本地模型可能比基于云的模型慢，特别是在功能较弱的硬件上。如果性能有问题，请尝试使用较小的模型。预期处理时间明显更长。
+-   **系统稳定性：** 注意高 GPU/CPU 使用率和温度
+-   **上下文限制：** 本地模型通常比云模型具有更小的上下文窗口。将任务分解为较小的部分。
 
-### Looking Ahead 🔮
+### 展望未来 🔮
 
-Local model capabilities are improving, but they're not yet a complete replacement for cloud services, especially for Cline's tool-based functionality. Consider your specific needs and hardware capabilities carefully before committing to a local-only approach.
+本地模型功能正在改进，但它们还不是云服务的完全替代品，特别是对于 Cline 的基于工具的功能。在承诺仅使用本地方法之前，请仔细考虑您的具体需求和硬件能力。
 
-### Need Help? 🤝
+### 需要帮助？🤝
 
--   Join our [Discord](https://discord.gg/cline) community and [r/cline](https://www.reddit.com/r/CLine/)
--   Check the latest compatibility guides
--   Share your experiences with other developers
+-   加入我们的 [Discord](https://discord.gg/cline) 社区和 [r/cline](https://www.reddit.com/r/CLine/)
+-   查看最新的兼容性指南
+-   与其他开发者分享您的经验
 
-Remember: When in doubt, prioritize reliability over cost savings for important development work.
+记住：当有疑问时，对于重要的开发工作，优先考虑可靠性而不是成本节省。

@@ -1,34 +1,34 @@
 ---
-title: "Terminal Quick Fixes"
-sidebarTitle: "Terminal Quick Fixes"
-description: "Quick solutions for common terminal issues"
+title: "终端快速修复"
+sidebarTitle: "终端快速修复"
+description: "常见终端问题的快速解决方案"
 ---
 
-**Here is a list of common fixes, starting with the most applicable:**
+**以下是常见修复列表，从最适用的开始：**
 
--   **Switch to bash** (solves most instances)
+-   **切换到 bash**（解决大多数情况）
 
-    1. Within Cline, left-click the **Settings** button in the top right-hand corner of the chat window
-    2. Once in the **Settings** window, left-click the **"Terminal Settings"** tab from the left-hand column
-    3. Navigate to **"Default Terminal Profile"** and select **"bash"** from the drop-down
+    1. 在 Cline 中，左键点击聊天窗口右上角的**设置**按钮
+    2. 进入**设置**窗口后，从左列左键点击**"终端设置"**标签
+    3. 导航到**"默认终端配置文件"**并从下拉菜单中选择**"bash"**
 
--   **Increase timeout**
+-   **增加超时时间**
 
-    1. Within Cline, left-click the **Settings** button in the top right-hand corner of the chat window
-    2. Once in the **Settings** window, left-click the **"Terminal Settings"** tab from the left-hand column
-    3. Navigate to "Shell integration timeout (seconds)" and enter **"10"** into the text field
+    1. 在 Cline 中，左键点击聊天窗口右上角的**设置**按钮
+    2. 进入**设置**窗口后，从左列左键点击**"终端设置"**标签
+    3. 导航到"Shell 集成超时（秒）"并在文本字段中输入**"10"**
 
--   **Disable terminal reuse**
-    1. Within Cline, left-click the **Settings** button in the top right-hand corner of the chat window
-    2. Once in the **Settings** window, left-click the **"Terminal Settings"** tab from the left-hand column
-    3. Look for **"Enable aggressive terminal reuse"**, and **uncheck** this option
+-   **禁用终端重用**
+    1. 在 Cline 中，左键点击聊天窗口右上角的**设置**按钮
+    2. 进入**设置**窗口后，从左列左键点击**"终端设置"**标签
+    3. 查找**"启用激进终端重用"**，并**取消勾选**此选项
 
-## Platform-Specific Fixes
+## 平台特定修复
 
 ### macOS + Oh-My-Zsh
 
 ```bash
-# Create minimal config for VSCode
+# 为 VSCode 创建最小配置
 echo 'export TERM=xterm-256color' > ~/.zshrc-vscode
 echo 'export PAGER=cat' >> ~/.zshrc-vscode
 ```
@@ -36,16 +36,16 @@ echo 'export PAGER=cat' >> ~/.zshrc-vscode
 ### Windows PowerShell
 
 ```powershell
-# Run as Administrator
+# 以管理员身份运行
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 ### WSL
 
--   Open folder from WSL: `code .`
--   Select **"WSL Bash"** in Cline settings, under **"Terminal Settings"**
--   Increase **"Shell integration timeout (seconds)"** to **15**
+-   从 WSL 打开文件夹：`code .`
+-   在 Cline 设置的**"终端设置"**下选择**"WSL Bash"**
+-   将**"Shell 集成超时（秒）"**增加到**15**
 
-## Full Guide
+## 完整指南
 
-For detailed troubleshooting, see the [Complete Terminal Troubleshooting Guide](/troubleshooting/terminal-integration-guide).
+有关详细故障排除，请参阅[完整终端故障排除指南](/troubleshooting/terminal-integration-guide)。

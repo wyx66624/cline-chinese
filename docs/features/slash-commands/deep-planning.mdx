@@ -1,153 +1,153 @@
 ---
-title: "Deep Planning Command"
+title: "深度规划命令"
 sidebarTitle: "/deep-planning"
 ---
 
-`/deep-planning` transforms Cline into a meticulous architect who investigates your codebase, asks clarifying questions, and creates a comprehensive implementation plan before writing a single line of code. 
+`/deep-planning` 将 Cline 转变为一个细心的架构师，它会调查您的代码库，提出澄清问题，并在编写一行代码之前创建全面的实施计划。
 
-When you use `/deep-planning`, Cline follows a four-step process that mirrors how senior developers approach complex features: thorough investigation, discussion & clarification of requirements, detailed planning, and structured task creation with progress tracking.
+当您使用 `/deep-planning` 时，Cline 遵循一个四步过程，这反映了高级开发者如何应对复杂功能：彻底调查、需求讨论和澄清、详细规划，以及带有进度跟踪的结构化任务创建。
 
-## The Four-Step Process
+## 四步过程
 
-### Step 1: Silent Investigation
+### 第一步：静默调查
 
-Cline becomes a detective, silently exploring your codebase to understand its structure, patterns, and constraints. He examines source files, analyzes import patterns, discovers class hierarchies, and identifies technical debt markers. No commentary, no narration - just focused research.
+Cline 成为侦探，静默地探索您的代码库以了解其结构、模式和约束。它检查源文件，分析导入模式，发现类层次结构，并识别技术债务标记。没有评论，没有叙述 - 只是专注的研究。
 
-During this phase, Cline runs commands like:
-- Finding all class and function definitions across your codebase
-- Analyzing import patterns to understand dependencies
-- Discovering project structure and file organization
-- Identifying TODOs and technical debt
+在此阶段，Cline 运行如下命令：
+- 在您的代码库中查找所有类和函数定义
+- 分析导入模式以了解依赖关系
+- 发现项目结构和文件组织
+- 识别 TODO 和技术债务
 
-### Step 2: Discussion and Questions
+### 第二步：讨论和问题
 
-Once Cline understands your codebase, he asks targeted questions that will shape the implementation. These aren't generic questions - they're specific to your project and the feature you're building.
+一旦 Cline 了解您的代码库，它会提出有针对性的问题来塑造实施。这些不是通用问题 - 它们特定于您的项目和您正在构建的功能。
 
-Questions might cover:
-- Clarifying ambiguous requirements
-- Choosing between equally valid implementation approaches
-- Confirming assumptions about system behavior
-- Understanding preferences for technical decisions
+问题可能涵盖：
+- 澄清模糊的需求
+- 在同样有效的实施方法之间选择
+- 确认关于系统行为的假设
+- 理解技术决策的偏好
 
-### Step 3: Implementation Plan Document
+### 第三步：实施计划文档
 
-Cline creates a structured markdown document (`implementation_plan.md`) that serves as your implementation blueprint. This isn't a vague outline - it's a detailed specification with exact file paths, function signatures, and implementation order.
+Cline 创建一个结构化的 markdown 文档（`implementation_plan.md`），作为您的实施蓝图。这不是一个模糊的大纲 - 它是一个详细的规范，包含确切的文件路径、函数签名和实施顺序。
 
-The plan includes eight comprehensive sections:
-- **Overview**: The goal and high-level approach
-- **Types**: Complete type definitions and data structures
-- **Files**: Exact files to create, modify, or delete
-- **Functions**: New and modified functions with signatures
-- **Classes**: Class modifications and inheritance details
-- **Dependencies**: Package requirements and versions
-- **Testing**: Validation strategies and test requirements
-- **Implementation Order**: Step-by-step execution sequence
+该计划包括八个综合部分：
+- **概述**：目标和高层次方法
+- **类型**：完整的类型定义和数据结构
+- **文件**：要创建、修改或删除的确切文件
+- **函数**：带有签名的新函数和修改函数
+- **类**：类修改和继承细节
+- **依赖项**：包要求和版本
+- **测试**：验证策略和测试要求
+- **实施顺序**：逐步执行序列
 
-### Step 4: Implementation Task Creation
+### 第四步：实施任务创建
 
-Cline creates a new task that references the plan document and includes trackable implementation steps. The task comes with specific commands to read each section of the plan, ensuring the implementing agent (whether that's you or Cline in Act Mode) can navigate the blueprint efficiently.
+Cline 创建一个引用计划文档的新任务，并包含可跟踪的实施步骤。该任务带有读取计划每个部分的具体命令，确保实施代理（无论是您还是处于执行模式的 Cline）能够有效地导航蓝图。
 
 <Tip>
-  Deep Planning works beautifully with [Focus Chain](/features/focus-chain). The implementation steps automatically become a todo list with real-time progress tracking, keeping complex projects organized and on track.
+  深度规划与[焦点链](/features/focus-chain)完美配合。实施步骤自动成为带有实时进度跟踪的待办事项列表，保持复杂项目的组织和正轨。
 </Tip>
 
-## Using Deep Planning
+## 使用深度规划
 
-Start a deep planning session by typing `/deep-planning` followed by your feature description:
+通过输入 `/deep-planning` 后跟您的功能描述来启动深度规划会话：
 
 ```
-/deep-planning Add user authentication with JWT tokens and role-based access control
+/deep-planning 添加带有 JWT 令牌和基于角色的访问控制的用户认证
 ```
 
-Cline will begin his investigation immediately. You'll see him reading files and running commands to understand your codebase. Once he's gathered enough context, he'll engage you in discussion before creating the plan.
+Cline 将立即开始调查。您将看到它读取文件和运行命令以了解您的代码库。一旦它收集了足够的上下文，它将在创建计划之前与您进行讨论。
 
-## Example Workflow
+## 示例工作流程
 
-Here's how I use `/deep-planning` for a real feature:
+以下是我如何使用 `/deep-planning` 实现真实功能：
 
 <Steps>
-  <Step title="Initiate Planning">
-    I type `/deep-planning implement a caching layer for API responses`
+  <Step title="启动规划">
+    我输入 `/deep-planning 为 API 响应实现缓存层`
   </Step>
-  <Step title="Silent Investigation">
-    Cline explores my codebase, examining:
-    - Current API structure and endpoints
-    - Existing data flow patterns
-    - Database queries and performance bottlenecks
-    - Configuration and environment setup
+  <Step title="静默调查">
+    Cline 探索我的代码库，检查：
+    - 当前 API 结构和端点
+    - 现有数据流模式
+    - 数据库查询和性能瓶颈
+    - 配置和环境设置
   </Step>
-  <Step title="Targeted Discussion">
-    Cline asks me:
-    - "Should we use Redis or in-memory caching?"
-    - "What's the acceptable cache staleness for user data?"
-    - "Do you need cache invalidation webhooks?"
+  <Step title="有针对性的讨论">
+    Cline 问我：
+    - "我们应该使用 Redis 还是内存缓存？"
+    - "用户数据的可接受缓存过期时间是多少？"
+    - "您需要缓存失效 webhook 吗？"
   </Step>
-  <Step title="Plan Creation">
-    Cline generates `implementation_plan.md` with:
-    - Cache service class specifications
-    - Redis connection configuration
-    - Modified API endpoints with caching logic
-    - Cache key generation strategies
-    - TTL configurations for different data types
+  <Step title="计划创建">
+    Cline 生成 `implementation_plan.md`，包含：
+    - 缓存服务类规范
+    - Redis 连接配置
+    - 带有缓存逻辑的修改 API 端点
+    - 缓存键生成策略
+    - 不同数据类型的 TTL 配置
   </Step>
-  <Step title="Task Generation">
-    Cline creates a new task with:
-    - Reference to the implementation plan
-    - Commands to read specific sections
-    - Trackable todo items for each implementation step
-    - Request to switch to Act Mode for execution
+  <Step title="任务生成">
+    Cline 创建一个新任务，包含：
+    - 对实施计划的引用
+    - 读取特定部分的命令
+    - 每个实施步骤的可跟踪待办事项
+    - 切换到执行模式进行实施的请求
   </Step>
 </Steps>
 
-## Integration with Plan/Act Mode
+## 与计划/执行模式集成
 
-Deep Planning is designed to work seamlessly with [Plan/Act Mode](/features/plan-and-act):
+深度规划设计为与[计划/执行模式](/features/plan-and-act)无缝配合：
 
-- Use `/deep-planning` in Plan Mode for the investigation and planning phases
-- The generated task requests switching to Act Mode for implementation
-- Focus Chain automatically tracks progress through the implementation steps
+- 在计划模式中使用 `/deep-planning` 进行调查和规划阶段
+- 生成的任务请求切换到执行模式进行实施
+- 焦点链自动跟踪实施步骤的进度
 
-This separation ensures planning stays focused on architecture while implementation stays focused on execution.
+这种分离确保规划专注于架构，而实施专注于执行。
 
-## Best Practices
+## 最佳实践
 
-### When to Use Deep Planning
+### 何时使用深度规划
 
-Use `/deep-planning` for:
-- Features touching multiple parts of your codebase
-- Architectural changes requiring careful coordination
-- Complex integrations with external services
-- Refactoring efforts that need systematic execution
-- Any feature where you'd normally spend time whiteboarding
+对以下情况使用 `/deep-planning`：
+- 触及代码库多个部分的功能
+- 需要仔细协调的架构更改
+- 与外部服务的复杂集成
+- 需要系统执行的重构工作
+- 任何您通常会花时间在白板上规划的功能
 
-### Making the Most of Investigation
+### 充分利用调查
 
-Let Cline complete his investigation thoroughly. The quality of the plan directly correlates with how well he understands your codebase. If you have specific areas he should examine, mention them in your initial request.
+让 Cline 彻底完成调查。计划的质量直接与其对代码库的理解程度相关。如果您有它应该检查的特定区域，请在您的初始请求中提及它们。
 
-### Reviewing the Plan
+### 审查计划
 
-Always review `implementation_plan.md` before starting implementation. The plan is comprehensive but not immutable - you can edit it directly if needed. Think of it as a collaborative document between you and Cline.
+在开始实施之前，始终审查 `implementation_plan.md`。该计划是全面的，但不是不可变的 - 如果需要，您可以直接编辑它。将其视为您和 Cline 之间的协作文档。
 
-### Tracking Progress
+### 跟踪进度
 
-With Focus Chain enabled, your implementation progress displays in the task header. Each completed step gets checked off automatically as Cline works through the plan, giving you real-time visibility into complex implementations.
+启用焦点链后，您的实施进度显示在任务标题中。每个完成的步骤在 Cline 执行计划时自动被勾选，为您提供复杂实施的实时可见性。
 
-## Inspiration
+## 灵感
 
-I use `/deep-planning` whenever I'm about to build something that would normally require a design document. Recent examples from my workflow:
+每当我即将构建通常需要设计文档的东西时，我都会使用 `/deep-planning`。我工作流程中的最近示例：
 
-- **Migrating authentication systems**: Deep Planning mapped every endpoint, identified all authentication touchpoints, and created a migration plan that avoided breaking changes.
+- **迁移认证系统**：深度规划映射了每个端点，识别了所有认证接触点，并创建了一个避免破坏性更改的迁移计划。
 
-- **Adding real-time features**: The plan covered WebSocket integration, event handling, state synchronization, and fallback mechanisms for disconnections.
+- **添加实时功能**：该计划涵盖了 WebSocket 集成、事件处理、状态同步和断开连接的备用机制。
 
-- **Database schema refactoring**: Cline identified all affected queries, created migration scripts, and planned the rollout to minimize downtime.
+- **数据库模式重构**：Cline 识别了所有受影响的查询，创建了迁移脚本，并计划了推出以最小化停机时间。
 
-- **API versioning implementation**: The plan detailed route changes, backward compatibility layers, deprecation notices, and client migration paths.
+- **API 版本控制实施**：该计划详细说明了路由更改、向后兼容层、弃用通知和客户端迁移路径。
 
-The power of `/deep-planning` is that it forces thoughtful architecture before implementation. It's like having a senior developer review your approach before you write code, except that developer has perfect knowledge of your entire codebase.
+`/deep-planning` 的力量在于它在实施之前强制进行深思熟虑的架构。这就像在您编写代码之前让高级开发者审查您的方法，只是那个开发者对您的整个代码库有完美的了解。
 
 <Note>
-  Deep Planning requires models with strong reasoning capabilities. It works best with the latest generation of models, like GPT-5, Claude 4, Gemini 2.5, or Grok 4. Smaller models may struggle with the comprehensive analysis required.
+  深度规划需要具有强大推理能力的模型。它与最新一代模型配合最佳，如 GPT-5、Claude 4、Gemini 2.5 或 Grok 4。较小的模型可能在所需的全面分析上挣扎。
 </Note>
 
-For simpler tasks that don't require extensive planning, consider using [/newtask](/features/slash-commands/new-task) to create focused tasks with context, or jump straight into implementation if the path forward is clear.
+对于不需要广泛规划的简单任务，考虑使用 [/newtask](/features/slash-commands/new-task) 创建带有上下文的专注任务，或者如果前进路径清晰，直接进入实施。

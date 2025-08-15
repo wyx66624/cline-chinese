@@ -1,62 +1,62 @@
 ---
 title: "Anthropic"
-description: "Learn how to configure and use Anthropic Claude models with Cline. Covers API key setup, model selection, and advanced features like prompt caching."
+description: "学习如何在 Cline 中配置和使用 Anthropic Claude 模型。涵盖 API 密钥设置、模型选择和高级功能如提示缓存。"
 ---
 
-**Website:** [https://www.anthropic.com/](https://www.anthropic.com/)
+**网站：** [https://www.anthropic.com/](https://www.anthropic.com/)
 
-### Getting an API Key
+### 获取 API 密钥
 
-1.  **Sign Up/Sign In:** Go to the [Anthropic Console](https://console.anthropic.com/). Create an account or sign in.
-2.  **Navigate to API Keys:** Go to the [API keys](https://console.anthropic.com/settings/keys) section.
-3.  **Create a Key:** Click "Create Key". Give your key a descriptive name (e.g., "Cline").
-4.  **Copy the Key:** **Important:** Copy the API key _immediately_. You will not be able to see it again. Store it securely.
+1.  **注册/登录：** 前往 [Anthropic 控制台](https://console.anthropic.com/)。创建账户或登录。
+2.  **导航到 API 密钥：** 前往 [API 密钥](https://console.anthropic.com/settings/keys) 部分。
+3.  **创建密钥：** 点击"创建密钥"。为您的密钥提供一个描述性名称（例如，"Cline"）。
+4.  **复制密钥：** **重要：** 立即复制 API 密钥。您将无法再次看到它。请安全存储。
 
-### Supported Models
+### 支持的模型
 
-Cline supports the following Anthropic Claude models:
+Cline 支持以下 Anthropic Claude 模型：
 
 -   `claude-opus-4-1-20250805`
 -   `claude-opus-4-20250514`
--   `claude-opus-4-20250514:thinking` (Extended Thinking variant)
--   `claude-sonnet-4-20250514` (Recommended)
--   `claude-sonnet-4-20250514:thinking` (Extended Thinking variant)
+-   `claude-opus-4-20250514:thinking`（扩展思考变体）
+-   `claude-sonnet-4-20250514`（推荐）
+-   `claude-sonnet-4-20250514:thinking`（扩展思考变体）
 -   `claude-3-7-sonnet-20250219`
--   `claude-3-7-sonnet-20250219:thinking` (Extended Thinking variant)
+-   `claude-3-7-sonnet-20250219:thinking`（扩展思考变体）
 -   `claude-3-5-sonnet-20241022`
 -   `claude-3-5-haiku-20241022`
 -   `claude-3-opus-20240229`
 -   `claude-3-haiku-20240307`
 
-See [Anthropic's Model Documentation](https://docs.anthropic.com/en/docs/about-claude/models) for more details on each model's capabilities.
+有关每个模型功能的更多详细信息，请参阅 [Anthropic 的模型文档](https://docs.anthropic.com/en/docs/about-claude/models)。
 
-### Configuration in Cline
+### 在 Cline 中配置
 
-1.  **Open Cline Settings:** Click the settings icon (⚙️) in the Cline panel.
-2.  **Select Provider:** Choose "Anthropic" from the "API Provider" dropdown.
-3.  **Enter API Key:** Paste your Anthropic API key into the "Anthropic API Key" field.
-4.  **Select Model:** Choose your desired Claude model from the "Model" dropdown.
-5.  **(Optional) Custom Base URL:** If you need to use a custom base URL for the Anthropic API, check "Use custom base URL" and enter the URL. Most users won't need to adjust this setting.
+1.  **打开 Cline 设置：** 点击 Cline 面板中的设置图标（⚙️）。
+2.  **选择提供商：** 从"API 提供商"下拉菜单中选择"Anthropic"。
+3.  **输入 API 密钥：** 将您的 Anthropic API 密钥粘贴到"Anthropic API 密钥"字段中。
+4.  **选择模型：** 从"模型"下拉菜单中选择您想要的 Claude 模型。
+5.  **（可选）自定义基础 URL：** 如果您需要为 Anthropic API 使用自定义基础 URL，请勾选"使用自定义基础 URL"并输入 URL。大多数用户不需要调整此设置。
 
-### Extended Thinking
+### 扩展思考
 
-Anthropic models offer an "Extended Thinking" feature, designed to give them enhanced reasoning capabilities for complex tasks. This feature allows the model to output its step-by-step thought process before delivering a final answer, providing transparency and enabling more thorough analysis for challenging prompts.
+Anthropic 模型提供"扩展思考"功能，旨在为复杂任务提供增强的推理能力。此功能允许模型在提供最终答案之前输出其逐步思考过程，提供透明度并实现对具有挑战性提示的更彻底分析。
 
-When extended thinking is in Cline, the model generates `thinking` content blocks that detail its internal reasoning. These insights are then incorporated into its final response.
-Cline users can leverage this by checking the `Enable Extended Thinking` box below the model selection menu after selecting a Claude Model from any provider.
+当在 Cline 中启用扩展思考时，模型会生成详细说明其内部推理的 `thinking` 内容块。然后将这些见解纳入其最终响应中。
+Cline 用户可以通过在从任何提供商选择 Claude 模型后，在模型选择菜单下方勾选"启用扩展思考"框来利用此功能。
 
-**Key Aspects of Extended Thinking:**
+**扩展思考的关键方面：**
 
--   **Supported Models:** This feature is available for select models, including variants of Claude Opus 4, Claude Sonnet 4, and Claude Sonnet 3.7. The specific models listed in the "Supported Models" section above with the `:thinking` suffix are pre-configured in Cline to utilize this.
--   **Summarized Thinking (Claude 4):** For Claude 4 models, the API returns a summary of the full thinking process to balance insight with efficiency and prevent misuse. You are billed for the full thinking tokens, not just the summary.
--   **Streaming:** Extended thinking responses, including the `thinking` blocks, can be streamed.
--   **Tool Use & Prompt Caching:** Extended thinking interacts with tool use (requiring thinking blocks to be passed back) and prompt caching (with specific behaviors around cache invalidation and context).
+-   **支持的模型：** 此功能适用于选定的模型，包括 Claude Opus 4、Claude Sonnet 4 和 Claude Sonnet 3.7 的变体。上面"支持的模型"部分中列出的带有 `:thinking` 后缀的特定模型已在 Cline 中预配置以使用此功能。
+-   **总结思考（Claude 4）：** 对于 Claude 4 模型，API 返回完整思考过程的总结，以平衡洞察力和效率并防止滥用。您需要为完整的思考令牌付费，而不仅仅是总结。
+-   **流式传输：** 扩展思考响应，包括 `thinking` 块，可以流式传输。
+-   **工具使用和提示缓存：** 扩展思考与工具使用交互（需要将思考块传递回来）和提示缓存（具有围绕缓存失效和上下文的特定行为）。
 
-For comprehensive details on how extended thinking works, including API examples, interaction with tool use, prompt caching, and pricing, please refer to the [official Anthropic documentation on Extended Thinking](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking).
+有关扩展思考如何工作的全面详细信息，包括 API 示例、与工具使用的交互、提示缓存和定价，请参阅 [Anthropic 关于扩展思考的官方文档](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking)。
 
-### Tips and Notes
+### 提示和注意事项
 
--   **Prompt Caching:** Claude 3 models support [prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching), which can significantly reduce costs and latency for repeated prompts.
--   **Context Window:** Claude models have large context windows (200,000 tokens), allowing you to include a significant amount of code and context in your prompts.
--   **Pricing:** Refer to the [Anthropic Pricing](https://www.anthropic.com/pricing) page for the latest pricing information.
--   **Rate Limits:** Anthropic has strict rate limits based on [usage tiers](https://docs.anthropic.com/en/api/rate-limits#requirements-to-advance-tier). If you're repeatedly hitting rate limits, consider contacting Anthropic sales or accessing Claude through a different provider like [OpenRouter](/provider-config/openrouter) or [Requesty](/provider-config/requesty).
+-   **提示缓存：** Claude 3 模型支持[提示缓存](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)，这可以显著降低重复提示的成本和延迟。
+-   **上下文窗口：** Claude 模型具有大的上下文窗口（200,000 令牌），允许您在提示中包含大量代码和上下文。
+-   **定价：** 请参阅 [Anthropic 定价](https://www.anthropic.com/pricing) 页面获取最新定价信息。
+-   **速率限制：** Anthropic 基于[使用层级](https://docs.anthropic.com/en/api/rate-limits#requirements-to-advance-tier)有严格的速率限制。如果您反复遇到速率限制，请考虑联系 Anthropic 销售或通过不同的提供商（如 [OpenRouter](/provider-config/openrouter) 或 [Requesty](/provider-config/requesty)）访问 Claude。

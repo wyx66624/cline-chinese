@@ -1,79 +1,79 @@
 ---
-title: "Checkpoints"
-sidebarTitle: "Checkpoints"
+title: "检查点"
+sidebarTitle: "检查点"
 ---
 
-Checkpoints automatically save snapshots of your workspace after each step in a task. This feature lets you track changes, roll back when needed, and experiment confidently with your code.
+检查点在任务的每个步骤后自动保存工作区的快照。此功能让您可以跟踪更改、在需要时回滚，并自信地试验您的代码。
 
-## How Checkpoints Work
+## 检查点如何工作
 
-Cline creates a checkpoint after each tool use (file edits, commands, etc.). These checkpoints:
+Cline 在每次使用工具后（文件编辑、命令等）创建检查点。这些检查点：
 
--   Work alongside your Git workflow without interference
--   Maintain context between restores
--   Use a shadow Git repository to track changes
+-   与您的 Git 工作流程一起工作，不会产生干扰
+-   在恢复之间维护上下文
+-   使用影子 Git 仓库来跟踪更改
 
-For example, if you're working on a feature and Cline makes multiple file changes, each change creates a checkpoint. This means you can review each modification and, if needed, roll back to any point without affecting your main Git repository.
+例如，如果您正在开发一个功能，Cline 进行了多次文件更改，每次更改都会创建一个检查点。这意味着您可以审查每次修改，并在需要时回滚到任何点，而不会影响您的主 Git 仓库。
 
-## Viewing Changes & Restoring
+## 查看更改和恢复
 
-After each tool use, you can:
+在每次使用工具后，您可以：
 
-1. Click the "Compare" button to see modified files
-2. Click the "Restore" button to open restore options
+1. 点击"比较"按钮查看修改的文件
+2. 点击"恢复"按钮打开恢复选项
 
 <Frame>
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(13).png"
-		alt="Checkpoint comparison and restore options"
+		alt="检查点比较和恢复选项"
 	/>
 </Frame>
 
-## Restore Options
+## 恢复选项
 
-To restore to a previous point:
+要恢复到之前的点：
 
-1. Click the "Restore" button next to any step
-2. Choose from three options:
-    - **Restore Task and Workspace**: Reset both codebase and task to that point
-    - **Restore Task Only**: Keep codebase changes but revert task context
-    - **Restore Workspace Only**: Reset codebase while preserving task context
+1. 点击任何步骤旁边的"恢复"按钮
+2. 从三个选项中选择：
+    - **恢复任务和工作区**：将代码库和任务都重置到该点
+    - **仅恢复任务**：保留代码库更改但恢复任务上下文
+    - **仅恢复工作区**：重置代码库但保留任务上下文
 
-Example: If Cline makes changes you don't like while styling a component, you can use "Restore Workspace Only" to revert the code changes while keeping the conversation context, allowing you to try a different approach.
+示例：如果 Cline 在样式化组件时进行了您不喜欢的更改，您可以使用"仅恢复工作区"来恢复代码更改，同时保留对话上下文，让您可以尝试不同的方法。
 
-<Frame caption="Reverting both codebase and task to before any changes were made to start fresh">
-	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/checkpointsDemo.gif" alt="Checkpoint restore demo" />
+<Frame caption="将代码库和任务都恢复到进行任何更改之前，重新开始">
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/checkpointsDemo.gif" alt="检查点恢复演示" />
 </Frame>
 
-## Use Cases
+## 使用案例
 
-Checkpoints let you be more experimental with Cline. While human coding is often methodical and iterative, AI can make substantial changes quickly. Checkpoints help you track these changes and revert if needed.
+检查点让您可以更实验性地使用 Cline。虽然人类编码通常是方法性和迭代性的，但 AI 可以快速进行实质性更改。检查点帮助您跟踪这些更改，并在需要时回滚。
 
-### Using Auto-Approve Mode
+### 使用自动批准模式
 
--   Provides safety net for rapid iterations
--   Makes it easy to undo unexpected results
+-   为快速迭代提供安全网
+-   让撤销意外结果变得容易
 
-### Testing Different Approaches
+### 测试不同方法
 
--   Try multiple solutions confidently
--   Compare different implementations
--   Quickly revert to working states
--   Ideal for exploring different design patterns or architectural approaches
+-   自信地尝试多种解决方案
+-   比较不同的实现
+-   快速恢复到工作状态
+-   非常适合探索不同的设计模式或架构方法
 
-## Best Practices
+## 最佳实践
 
-1. Use checkpoints as safety nets when experimenting
-2. Leverage auto-approve mode more confidently, knowing you can always roll back
-3. Restore selectively based on needs:
-    - Use "Restore Task and Workspace" for a fresh start
-    - Use "Restore Task Only" to try different prompts, but keep file changes
-    - Use "Restore Workspace Only" to attempt different implementations while preserving conversation context
+1. 在实验时使用检查点作为安全网
+2. 更自信地利用自动批准模式，知道您始终可以回滚
+3. 根据需求有选择地恢复：
+    - 使用"恢复任务和工作区"重新开始
+    - 使用"仅恢复任务"尝试不同的提示，但保留文件更改
+    - 使用"仅恢复工作区"尝试不同的实现，同时保留对话上下文
 
-## Relationship with Message Editing
+## 与消息编辑的关系
 
-The [message editing feature](/features/editing-messages) uses checkpoints under the hood when you select the "Restore All" option. This allows you to not only edit and resubmit your message but also restore your workspace to the state it was in at that point in the conversation.
+[消息编辑功能](/features/editing-messages) 在您选择"恢复全部"选项时在后台使用检查点。这允许您不仅编辑和重新提交消息，还可以将工作区恢复到对话中该点的状态。
 
-## Deleting Checkpoints
+## 删除检查点
 
-You can delete all checkpoints by using the **"Delete All History"** button in the task history menu. Note that this will also delete all tasks. Checkpoints are stored in VS Code's globalStorage.
+您可以通过使用任务历史菜单中的**"删除所有历史"**按钮来删除所有检查点。请注意，这也将删除所有任务。检查点存储在 VS Code 的 globalStorage 中。

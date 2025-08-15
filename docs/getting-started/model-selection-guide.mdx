@@ -1,126 +1,126 @@
 ---
-title: "Model Selection Guide"
-description: "Last updated: Feb 5, 2025."
+title: "模型选择指南"
+description: "最后更新：2025年2月5日。"
 ---
 
-## Understanding Context Windows
+## 理解上下文窗口
 
-Think of a context window as your AI assistant's working memory - similar to RAM in a computer. It determines how much information the model can "remember" and process at once during your conversation. This includes:
+将上下文窗口想象为您的 AI 助手的工作记忆——类似于计算机中的 RAM。它决定了模型在对话过程中一次可以"记住"和处理多少信息。这包括：
 
--   Your code files and conversations
--   The assistant's responses
--   Any documentation or additional context provided
+-   您的代码文件和对话
+-   助手的回复
+-   任何文档或提供的额外上下文
 
-Context windows are measured in tokens (roughly 3/4 of a word in English). Different models have different context window sizes:
+上下文窗口以令牌（token）为单位测量（英语中大约相当于 3/4 个单词）。不同的模型有不同的上下文窗口大小：
 
--   Claude 3.5 Sonnet: 200K tokens
--   DeepSeek Models: 128K tokens
--   Gemini Flash 2.0: 1M tokens
--   Gemini 1.5 Pro: 2M tokens
+-   Claude 3.5 Sonnet：200K 令牌
+-   DeepSeek 模型：128K 令牌
+-   Gemini Flash 2.0：1M 令牌
+-   Gemini 1.5 Pro：2M 令牌
 
-When you reach the limit of your context window, older information needs to be removed to make room for new information - just like clearing RAM to run new programs. This is why sometimes AI assistants might seem to "forget" earlier parts of your conversation.
+当您达到上下文窗口的限制时，较旧的信息需要被移除以为新信息腾出空间——就像清理 RAM 来运行新程序一样。这就是为什么有时 AI 助手可能看起来"忘记"了对话早期部分的原因。
 
-Cline helps you manage this limitation with its Context Window Progress Bar, which shows:
+Cline 通过其上下文窗口进度条帮助您管理这种限制，它显示：
 
--   Input tokens (what you've sent to the model)
--   Output tokens (what the model has generated)
--   A visual representation of how much of your context window you've used
--   The total capacity for your chosen model
+-   输入令牌（您发送给模型的内容）
+-   输出令牌（模型生成的内容）
+-   您已使用的上下文窗口的可视化表示
+-   您选择的模型的总容量
 
-<Frame caption="Visual representation of the context window usage in Cline">
+<Frame caption="Cline 中上下文窗口使用的可视化表示">
 	<img
 		src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(11).png"
-		alt="Context window progress bar example"
+		alt="上下文窗口进度条示例"
 	/>
 </Frame>
 
-This visibility helps you work more effectively with Cline by letting you know when you might need to start fresh or break tasks into smaller chunks.
+这种可见性通过让您知道何时可能需要重新开始或将任务分解为更小的块，帮助您更有效地使用 Cline。
 
-### Model Comparison
+### 模型比较
 
-## LLM Model Comparison for Cline (Feb 2025)
+## Cline 的 LLM 模型比较（2025年2月）
 
-| Model             | Input Cost\* | Output Cost\* | Context Window | Best For                            |
-| ----------------- | ------------ | ------------- | -------------- | ----------------------------------- |
-| Claude 3.5 Sonnet | $3.00        | $15.00        | 200K           | Best code implementation & tool use |
-| DeepSeek R1       | $0.55        | $2.19         | 128K           | Planning & reasoning champion       |
-| DeepSeek V3       | $0.14        | $0.28         | 128K           | Value code implementation           |
-| o3-mini           | $1.10        | $4.40         | 200K           | Flexible use, strong planning       |
-| Gemini Flash 2.0  | $0.00        | $0.00         | 1M             | Strong all-rounder                  |
-| Gemini 1.5 Pro    | $0.00        | $0.00         | 2M             | Large context processing            |
+| 模型               | 输入成本\* | 输出成本\* | 上下文窗口 | 最适合                           |
+| ------------------ | ---------- | ---------- | ---------- | -------------------------------- |
+| Claude 3.5 Sonnet | $3.00      | $15.00     | 200K       | 最佳代码实现和工具使用           |
+| DeepSeek R1       | $0.55      | $2.19      | 128K       | 规划和推理冠军                   |
+| DeepSeek V3       | $0.14      | $0.28      | 128K       | 价值代码实现                     |
+| o3-mini           | $1.10      | $4.40      | 200K       | 灵活使用，强大的规划能力         |
+| Gemini Flash 2.0  | $0.00      | $0.00      | 1M         | 强大的全能型                     |
+| Gemini 1.5 Pro    | $0.00      | $0.00      | 2M         | 大上下文处理                     |
 
-\*Costs per million tokens
+\*每百万令牌的成本
 
-### Top Picks for 2025
+### 2025年最佳选择
 
 1. **Claude 3.5 Sonnet**
-    - Best overall code implementation
-    - Most reliable tool usage
-    - Expensive but worth it for critical code
+    - 最佳整体代码实现
+    - 最可靠的工具使用
+    - 昂贵但对于关键代码值得
 2. **DeepSeek R1**
-    - Exceptional planning & reasoning
-    - Great value pricing
+    - 卓越的规划和推理能力
+    - 出色的价值定价
 3. **o3-mini**
-    - Strong for planning with adjustable reasoning
-    - Three reasoning modes for different needs
-    - Requires OpenAI Tier 3 API access
-    - 200K context window
+    - 具有可调整推理的强大规划能力
+    - 三种推理模式满足不同需求
+    - 需要 OpenAI Tier 3 API 访问
+    - 200K 上下文窗口
 4. **DeepSeek V3**
-    - Reliable code implementation
-    - Great for daily coding
-    - Cost-effective for implementation
+    - 可靠的代码实现
+    - 非常适合日常编码
+    - 实现成本效益高
 5. **Gemini Flash 2.0**
-    - Massive 1M context window
-    - Improved speed and performance
-    - Good all-around capabilities
+    - 巨大的 1M 上下文窗口
+    - 改进的速度和性能
+    - 良好的全能能力
 
-### Best Models by Mode (Plan or Act)
+### 按模式分类的最佳模型（规划或执行）
 
-#### Planning
+#### 规划
 
 1. **DeepSeek R1**
-    - Best reasoning capabilities in class
-    - Excellent at breaking down complex tasks
-    - Strong math/algorithm planning
-    - MoE architecture helps with reasoning
-2. **o3-mini (high reasoning)**
-    - Three reasoning levels:
-        - High: Complex planning
-        - Medium: Daily tasks
-        - Low: Quick ideas
-    - 200K context helps with large projects
+    - 同类中最佳推理能力
+    - 擅长分解复杂任务
+    - 强大的数学/算法规划
+    - MoE 架构有助于推理
+2. **o3-mini（高推理）**
+    - 三种推理级别：
+        - 高：复杂规划
+        - 中：日常任务
+        - 低：快速想法
+    - 200K 上下文有助于大型项目
 3. **Gemini Flash 2.0**
-    - Massive context window for complex planning
-    - Strong reasoning capabilities
-    - Good with multi-step tasks
+    - 复杂规划的巨大上下文窗口
+    - 强大的推理能力
+    - 适合多步骤任务
 
-#### Acting (coding)
+#### 执行（编码）
 
 1. **Claude 3.5 Sonnet**
-    - Best code quality
-    - Most reliable with Cline tools
-    - Worth the premium for critical code
+    - 最佳代码质量
+    - 与 Cline 工具最可靠
+    - 对于关键代码值得溢价
 2. **DeepSeek V3**
-    - Nearly Sonnet-level code quality
-    - Better API stability than R1
-    - Great for daily coding
-    - Strong tool usage
+    - 接近 Sonnet 级别的代码质量
+    - 比 R1 更好的 API 稳定性
+    - 非常适合日常编码
+    - 强大的工具使用
 3. **Gemini 1.5 Pro**
-    - 2M context window
-    - Good with complex codebases
-    - Reliable API
-    - Strong multi-file understanding
+    - 2M 上下文窗口
+    - 适合复杂代码库
+    - 可靠的 API
+    - 强大的多文件理解能力
 
-### A Note on Local Models
+### 关于本地模型的说明
 
-While running models locally might seem appealing for cost savings, we currently don't recommend any local models for use with Cline. [Local models are significantly less reliable](https://docs.cline.bot/running-models-locally/read-me-first) at using Cline's essential tools and typically retain only 1-26% of the original model's capabilities. The full cloud version of DeepSeek-R1, for example, is 671B parameters - local versions are drastically simplified copies that struggle with complex tasks and tool usage. Even with high-end hardware (RTX 3070+, 32GB+ RAM), you'll experience slower responses, less reliable tool execution, and reduced capabilities. For the best development experience, we recommend sticking with the cloud models listed above.
+虽然本地运行模型可能看起来对节省成本有吸引力，但我们目前不推荐任何本地模型与 Cline 一起使用。[本地模型在使用 Cline 的基本工具时明显不太可靠](https://docs.cline.bot/running-models-locally/read-me-first)，通常只保留原始模型能力的 1-26%。例如，DeepSeek-R1 的完整云版本是 671B 参数——本地版本是大幅简化的副本，在复杂任务和工具使用方面很困难。即使使用高端硬件（RTX 3070+、32GB+ RAM），您也会体验到响应较慢、工具执行不太可靠以及功能减少。为了获得最佳开发体验，我们建议坚持使用上面列出的云模型。
 
-### Key Takeaways
+### 关键要点
 
-1. **Plan vs Act Matters**: Choose models based on task type
-2. **Real Performance > Benchmarks**: Focus on actual Cline performance
-3. **Mix & Match**: Use different models for planning and implementation
-4. **Cost vs Quality**: Premium models worth it for critical code
-5. **Keep Backups**: Have alternatives ready for API issues
+1. **规划与执行很重要**：根据任务类型选择模型
+2. **真实性能 > 基准测试**：专注于实际的 Cline 性能
+3. **混合搭配**：为规划和实现使用不同的模型
+4. **成本 vs 质量**：对于关键代码，高级模型值得
+5. **保持备份**：为 API 问题准备替代方案
 
-_\*Note: Based on real usage patterns and community feedback rather than just benchmarks. Your experience may vary. This is not an exhaustive list of all the models available for use within Cline._
+_\*注意：基于实际使用模式和社区反馈，而不仅仅是基准测试。您的体验可能有所不同。这不是 Cline 中可用的所有模型的详尽列表。_
