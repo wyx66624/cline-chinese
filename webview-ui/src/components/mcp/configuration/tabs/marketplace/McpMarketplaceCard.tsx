@@ -128,7 +128,7 @@ const McpMarketplaceCard = ({ item, installedServers, setError }: McpMarketplace
 								}}
 								style={{}}>
 								<StyledInstallButton disabled={isInstalled || isDownloading} $isInstalled={isInstalled}>
-									{isInstalled ? "Installed" : isDownloading ? "Installing..." : "Install"}
+									{isInstalled ? "已安装" : isDownloading ? "安装中..." : "安装"}
 								</StyledInstallButton>
 							</div>
 						</div>
@@ -201,7 +201,7 @@ const McpMarketplaceCard = ({ item, installedServers, setError }: McpMarketplace
 								<span style={{ wordBreak: "break-all" }}>{item.downloadCount?.toLocaleString() ?? 0}</span>
 							</div>
 							{item.requiresApiKey && (
-								<span className="codicon codicon-key" title="Requires API key" style={{ flexShrink: 0 }} />
+								<span className="codicon codicon-key" title="需要 API 密钥" style={{ flexShrink: 0 }} />
 							)}
 						</div>
 					</div>
