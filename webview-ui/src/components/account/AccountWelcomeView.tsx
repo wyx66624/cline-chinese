@@ -7,17 +7,16 @@ export const AccountWelcomeView = () => (
 		<ClineLogoWhite className="size-16 mb-4" />
 
 		<p>
-			Sign up for an account to get access to the latest models, billing dashboard to view usage and credits, and more
-			upcoming features.
+			注册账户以获取最新模型的访问权限、查看使用情况和积分的计费仪表板，以及更多即将推出的功能。
 		</p>
 
 		<VSCodeButton onClick={() => handleSignIn()} className="w-full mb-4">
-			Sign up with Cline
+			使用 Cline 注册
 		</VSCodeButton>
 
 		<p className="text-[var(--vscode-descriptionForeground)] text-xs text-center m-0">
-			By continuing, you agree to the <VSCodeLink href="https://cline.bot/tos">Terms of Service</VSCodeLink> and{" "}
-			<VSCodeLink href="https://cline.bot/privacy">Privacy Policy.</VSCodeLink>
+			继续即表示您同意 <VSCodeLink href="https://cline.bot/tos">服务条款</VSCodeLink> 和{" "}
+			<VSCodeLink href="https://cline.bot/privacy">隐私政策。</VSCodeLink>
 		</p>
 	</div>
 )

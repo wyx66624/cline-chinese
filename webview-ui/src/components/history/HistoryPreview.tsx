@@ -93,7 +93,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 						fontSize: "0.85em",
 						textTransform: "uppercase",
 					}}>
-					Recent Tasks
+					最近任务
 				</span>
 			</div>
 
@@ -129,7 +129,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 														right: "12px",
 														color: "var(--vscode-button-background)",
 													}}>
-													<span className="codicon codicon-star-full" aria-label="Favorited" />
+													<span className="codicon codicon-star-full" aria-label="已收藏" />
 												</div>
 											)}
 
@@ -156,14 +156,14 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 													color: "var(--vscode-descriptionForeground)",
 												}}>
 												<span>
-													Tokens: ↑{formatLargeNumber(item.tokensIn || 0)} ↓
+													令牌: ↑{formatLargeNumber(item.tokensIn || 0)} ↓
 													{formatLargeNumber(item.tokensOut || 0)}
 												</span>
 												{!!item.cacheWrites && (
 													<>
 														{" • "}
 														<span>
-															Cache: +{formatLargeNumber(item.cacheWrites || 0)} →{" "}
+															缓存: +{formatLargeNumber(item.cacheWrites || 0)} →{" "}
 															{formatLargeNumber(item.cacheReads || 0)}
 														</span>
 													</>
@@ -171,7 +171,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 												{!!item.totalCost && (
 													<>
 														{" • "}
-														<span>API Cost: ${item.totalCost?.toFixed(4)}</span>
+														<span>API 费用: ${item.totalCost?.toFixed(4)}</span>
 													</>
 												)}
 											</div>
@@ -195,7 +195,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 											fontSize: "var(--vscode-font-size)",
 											color: "var(--vscode-descriptionForeground)",
 										}}>
-										View all history
+										查看全部历史
 									</div>
 								</VSCodeButton>
 							</div>
@@ -208,7 +208,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 								fontSize: "var(--vscode-font-size)",
 								padding: "10px 0",
 							}}>
-							No recent tasks
+							没有最近任务
 						</div>
 					)}
 				</div>
