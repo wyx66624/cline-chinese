@@ -20,7 +20,7 @@ const CreditLimitError: React.FC<CreditLimitErrorProps> = ({
 	currentBalance = 0,
 	totalSpent = 0,
 	totalPromotions = 0,
-	message = "You have run out of credits.",
+	message = "您的积分已用完。",
 	// buyCreditsUrl = "https://app.cline.bot/dashboard/account?tab=credits&redirect=true",
 }) => {
 	const { uriScheme } = useExtensionState()
@@ -56,7 +56,7 @@ const CreditLimitError: React.FC<CreditLimitErrorProps> = ({
 					marginBottom: "8px",
 				}}>
 				<span className="codicon codicon-credit-card mr-[6px] text-[14px]" />
-				Buy Credits
+				购买积分
 			</VSCodeButtonLink>
 
 			<VSCodeButton
@@ -78,7 +78,7 @@ const CreditLimitError: React.FC<CreditLimitErrorProps> = ({
 					width: "100%",
 				}}>
 				<span className="codicon codicon-refresh" style={{ fontSize: "14px", marginRight: "6px" }} />
-				Retry Request
+				重试请求
 			</VSCodeButton>
 		</div>
 	)

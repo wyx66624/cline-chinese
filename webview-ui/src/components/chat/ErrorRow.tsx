@@ -49,7 +49,7 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 						return (
 							<p className="m-0 whitespace-pre-wrap text-[var(--vscode-errorForeground)] wrap-anywhere">
 								{clineErrorMessage}
-								{requestId && <div>Request ID: {requestId}</div>}
+								{requestId && <div>请求 ID: {requestId}</div>}
 							</p>
 						)
 					}
@@ -58,18 +58,18 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 					return (
 						<p className="m-0 whitespace-pre-wrap text-[var(--vscode-errorForeground)] wrap-anywhere">
 							{clineErrorMessage}
-							{requestId && <div>Request ID: {requestId}</div>}
+							{requestId && <div>请求 ID: {requestId}</div>}
 							{clineErrorMessage?.toLowerCase()?.includes("powershell") && (
 								<>
 									<br />
 									<br />
-									It seems like you're having Windows PowerShell issues, please see this{" "}
+									看起来您遇到了 Windows PowerShell 问题，请查看这个{" "}
 									<a
 										href="https://github.com/cline/cline/wiki/TroubleShooting-%E2%80%90-%22PowerShell-is-not-recognized-as-an-internal-or-external-command%22"
 										className="underline text-inherit">
-										troubleshooting guide
+										故障排除指南
 									</a>
-									.
+									。
 								</>
 							)}
 							{clineError?.isErrorType(ClineErrorType.Auth) && (
@@ -79,11 +79,11 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 									{/* The user is signed in or not using cline provider */}
 									{clineUser && !isClineProvider ? (
 										<span className="mb-4 text-[var(--vscode-descriptionForeground)]">
-											(Click "Retry" below)
+											(点击下面的"重试")
 										</span>
 									) : (
 										<VSCodeButton onClick={handleSignIn} className="w-full mb-4">
-											Sign in to Cline
+											登录到 Cline
 										</VSCodeButton>
 									)}
 								</>
@@ -108,8 +108,8 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 				return (
 					<div className="flex flex-col p-2 rounded text-xs bg-[var(--vscode-textBlockQuote-background)] text-[var(--vscode-foreground)] opacity-80">
 						<div>
-							Cline tried to access <code>{message.text}</code> which is blocked by the <code>.clineignore</code>
-							file.
+							Cline 尝试访问 <code>{message.text}</code>，但被 <code>.clineignore</code>
+							文件阻止了。
 						</div>
 					</div>
 				)

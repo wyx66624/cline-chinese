@@ -37,8 +37,8 @@ const QuoteButton: React.FC<QuoteButtonProps> = ({ top, left, onClick }) => {
 		<ButtonContainer $top={top} $left={left} className="quote-button-class">
 			<VSCodeButton
 				appearance="icon"
-				aria-label="Quote selection"
-				title="Quote selection in reply"
+				aria-label="引用选择"
+				title="在回复中引用选择"
 				onClick={(e) => {
 					e.stopPropagation() // Prevent triggering mouseup on the parent
 					onClick()

@@ -14,11 +14,11 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 			switch (message.say) {
 				// TODO: Need to confirm these classifcations with design
 				case "task":
-					return "Task Message"
+					return "任务消息"
 				case "user_feedback":
-					return "User Message"
+					return "用户消息"
 				case "text":
-					return "Assistant Response"
+					return "助手回复"
 				case "tool":
 					if (message.text) {
 						try {
@@ -30,41 +30,41 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 								toolData.tool === "listCodeDefinitionNames" ||
 								toolData.tool === "searchFiles"
 							) {
-								return `File Read: ${toolData.tool}`
+								return `文件读取: ${toolData.tool}`
 							} else if (toolData.tool === "editedExistingFile") {
-								return `File Edit: ${toolData.path || "Unknown file"}`
+								return `文件编辑: ${toolData.path || "未知文件"}`
 							} else if (toolData.tool === "newFileCreated") {
-								return `New File: ${toolData.path || "Unknown file"}`
+								return `新文件: ${toolData.path || "未知文件"}`
 							} else if (toolData.tool === "webFetch") {
-								return `Web Fetch: ${toolData.path || "Unknown URL"}`
+								return `网络获取: ${toolData.path || "未知URL"}`
 							}
-							return `Tool: ${toolData.tool}`
+							return `工具: ${toolData.tool}`
 						} catch (e) {
-							return "Tool Use"
+							return "工具使用"
 						}
 					}
-					return "Tool Use"
+					return "工具使用"
 				case "command":
-					return "Terminal Command"
+					return "终端命令"
 				case "command_output":
-					return "Terminal Output"
+					return "终端输出"
 				case "browser_action":
-					return "Browser Action"
+					return "浏览器操作"
 				case "browser_action_result":
-					return "Browser Result"
+					return "浏览器结果"
 				case "completion_result":
-					return "Task Completed"
+					return "任务完成"
 				case "checkpoint_created":
-					return "Checkpoint Created"
+					return "检查点已创建"
 				default:
-					return message.say || "Unknown"
+					return message.say || "未知"
 			}
 		} else if (message.type === "ask") {
 			switch (message.ask) {
 				case "followup":
-					return "Assistant Message"
+					return "助手消息"
 				case "plan_mode_respond":
-					return "Planning Response"
+					return "计划回复"
 				case "tool":
 					if (message.text) {
 						try {
@@ -76,29 +76,29 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 								toolData.tool === "listCodeDefinitionNames" ||
 								toolData.tool === "searchFiles"
 							) {
-								return `File Read Approval: ${toolData.tool}`
+								return `文件读取批准: ${toolData.tool}`
 							} else if (toolData.tool === "editedExistingFile") {
-								return `File Edit Approval: ${toolData.path || "Unknown file"}`
+								return `文件编辑批准: ${toolData.path || "未知文件"}`
 							} else if (toolData.tool === "newFileCreated") {
-								return `New File Approval: ${toolData.path || "Unknown file"}`
+								return `新文件批准: ${toolData.path || "未知文件"}`
 							} else if (toolData.tool === "webFetch") {
-								return `Web Fetch: ${toolData.path || "Unknown URL"}`
+								return `网络获取批准: ${toolData.path || "未知URL"}`
 							}
-							return `Tool Approval: ${toolData.tool}`
+							return `工具批准: ${toolData.tool}`
 						} catch (e) {
-							return "Tool Approval"
+							return "工具批准"
 						}
 					}
-					return "Tool Approval"
+					return "工具批准"
 				case "command":
-					return "Terminal Command Approval"
+					return "终端命令批准"
 				case "browser_action_launch":
-					return "Browser Action Approval"
+					return "浏览器操作批准"
 				default:
-					return message.ask || "Unknown"
+					return message.ask || "未知"
 			}
 		}
-		return "Unknown Message Type"
+		return "未知消息类型"
 	}
 
 	const getMessageContent = (message: ClineMessage): string => {
