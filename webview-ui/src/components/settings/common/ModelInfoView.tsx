@@ -124,7 +124,7 @@ export const ModelInfoView = ({ selectedModelId, modelInfo, isPopup }: ModelInfo
 			<Fragment key="outputPriceConditional">
 				<span style={{ fontWeight: 500 }}>输出价格（标准）:</span> {formatTokenPrice(modelInfo.outputPrice)}
 				<br />
-				<span style={{ fontWeight: 500 }}>输出价格（思考预算 > 0）:</span>{" "}
+				<span style={{ fontWeight: 500 }}>输出价格（思考预算 &gt; 0）:</span>{" "}
 				{formatTokenPrice(modelInfo.thinkingConfig.outputPrice)}
 			</Fragment>
 		)
