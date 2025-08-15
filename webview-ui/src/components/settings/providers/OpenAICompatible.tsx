@@ -76,8 +76,8 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 				}}
 				style={{ width: "100%", marginBottom: 10 }}
 				type="url"
-				placeholder={"Enter base URL..."}>
-				<span style={{ fontWeight: 500 }}>Base URL</span>
+				placeholder={"输入基础 URL..."}>
+				<span style={{ fontWeight: 500 }}>基础 URL</span>
 			</DebouncedTextField>
 
 			<ApiKeyField
@@ -86,7 +86,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 					handleFieldChange("openAiApiKey", value)
 					debouncedRefreshOpenAiModels(apiConfiguration?.openAiBaseUrl, value)
 				}}
-				providerName="OpenAI Compatible"
+				providerName="OpenAI 兼容"
 			/>
 
 			<DebouncedTextField
@@ -95,8 +95,8 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 					handleModeFieldChange({ plan: "planModeOpenAiModelId", act: "actModeOpenAiModelId" }, value, currentMode)
 				}
 				style={{ width: "100%", marginBottom: 10 }}
-				placeholder={"Enter Model ID..."}>
-				<span style={{ fontWeight: 500 }}>Model ID</span>
+				placeholder={"输入模型 ID..."}>
+				<span style={{ fontWeight: 500 }}>模型 ID</span>
 			</DebouncedTextField>
 
 			{/* OpenAI Compatible Custom Headers */}
@@ -105,7 +105,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 				return (
 					<div style={{ marginBottom: 10 }}>
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-							<span style={{ fontWeight: 500 }}>Custom Headers</span>
+							<span style={{ fontWeight: 500 }}>自定义头部</span>
 							<VSCodeButton
 								onClick={() => {
 									const currentHeaders = { ...(apiConfiguration?.openAiHeaders || {}) }
@@ -114,7 +114,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									currentHeaders[newKey] = ""
 									handleFieldChange("openAiHeaders", currentHeaders)
 								}}>
-								Add Header
+								添加头部
 							</VSCodeButton>
 						</div>
 						<div>
@@ -123,7 +123,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									<DebouncedTextField
 										initialValue={key}
 										style={{ width: "40%" }}
-										placeholder="Header name"
+										placeholder="头部名称"
 										onChange={(newValue) => {
 											const currentHeaders = apiConfiguration?.openAiHeaders ?? {}
 											if (newValue && newValue !== key) {
@@ -138,7 +138,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									<DebouncedTextField
 										initialValue={value}
 										style={{ width: "40%" }}
-										placeholder="Header value"
+										placeholder="头部值"
 										onChange={(newValue) => {
 											handleFieldChange("openAiHeaders", {
 												...(apiConfiguration?.openAiHeaders ?? {}),
@@ -152,7 +152,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 											const { [key]: _, ...rest } = apiConfiguration?.openAiHeaders ?? {}
 											handleFieldChange("openAiHeaders", rest)
 										}}>
-										Remove
+										移除
 									</VSCodeButton>
 								</div>
 							))}
@@ -164,8 +164,8 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 			<BaseUrlField
 				initialValue={apiConfiguration?.azureApiVersion}
 				onChange={(value) => handleFieldChange("azureApiVersion", value)}
-				label="Set Azure API version"
-				placeholder={`Default: ${azureOpenAiDefaultApiVersion}`}
+				label="设置 Azure API 版本"
+				placeholder={`默认: ${azureOpenAiDefaultApiVersion}`}
 			/>
 
 			<div
@@ -187,7 +187,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 						fontWeight: 700,
 						textTransform: "uppercase",
 					}}>
-					Model Configuration
+					模型配置
 				</span>
 			</div>
 
@@ -205,7 +205,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								currentMode,
 							)
 						}}>
-						Supports Images
+						支持图片
 					</VSCodeCheckbox>
 
 					<VSCodeCheckbox
@@ -220,7 +220,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								currentMode,
 							)
 						}}>
-						Supports browser use
+						支持浏览器使用
 					</VSCodeCheckbox>
 
 					<VSCodeCheckbox
@@ -236,7 +236,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								currentMode,
 							)
 						}}>
-						Enable R1 messages format
+						启用 R1 消息格式
 					</VSCodeCheckbox>
 
 					<div style={{ display: "flex", gap: 10, marginTop: "5px" }}>
@@ -256,7 +256,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									currentMode,
 								)
 							}}>
-							<span style={{ fontWeight: 500 }}>Context Window Size</span>
+							<span style={{ fontWeight: 500 }}>上下文窗口大小</span>
 						</DebouncedTextField>
 
 						<DebouncedTextField
@@ -275,7 +275,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									currentMode,
 								)
 							}}>
-							<span style={{ fontWeight: 500 }}>Max Output Tokens</span>
+							<span style={{ fontWeight: 500 }}>最大输出令牌数</span>
 						</DebouncedTextField>
 					</div>
 
@@ -296,7 +296,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									currentMode,
 								)
 							}}>
-							<span style={{ fontWeight: 500 }}>Input Price / 1M tokens</span>
+							<span style={{ fontWeight: 500 }}>输入价格 / 1M 令牌</span>
 						</DebouncedTextField>
 
 						<DebouncedTextField
@@ -315,7 +315,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									currentMode,
 								)
 							}}>
-							<span style={{ fontWeight: 500 }}>Output Price / 1M tokens</span>
+							<span style={{ fontWeight: 500 }}>输出价格 / 1M 令牌</span>
 						</DebouncedTextField>
 					</div>
 
@@ -344,7 +344,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									currentMode,
 								)
 							}}>
-							<span style={{ fontWeight: 500 }}>Temperature</span>
+							<span style={{ fontWeight: 500 }}>温度</span>
 						</DebouncedTextField>
 					</div>
 				</>
@@ -357,8 +357,8 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 					color: "var(--vscode-descriptionForeground)",
 				}}>
 				<span style={{ color: "var(--vscode-errorForeground)" }}>
-					(<span style={{ fontWeight: 500 }}>Note:</span> Cline uses complex prompts and works best with Claude models.
-					Less capable models may not work as expected.)
+					(<span style={{ fontWeight: 500 }}>注意:</span> Cline 使用复杂的提示，并最好与 Claude 模型一起使用。
+					能力较弱的模型可能无法按预期工作。)
 				</span>
 			</p>
 

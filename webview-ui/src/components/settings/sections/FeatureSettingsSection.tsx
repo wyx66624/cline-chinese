@@ -39,11 +39,10 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								const checked = e.target.checked === true
 								updateSetting("enableCheckpointsSetting", checked)
 							}}>
-							Enable Checkpoints
+							启用检查点
 						</VSCodeCheckbox>
 						<p className="text-xs text-[var(--vscode-descriptionForeground)]">
-							Enables extension to save checkpoints of workspace throughout the task. Uses git under the hood which
-							may not work well with large workspaces.
+							启用扩展在整个任务过程中保存工作区检查点。在底层使用 git，可能不适用于大型工作区。
 						</p>
 					</div>
 					<div style={{ marginTop: 10 }}>
@@ -53,17 +52,17 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								const checked = e.target.checked === true
 								updateSetting("mcpMarketplaceEnabled", checked)
 							}}>
-							Enable MCP Marketplace
+							启用 MCP 市场
 						</VSCodeCheckbox>
 						<p className="text-xs text-[var(--vscode-descriptionForeground)]">
-							Enables the MCP Marketplace tab for discovering and installing MCP servers.
+							启用 MCP 市场标签页，用于发现和安装 MCP 服务器。
 						</p>
 					</div>
 					<div style={{ marginTop: 10 }}>
 						<label
 							htmlFor="mcp-display-mode-dropdown"
 							className="block text-sm font-medium text-[var(--vscode-foreground)] mb-1">
-							MCP Display Mode
+							MCP 显示模式
 						</label>
 						<McpDisplayModeDropdown
 							id="mcp-display-mode-dropdown"
@@ -72,8 +71,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 							className="w-full"
 						/>
 						<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-							Controls how MCP responses are displayed: plain text, rich formatting with links/images, or markdown
-							rendering.
+							控制 MCP 响应的显示方式：纯文本、带链接/图片的丰富格式或 markdown 渲染。
 						</p>
 					</div>
 					<div style={{ marginTop: 10 }}>
@@ -83,17 +81,17 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								const checked = e.target.checked === true
 								updateSetting("mcpResponsesCollapsed", checked)
 							}}>
-							Collapse MCP Responses
+							折叠 MCP 响应
 						</VSCodeCheckbox>
 						<p className="text-xs text-[var(--vscode-descriptionForeground)]">
-							Sets the default display mode for MCP response panels
+							设置 MCP 响应面板的默认显示模式
 						</p>
 					</div>
 					<div style={{ marginTop: 10 }}>
 						<label
 							htmlFor="openai-reasoning-effort-dropdown"
 							className="block text-sm font-medium text-[var(--vscode-foreground)] mb-1">
-							OpenAI Reasoning Effort
+							OpenAI 推理努力程度
 						</label>
 						<VSCodeDropdown
 							id="openai-reasoning-effort-dropdown"
@@ -103,12 +101,12 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								handleReasoningEffortChange(newValue)
 							}}
 							className="w-full">
-							<VSCodeOption value="low">Low</VSCodeOption>
-							<VSCodeOption value="medium">Medium</VSCodeOption>
-							<VSCodeOption value="high">High</VSCodeOption>
+							<VSCodeOption value="low">低</VSCodeOption>
+							<VSCodeOption value="medium">中等</VSCodeOption>
+							<VSCodeOption value="high">高</VSCodeOption>
 						</VSCodeDropdown>
 						<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-							Reasoning effort for the OpenAI family of models(applies to all OpenAI model providers)
+							OpenAI 系列模型的推理努力程度（适用于所有 OpenAI 模型提供商）
 						</p>
 					</div>
 					<div style={{ marginTop: 10 }}>
@@ -118,10 +116,10 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								const checked = e.target.checked === true
 								updateSetting("strictPlanModeEnabled", checked)
 							}}>
-							Enable strict plan mode
+							启用严格计划模式
 						</VSCodeCheckbox>
 						<p className="text-xs text-[var(--vscode-descriptionForeground)]">
-							Enforces strict tool use while in plan mode, preventing file edits.
+							在计划模式下强制执行严格的工具使用，防止文件编辑。
 						</p>
 					</div>
 					{focusChainFeatureFlagEnabled && (
@@ -132,11 +130,10 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 									const checked = e.target.checked === true
 									updateSetting("focusChainSettings", { ...focusChainSettings, enabled: checked })
 								}}>
-								Enable Focus Chain
+								启用焦点链
 							</VSCodeCheckbox>
 							<p className="text-xs text-[var(--vscode-descriptionForeground)]">
-								Enables enhanced task progress tracking and automatic focus chain list management throughout
-								tasks.
+								启用增强的任务进度跟踪和整个任务过程中的自动焦点链列表管理。
 							</p>
 						</div>
 					)}
@@ -145,7 +142,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 							<label
 								htmlFor="focus-chain-remind-interval"
 								className="block text-sm font-medium text-[var(--vscode-foreground)] mb-1">
-								Focus Chain Reminder Interval
+								焦点链提醒间隔
 							</label>
 							<VSCodeTextField
 								id="focus-chain-remind-interval"
@@ -162,8 +159,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								className="w-20"
 							/>
 							<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-								Interval (in messages) to remind Cline about it's focus chain checklist (1-100). Lower values
-								provide more frequent reminders.
+								提醒 Cline 关于其焦点链检查清单的间隔（以消息为单位，1-100）。较低的值提供更频繁的提醒。
 							</p>
 						</div>
 					)}

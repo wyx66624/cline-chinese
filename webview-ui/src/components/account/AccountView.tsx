@@ -37,8 +37,8 @@ const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: A
 	return (
 		<div className="fixed inset-0 flex flex-col overflow-hidden pt-[10px] pl-[20px]">
 			<div className="flex justify-between items-center mb-[17px] pr-[17px]">
-				<h3 className="text-[var(--vscode-foreground)] m-0">Account</h3>
-				<VSCodeButton onClick={onDone}>Done</VSCodeButton>
+				<h3 className="text-[var(--vscode-foreground)] m-0">账户</h3>
+				<VSCodeButton onClick={onDone}>完成</VSCodeButton>
 			</div>
 			<div className="flex-grow overflow-hidden pr-[8px] flex flex-col">
 				<div className="h-full mb-[5px]">
@@ -277,7 +277,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 									disabled={isLoading}
 									className="w-full">
 									<VSCodeOption value={uid} key="personal">
-										Personal
+										个人
 									</VSCodeOption>
 									{userOrganizations?.map((org: UserOrganization) => (
 										<VSCodeOption key={org.organizationId} value={org.organizationId}>
@@ -286,7 +286,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 									))}
 								</VSCodeDropdown>
 								{activeOrganization && (
-									<VSCodeTag className="text-xs p-2" title="Role">
+									<VSCodeTag className="text-xs p-2" title="角色">
 										{getMainRole(activeOrganization.roles)}
 									</VSCodeTag>
 								)}
@@ -298,11 +298,11 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 				<div className="w-full flex gap-2 flex-col min-[225px]:flex-row">
 					<div className="w-full min-[225px]:w-1/2">
 						<VSCodeButtonLink href={getClineUris(clineUrl, "dashboard").href} appearance="primary" className="w-full">
-							Dashboard
+							仪表板
 						</VSCodeButtonLink>
 					</div>
 					<VSCodeButton appearance="secondary" onClick={() => handleSignOut()} className="w-full min-[225px]:w-1/2">
-						Log out
+						退出登录
 					</VSCodeButton>
 				</div>
 

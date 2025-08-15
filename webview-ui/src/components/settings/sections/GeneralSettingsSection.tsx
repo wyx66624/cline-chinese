@@ -25,19 +25,18 @@ const GeneralSettingsSection = ({ renderSectionHeader }: GeneralSettingsSectionP
 							const checked = e.target.checked === true
 							updateSetting("telemetrySetting", checked ? "enabled" : "disabled")
 						}}>
-						Allow error and usage reporting
+						允许错误和使用情况报告
 					</VSCodeCheckbox>
 					<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-						Help improve Cline by sending usage data and error reports. No code, prompts, or personal information are
-						ever sent. See our{" "}
+						通过发送使用数据和错误报告帮助改进 Cline。永远不会发送代码、提示或个人信息。查看我们的{" "}
 						<VSCodeLink href="https://docs.cline.bot/more-info/telemetry" className="text-inherit">
-							telemetry overview
+							遥测概述
 						</VSCodeLink>{" "}
-						and{" "}
+						和{" "}
 						<VSCodeLink href="https://cline.bot/privacy" className="text-inherit">
-							privacy policy
+							隐私政策
 						</VSCodeLink>{" "}
-						for more details.
+						了解更多详情。
 					</p>
 				</div>
 			</Section>
