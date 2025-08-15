@@ -42,8 +42,8 @@ export const GeminiProvider = ({ showModelOptions, isPopup, currentMode }: Gemin
 			<BaseUrlField
 				initialValue={apiConfiguration?.geminiBaseUrl}
 				onChange={(value) => handleFieldChange("geminiBaseUrl", value)}
-				placeholder="Default: https://generativelanguage.googleapis.com"
-				label="Use custom base URL"
+				placeholder="默认: https://generativelanguage.googleapis.com"
+				label="使用自定义基础 URL"
 			/>
 
 			{showModelOptions && (
@@ -58,7 +58,7 @@ export const GeminiProvider = ({ showModelOptions, isPopup, currentMode }: Gemin
 								currentMode,
 							)
 						}
-						label="Model"
+						label="模型"
 					/>
 
 					{SUPPORTED_THINKING_MODELS.includes(selectedModelId) && (

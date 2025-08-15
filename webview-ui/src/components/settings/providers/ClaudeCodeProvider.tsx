@@ -34,8 +34,8 @@ export const ClaudeCodeProvider = ({ showModelOptions, isPopup, currentMode }: C
 				onChange={(value) => handleFieldChange("claudeCodePath", value)}
 				style={{ width: "100%", marginTop: 3 }}
 				type="text"
-				placeholder="Default: claude">
-				<span style={{ fontWeight: 500 }}>Claude Code CLI Path</span>
+				placeholder="默认: claude">
+				<span style={{ fontWeight: 500 }}>Claude Code CLI 路径</span>
 			</DebouncedTextField>
 
 			<p
@@ -44,7 +44,7 @@ export const ClaudeCodeProvider = ({ showModelOptions, isPopup, currentMode }: C
 					marginTop: 3,
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				Path to the Claude Code CLI.
+				Claude Code CLI 的路径。
 			</p>
 
 			{showModelOptions && (
@@ -59,7 +59,7 @@ export const ClaudeCodeProvider = ({ showModelOptions, isPopup, currentMode }: C
 								currentMode,
 							)
 						}
-						label="Model"
+						label="模型"
 					/>
 
 					{SUPPORTED_ANTHROPIC_THINKING_MODELS.includes(selectedModelId) && (

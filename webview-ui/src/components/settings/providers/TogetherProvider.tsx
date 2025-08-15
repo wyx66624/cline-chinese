@@ -35,8 +35,8 @@ export const TogetherProvider = ({ showModelOptions, isPopup, currentMode }: Tog
 					handleModeFieldChange({ plan: "planModeTogetherModelId", act: "actModeTogetherModelId" }, value, currentMode)
 				}
 				style={{ width: "100%" }}
-				placeholder={"Enter Model ID..."}>
-				<span style={{ fontWeight: 500 }}>Model ID</span>
+				placeholder={"输入模型 ID..."}>
+				<span style={{ fontWeight: 500 }}>模型 ID</span>
 			</DebouncedTextField>
 			<p
 				style={{
@@ -45,8 +45,8 @@ export const TogetherProvider = ({ showModelOptions, isPopup, currentMode }: Tog
 					color: "var(--vscode-descriptionForeground)",
 				}}>
 				<span style={{ color: "var(--vscode-errorForeground)" }}>
-					(<span style={{ fontWeight: 500 }}>Note:</span> Cline uses complex prompts and works best with Claude models.
-					Less capable models may not work as expected.)
+					(<span style={{ fontWeight: 500 }}>注意:</span> Cline 使用复杂的提示，最好与 Claude 模型一起使用。
+					能力较弱的模型可能无法按预期工作。)
 				</span>
 			</p>
 		</div>

@@ -59,8 +59,8 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 			<BaseUrlField
 				initialValue={apiConfiguration?.ollamaBaseUrl}
 				onChange={(value) => handleFieldChange("ollamaBaseUrl", value)}
-				placeholder="Default: http://localhost:11434"
-				label="Use custom base URL"
+				placeholder="默认: http://localhost:11434"
+				label="使用自定义基础 URL"
 			/>
 
 			{apiConfiguration?.ollamaBaseUrl && (
@@ -68,14 +68,14 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 					initialValue={apiConfiguration?.ollamaApiKey || ""}
 					onChange={(value) => handleFieldChange("ollamaApiKey", value)}
 					providerName="Ollama"
-					placeholder="Enter API Key (optional)..."
-					helpText="Optional API key for authenticated Ollama instances or cloud services. Leave empty for local installations."
+					placeholder="输入 API 密钥（可选）..."
+					helpText="用于经过身份验证的 Ollama 实例或云服务的可选 API 密钥。本地安装请留空。"
 				/>
 			)}
 
 			{/* Model selection - use filterable picker */}
 			<label htmlFor="ollama-model-selection">
-				<span style={{ fontWeight: 500 }}>Model</span>
+				<span style={{ fontWeight: 500 }}>模型</span>
 			</label>
 			<OllamaModelPicker
 				ollamaModels={ollamaModels}
@@ -83,7 +83,7 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 				onModelChange={(modelId) => {
 					handleModeFieldChange({ plan: "planModeOllamaModelId", act: "actModeOllamaModelId" }, modelId, currentMode)
 				}}
-				placeholder={ollamaModels.length > 0 ? "Search and select a model..." : "e.g. llama3.1"}
+				placeholder={ollamaModels.length > 0 ? "搜索并选择模型..." : "例如 llama3.1"}
 			/>
 
 			{/* Show status message based on model availability */}
@@ -104,8 +104,8 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 				initialValue={apiConfiguration?.ollamaApiOptionsCtxNum || "32768"}
 				onChange={(value) => handleFieldChange("ollamaApiOptionsCtxNum", value)}
 				style={{ width: "100%" }}
-				placeholder={"e.g. 32768"}>
-				<span style={{ fontWeight: 500 }}>Model Context Window</span>
+				placeholder={"例如 32768"}>
+				<span style={{ fontWeight: 500 }}>模型上下文窗口</span>
 			</DebouncedTextField>
 
 			{showModelOptions && (
@@ -120,11 +120,11 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 							}
 						}}
 						style={{ width: "100%" }}
-						placeholder="Default: 30000 (30 seconds)">
-						<span style={{ fontWeight: 500 }}>Request Timeout (ms)</span>
+						placeholder="默认: 30000 (30 秒)">
+						<span style={{ fontWeight: 500 }}>请求超时（毫秒）</span>
 					</DebouncedTextField>
 					<p style={{ fontSize: "12px", marginTop: 3, color: "var(--vscode-descriptionForeground)" }}>
-						Maximum time in milliseconds to wait for API responses before timing out.
+						等待 API 响应的最大时间（毫秒），超过后将超时。
 					</p>
 				</>
 			)}
@@ -135,15 +135,15 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 					marginTop: "5px",
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				Ollama allows you to run models locally on your computer. For instructions on how to get started, see their{" "}
+				Ollama 允许您在计算机上本地运行模型。有关如何开始的说明，请参阅他们的{" "}
 				<VSCodeLink
 					href="https://github.com/ollama/ollama/blob/main/README.md"
 					style={{ display: "inline", fontSize: "inherit" }}>
-					quickstart guide.
+					快速入门指南。
 				</VSCodeLink>{" "}
 				<span style={{ color: "var(--vscode-errorForeground)" }}>
-					(<span style={{ fontWeight: 500 }}>Note:</span> Cline uses complex prompts and works best with Claude models.
-					Less capable models may not work as expected.)
+					(<span style={{ fontWeight: 500 }}>注意:</span> Cline 使用复杂的提示，最好与 Claude 模型一起使用。
+					能力较弱的模型可能无法按预期工作。)
 				</span>
 			</p>
 		</div>

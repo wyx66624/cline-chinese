@@ -32,12 +32,12 @@ export const SapAiCoreProvider = ({ showModelOptions, isPopup, currentMode }: Sa
 				onChange={(value) => handleFieldChange("sapAiCoreClientId", value)}
 				style={{ width: "100%" }}
 				type="password"
-				placeholder="Enter AI Core Client Id...">
-				<span style={{ fontWeight: 500 }}>AI Core Client Id</span>
+				placeholder="输入 AI Core 客户端 ID...">
+				<span style={{ fontWeight: 500 }}>AI Core 客户端 ID</span>
 			</DebouncedTextField>
 			{apiConfiguration?.sapAiCoreClientId && (
 				<p style={{ fontSize: "12px", color: "var(--vscode-descriptionForeground)" }}>
-					Client Id is set. To change it, please re-enter the value.
+					客户端 ID 已设置。要更改它，请重新输入值。
 				</p>
 			)}
 
@@ -46,12 +46,12 @@ export const SapAiCoreProvider = ({ showModelOptions, isPopup, currentMode }: Sa
 				onChange={(value) => handleFieldChange("sapAiCoreClientSecret", value)}
 				style={{ width: "100%" }}
 				type="password"
-				placeholder="Enter AI Core Client Secret...">
-				<span style={{ fontWeight: 500 }}>AI Core Client Secret</span>
+				placeholder="输入 AI Core 客户端密钥...">
+				<span style={{ fontWeight: 500 }}>AI Core 客户端密钥</span>
 			</DebouncedTextField>
 			{apiConfiguration?.sapAiCoreClientSecret && (
 				<p style={{ fontSize: "12px", color: "var(--vscode-descriptionForeground)" }}>
-					Client Secret is set. To change it, please re-enter the value.
+					客户端密钥已设置。要更改它，请重新输入值。
 				</p>
 			)}
 
@@ -59,24 +59,24 @@ export const SapAiCoreProvider = ({ showModelOptions, isPopup, currentMode }: Sa
 				initialValue={apiConfiguration?.sapAiCoreBaseUrl || ""}
 				onChange={(value) => handleFieldChange("sapAiCoreBaseUrl", value)}
 				style={{ width: "100%" }}
-				placeholder="Enter AI Core Base URL...">
-				<span style={{ fontWeight: 500 }}>AI Core Base URL</span>
+				placeholder="输入 AI Core 基础 URL...">
+				<span style={{ fontWeight: 500 }}>AI Core 基础 URL</span>
 			</DebouncedTextField>
 
 			<DebouncedTextField
 				initialValue={apiConfiguration?.sapAiCoreTokenUrl || ""}
 				onChange={(value) => handleFieldChange("sapAiCoreTokenUrl", value)}
 				style={{ width: "100%" }}
-				placeholder="Enter AI Core Auth URL...">
-				<span style={{ fontWeight: 500 }}>AI Core Auth URL</span>
+				placeholder="输入 AI Core 认证 URL...">
+				<span style={{ fontWeight: 500 }}>AI Core 认证 URL</span>
 			</DebouncedTextField>
 
 			<DebouncedTextField
 				initialValue={apiConfiguration?.sapAiResourceGroup || ""}
 				onChange={(value) => handleFieldChange("sapAiResourceGroup", value)}
 				style={{ width: "100%" }}
-				placeholder="Enter AI Core Resource Group...">
-				<span style={{ fontWeight: 500 }}>AI Core Resource Group</span>
+				placeholder="输入 AI Core 资源组...">
+				<span style={{ fontWeight: 500 }}>AI Core 资源组</span>
 			</DebouncedTextField>
 
 			<p
@@ -85,11 +85,11 @@ export const SapAiCoreProvider = ({ showModelOptions, isPopup, currentMode }: Sa
 					marginTop: "5px",
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				These credentials are stored locally and only used to make API requests from this extension.
+				这些凭据存储在本地，仅用于从该扩展发出 API 请求。
 				<VSCodeLink
 					href="https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/access-sap-ai-core-via-api"
 					style={{ display: "inline" }}>
-					You can find more information about SAP AI Core API access here.
+					您可以在此处找到有关 SAP AI Core API 访问的更多信息。
 				</VSCodeLink>
 			</p>
 
@@ -105,7 +105,7 @@ export const SapAiCoreProvider = ({ showModelOptions, isPopup, currentMode }: Sa
 								currentMode,
 							)
 						}
-						label="Model"
+						label="模型"
 					/>
 
 					<ModelInfoView selectedModelId={selectedModelId} modelInfo={selectedModelInfo} isPopup={isPopup} />

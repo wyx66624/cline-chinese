@@ -46,7 +46,7 @@ export const DoubaoProvider = ({ showModelOptions, isPopup, currentMode }: Douba
 								currentMode,
 							)
 						}
-						label="Model"
+						label="模型"
 					/>
 
 					<ModelInfoView selectedModelId={selectedModelId} modelInfo={selectedModelInfo} isPopup={isPopup} />

@@ -56,8 +56,8 @@ export const FireworksProvider = ({ showModelOptions, isPopup, currentMode }: Fi
 							)
 						}
 						style={{ width: "100%" }}
-						placeholder={"Enter Model ID..."}>
-						<span style={{ fontWeight: 500 }}>Model ID</span>
+						placeholder={"输入模型 ID..."}>
+						<span style={{ fontWeight: 500 }}>模型 ID</span>
 					</DebouncedTextField>
 					<p
 						style={{
@@ -66,8 +66,8 @@ export const FireworksProvider = ({ showModelOptions, isPopup, currentMode }: Fi
 							color: "var(--vscode-descriptionForeground)",
 						}}>
 						<span style={{ color: "var(--vscode-errorForeground)" }}>
-							(<span style={{ fontWeight: 500 }}>Note:</span> Cline uses complex prompts and works best with Claude
-							models. Less capable models may not work as expected.)
+							(<span style={{ fontWeight: 500 }}>注意:</span> Cline 使用复杂的提示，最好与 Claude 模型一起使用。
+							能力较弱的模型可能无法按预期工作。)
 						</span>
 					</p>
 					<DebouncedTextField
@@ -75,14 +75,14 @@ export const FireworksProvider = ({ showModelOptions, isPopup, currentMode }: Fi
 						onChange={(value) => handleNumberInputChange("fireworksModelMaxCompletionTokens", value)}
 						style={{ width: "100%", marginBottom: 8 }}
 						placeholder={"2000"}>
-						<span style={{ fontWeight: 500 }}>Max Completion Tokens</span>
+						<span style={{ fontWeight: 500 }}>最大完成令牌数</span>
 					</DebouncedTextField>
 					<DebouncedTextField
 						initialValue={apiConfiguration?.fireworksModelMaxTokens?.toString() || ""}
 						onChange={(value) => handleNumberInputChange("fireworksModelMaxTokens", value)}
 						style={{ width: "100%", marginBottom: 8 }}
 						placeholder={"4000"}>
-						<span style={{ fontWeight: 500 }}>Max Context Tokens</span>
+						<span style={{ fontWeight: 500 }}>最大上下文令牌数</span>
 					</DebouncedTextField>
 				</>
 			)}

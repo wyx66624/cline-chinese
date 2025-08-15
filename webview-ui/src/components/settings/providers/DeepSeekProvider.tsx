@@ -46,7 +46,7 @@ export const DeepSeekProvider = ({ showModelOptions, isPopup, currentMode }: Dee
 								currentMode,
 							)
 						}
-						label="Model"
+						label="模型"
 					/>
 
 					<ModelInfoView selectedModelId={selectedModelId} modelInfo={selectedModelInfo} isPopup={isPopup} />

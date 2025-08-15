@@ -31,7 +31,7 @@ export const MoonshotProvider = ({ showModelOptions, isPopup, currentMode }: Moo
 		<div>
 			<DropdownContainer className="dropdown-container" style={{ position: "inherit" }}>
 				<label htmlFor="moonshot-entrypoint">
-					<span style={{ fontWeight: 500, marginTop: 5 }}>Moonshot Entrypoint</span>
+					<span style={{ fontWeight: 500, marginTop: 5 }}>Moonshot 入口点</span>
 				</label>
 				<VSCodeDropdown
 					id="moonshot-entrypoint"
@@ -54,7 +54,7 @@ export const MoonshotProvider = ({ showModelOptions, isPopup, currentMode }: Moo
 						? "https://platform.moonshot.cn/console/api-keys"
 						: "https://platform.moonshot.ai/console/api-keys"
 				}
-				helpText="This key is stored locally and only used to make API requests from this extension."
+				helpText="此密钥已本地存储，仅用于从本扩展程序发出 API 请求。"
 			/>
 
 			{showModelOptions && (
@@ -69,7 +69,7 @@ export const MoonshotProvider = ({ showModelOptions, isPopup, currentMode }: Moo
 								currentMode,
 							)
 						}
-						label="Model"
+						label="模型"
 					/>
 
 					<ModelInfoView selectedModelId={selectedModelId} modelInfo={selectedModelInfo} isPopup={isPopup} />

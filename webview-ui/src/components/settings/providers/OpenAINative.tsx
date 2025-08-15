@@ -46,7 +46,7 @@ export const OpenAINativeProvider = ({ showModelOptions, isPopup, currentMode }:
 								currentMode,
 							)
 						}
-						label="Model"
+						label="模型"
 					/>
 
 					<ModelInfoView selectedModelId={selectedModelId} modelInfo={selectedModelInfo} isPopup={isPopup} />

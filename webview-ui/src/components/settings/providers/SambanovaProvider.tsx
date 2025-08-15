@@ -46,7 +46,7 @@ export const SambanovaProvider = ({ showModelOptions, isPopup, currentMode }: Sa
 								currentMode,
 							)
 						}
-						label="Model"
+						label="模型"
 					/>
 
 					<ModelInfoView selectedModelId={selectedModelId} modelInfo={selectedModelInfo} isPopup={isPopup} />

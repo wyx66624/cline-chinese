@@ -31,8 +31,8 @@ export const HuggingFaceProvider = ({ showModelOptions, isPopup, currentMode }: 
 				onChange={(value) => handleFieldChange("huggingFaceApiKey", value)}
 				style={{ width: "100%" }}
 				type="password"
-				placeholder="Enter API Key...">
-				<span style={{ fontWeight: 500 }}>Hugging Face API Key</span>
+				placeholder="输入 API 密钥...">
+				<span style={{ fontWeight: 500 }}>Hugging Face API 密钥</span>
 			</DebouncedTextField>
 			<p
 				style={{
@@ -40,10 +40,9 @@ export const HuggingFaceProvider = ({ showModelOptions, isPopup, currentMode }: 
 					marginTop: "5px",
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				This key is stored locally and only used to make API requests from this extension. We don’t show pricing here
-				because it depends on your Hugging Face provider settings and isn’t consistently available via their API{" "}
+				此密钥仅存储在本地，仅用于从此扩展程序发出 API 请求。我们这里不显示定价信息，因为它取决于您的 Hugging Face 提供商设置，并且无法通过其 API 持续获取{" "}
 				<a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener noreferrer">
-					Get your API key here
+					在此获取您的 API 密钥
 				</a>
 			</p>
 

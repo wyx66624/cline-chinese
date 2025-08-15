@@ -53,20 +53,20 @@ export const VertexProvider = ({ showModelOptions, isPopup, currentMode }: Verte
 				initialValue={apiConfiguration?.vertexProjectId || ""}
 				onChange={(value) => handleFieldChange("vertexProjectId", value)}
 				style={{ width: "100%" }}
-				placeholder="Enter Project ID...">
-				<span style={{ fontWeight: 500 }}>Google Cloud Project ID</span>
+				placeholder="输入项目 ID...">
+				<span style={{ fontWeight: 500 }}>Google Cloud 项目 ID</span>
 			</DebouncedTextField>
 
 			<DropdownContainer zIndex={DROPDOWN_Z_INDEX - 1} className="dropdown-container">
 				<label htmlFor="vertex-region-dropdown">
-					<span style={{ fontWeight: 500 }}>Google Cloud Region</span>
+					<span style={{ fontWeight: 500 }}>Google Cloud 区域</span>
 				</label>
 				<VSCodeDropdown
 					id="vertex-region-dropdown"
 					value={apiConfiguration?.vertexRegion || ""}
 					style={{ width: "100%" }}
 					onChange={(e: any) => handleFieldChange("vertexRegion", e.target.value)}>
-					<VSCodeOption value="">Select a region...</VSCodeOption>
+					<VSCodeOption value="">选择区域...</VSCodeOption>
 					<VSCodeOption value="us-east5">us-east5</VSCodeOption>
 					<VSCodeOption value="us-central1">us-central1</VSCodeOption>
 					<VSCodeOption value="europe-west1">europe-west1</VSCodeOption>
@@ -86,12 +86,12 @@ export const VertexProvider = ({ showModelOptions, isPopup, currentMode }: Verte
 				<VSCodeLink
 					href="https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude#before_you_begin"
 					style={{ display: "inline", fontSize: "inherit" }}>
-					{"1) create a Google Cloud account › enable the Vertex AI API › enable the desired Claude models,"}
+					{"1) 创建 Google Cloud 账户 › 启用 Vertex AI API › 启用所需的 Claude 模型,"}
 				</VSCodeLink>{" "}
 				<VSCodeLink
 					href="https://cloud.google.com/docs/authentication/provide-credentials-adc#google-idp"
 					style={{ display: "inline", fontSize: "inherit" }}>
-					{"2) install the Google Cloud CLI › configure Application Default Credentials."}
+					{"2) 安装 Google Cloud CLI › 配置应用程序默认凭据。"}
 				</VSCodeLink>
 			</p>
 
