@@ -164,13 +164,13 @@ const HuggingFaceModelPicker: React.FC<HuggingFaceModelPickerProps> = ({ isPopup
 		<div className="w-full">
 			<div className="flex flex-col">
 				<label htmlFor="hf-model-search">
-					<span className="font-medium">Model</span>
+					<span className="font-medium">模型</span>
 				</label>
 
 				<div ref={dropdownRef} className="relative w-full">
 					<VSCodeTextField
 						id="hf-model-search"
-						placeholder="Search models..."
+						placeholder="搜索模型..."
 						value={searchTerm}
 						onInput={(e: any) => {
 							setSearchTerm(e.target.value)
@@ -183,7 +183,7 @@ const HuggingFaceModelPicker: React.FC<HuggingFaceModelPickerProps> = ({ isPopup
 						{searchTerm && (
 							<div
 								className="input-icon-button codicon codicon-close"
-								aria-label="Clear search"
+								aria-label="清除搜索"
 								onClick={() => {
 									setSearchTerm("")
 									setIsDropdownVisible(true)

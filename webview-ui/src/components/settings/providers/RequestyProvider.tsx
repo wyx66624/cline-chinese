@@ -43,7 +43,7 @@ export const RequestyProvider = ({ showModelOptions, isPopup, currentMode }: Req
 						handleFieldChange("requestyBaseUrl", "")
 					}
 				}}>
-				Use custom base URL
+				使用自定义基础 URL
 			</VSCodeCheckbox>
 			{requestyEndpointSelected && (
 				<DebouncedTextField
@@ -53,7 +53,7 @@ export const RequestyProvider = ({ showModelOptions, isPopup, currentMode }: Req
 					}}
 					style={{ width: "100%", marginBottom: 5 }}
 					type="url"
-					placeholder="Custom base URL"
+					placeholder="自定义基础 URL"
 				/>
 			)}
 			{showModelOptions && <RequestyModelPicker isPopup={isPopup} currentMode={currentMode} />}

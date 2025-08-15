@@ -67,8 +67,8 @@ export const LMStudioProvider = ({ showModelOptions, isPopup, currentMode }: LMS
 					handleModeFieldChange({ plan: "planModeLmStudioModelId", act: "actModeLmStudioModelId" }, value, currentMode)
 				}
 				style={{ width: "100%" }}
-				placeholder={"e.g. meta-llama-3.1-8b-instruct"}>
-				<span style={{ fontWeight: 500 }}>Model ID</span>
+				placeholder={"例如 meta-llama-3.1-8b-instruct"}>
+				<span style={{ fontWeight: 500 }}>模型 ID</span>
 			</DebouncedTextField>
 
 			{lmStudioModels.length > 0 && (
@@ -101,16 +101,16 @@ export const LMStudioProvider = ({ showModelOptions, isPopup, currentMode }: LMS
 				}}>
 				LM Studio allows you to run models locally on your computer. For instructions on how to get started, see their
 				<VSCodeLink href="https://lmstudio.ai/docs" style={{ display: "inline", fontSize: "inherit" }}>
-					quickstart guide.
+					快速入门指南。
 				</VSCodeLink>
 				You will also need to start LM Studio's{" "}
 				<VSCodeLink href="https://lmstudio.ai/docs/basics/server" style={{ display: "inline", fontSize: "inherit" }}>
-					local server
+					本地服务器
 				</VSCodeLink>{" "}
 				feature to use it with this extension.{" "}
 				<span style={{ color: "var(--vscode-errorForeground)" }}>
-					(<span style={{ fontWeight: 500 }}>Note:</span> Cline uses complex prompts and works best with Claude models.
-					Less capable models may not work as expected.)
+					(<span style={{ fontWeight: 500 }}>注意:</span> Cline 使用复杂的提示，最好与 Claude 模型一起使用。
+					能力较弱的模型可能无法按预期工作。)
 				</span>
 			</p>
 		</div>

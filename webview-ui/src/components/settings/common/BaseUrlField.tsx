@@ -19,8 +19,8 @@ interface BaseUrlFieldProps {
 export const BaseUrlField = ({
 	initialValue,
 	onChange,
-	label = "Use custom base URL",
-	placeholder = "Default: https://api.example.com",
+	label = "使用自定义基础 URL",
+	placeholder = "默认: https://api.example.com",
 }: BaseUrlFieldProps) => {
 	const [isEnabled, setIsEnabled] = useState(!!initialValue)
 	const [localValue, setLocalValue] = useDebouncedInput(initialValue || "", onChange)

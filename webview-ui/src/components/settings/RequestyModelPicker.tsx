@@ -176,12 +176,12 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 			</style>
 			<div style={{ display: "flex", flexDirection: "column" }}>
 				<label htmlFor="model-search">
-					<span style={{ fontWeight: 500 }}>Model</span>
+					<span style={{ fontWeight: 500 }}>模型</span>
 				</label>
 				<DropdownWrapper ref={dropdownRef}>
 					<VSCodeTextField
 						id="model-search"
-						placeholder="Search and select a model..."
+						placeholder="搜索并选择模型..."
 						value={searchTerm}
 						onInput={(e) => {
 							handleModelChange((e.target as HTMLInputElement)?.value?.toLowerCase())
@@ -197,7 +197,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 						{searchTerm && (
 							<div
 								className="input-icon-button codicon codicon-close"
-								aria-label="Clear search"
+								aria-label="清除搜索"
 								onClick={() => {
 									handleModelChange("")
 									setIsDropdownVisible(true)
@@ -247,15 +247,15 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 						color: "var(--vscode-descriptionForeground)",
 					}}>
 					<>
-						The extension automatically fetches the latest list of models available on{" "}
+						扩展自动获取最新模型列表，请访问{" "}
 						<VSCodeLink style={{ display: "inline", fontSize: "inherit" }} href="https://app.requesty.ai/router/list">
-							Requesty.
+							Requesty。
 						</VSCodeLink>
-						If you're unsure which model to choose, Cline works best with{" "}
+						如果您不确定选择哪个模型，Cline 最适合使用{" "}
 						<VSCodeLink
 							style={{ display: "inline", fontSize: "inherit" }}
 							onClick={() => handleModelChange("anthropic/claude-3-7-sonnet-latest")}>
-							anthropic/claude-3-7-sonnet-latest.
+							anthropic/claude-3-7-sonnet-latest。
 						</VSCodeLink>
 					</>
 				</p>

@@ -46,8 +46,8 @@ export const XaiProvider = ({ showModelOptions, isPopup, currentMode }: XaiProvi
 						color: "var(--vscode-descriptionForeground)",
 					}}>
 					<span style={{ color: "var(--vscode-errorForeground)" }}>
-						(<span style={{ fontWeight: 500 }}>Note:</span> Cline uses complex prompts and works best with Claude
-						models. Less capable models may not work as expected.)
+						(<span style={{ fontWeight: 500 }}>注意:</span> Cline 使用复杂的提示，最好与 Claude 模型一起使用。
+						能力较弱的模型可能无法按预期工作。)
 					</span>
 				</p>
 			</div>
@@ -64,7 +64,7 @@ export const XaiProvider = ({ showModelOptions, isPopup, currentMode }: XaiProvi
 								currentMode,
 							)
 						}
-						label="Model"
+						label="模型"
 					/>
 
 					{selectedModelId && selectedModelId.includes("3-mini") && (
@@ -83,13 +83,13 @@ export const XaiProvider = ({ showModelOptions, isPopup, currentMode }: XaiProvi
 										)
 									}
 								}}>
-								Modify reasoning effort
+								修改推理努力程度
 							</VSCodeCheckbox>
 
 							{reasoningEffortSelected && (
 								<div>
 									<label htmlFor="reasoning-effort-dropdown">
-										<span style={{}}>Reasoning Effort</span>
+										<span style={{}}>推理努力程度</span>
 									</label>
 									<DropdownContainer className="dropdown-container" zIndex={DROPDOWN_Z_INDEX - 100}>
 										<VSCodeDropdown
@@ -114,7 +114,7 @@ export const XaiProvider = ({ showModelOptions, isPopup, currentMode }: XaiProvi
 											marginBottom: 0,
 											color: "var(--vscode-descriptionForeground)",
 										}}>
-										High effort may produce more thorough analysis but takes longer and uses more tokens.
+										高努力程度可能会产生更全面的分析，但需要更长时间并使用更多令牌。
 									</p>
 								</div>
 							)}
