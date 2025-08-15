@@ -1,64 +1,64 @@
 export const summarizeTask = () =>
 	`<explicit_instructions type="summarize_task">
-The current conversation is rapidly running out of context. Now, your urgent task is to create a comprehensive detailed summary of the conversation so far, paying close attention to the user's explicit requests and your previous actions.
-This summary should be thorough in capturing technical details, code patterns, and architectural decisions that would be essential for continuing development work without losing context. You MUST ONLY respond to this message by using the summarize_task tool call.
+当前对话正在快速耗尽上下文。现在，您的紧急任务是创建迄今为止对话的全面详细摘要，密切关注用户的明确请求和您之前的操作。
+此摘要应该全面捕获技术细节、代码模式和架构决策，这些对于继续开发工作而不丢失上下文至关重要。您必须仅通过使用 summarize_task 工具调用来回应此消息。
 
-Before providing your final summary, wrap your analysis in <thinking> tags to organize your thoughts and ensure you've covered all necessary points. In your analysis process:
-1. Chronologically analyze each message and section of the conversation. For each section thoroughly identify:
-   - The user's explicit requests and intents
-   - Your approach to addressing the user's requests
-   - Key decisions, technical concepts and code patterns
-   - Specific details like file names, full code snippets, function signatures, file edits, etc
-2. Double-check for technical accuracy and completeness, addressing each required element thoroughly.
+在提供最终摘要之前，将您的分析包装在 <thinking> 标签中以组织您的想法并确保您涵盖了所有必要的要点。在您的分析过程中：
+1. 按时间顺序分析对话的每条消息和每个部分。对于每个部分，彻底识别：
+   - 用户的明确请求和意图
+   - 您解决用户请求的方法
+   - 关键决策、技术概念和代码模式
+   - 具体细节，如文件名、完整代码片段、函数签名、文件编辑等
+2. 仔细检查技术准确性和完整性，彻底解决每个必需元素。
 
-Your summary should include the following sections:
-1. Primary Request and Intent: Capture all of the user's explicit requests and intents in detail
-2. Key Technical Concepts: List all important technical concepts, technologies, and frameworks discussed.
-3. Files and Code Sections: Enumerate specific files and code sections examined, modified, or created. Pay special attention to the most recent messages and include full code snippets where applicable and include a summary of why this file read or edit is important.
-4. Problem Solving: Document problems solved and any ongoing troubleshooting efforts.
-5. Pending Tasks: Outline any pending tasks that you have explicitly been asked to work on.
-6. Current Work: Describe in detail precisely what was being worked on immediately before this summary request, paying special attention to the most recent messages from both user and assistant. Include file names and code snippets where applicable.
-7. Optional Next Step: List the next step that you will take that is related to the most recent work you were doing. IMPORTANT: ensure that this step is DIRECTLY in line with the user's explicit requests, and the task you were working on immediately before this summary request. If your last task was concluded, then only list next steps if they are explicitly in line with the users request. Do not start on tangential requests without confirming with the user first.
-                       If there is a next step, include direct quotes from the most recent conversation showing exactly what task you were working on and where you left off. This should be verbatim to ensure there's no drift in task interpretation.
-8. You should pay special attention to the most recent user message, as it indicates the user's most recent intent, if applicable.
+您的摘要应该包括以下部分：
+1. 主要请求和意图：详细捕获用户的所有明确请求和意图
+2. 关键技术概念：列出所有重要的技术概念、技术和讨论的框架。
+3. 文件和代码部分：列举检查、修改或创建的具体文件和代码部分。特别注意最近的消息，并在适用时包含完整代码片段，包括为什么此文件读取或编辑重要的摘要。
+4. 问题解决：记录已解决的问题和任何正在进行的故障排除工作。
+5. 待处理任务：概述您被明确要求处理的任何待处理任务。
+6. 当前工作：详细描述在此摘要请求之前正在处理的确切内容，特别注意来自用户和助手的最近消息。在适用时包含文件名和代码片段。
+7. 可选的下一步：列出与您最近所做工作相关的下一步。重要：确保此步骤与用户的明确请求和您在此摘要请求之前正在处理的任务直接一致。如果您最后的任务已结束，那么只有在明确符合用户请求时才列出下一步。在首先与用户确认之前，不要开始处理无关的请求。
+                       如果有下一步，包含来自最近对话的直接引用，显示您正在处理的确切任务以及您离开的地方。这应该是逐字逐句的，以确保任务解释没有偏差。
+8. 您应该特别注意最近的用户消息，因为它表明了用户最近的意图（如果适用）。
 
-Usage:
+用法：
 <summarize_task>
-<context>Your detailed summary</context>
+<context>您的详细摘要</context>
 </summarize_task>
 
-Here's an example of how your output should be structured:
+以下是您的输出应该如何结构的示例：
 
 <example>
 <thinking>
-[Your thought process, ensuring all points are covered thoroughly and accurately]
+[您的思考过程，确保所有要点都被彻底和准确地涵盖]
 </thinking>
 <summarize_task>
 <context>
-1. Primary Request and Intent:
-   [Detailed description]
-2. Key Technical Concepts:
-   - [Concept 1]
-   - [Concept 2]
+1. 主要请求和意图：
+   [详细描述]
+2. 关键技术概念：
+   - [概念 1]
+   - [概念 2]
    - [...]
-3. Files and Code Sections:
-   - [File Name 1]
-      - [Summary of why this file is important]
-      - [Summary of the changes made to this file, if any]
-      - [Important Code Snippet]
-   - [File Name 2]
-      - [Important Code Snippet]
+3. 文件和代码部分：
+   - [文件名 1]
+      - [此文件重要性的摘要]
+      - [对此文件所做更改的摘要（如果有）]
+      - [重要代码片段]
+   - [文件名 2]
+      - [重要代码片段]
    - [...]
-4. Problem Solving:
-   [Description of solved problems and ongoing troubleshooting]
-5. Pending Tasks:
-   - [Task 1]
-   - [Task 2]
+4. 问题解决：
+   [已解决问题和正在进行的故障排除的描述]
+5. 待处理任务：
+   - [任务 1]
+   - [任务 2]
    - [...]
-6. Current Work:
-   [Precise description of current work]
-7. Optional Next Step:
-   [Optional Next step to take]
+6. 当前工作：
+   [当前工作的精确描述]
+7. 可选的下一步：
+   [要采取的可选下一步]
 </context>
 </summarize_task>
 </example>
@@ -67,9 +67,9 @@ Here's an example of how your output should be structured:
 `
 
 export const continuationPrompt = (summaryText: string) => `
-This session is being continued from a previous conversation that ran out of context. The conversation is summarized below:
-${summaryText}.
+此会话正在从之前耗尽上下文的对话继续。对话总结如下：
+${summaryText}。
 
-Please continue the conversation from where we left it off without asking the user any further questions. Continue with the last task that you were asked to work on. Pay special attention to the most recent user message when responding rather than the initial task message, if applicable.
-If the most recent user's message starts with "/newtask", "/smol", "/compact", "/newrule", or "/reportbug", you should indicate to the user that they will need to run this command again.
+请从我们离开的地方继续对话，不要向用户询问任何进一步的问题。继续您被要求处理的最后一个任务。在回应时，特别注意最近的用户消息而不是初始任务消息（如果适用）。
+如果最近的用户消息以 "/newtask"、"/smol"、"/compact"、"/newrule" 或 "/reportbug" 开头，您应该向用户表明他们将需要再次运行此命令。
 `

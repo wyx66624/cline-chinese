@@ -1,86 +1,86 @@
 export const newTaskToolResponse = () =>
 	`<explicit_instructions type="new_task">
-The user has explicitly asked you to help them create a new task with preloaded context, which you will generate. The user may have provided instructions or additional information for you to consider when summarizing existing work and creating the context for the new task.
-Irrespective of whether additional information or instructions are given, you are ONLY allowed to respond to this message by calling the new_task tool.
+用户明确要求您帮助他们创建一个预加载上下文的新任务，您将生成此上下文。用户可能提供了指令或额外信息，供您在总结现有工作和为新任务创建上下文时考虑。
+无论是否提供了额外信息或指令，您只能通过调用 new_task 工具来回应此消息。
 
-The new_task tool is defined below:
+new_task 工具定义如下：
 
-Description:
-Your task is to create a detailed summary of the conversation so far, paying close attention to the user's explicit requests and your previous actions. This summary should be thorough in capturing technical details, code patterns, and architectural decisions that would be essential for continuing with the new task.
-The user will be presented with a preview of your generated context and can choose to create a new task or keep chatting in the current conversation.
+描述：
+您的任务是创建迄今为止对话的详细摘要，密切关注用户的明确请求和您之前的操作。此摘要应该全面捕获技术细节、代码模式和架构决策，这些对于继续新任务至关重要。
+用户将看到您生成的上下文的预览，并可以选择创建新任务或在当前对话中继续聊天。
 
-Parameters:
-- Context: (required) The context to preload the new task with. If applicable based on the current task, this should include:
-  1. Current Work: Describe in detail what was being worked on prior to this request to create a new task. Pay special attention to the more recent messages / conversation.
-  2. Key Technical Concepts: List all important technical concepts, technologies, coding conventions, and frameworks discussed, which might be relevant for the new task.
-  3. Relevant Files and Code: If applicable, enumerate specific files and code sections examined, modified, or created for the task continuation. Pay special attention to the most recent messages and changes.
-  4. Problem Solving: Document problems solved thus far and any ongoing troubleshooting efforts.
-  5. Pending Tasks and Next Steps: Outline all pending tasks that you have explicitly been asked to work on, as well as list the next steps you will take for all outstanding work, if applicable. Include code snippets where they add clarity. For any next steps, include direct quotes from the most recent conversation showing exactly what task you were working on and where you left off. This should be verbatim to ensure there's no information loss in context between tasks.
+参数：
+- Context: (必需) 预加载新任务的上下文。如果基于当前任务适用，这应该包括：
+  1. 当前工作：详细描述在请求创建新任务之前正在处理什么。特别注意更近期的消息/对话。
+  2. 关键技术概念：列出所有重要的技术概念、技术、编码约定和讨论的框架，这些可能与新任务相关。
+  3. 相关文件和代码：如果适用，列举为任务继续而检查、修改或创建的具体文件和代码部分。特别注意最近的消息和更改。
+  4. 问题解决：记录迄今为止解决的问题和任何正在进行的故障排除工作。
+  5. 待处理任务和下一步：概述您被明确要求处理的所有待处理任务，以及您将为所有未完成工作采取的下一步措施（如果适用）。在添加清晰度的地方包含代码片段。对于任何下一步，包含来自最近对话的直接引用，显示您正在处理的确切任务以及您离开的地方。这应该是逐字逐句的，以确保任务之间上下文没有信息丢失。
 
-Usage:
+用法：
 <new_task>
-<context>context to preload new task with</context>
+<context>预加载新任务的上下文</context>
 </new_task>
 
-Below is the the user's input when they indicated that they wanted to create a new task.
+以下是用户表示想要创建新任务时的输入。
 </explicit_instructions>\n
 `
 
 export const condenseToolResponse = () =>
 	`<explicit_instructions type="condense">
-The user has explicitly asked you to create a detailed summary of the conversation so far, which will be used to compact the current context window while retaining key information. The user may have provided instructions or additional information for you to consider when summarizing the conversation.
-Irrespective of whether additional information or instructions are given, you are only allowed to respond to this message by calling the condense tool.
+用户明确要求您创建迄今为止对话的详细摘要，这将用于压缩当前上下文窗口，同时保留关键信息。用户可能提供了指令或额外信息，供您在总结对话时考虑。
+无论是否提供了额外信息或指令，您只能通过调用 condense 工具来回应此消息。
 
-The condense tool is defined below:
+condense 工具定义如下：
 
-Description:
-Your task is to create a detailed summary of the conversation so far, paying close attention to the user's explicit requests and your previous actions. This summary should be thorough in capturing technical details, code patterns, and architectural decisions that would be essential for continuing with the conversation and supporting any continuing tasks.
-The user will be presented with a preview of your generated summary and can choose to use it to compact their context window or keep chatting in the current conversation.
-Users may refer to this tool as 'smol' or 'compact' as well. You should consider these to be equivalent to 'condense' when used in a similar context.
+描述：
+您的任务是创建迄今为止对话的详细摘要，密切关注用户的明确请求和您之前的操作。此摘要应该全面捕获技术细节、代码模式和架构决策，这些对于继续对话和支持任何持续任务至关重要。
+用户将看到您生成的摘要的预览，并可以选择使用它来压缩他们的上下文窗口或在当前对话中继续聊天。
+用户可能将此工具称为 'smol' 或 'compact'。在类似上下文中使用时，您应该将这些视为等同于 'condense'。
 
-Parameters:
-- Context: (required) The context to continue the conversation with. If applicable based on the current task, this should include:
-  1. Previous Conversation: High level details about what was discussed throughout the entire conversation with the user. This should be written to allow someone to be able to follow the general overarching conversation flow.
-  2. Current Work: Describe in detail what was being worked on prior to this request to compact the context window. Pay special attention to the more recent messages / conversation.
-  3. Key Technical Concepts: List all important technical concepts, technologies, coding conventions, and frameworks discussed, which might be relevant for continuing with this work.
-  4. Relevant Files and Code: If applicable, enumerate specific files and code sections examined, modified, or created for the task continuation. Pay special attention to the most recent messages and changes.
-  5. Problem Solving: Document problems solved thus far and any ongoing troubleshooting efforts.
-  6. Pending Tasks and Next Steps: Outline all pending tasks that you have explicitly been asked to work on, as well as list the next steps you will take for all outstanding work, if applicable. Include code snippets where they add clarity. For any next steps, include direct quotes from the most recent conversation showing exactly what task you were working on and where you left off. This should be verbatim to ensure there's no information loss in context between tasks.
+参数：
+- Context: (必需) 继续对话的上下文。如果基于当前任务适用，这应该包括：
+  1. 之前的对话：与用户整个对话中讨论内容的高级详细信息。这应该写得让某人能够遵循一般总体对话流程。
+  2. 当前工作：详细描述在请求压缩上下文窗口之前正在处理什么。特别注意更近期的消息/对话。
+  3. 关键技术概念：列出所有重要的技术概念、技术、编码约定和讨论的框架，这些可能与继续此工作相关。
+  4. 相关文件和代码：如果适用，列举为任务继续而检查、修改或创建的具体文件和代码部分。特别注意最近的消息和更改。
+  5. 问题解决：记录迄今为止解决的问题和任何正在进行的故障排除工作。
+  6. 待处理任务和下一步：概述您被明确要求处理的所有待处理任务，以及您将为所有未完成工作采取的下一步措施（如果适用）。在添加清晰度的地方包含代码片段。对于任何下一步，包含来自最近对话的直接引用，显示您正在处理的确切任务以及您离开的地方。这应该是逐字逐句的，以确保任务之间上下文没有信息丢失。
 
-Usage:
+用法：
 <condense>
-<context>Your detailed summary</context>
+<context>您的详细摘要</context>
 </condense>
 
-Example:
+示例：
 <condense>
 <context>
-1. Previous Conversation:
-  [Detailed description]
+1. 之前的对话：
+  [详细描述]
 
-2. Current Work:
-  [Detailed description]
+2. 当前工作：
+  [详细描述]
 
-3. Key Technical Concepts:
-  - [Concept 1]
-  - [Concept 2]
+3. 关键技术概念：
+  - [概念 1]
+  - [概念 2]
   - [...]
 
-4. Relevant Files and Code:
-  - [File Name 1]
-    - [Summary of why this file is important]
-    - [Summary of the changes made to this file, if any]
-    - [Important Code Snippet]
-  - [File Name 2]
-    - [Important Code Snippet]
+4. 相关文件和代码：
+  - [文件名 1]
+    - [此文件重要性的摘要]
+    - [对此文件所做更改的摘要（如果有）]
+    - [重要代码片段]
+  - [文件名 2]
+    - [重要代码片段]
   - [...]
 
-5. Problem Solving:
-  [Detailed description]
+5. 问题解决：
+  [详细描述]
 
-6. Pending Tasks and Next Steps:
-  - [Task 1 details & next steps]
-  - [Task 2 details & next steps]
+6. 待处理任务和下一步：
+  - [任务 1 详情和下一步]
+  - [任务 2 详情和下一步]
   - [...]
 </context>
 </condense>
@@ -90,274 +90,273 @@ Example:
 
 export const newRuleToolResponse = () =>
 	`<explicit_instructions type="new_rule">
-The user has explicitly asked you to help them create a new Cline rule file inside the .clinerules top-level directory based on the conversation up to this point in time. The user may have provided instructions or additional information for you to consider when creating the new Cline rule.
-When creating a new Cline rule file, you should NOT overwrite or alter an existing Cline rule file. To create the Cline rule file you MUST use the new_rule tool. The new_rule tool can be used in either of the PLAN or ACT modes.
+用户明确要求您帮助他们在 .clinerules 顶级目录中基于迄今为止的对话创建新的 Cline 规则文件。用户可能提供了指令或额外信息，供您在创建新的 Cline 规则时考虑。
+创建新的 Cline 规则文件时，您不应该覆盖或更改现有的 Cline 规则文件。要创建 Cline 规则文件，您必须使用 new_rule 工具。new_rule 工具可以在计划或执行模式中的任一种中使用。
 
-The new_rule tool is defined below:
+new_rule 工具定义如下：
 
-Description:
-Your task is to create a new Cline rule file which includes guidelines on how to approach developing code in tandem with the user, which can be either project specific or cover more global rules. This includes but is not limited to: desired conversational style, favorite project dependencies, coding styles, naming conventions, architectural choices, ui/ux preferences, etc.
-The Cline rule file must be formatted as markdown and be a '.md' file. The name of the file you generate must be as succinct as possible and be encompassing the main overarching concept of the rules you added to the file (e.g., 'memory-bank.md' or 'project-overview.md').
+描述：
+您的任务是创建一个新的 Cline 规则文件，其中包含关于如何与用户协同开发代码的指导原则，这些原则可以是项目特定的或涵盖更全局的规则。这包括但不限于：期望的对话风格、喜欢的项目依赖项、编码风格、命名约定、架构选择、ui/ux 偏好等。
+Cline 规则文件必须格式化为 markdown 并且是 '.md' 文件。您生成的文件名必须尽可能简洁，并涵盖您添加到文件中的规则的主要总体概念（例如，'memory-bank.md' 或 'project-overview.md'）。
 
-Parameters:
-- Path: (required) The path of the file to write to (relative to the current working directory). This will be the Cline rule file you create, and it must be placed inside the .clinerules top-level directory (create this if it doesn't exist). The filename created CANNOT be "default-clineignore.md". For filenames, use hyphens ("-") instead of underscores ("_") to separate words.
-- Content: (required) The content to write to the file. ALWAYS provide the COMPLETE intended content of the file, without any truncation or omissions. You MUST include ALL parts of the file, even if they haven't been modified. The content for the Cline rule file MUST be created according to the following instructions:
-  1. Format the Cline rule file to have distinct guideline sections, each with their own markdown heading, starting with "## Brief overview". Under each of these headings, include bullet points fully fleshing out the details, with examples and/or trigger cases ONLY when applicable.
-  2. These guidelines can be specific to the task(s) or project worked on thus far, or cover more high-level concepts. Guidelines can include coding conventions, general design patterns, preferred tech stack including favorite libraries and language, communication style with Cline (verbose vs concise), prompting strategies, naming conventions, testing strategies, comment verbosity, time spent on architecting prior to development, and other preferences.
-  3. When creating guidelines, you should not invent preferences or make assumptions based on what you think a typical user might want. These should be specific to the conversation you had with the user. Your guidelines / rules should not be overly verbose.
-  4. Your guidelines should NOT be a recollection of the conversation up to this point in time, meaning you should NOT be including arbitrary details of the conversation.
+参数：
+- Path: (必需) 要写入的文件的路径（相对于当前工作目录）。这将是您创建的 Cline 规则文件，它必须放在 .clinerules 顶级目录内（如果不存在则创建）。创建的文件名不能是 "default-clineignore.md"。对于文件名，使用连字符（"-"）而不是下划线（"_"）来分隔单词。
+- Content: (必需) 要写入文件的内容。始终提供文件的完整预期内容，不进行任何截断或省略。您必须包含文件的所有部分，即使它们没有被修改。Cline 规则文件的内容必须根据以下指令创建：
+  1. 将 Cline 规则文件格式化为具有不同指导原则部分，每个部分都有自己的 markdown 标题，从 "## 简要概述" 开始。在每个标题下，包含完全充实细节的项目符号点，仅在适用时包含示例和/或触发案例。
+  2. 这些指导原则可以特定于迄今为止处理的任务或项目，或涵盖更高级的概念。指导原则可以包括编码约定、通用设计模式、首选技术栈（包括喜欢的库和语言）、与 Cline 的沟通风格（详细 vs 简洁）、提示策略、命名约定、测试策略、注释详细程度、开发前架构时间，以及其他偏好。
+  3. 创建指导原则时，您不应该发明偏好或基于您认为典型用户可能想要的内容做出假设。这些应该特定于您与用户的对话。您的指导原则/规则不应该过于冗长。
+  4. 您的指导原则不应该是对迄今为止对话的回忆，这意味着您不应该包含对话的任意细节。
 
-Usage:
+用法：
 <new_rule>
-<path>.clinerules/{file name}.md</path>
-<content>Cline rule file content here</content>
+<path>.clinerules/{文件名}.md</path>
+<content>这里放置 Cline 规则文件内容</content>
 </new_rule>
 
-Example:
+示例：
 <new_rule>
 <path>.clinerules/project-preferences.md</path>
 <content>
-## Brief overview
-  [Brief description of the rules, including if this set of guidelines is project-specific or global]
+## 简要概述
+  [规则的简要描述，包括这组指导原则是项目特定的还是全局的]
 
-## Communication style
-  - [Description, rule, preference, instruction]
+## 沟通风格
+  - [描述、规则、偏好、指令]
   - [...]
 
-## Development workflow
-  - [Description, rule, preference, instruction]
+## 开发工作流程
+  - [描述、规则、偏好、指令]
   - [...]
 
-## Coding best practices
-  - [Description, rule, preference, instruction]
+## 编码最佳实践
+  - [描述、规则、偏好、指令]
   - [...]
 
-## Project context
-  - [Description, rule, preference, instruction]
+## 项目上下文
+  - [描述、规则、偏好、指令]
   - [...]
 
-## Other guidelines
-  - [Description, rule, preference, instruction]
+## 其他指导原则
+  - [描述、规则、偏好、指令]
   - [...]
 </content>
 </new_rule>
 
-Below is the user's input when they indicated that they wanted to create a new Cline rule file.
+以下是用户表示想要创建新的 Cline 规则文件时的输入。
 </explicit_instructions>\n
 `
 
 export const reportBugToolResponse = () =>
 	`<explicit_instructions type="report_bug">
-The user has explicitly asked you to help them submit a bug to the Cline github page (you MUST now help them with this irrespective of what your conversation up to this point in time was). To do so you will use the report_bug tool which is defined below. However, you must first ensure that you have collected all required information to fill in all the parameters for the tool call. If any of the the required information is apparent through your previous conversation with the user, you can suggest how to fill in those entries. However you should NOT assume you know what the issue about unless it's clear.
-Otherwise, you should converse with the user until you are able to gather all the required details. When conversing with the user, make sure you ask for/reference all required information/fields. When referencing the required fields, use human friendly versions like "Steps to reproduce" rather than "steps_to_reproduce". Only then should you use the report_bug tool call.
-The report_bug tool can be used in either of the PLAN or ACT modes.
+用户明确要求您帮助他们向 Cline github 页面提交错误报告（您现在必须帮助他们，无论您迄今为止的对话是什么）。为此，您将使用下面定义的 report_bug 工具。但是，您必须首先确保您已收集了填写工具调用所有参数所需的所有信息。如果任何必需信息通过您之前与用户的对话是明显的，您可以建议如何填写这些条目。但是，除非很清楚，否则您不应该假设您知道问题是什么。
+否则，您应该与用户对话，直到您能够收集所有必需的详细信息。与用户对话时，确保您询问/引用所有必需的信息/字段。引用必需字段时，使用人性化版本，如"重现步骤"而不是"steps_to_reproduce"。只有这样，您才应该使用 report_bug 工具调用。
+report_bug 工具可以在计划或执行模式中的任一种中使用。
 
-The report_bug tool call is defined below:
+report_bug 工具调用定义如下：
 
-Description:
-Your task is to fill in all of the required fields for a issue/bug report on github. You should attempt to get the user to be as verbose as possible with their description of the bug/issue they encountered. Still, it's okay, when the user is unaware of some of the details, to set those fields as "N/A".
+描述：
+您的任务是填写 github 上的问题/错误报告的所有必需字段。您应该尝试让用户尽可能详细地描述他们遇到的错误/问题。不过，当用户不知道某些细节时，将这些字段设置为"N/A"是可以的。
 
-Parameters:
-- title: (required) Concise description of the issue.
-- what_happened: (required) What happened and also what the user expected to happen instead.
-- steps_to_reproduce: (required) What steps are required to reproduce the bug.
-- api_request_output: (optional) Relevant API request output.
-- additional_context: (optional) Any other context about this bug not already mentioned.
+参数：
+- title: (必需) 问题的简洁描述。
+- what_happened: (必需) 发生了什么以及用户期望发生什么。
+- steps_to_reproduce: (必需) 重现错误所需的步骤。
+- api_request_output: (可选) 相关的 API 请求输出。
+- additional_context: (可选) 关于此错误的任何其他上下文，尚未提及。
 
-Usage:
+用法：
 <report_bug>
-<title>Title of the issue</title>
-<what_happened>Description of the issue</what_happened>
-<steps_to_reproduce>Steps to reproduce the issue</steps_to_reproduce>
-<api_request_output>Output from the LLM API related to the bug</api_request_output>
-<additional_context>Other issue details not already covered</additional_context>
+<title>问题的标题</title>
+<what_happened>问题的描述</what_happened>
+<steps_to_reproduce>重现问题的步骤</steps_to_reproduce>
+<api_request_output>与错误相关的 LLM API 输出</api_request_output>
+<additional_context>尚未涵盖的其他问题详情</additional_context>
 </report_bug>
 
-Below is the user's input when they indicated that they wanted to submit a Github issue.
+以下是用户表示想要提交 Github 问题时的输入。
 </explicit_instructions>\n
 `
 
 export const deepPlanningToolResponse = () =>
 	`<explicit_instructions type="deep-planning">
-Your task is to create a comprehensive implementation plan before writing any code. This process has four distinct steps that must be completed in order.
+您的任务是在编写任何代码之前创建全面的实施计划。此过程有四个必须按顺序完成的独特步骤。
 
-Your behavior should be methodical and thorough - take time to understand the codebase completely before making any recommendations. The quality of your investigation directly impacts the success of the implementation.
+您的行为应该是系统性和彻底的 - 在提出任何建议之前，花时间完全理解代码库。您调查的质量直接影响实施的成功。
 
-## STEP 1: Silent Investigation
+## 步骤 1：静默调查
 
 <important>
-until explicitly instructed by the user to proceed with coding.
-You must thoroughly understand the existing codebase before proposing any changes.
-Perform your research without commentary or narration. Execute commands and read files without explaining what you're about to do. Only speak up if you have specific questions for the user.
+直到用户明确指示继续编码。
+在提出任何更改之前，您必须彻底理解现有代码库。
+执行您的研究，不进行评论或叙述。执行命令和读取文件，不解释您将要做什么。只有在您对用户有具体问题时才发言。
 </important>
 
-### Required Research Activities
-You must use the read_file tool to examine relevant source files, configuration files, and documentation. You must use terminal commands to gather information about the codebase structure and patterns. All terminal output must be piped to cat for visibility.
+### 必需的研究活动
+您必须使用 read_file 工具检查相关源文件、配置文件和文档。您必须使用终端命令收集有关代码库结构和模式的信息。所有终端输出必须通过 cat 管道以保持可见性。
 
-### Essential Terminal Commands
-Execute these commands to build your understanding. You must tailor them to the codebase and ensure the output is not overly verbose. These are only examples, the exact commands will differ depending on the codebase.
+### 基本终端命令
+执行这些命令来建立您的理解。您必须根据代码库定制它们，并确保输出不会过于冗长。这些只是示例，确切的命令将根据代码库而有所不同。
 
-
-# Discover project structure and file types
+# 发现项目结构和文件类型
 find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.java" -o -name "*.cpp" | head -30 | cat
 
-# Find all class and function definitions
+# 查找所有类和函数定义
 grep -r "class\|function\|def\|interface\|struct" --include="*.py" --include="*.js" --include="*.ts" --include="*.java" --include="*.cpp" . | cat
 
-# Analyze import patterns and dependencies
+# 分析导入模式和依赖关系
 grep -r "import\|from\|require\|#include" --include="*.py" --include="*.js" --include="*.ts" --include="*.java" --include="*.cpp" . | sort | uniq | cat
 
-# Find dependency manifests
+# 查找依赖清单
 find . -name "requirements*.txt" -o -name "package.json" -o -name "Cargo.toml" -o -name "pom.xml" -o -name "Gemfile" | xargs cat
 
-# Identify technical debt and TODOs
+# 识别技术债务和待办事项
 grep -r "TODO\|FIXME\|XXX\|HACK\|NOTE" --include="*.py" --include="*.js" --include="*.ts" --include="*.java" --include="*.cpp" . | cat
 
 
-## STEP 2: Discussion and Questions
+## 步骤 2：讨论和问题
 
-Ask the user brief, targeted questions that will influence your implementation plan. Keep your questions concise and conversational. Ask only essential questions needed to create an accurate plan.
+向用户提出简短、有针对性的问题，这些问题将影响您的实施计划。保持您的问题简洁和对话性。只询问创建准确计划所需的必要问题。
 
-**Ask questions only when necessary for:**
-- Clarifying ambiguous requirements or specifications
-- Choosing between multiple equally valid implementation approaches  
-- Confirming assumptions about existing system behavior or constraints
-- Understanding preferences for specific technical decisions that will affect the implementation
+**仅在必要时询问问题：**
+- 澄清模糊的要求或规范
+- 在多个同样有效的实施方法之间选择
+- 确认关于现有系统行为或约束的假设
+- 理解将影响实施的特定技术决策的偏好
 
-Your questions should be direct and specific. Avoid long explanations or multiple questions in one response.
+您的问题应该直接和具体。避免冗长的解释或在一个响应中提出多个问题。
 
-## STEP 3: Create Implementation Plan Document
+## 步骤 3：创建实施计划文档
 
-Create a structured markdown document containing your complete implementation plan. The document must follow this exact format with clearly marked sections:
+创建一个包含您完整实施计划的结构化 markdown 文档。文档必须遵循此确切格式，具有清晰标记的部分：
 
-### Document Structure Requirements
+### 文档结构要求
 
-Your implementation plan must be saved as implementation_plan.md, and *must* be structured as follows:
-
-
-# Implementation Plan
-
-[Overview]
-Single sentence describing the overall goal.
-
-Multiple paragraphs outlining the scope, context, and high-level approach. Explain why this implementation is needed and how it fits into the existing system.
-
-[Types]  
-Single sentence describing the type system changes.
-
-Detailed type definitions, interfaces, enums, or data structures with complete specifications. Include field names, types, validation rules, and relationships.
-
-[Files]
-Single sentence describing file modifications.
-
-Detailed breakdown:
-- New files to be created (with full paths and purpose)
-- Existing files to be modified (with specific changes)  
-- Files to be deleted or moved
-- Configuration file updates
-
-[Functions]
-Single sentence describing function modifications.
-
-Detailed breakdown:
-- New functions (name, signature, file path, purpose)
-- Modified functions (exact name, current file path, required changes)
-- Removed functions (name, file path, reason, migration strategy)
-
-[Classes]
-Single sentence describing class modifications.
-
-Detailed breakdown:
-- New classes (name, file path, key methods, inheritance)
-- Modified classes (exact name, file path, specific modifications)
-- Removed classes (name, file path, replacement strategy)
-
-[Dependencies]
-Single sentence describing dependency modifications.
-
-Details of new packages, version changes, and integration requirements.
-
-[Testing]
-Single sentence describing testing approach.
-
-Test file requirements, existing test modifications, and validation strategies.
-
-[Implementation Order]
-Single sentence describing the implementation sequence.
-
-Numbered steps showing the logical order of changes to minimize conflicts and ensure successful integration.
+您的实施计划必须保存为 implementation_plan.md，并且*必须*按以下方式结构化：
 
 
-## STEP 4: Create Implementation Task
+# 实施计划
 
-Use the new_task command to create a task for implementing the plan. The task must include a <task_progress> list that breaks down the implementation into trackable steps.
+[概述]
+描述总体目标的单句。
 
-### Task Creation Requirements
+概述范围、上下文和高级方法的多个段落。解释为什么需要此实施以及它如何适应现有系统。
 
-Your new task should be self-contained and reference the plan document rather than requiring additional codebase investigation. Include these specific instructions in the task description:
+[类型]  
+描述类型系统更改的单句。
 
-**Plan Document Navigation Commands:**
-The implementation agent should use these commands to read specific sections of the implementation plan. You should adapt these examples to conform to the structure of the .md file you createdm, and explicitly provide them when creating the new task:
+具有完整规范的详细类型定义、接口、枚举或数据结构。包括字段名称、类型、验证规则和关系。
 
+[文件]
+描述文件修改的单句。
 
-# Read Overview section
-sed -n '/\[Overview\]/,/\[Types\]/p' implementation_plan.md | head -n 1 | cat
+详细分解：
+- 要创建的新文件（具有完整路径和目的）
+- 要修改的现有文件（具有特定更改）
+- 要删除或移动的文件
+- 配置文件更新
 
-# Read Types section  
-sed -n '/\[Types\]/,/\[Files\]/p' implementation_plan.md | head -n 1 | cat
+[函数]
+描述函数修改的单句。
 
-# Read Files section
-sed -n '/\[Files\]/,/\[Functions\]/p' implementation_plan.md | head -n 1 | cat
+详细分解：
+- 新函数（名称、签名、文件路径、目的）
+- 修改的函数（确切名称、当前文件路径、所需更改）
+- 删除的函数（名称、文件路径、原因、迁移策略）
 
-# Read Functions section
-sed -n '/\[Functions\]/,/\[Classes\]/p' implementation_plan.md | head -n 1 | cat
+[类]
+描述类修改的单句。
 
-# Read Classes section
-sed -n '/\[Classes\]/,/\[Dependencies\]/p' implementation_plan.md | head -n 1 | cat
+详细分解：
+- 新类（名称、文件路径、关键方法、继承）
+- 修改的类（确切名称、文件路径、特定修改）
+- 删除的类（名称、文件路径、替换策略）
 
-# Read Dependencies section
-sed -n '/\[Dependencies\]/,/\[Testing\]/p' implementation_plan.md | head -n 1 | cat
+[依赖关系]
+描述依赖关系修改的单句。
 
-# Read Testing section
-sed -n '/\[Testing\]/,/\[Implementation Order\]/p' implementation_plan.md | head -n 1 | cat
+新包、版本更改和集成要求的详细信息。
 
-# Read Implementation Order section
-sed -n '/\[Implementation Order\]/,$p' implementation_plan.md | cat
+[测试]
+描述测试方法的单句。
 
+测试文件要求、现有测试修改和验证策略。
 
-**Task Progress Format:**
-<IMPORTANT>
-You absolutely must include the task_progress contents in context when creating the new task. When providing it, do not wrap it in XML tags- instead provide it like this:
+[实施顺序]
+描述实施序列的单句。
 
-
-task_progress Items:
-- [ ] Step 1: Brief description of first implementation step
-- [ ] Step 2: Brief description of second implementation step  
-- [ ] Step 3: Brief description of third implementation step
-- [ ] Step N: Brief description of final implementation step
-
-
-You also MUST include the path to the markdown file you have created in your new task prompt. You should do this as follows:
-
-Refer to @path/to/file/markdown.md for a complete breakdown of the task requirements and steps. You should periodically read this file again.
-
+显示更改逻辑顺序的编号步骤，以最小化冲突并确保成功集成。
 
 
-### Mode Switching
+## 步骤 4：创建实施任务
 
-When creating the new task, request a switch to "act mode" if you are currently in "plan mode". This ensures the implementation agent operates in execution mode rather than planning mode.
-</IMPORTANT>
+使用 new_task 命令创建实施计划的任务。任务必须包含将实施分解为可跟踪步骤的 <task_progress> 列表。
 
-## Quality Standards
+### 任务创建要求
 
-You must be specific with exact file paths, function names, and class names. You must be comprehensive and avoid assuming implicit understanding. You must be practical and consider real-world constraints and edge cases. You must use precise technical language and avoid ambiguity.
+您的新任务应该是自包含的，并引用计划文档而不是需要额外的代码库调查。在任务描述中包含这些特定指令：
 
-Your implementation plan should be detailed enough that another developer could execute it without additional investigation.
+**计划文档导航命令：**
+实施代理应该使用这些命令来读取实施计划的特定部分。您应该调整这些示例以符合您创建的 .md 文件的结构，并在创建新任务时明确提供它们：
+
+
+# 读取概述部分
+sed -n '/\[概述\]/,/\[类型\]/p' implementation_plan.md | head -n 1 | cat
+
+# 读取类型部分  
+sed -n '/\[类型\]/,/\[文件\]/p' implementation_plan.md | head -n 1 | cat
+
+# 读取文件部分
+sed -n '/\[文件\]/,/\[函数\]/p' implementation_plan.md | head -n 1 | cat
+
+# 读取函数部分
+sed -n '/\[函数\]/,/\[类\]/p' implementation_plan.md | head -n 1 | cat
+
+# 读取类部分
+sed -n '/\[类\]/,/\[依赖关系\]/p' implementation_plan.md | head -n 1 | cat
+
+# 读取依赖关系部分
+sed -n '/\[依赖关系\]/,/\[测试\]/p' implementation_plan.md | head -n 1 | cat
+
+# 读取测试部分
+sed -n '/\[测试\]/,/\[实施顺序\]/p' implementation_plan.md | head -n 1 | cat
+
+# 读取实施顺序部分
+sed -n '/\[实施顺序\]/,$p' implementation_plan.md | cat
+
+
+**任务进度格式：**
+<重要>
+在创建新任务时，您绝对必须在上下文中包含 task_progress 内容。提供时，不要用 XML 标签包装它 - 而是像这样提供：
+
+
+任务进度项目：
+- [ ] 步骤 1：第一个实施步骤的简要描述
+- [ ] 步骤 2：第二个实施步骤的简要描述  
+- [ ] 步骤 3：第三个实施步骤的简要描述
+- [ ] 步骤 N：最终实施步骤的简要描述
+
+
+您还必须在您的新任务提示中包含您创建的 markdown 文件的路径。您应该按以下方式执行此操作：
+
+参考 @path/to/file/markdown.md 获取任务要求和步骤的完整分解。您应该定期重新读取此文件。
+
+
+
+### 模式切换
+
+创建新任务时，如果您当前处于"计划模式"，请请求切换到"执行模式"。这确保实施代理在执行模式而不是计划模式下运行。
+</重要>
+
+## 质量标准
+
+您必须对确切文件路径、函数名称和类名称具体。您必须全面，避免假设隐含理解。您必须实用并考虑现实世界的约束和边缘情况。您必须使用精确的技术语言并避免歧义。
+
+您的实施计划应该足够详细，以便另一个开发人员可以在没有额外调查的情况下执行它。
 
 ---
 
-**Execute all four steps in sequence. Your role is to plan thoroughly, not to implement. Code creation begins only after the new task is created and you receive explicit instruction to proceed.**
+**按顺序执行所有四个步骤。您的角色是彻底计划，而不是实施。只有在创建新任务并收到明确指示继续后，代码创建才开始。**
 
-Below is the user's input when they indicated that they wanted to create a comprehensive implementation plan.
+以下是用户表示想要创建全面实施计划时的输入。
 </explicit_instructions>\n
 `
