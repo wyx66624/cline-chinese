@@ -96,7 +96,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 							handleScrollToBottom()
 						}
 					}}
-					aria-label="Scroll to bottom">
+					aria-label="滚动到底部">
 					<span className="codicon codicon-chevron-down" />
 				</VSCodeButton>
 			</div>

@@ -1440,7 +1440,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									fontSize: "12px",
 									textAlign: "center",
 								}}>
-								Image dimensions exceed 7500px
+								图片尺寸超过 7500px
 							</span>
 						</div>
 					)}
@@ -1464,7 +1464,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									fontWeight: "bold",
 									fontSize: "12px",
 								}}>
-								Files other than images are currently disabled
+								目前禁用了图片以外的文件
 							</span>
 						</div>
 					)}
@@ -1611,7 +1611,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					/>
 					{!inputValue && selectedImages.length === 0 && selectedFiles.length === 0 && (
 						<div className="absolute bottom-4 left-[25px] right-[60px] text-[10px] text-[var(--vscode-input-placeholderForeground)] opacity-70 whitespace-nowrap overflow-hidden text-ellipsis pointer-events-none z-[1]">
-							Type @ for context, / for slash commands & workflows, hold shift to drag in files/images
+							输入 @ 获取上下文，/ 获取斜杠命令和工作流，按住 shift 拖入文件/图片
 						</div>
 					)}
 					{(selectedImages.length > 0 || selectedFiles.length > 0) && (
@@ -1695,11 +1695,11 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								height: "100%",
 								zIndex: 6,
 							}}>
-							<Tooltip tipText="Add Context" style={{ left: 0 }}>
+							<Tooltip tipText="添加上下文" style={{ left: 0 }}>
 								<VSCodeButton
 									data-testid="context-button"
 									appearance="icon"
-									aria-label="Add Context"
+									aria-label="添加上下文"
 									onClick={handleContextButtonClick}
 									style={{ padding: "0px 0px", height: "20px" }}>
 									<ButtonContainer>
@@ -1710,11 +1710,11 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								</VSCodeButton>
 							</Tooltip>
 
-							<Tooltip tipText="Add Files & Images">
+							<Tooltip tipText="添加文件和图片">
 								<VSCodeButton
 									data-testid="files-button"
 									appearance="icon"
-									aria-label="Add Files & Images"
+									aria-label="添加文件和图片"
 									disabled={shouldDisableFilesAndImages}
 									onClick={() => {
 										if (!shouldDisableFilesAndImages) {
@@ -1738,7 +1738,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 										role="button"
 										isActive={showModelSelector}
 										disabled={false}
-										title="Select Model / API Provider"
+										title="选择模型 / API 提供商"
 										onClick={handleModelButtonClick}
 										tabIndex={0}>
 										<ModelButtonContent>{modelDisplayName}</ModelButtonContent>
@@ -1767,8 +1767,8 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					<Tooltip
 						style={{ zIndex: 1000 }}
 						visible={shownTooltipMode !== null}
-						tipText={`In ${shownTooltipMode === "act" ? "Act" : "Plan"}  mode, Cline will ${shownTooltipMode === "act" ? "complete the task immediately" : "gather information to architect a plan"}`}
-						hintText={`Toggle w/ ${metaKeyChar}+Shift+A`}>
+						tipText={`在 ${shownTooltipMode === "act" ? "执行" : "计划"} 模式下，Cline 将 ${shownTooltipMode === "act" ? "立即完成任务" : "收集信息以制定计划"}`}
+						hintText={`使用 ${metaKeyChar}+Shift+A 切换`}>
 						<SwitchContainer data-testid="mode-switch" disabled={false} onClick={onModeToggle}>
 							<Slider isAct={mode === "act"} isPlan={mode === "plan"} />
 							<SwitchOption
@@ -1777,7 +1777,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								aria-checked={mode === "plan"}
 								onMouseOver={() => setShownTooltipMode("plan")}
 								onMouseLeave={() => setShownTooltipMode(null)}>
-								Plan
+								计划
 							</SwitchOption>
 							<SwitchOption
 								isActive={mode === "act"}
@@ -1785,7 +1785,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								aria-checked={mode === "act"}
 								onMouseOver={() => setShownTooltipMode("act")}
 								onMouseLeave={() => setShownTooltipMode(null)}>
-								Act
+								执行
 							</SwitchOption>
 						</SwitchContainer>
 					</Tooltip>
