@@ -89,7 +89,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ textToCopy, onCopy, clas
 			appearance="icon"
 			onClick={handleCopy}
 			className={className}
-			aria-label={copied ? "Copied" : ariaLabel || "Copy"}>
+			aria-label={copied ? "已复制" : ariaLabel || "复制"}>
 			<span className={`codicon codicon-${copied ? "check" : "copy"}`}></span>
 		</StyledButton>
 	)
