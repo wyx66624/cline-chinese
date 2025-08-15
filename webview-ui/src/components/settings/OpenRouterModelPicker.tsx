@@ -47,18 +47,18 @@ export interface OpenRouterModelPickerProps {
 const featuredModels = [
 	{
 		id: "anthropic/claude-sonnet-4",
-		description: "Recommended for agentic coding in Cline",
-		label: "Best",
+		description: "推荐用于 Cline 中的代理编码",
+		label: "最佳",
 	},
 	{
 		id: "anthropic/claude-sonnet-4:1m",
-		description: "Large 1M context window for complex tasks",
-		label: "New",
+		description: "大型 1M 上下文窗口，适用于复杂任务",
+		label: "新",
 	},
 	{
 		id: "anthropic/claude-opus-4.1",
-		description: "Anthropic's newest model topping benchmarks",
-		label: "Trending",
+		description: "Anthropic 最新的模型，在基准测试中名列前茅",
+		label: "热门",
 	},
 ]
 
@@ -225,13 +225,13 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 			return {
 				current: "anthropic/claude-sonnet-4",
 				alternate: "anthropic/claude-sonnet-4:1m",
-				linkText: "Switch to 1M context window model",
+				linkText: "切换到 1M 上下文窗口模型",
 			}
 		} else if (selectedModelId === "anthropic/claude-sonnet-4:1m") {
 			return {
 				current: "anthropic/claude-sonnet-4:1m",
 				alternate: "anthropic/claude-sonnet-4",
-				linkText: "Switch to 200K context window model",
+				linkText: "切换到 200K 上下文窗口模型",
 			}
 		}
 		return null
@@ -249,7 +249,7 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 			</style>
 			<div style={{ display: "flex", flexDirection: "column" }}>
 				<label htmlFor="model-search">
-					<span style={{ fontWeight: 500 }}>Model</span>
+					<span style={{ fontWeight: 500 }}>模型</span>
 				</label>
 
 				{modeFields.apiProvider === "cline" && (
@@ -273,7 +273,7 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 				<DropdownWrapper ref={dropdownRef}>
 					<VSCodeTextField
 						id="model-search"
-						placeholder="Search and select a model..."
+						placeholder="搜索并选择模型..."
 						value={searchTerm}
 						onInput={(e) => {
 							setSearchTerm((e.target as HTMLInputElement)?.value.toLowerCase() || "")
@@ -289,7 +289,7 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 						{searchTerm && (
 							<div
 								className="input-icon-button codicon codicon-close"
-								aria-label="Clear search"
+								aria-label="清除搜索"
 								onClick={() => {
 									setSearchTerm("")
 									setIsDropdownVisible(true)
@@ -366,17 +366,17 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 						color: "var(--vscode-descriptionForeground)",
 					}}>
 					<>
-						The extension automatically fetches the latest list of models available on{" "}
+						扩展自动获取{" "}
 						<VSCodeLink style={{ display: "inline", fontSize: "inherit" }} href="https://openrouter.ai/models">
-							OpenRouter.
+							OpenRouter。
 						</VSCodeLink>
-						If you're unsure which model to choose, Cline works best with{" "}
+						如果您不确定选择哪个模型，Cline 最适合{" "}
 						<VSCodeLink
 							style={{ display: "inline", fontSize: "inherit" }}
 							onClick={() => handleModelChange("anthropic/claude-sonnet-4")}>
-							anthropic/claude-sonnet-4.
+							anthropic/claude-sonnet-4。
 						</VSCodeLink>
-						You can also try searching "free" for no-cost options currently available.
+						您也可以尝试搜索 "free" 以获取当前可用的无成本选项。
 					</>
 				</p>
 			)}
