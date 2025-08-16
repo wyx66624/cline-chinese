@@ -247,7 +247,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 
 	// Set up addToInput subscription
 	useEffect(() => {
-		const clientId = (window as { clineClientId?: string }).clineClientId
+		const clientId = (window as { clineChineseClientId?: string }).clineChineseClientId
 		if (!clientId) {
 			console.error("Client ID not found in window object for addToInput subscription")
 			return

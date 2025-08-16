@@ -1,22 +1,22 @@
 {
-	"name": "claude-dev",
-	"displayName": "Cline",
-	"description": "您 IDE 中的自主编码代理，能够在您的每一步许可下创建/编辑文件、运行命令、使用浏览器等。",
+	"name": "cline-chinese",
+	"displayName": "Cline Chinese",
+	"description": "Cline中文汉化版，Cline是一款在您的 IDE 中运行的自主编程助手，经您许可后可以创建/编辑文件、运行命令、使用浏览器等功能。",
 	"version": "3.25.2",
 	"icon": "assets/icons/icon.png",
 	"engines": {
 		"vscode": "^1.84.0"
 	},
 	"author": {
-		"name": "Cline Bot Inc."
+		"name": "HybridTalentComputing"
 	},
 	"license": "Apache-2.0",
-	"publisher": "saoudrizwan",
+	"publisher": "HybridTalentComputing",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/cline/cline"
+		"url": "https://github.com/HybridTalentComputing/cline-chinese"
 	},
-	"homepage": "https://cline.bot",
+	"homepage": "https://github.com/HybridTalentComputing/cline-chinese",
 	"categories": [
 		"AI",
 		"Chat",
@@ -101,24 +101,24 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "claude-dev-ActivityBar",
-					"title": "Cline (⌘+')",
+					"id": "cline-chinese-ActivityBar",
+					"title": "Cline Chinese (⌘+')",
 					"icon": "assets/icons/icon.svg",
 					"when": "isMac"
 				},
 				{
-					"id": "claude-dev-ActivityBar",
-					"title": "Cline (Ctrl+')",
+					"id": "cline-chinese-ActivityBar",
+					"title": "Cline Chinese (Ctrl+')",
 					"icon": "assets/icons/icon.svg",
 					"when": "!isMac"
 				}
 			]
 		},
 		"views": {
-			"claude-dev-ActivityBar": [
+			"cline-chinese-ActivityBar": [
 				{
 					"type": "webview",
-					"id": "claude-dev.SidebarProvider",
+					"id": "clineChinese.SidebarProvider",
 					"name": "",
 					"icon": "assets/icons/icon.svg"
 				}
@@ -126,92 +126,92 @@
 		},
 		"commands": [
 			{
-				"command": "cline.plusButtonClicked",
+				"command": "clineChinese.plusButtonClicked",
 				"title": "新任务",
 				"icon": "$(add)"
 			},
 			{
-				"command": "cline.mcpButtonClicked",
+				"command": "clineChinese.mcpButtonClicked",
 				"title": "MCP 服务器",
 				"icon": "$(server)"
 			},
 			{
-				"command": "cline.historyButtonClicked",
+				"command": "clineChinese.historyButtonClicked",
 				"title": "历史记录",
 				"icon": "$(history)"
 			},
 			{
-				"command": "cline.popoutButtonClicked",
+				"command": "clineChinese.popoutButtonClicked",
 				"title": "在编辑器中打开",
 				"icon": "$(link-external)"
 			},
 			{
-				"command": "cline.accountButtonClicked",
+				"command": "clineChinese.accountButtonClicked",
 				"title": "账户",
 				"icon": "$(account)"
 			},
 			{
-				"command": "cline.settingsButtonClicked",
+				"command": "clineChinese.settingsButtonClicked",
 				"title": "设置",
 				"icon": "$(settings-gear)"
 			},
 			{
-				"command": "cline.openInNewTab",
+				"command": "clineChinese.openInNewTab",
 				"title": "在新标签页中打开",
-				"category": "Cline"
+				"category": "clineChinese"
 			},
 			{
-				"command": "cline.dev.createTestTasks",
+				"command": "clineChinese.dev.createTestTasks",
 				"title": "创建测试任务",
-				"category": "Cline",
-				"when": "cline.isDevMode"
+				"category": "clineChinese",
+				"when": "clineChinese.isDevMode"
 			},
 			{
-				"command": "cline.addToChat",
+				"command": "clineChinese.addToChat",
 				"title": "添加到 Cline",
-				"category": "Cline"
+				"category": "clineChinese"
 			},
 			{
-				"command": "cline.addTerminalOutputToChat",
+				"command": "clineChinese.addTerminalOutputToChat",
 				"title": "添加到 Cline",
-				"category": "Cline"
+				"category": "clineChinese"
 			},
 			{
-				"command": "cline.focusChatInput",
+				"command": "clineChinese.focusChatInput",
 				"title": "跳转到聊天输入",
-				"category": "Cline"
+				"category": "clineChinese"
 			},
 			{
-				"command": "cline.generateGitCommitMessage",
+				"command": "clineChinese.generateGitCommitMessage",
 				"title": "使用 Cline 生成提交消息",
-				"category": "Cline",
+				"category": "clineChinese",
 				"icon": "$(robot)"
 			},
 			{
-				"command": "cline.abortGitCommitMessage",
+				"command": "clineChinese.abortGitCommitMessage",
 				"title": "使用 Cline 生成提交消息 - 停止",
-				"category": "Cline",
+				"category": "clineChinese",
 				"icon": "$(debug-stop)"
 			},
 			{
-				"command": "cline.explainCode",
+				"command": "clineChinese.explainCode",
 				"title": "使用 Cline 解释",
-				"category": "Cline"
+				"category": "clineChinese"
 			},
 			{
-				"command": "cline.improveCode",
+				"command": "clineChinese.improveCode",
 				"title": "使用 Cline 改进",
-				"category": "Cline"
+				"category": "clineChinese"
 			},
 			{
-				"command": "cline.openWalkthrough",
+				"command": "clineChinese.openWalkthrough",
 				"title": "打开引导教程",
-				"category": "Cline"
+				"category": "clineChinese"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "cline.addToChat",
+				"command": "clineChinese.addToChat",
 				"key": "cmd+'",
 				"mac": "cmd+'",
 				"win": "ctrl+'",
@@ -219,11 +219,11 @@
 				"when": "editorHasSelection"
 			},
 			{
-				"command": "cline.generateGitCommitMessage",
+				"command": "clineChinese.generateGitCommitMessage",
 				"when": "config.git.enabled && scmProvider == git"
 			},
 			{
-				"command": "cline.focusChatInput",
+				"command": "clineChinese.focusChatInput",
 				"key": "cmd+'",
 				"mac": "cmd+'",
 				"win": "ctrl+'",
@@ -234,106 +234,106 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "cline.plusButtonClicked",
+					"command": "clineChinese.plusButtonClicked",
 					"group": "navigation@1",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.mcpButtonClicked",
+					"command": "clineChinese.mcpButtonClicked",
 					"group": "navigation@2",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.historyButtonClicked",
+					"command": "clineChinese.historyButtonClicked",
 					"group": "navigation@3",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.popoutButtonClicked",
+					"command": "clineChinese.popoutButtonClicked",
 					"group": "navigation@4",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.accountButtonClicked",
+					"command": "clineChinese.accountButtonClicked",
 					"group": "navigation@5",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				},
 				{
-					"command": "cline.settingsButtonClicked",
+					"command": "clineChinese.settingsButtonClicked",
 					"group": "navigation@6",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == clineChinese.SidebarProvider"
 				}
 			],
 			"editor/title": [
 				{
-					"command": "cline.plusButtonClicked",
+					"command": "clineChinese.plusButtonClicked",
 					"group": "navigation@1",
-					"when": "activeWebviewPanelId == claude-dev.TabPanelProvider"
+					"when": "activeWebviewPanelId == clineChinese.TabPanelProvider"
 				},
 				{
-					"command": "cline.mcpButtonClicked",
+					"command": "clineChinese.mcpButtonClicked",
 					"group": "navigation@2",
-					"when": "activeWebviewPanelId == claude-dev.TabPanelProvider"
+					"when": "activeWebviewPanelId == clineChinese.TabPanelProvider"
 				},
 				{
-					"command": "cline.historyButtonClicked",
+					"command": "clineChinese.historyButtonClicked",
 					"group": "navigation@3",
-					"when": "activeWebviewPanelId == claude-dev.TabPanelProvider"
+					"when": "activeWebviewPanelId == clineChinese.TabPanelProvider"
 				},
 				{
-					"command": "cline.popoutButtonClicked",
+					"command": "clineChinese.popoutButtonClicked",
 					"group": "navigation@4",
-					"when": "activeWebviewPanelId == claude-dev.TabPanelProvider"
+					"when": "activeWebviewPanelId == clineChinese.TabPanelProvider"
 				},
 				{
-					"command": "cline.accountButtonClicked",
+					"command": "clineChinese.accountButtonClicked",
 					"group": "navigation@5",
-					"when": "activeWebviewPanelId == claude-dev.TabPanelProvider"
+					"when": "activeWebviewPanelId == clineChinese.TabPanelProvider"
 				},
 				{
-					"command": "cline.settingsButtonClicked",
+					"command": "clineChinese.settingsButtonClicked",
 					"group": "navigation@6",
-					"when": "activeWebviewPanelId == claude-dev.TabPanelProvider"
+					"when": "activeWebviewPanelId == clineChinese.TabPanelProvider"
 				}
 			],
 			"editor/context": [
 				{
-					"command": "cline.addToChat",
+					"command": "clineChinese.addToChat",
 					"group": "navigation",
 					"when": "editorHasSelection"
 				}
 			],
 			"terminal/context": [
 				{
-					"command": "cline.addTerminalOutputToChat",
+					"command": "clineChinese.addTerminalOutputToChat",
 					"group": "navigation"
 				}
 			],
 			"scm/title": [
 				{
-					"command": "cline.generateGitCommitMessage",
+					"command": "clineChinese.generateGitCommitMessage",
 					"group": "navigation",
-					"when": "config.git.enabled && scmProvider == git && !cline.isGeneratingCommit"
+					"when": "config.git.enabled && scmProvider == git && !clineChinese.isGeneratingCommit"
 				},
 				{
-					"command": "cline.abortGitCommitMessage",
+					"command": "clineChinese.abortGitCommitMessage",
 					"group": "navigation",
-					"when": "config.git.enabled && scmProvider == git && cline.isGeneratingCommit"
+					"when": "config.git.enabled && scmProvider == git && clineChinese.isGeneratingCommit"
 				}
 			],
 			"commandPalette": [
 				{
-					"command": "cline.generateGitCommitMessage",
-					"when": "config.git.enabled && scmProvider == git && !cline.isGeneratingCommit"
+					"command": "clineChinese.generateGitCommitMessage",
+					"when": "config.git.enabled && scmProvider == git && !clineChinese.isGeneratingCommit"
 				},
 				{
-					"command": "cline.abortGitCommitMessage",
-					"when": "config.git.enabled && scmProvider == git && cline.isGeneratingCommit"
+					"command": "clineChinese.abortGitCommitMessage",
+					"when": "config.git.enabled && scmProvider == git && clineChinese.isGeneratingCommit"
 				}
 			]
 		},
 		"configuration": {
-			"title": "Cline",
+			"title": "Cline Chinese",
 			"properties": {}
 		}
 	},

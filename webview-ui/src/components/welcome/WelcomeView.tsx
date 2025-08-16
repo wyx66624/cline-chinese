@@ -35,7 +35,7 @@ const WelcomeView = memo(() => {
 	return (
 		<div className="fixed inset-0 p-0 flex flex-col">
 			<div className="h-full px-5 overflow-auto">
-				<h2>你好，我是 Cline</h2>
+				<h2>你好，我是 Cline Chinese</h2>
 				<div className="flex justify-center my-5">
 					<ClineLogoWhite className="size-16" />
 				</div>
@@ -44,16 +44,9 @@ const WelcomeView = memo(() => {
 					<VSCodeLink href="https://www.anthropic.com/claude/sonnet" className="inline">
 						Claude 4 Sonnet
 					</VSCodeLink>
-					的代理编码能力和工具访问权限，让我可以创建和编辑文件、探索复杂项目、使用浏览器和执行终端命令 <i>(当然需要你的许可)</i>。我甚至可以使用 MCP 创建新工具并扩展自己的能力。
+					的代理编码能力和工具访问权限，让我可以创建和编辑文件、探索复杂项目、使用浏览器和执行终端命令{" "}
+					<i>(当然需要你的许可)</i>。我甚至可以使用 MCP 创建新工具并扩展自己的能力。
 				</p>
-
-				<p className="text-[var(--vscode-descriptionForeground)]">
-					注册一个账户即可免费开始使用，或使用提供 Claude 3.7 Sonnet 等模型访问权限的 API 密钥。
-				</p>
-
-				<VSCodeButton appearance="primary" onClick={handleLogin} className="w-full mt-1">
-					免费开始使用
-				</VSCodeButton>
 
 				{!showApiOptions && (
 					<VSCodeButton

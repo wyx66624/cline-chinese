@@ -24,7 +24,7 @@ import { getLatestAnnouncementId } from "./utils/announcements"
  */
 export async function initialize(context: vscode.ExtensionContext): Promise<WebviewProvider> {
 	// Initialize PostHog client provider
-	let distinctId = context.globalState.get<string>("cline.distinctId")
+	let distinctId = context.globalState.get<string>("clineChinese.distinctId")
 	if (!distinctId) {
 		try {
 			const response = await HostProvider.env.getMachineId(EmptyRequest.create({}))
@@ -75,7 +75,7 @@ async function showVersionUpdateAnnouncement(context: vscode.ExtensionContext) {
 				const message = previousVersion
 					? `Cline has been updated to v${currentVersion}`
 					: `Welcome to Cline v${currentVersion}`
-				await vscode.commands.executeCommand("claude-dev.SidebarProvider.focus")
+				await vscode.commands.executeCommand("clineChinese.SidebarProvider.focus")
 				await new Promise((resolve) => setTimeout(resolve, 200))
 				HostProvider.window.showMessage({
 					type: ShowMessageType.INFORMATION,

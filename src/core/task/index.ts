@@ -1958,15 +1958,15 @@ export class Task {
 		if (this.taskState.consecutiveMistakeCount >= 3) {
 			if (this.autoApprovalSettings.enabled && this.autoApprovalSettings.enableNotifications) {
 				showSystemNotification({
-					subtitle: "Error",
-					message: "Cline is having trouble. Would you like to continue the task?",
+					subtitle: "错误",
+					message: "Cline 遇到了问题。您是否要继续执行任务？",
 				})
 			}
 			const { response, text, images, files } = await this.ask(
 				"mistake_limit_reached",
 				this.api.getModel().id.includes("claude")
-					? `This may indicate a failure in his thought process or inability to use a tool properly, which can be mitigated with some user guidance (e.g. "Try breaking down the task into smaller steps").`
-					: "Cline uses complex prompts and iterative task execution that may be challenging for less capable models. For best results, it's recommended to use Claude 4 Sonnet for its advanced agentic coding capabilities.",
+					? `这可能表明他的思维过程出现了问题或无法正确使用工具，可以通过一些用户指导来缓解（例如"尝试将任务分解为更小的步骤"）。`
+					: "Cline 使用复杂的提示和迭代任务执行，这对于功能较弱的模型来说可能具有挑战性。为了获得最佳效果，建议使用 Claude 4 Sonnet，它具有先进的代理编码能力。",
 			)
 			if (response === "messageResponse") {
 				// This userContent is for the *next* API call.
@@ -2002,13 +2002,13 @@ export class Task {
 		) {
 			if (this.autoApprovalSettings.enableNotifications) {
 				showSystemNotification({
-					subtitle: "Max Requests Reached",
-					message: `Cline has auto-approved ${this.autoApprovalSettings.maxRequests.toString()} API requests.`,
+					subtitle: "达到最大请求数",
+					message: `Cline 已经自动批准了 ${this.autoApprovalSettings.maxRequests.toString()} 次 API 请求。`,
 				})
 			}
 			const { response, text, images, files } = await this.ask(
 				"auto_approval_max_req_reached",
-				`Cline has auto-approved ${this.autoApprovalSettings.maxRequests.toString()} API requests. Would you like to reset the count and proceed with the task?`,
+				`Cline 已经自动批准了 ${this.autoApprovalSettings.maxRequests.toString()} 次 API 请求。您是否要重置计数并继续执行任务？`,
 			)
 			// if we get past the promise it means the user approved and did not start a new task
 			this.taskState.consecutiveAutoApprovedRequestsCount = 0
@@ -2075,7 +2075,7 @@ export class Task {
 					if (!checkpointsWarningShown) {
 						checkpointsWarningShown = true
 						this.taskState.checkpointTrackerErrorMessage =
-							"Checkpoints are taking longer than expected to initialize. Working in a large repository? Consider re-opening Cline in a project that uses git, or disabling checkpoints."
+							"检查点初始化比预期更长。正在处理大型仓库吗？考虑重新打开 Cline 并使用 git 项目，或禁用检查点。"
 						await this.postStateToWebview()
 					}
 				}, 7_000)
@@ -2089,8 +2089,7 @@ export class Task {
 					),
 					{
 						milliseconds: 15_000,
-						message:
-							"Checkpoints taking too long to initialize. Consider re-opening Cline in a project that uses git, or disabling checkpoints.",
+						message: "检查点初始化时间过长。考虑重新打开 Cline 并使用 git 项目，或禁用检查点。",
 					},
 				)
 				if (checkpointsWarningTimer) {
@@ -2104,7 +2103,7 @@ export class Task {
 				// If the error was a timeout, we disabled all checkpoint operations for the rest of the task
 				if (errorMessage.includes("Checkpoints taking too long to initialize")) {
 					this.taskState.checkpointTrackerErrorMessage =
-						"Checkpoints initialization timed out. Consider re-opening Cline in a project that uses git, or disabling checkpoints."
+						"检查点初始化超时。考虑重新打开 Cline 并使用 git 项目，或禁用检查点。"
 					await this.postStateToWebview()
 				} else {
 					this.taskState.checkpointTrackerErrorMessage = errorMessage // will be displayed right away since we saveClineMessages next which posts state to webview
@@ -2202,7 +2201,7 @@ export class Task {
 		if (clinerulesError === true) {
 			await this.say(
 				"error",
-				"Issue with processing the /newrule command. Double check that, if '.clinerules' already exists, it's a directory and not a file. Otherwise there was an issue referencing this file/directory.",
+				"处理 /newrule 命令时出现问题。请检查 '.clinerules' 是否存在且为目录，而不是文件。否则可能存在文件/目录引用问题。",
 			)
 		}
 
@@ -2370,7 +2369,7 @@ export class Task {
 
 					if (this.taskState.didRejectTool) {
 						// userContent has a tool rejection, so interrupt the assistant's response to present the user's feedback
-						assistantMessage += "\n\n[Response interrupted by user feedback]"
+						assistantMessage += "\n\n[响应被用户反馈中断]"
 						// this.userMessageContentReady = true // instead of setting this preemptively, we allow the present iterator to finish and set userMessageContentReady when its ready
 						break
 					}
@@ -2378,8 +2377,7 @@ export class Task {
 					// PREV: we need to let the request finish for openrouter to get generation details
 					// UPDATE: it's better UX to interrupt the request at the cost of the api cost not being retrieved
 					if (this.taskState.didAlreadyUseTool) {
-						assistantMessage +=
-							"\n\n[Response interrupted by a tool use result. Only one tool may be used at a time and should be placed at the end of the message.]"
+						assistantMessage += "\n\n[响应被工具使用结果中断。一次只能使用一个工具，并且应该放在消息的末尾。]"
 						break
 					}
 				}
@@ -2497,25 +2495,19 @@ export class Task {
 				didEndLoop = recDidEndLoop
 			} else {
 				// if there's no assistant_responses, that means we got no text or tool_use content blocks from API which we should assume is an error
-				await this.say(
-					"error",
-					"Unexpected API Response: The language model did not provide any assistant messages. This may indicate an issue with the API or the model's output.",
-				)
+				await this.say("error", "意外的 API 响应：语言模型没有提供任何助手消息。这可能表明 API 或模型输出存在问题。")
 				await this.messageStateHandler.addToApiConversationHistory({
 					role: "assistant",
 					content: [
 						{
 							type: "text",
-							text: "Failure: I did not provide a response.",
+							text: "失败：我没有提供响应。",
 						},
 					],
 				})
 
 				// Offer the user a chance to retry this API request
-				const { response } = await this.ask(
-					"api_req_failed",
-					"No assistant message was received. Would you like to retry the request?",
-				)
+				const { response } = await this.ask("api_req_failed", "没有收到助手消息。您是否要重试请求？")
 
 				if (response === "yesButtonClicked") {
 					// Signal the loop to continue (i.e., do not end), so it will attempt again
@@ -2690,12 +2682,12 @@ export class Task {
 		let terminalDetails = ""
 		if (busyTerminals.length > 0) {
 			// terminals are cool, let's retrieve their output
-			terminalDetails += "\n\n# Actively Running Terminals"
+			terminalDetails += "\n\n# 正在运行的终端"
 			for (const busyTerminal of busyTerminals) {
-				terminalDetails += `\n## Original command: \`${busyTerminal.lastCommand}\``
+				terminalDetails += `\n## 原始命令: \`${busyTerminal.lastCommand}\``
 				const newOutput = this.terminalManager.getUnretrievedOutput(busyTerminal.id)
 				if (newOutput) {
-					terminalDetails += `\n### New Output\n${newOutput}`
+					terminalDetails += `\n### 新输出\n${newOutput}`
 				} else {
 					// details += `\n(Still running, no new output)` // don't want to show this right after running the command
 				}
@@ -2711,12 +2703,12 @@ export class Task {
 				}
 			}
 			if (inactiveTerminalOutputs.size > 0) {
-				terminalDetails += "\n\n# Inactive Terminals"
+				terminalDetails += "\n\n# 非活动终端"
 				for (const [terminalId, newOutput] of inactiveTerminalOutputs) {
 					const inactiveTerminal = inactiveTerminals.find((t) => t.id === terminalId)
 					if (inactiveTerminal) {
-						terminalDetails += `\n## ${inactiveTerminal.lastCommand}`
-						terminalDetails += `\n### New Output\n${newOutput}`
+						terminalDetails += `\n## 命令: ${inactiveTerminal.lastCommand}`
+						terminalDetails += `\n### 新输出\n${newOutput}`
 					}
 				}
 			}
@@ -2737,7 +2729,7 @@ export class Task {
 		const recentlyModifiedFiles = this.fileContextTracker.getAndClearRecentlyModifiedFiles()
 		if (recentlyModifiedFiles.length > 0) {
 			details +=
-				"\n\n# Recently Modified Files\nThese files have been modified since you last accessed them (file was just edited so you may need to re-read it before editing):"
+				"\n\n# 最近修改的文件\n这些文件自从您上次访问以来已被修改（文件刚刚被编辑，您可能需要重新阅读它才能编辑）："
 			for (const filePath of recentlyModifiedFiles) {
 				details += `\n${filePath}`
 			}
@@ -2757,14 +2749,14 @@ export class Task {
 		const timeZone = formatter.resolvedOptions().timeZone
 		const timeZoneOffset = -now.getTimezoneOffset() / 60 // Convert to hours and invert sign to match conventional notation
 		const timeZoneOffsetStr = `${timeZoneOffset >= 0 ? "+" : ""}${timeZoneOffset}:00`
-		details += `\n\n# Current Time\n${formatter.format(now)} (${timeZone}, UTC${timeZoneOffsetStr})`
+		details += `\n\n# 当前时间\n${formatter.format(now)} (${timeZone}, UTC${timeZoneOffsetStr})`
 
 		if (includeFileDetails) {
-			details += `\n\n# Current Working Directory (${this.cwd.toPosix()}) Files\n`
+			details += `\n\n# 当前工作目录 (${this.cwd.toPosix()}) 文件\n`
 			const isDesktop = arePathsEqual(this.cwd, getDesktopDir())
 			if (isDesktop) {
 				// don't want to immediately access desktop since it would show permission popup
-				details += "(Desktop files not shown automatically. Use list_files to explore if needed.)"
+				details += "(桌面文件不会自动显示。如果需要，请使用 list_files 探索。)"
 			} else {
 				const [files, didHitLimit] = await listFiles(this.cwd, true, 200)
 				const result = formatResponse.formatFilesList(this.cwd, files, didHitLimit, this.clineIgnoreController)
@@ -2774,12 +2766,12 @@ export class Task {
 			// Add git remote URLs section
 			const gitRemotes = await getGitRemoteUrls(this.cwd)
 			if (gitRemotes.length > 0) {
-				details += `\n\n# Git Remote URLs\n${gitRemotes.join("\n")}`
+				details += `\n\n# Git 远程 URL\n${gitRemotes.join("\n")}`
 			}
 
 			const latestGitHash = await getLatestGitCommitHash(this.cwd)
 			if (latestGitHash) {
-				details += `\n\n# Latest Git Commit Hash\n${latestGitHash}`
+				details += `\n\n# 最新 Git 提交哈希\n${latestGitHash}`
 			}
 		}
 
@@ -2811,14 +2803,14 @@ export class Task {
 		const lastApiReqTotalTokens = lastApiReqMessage ? getTotalTokensFromApiReqMessage(lastApiReqMessage) : 0
 		const usagePercentage = Math.round((lastApiReqTotalTokens / contextWindow) * 100)
 
-		details += "\n\n# Context Window Usage"
-		details += `\n${lastApiReqTotalTokens.toLocaleString()} / ${(contextWindow / 1000).toLocaleString()}K tokens used (${usagePercentage}%)`
+		details += "\n\n# 上下文窗口使用"
+		details += `\n${lastApiReqTotalTokens.toLocaleString()} / ${(contextWindow / 1000).toLocaleString()}K 令牌已使用 (${usagePercentage}%)`
 
-		details += "\n\n# Current Mode"
+		details += "\n\n# 当前模式"
 		if (this.mode === "plan") {
-			details += "\nPLAN MODE\n" + formatResponse.planModeInstructions()
+			details += "\n计划模式\n" + formatResponse.planModeInstructions()
 		} else {
-			details += "\nACT MODE"
+			details += "\n行动模式"
 		}
 
 		return `<environment_details>\n${details.trim()}\n</environment_details>`

@@ -47,7 +47,7 @@ stateApiRuleTester.run("no-direct-vscode-state-api", noDirectVscodeStateApiRule,
 		},
 		// Should allow state APIs in extension.ts
 		{
-			code: `const distinctId = context.globalState.get<string>("cline.distinctId");`,
+			code: `const distinctId = context.globalState.get<string>("clineChinese.distinctId");`,
 			filename: "extension.ts",
 		},
 		{

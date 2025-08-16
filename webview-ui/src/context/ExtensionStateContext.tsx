@@ -180,7 +180,7 @@ export const ExtensionStateContextProvider: React.FC<{
 		browserSettings: DEFAULT_BROWSER_SETTINGS,
 		focusChainSettings: DEFAULT_FOCUS_CHAIN_SETTINGS,
 		focusChainFeatureFlagEnabled: false,
-		preferredLanguage: "English",
+		preferredLanguage: "Simplified Chinese - 简体中文",
 		openaiReasoningEffort: "medium",
 		mode: "act",
 		platform: DEFAULT_PLATFORM,

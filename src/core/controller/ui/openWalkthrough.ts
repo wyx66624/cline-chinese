@@ -12,7 +12,10 @@ import { telemetryService } from "@services/posthog/PostHogClientProvider"
  */
 export async function openWalkthrough(controller: Controller, request: EmptyRequest): Promise<Empty> {
 	try {
-		await vscode.commands.executeCommand("workbench.action.openWalkthrough", "saoudrizwan.claude-dev#ClineWalkthrough")
+		await vscode.commands.executeCommand(
+			"workbench.action.openWalkthrough",
+			"HybridTalentComputing.cline-chinese#ClineWalkthrough",
+		)
 		telemetryService.captureButtonClick("webview_openWalkthrough")
 		return Empty.create({})
 	} catch (error) {
