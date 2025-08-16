@@ -21,7 +21,7 @@ const ApiConfigurationSection = ({ renderSectionHeader }: ApiConfigurationSectio
 		<div>
 			{renderSectionHeader("api-config")}
 			<Section>
-				{/* Tabs container */}
+				{/* 标签页容器 */}
 				{planActSeparateModelsSetting ? (
 					<div className="rounded-md mb-5 bg-[var(--vscode-panel-background)]">
 						<div className="flex gap-[1px] mb-[10px] -mt-2 border-0 border-b border-solid border-[var(--vscode-panel-border)]">
@@ -33,7 +33,7 @@ const ApiConfigurationSection = ({ renderSectionHeader }: ApiConfigurationSectio
 									opacity: 1,
 									cursor: "pointer",
 								}}>
-								Plan Mode
+								计划模式
 							</TabButton>
 							<TabButton
 								isActive={currentTab === "act"}
@@ -43,11 +43,11 @@ const ApiConfigurationSection = ({ renderSectionHeader }: ApiConfigurationSectio
 									opacity: 1,
 									cursor: "pointer",
 								}}>
-								Act Mode
+								执行模式
 							</TabButton>
 						</div>
 
-						{/* Content container */}
+						{/* 内容容器 */}
 						<div className="-mb-3">
 							<ApiOptions showModelOptions={true} currentMode={currentTab} />
 						</div>
@@ -63,7 +63,7 @@ const ApiConfigurationSection = ({ renderSectionHeader }: ApiConfigurationSectio
 						onChange={async (e: any) => {
 							const checked = e.target.checked === true
 							try {
-								// If unchecking the toggle, wait a bit for state to update, then sync configurations
+								// 如果取消勾选切换器，等待一下让状态更新，然后同步配置
 								if (!checked) {
 									await syncModeConfigurations(apiConfiguration, currentTab, handleFieldsChange)
 								}
@@ -76,11 +76,11 @@ const ApiConfigurationSection = ({ renderSectionHeader }: ApiConfigurationSectio
 								console.error("Failed to update separate models setting:", error)
 							}
 						}}>
-						Use different models for Plan and Act modes
+						为计划和执行模式使用不同的模型
 					</VSCodeCheckbox>
 					<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-						Switching between Plan and Act mode will persist the API and model used in the previous mode. This may be
-						helpful e.g. when using a strong reasoning model to architect a plan for a cheaper coding model to act on.
+						在计划和执行模式之间切换将保持前一模式中使用的 API
+						和模型。这可能很有用，例如当使用强推理模型来构建计划供更便宜的编码模型执行时。
 					</p>
 				</div>
 			</Section>

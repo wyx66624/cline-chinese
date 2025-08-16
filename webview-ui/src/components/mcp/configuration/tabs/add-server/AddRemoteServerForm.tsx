@@ -115,7 +115,6 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 						</div>
 					)}
 				</div>
-
 				<VSCodeButton
 					appearance="secondary"
 					style={{ width: "100%", marginBottom: "5px", marginTop: 15 }}
@@ -124,7 +123,7 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 							console.error("Error opening MCP settings:", error)
 						})
 					}}>
-					Edit Configuration
+					编辑配置
 				</VSCodeButton>
 			</form>
 		</div>
