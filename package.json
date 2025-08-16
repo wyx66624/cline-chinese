@@ -1,7 +1,7 @@
 {
 	"name": "claude-dev",
 	"displayName": "Cline",
-	"description": "Autonomous coding agent right in your IDE, capable of creating/editing files, running commands, using the browser, and more with your permission every step of the way.",
+	"description": "您 IDE 中的自主编码代理，能够在您的每一步许可下创建/编辑文件、运行命令、使用浏览器等。",
 	"version": "3.25.2",
 	"icon": "assets/icons/icon.png",
 	"engines": {
@@ -49,45 +49,45 @@
 		"walkthroughs": [
 			{
 				"id": "ClineWalkthrough",
-				"title": "Meet Cline, your new coding partner",
-				"description": "Cline codes like a developer because it thinks like one. Here are 5 ways to put it to work:",
+				"title": "认识 Cline，您的新编码伙伴",
+				"description": "Cline 像开发者一样编码，因为它像开发者一样思考。这里有 5 种让它工作的方法：",
 				"steps": [
 					{
 						"id": "welcome",
-						"title": "Start with a Goal, Not Just a Prompt",
-						"description": "Tell Cline what you want to achieve. It plans, asks, and then codes, like a true partner.",
+						"title": "从目标开始，而不仅仅是提示",
+						"description": "告诉 Cline 您想要实现什么。它计划、询问，然后编码，就像一个真正的伙伴。",
 						"media": {
 							"markdown": "walkthrough/step1.md"
 						}
 					},
 					{
 						"id": "learn",
-						"title": "Let Cline Learn Your Codebase",
-						"description": "Point Cline to your project. It builds understanding to make smart, context-aware changes.",
+						"title": "让 Cline 学习您的代码库",
+						"description": "将 Cline 指向您的项目。它建立理解以做出智能、上下文感知的更改。",
 						"media": {
 							"markdown": "walkthrough/step2.md"
 						}
 					},
 					{
 						"id": "advanced-features",
-						"title": "Always Use the Best AI Models",
-						"description": "Cline empowers you with State-of-the-Art AI, connecting to top models (Anthropic, Gemini, OpenAI & more).",
+						"title": "始终使用最佳 AI 模型",
+						"description": "Cline 为您提供最先进的 AI 能力，连接到顶级模型（Anthropic、Gemini、OpenAI 等）。",
 						"media": {
 							"markdown": "walkthrough/step3.md"
 						}
 					},
 					{
 						"id": "mcp",
-						"title": "Extend with Powerful Tools (MCP)",
-						"description": "Connect to databases, APIs, or discover new capabilities in the MCP Marketplace.",
+						"title": "使用强大工具扩展（MCP）",
+						"description": "连接到数据库、API，或在 MCP 市场中发现新功能。",
 						"media": {
 							"markdown": "walkthrough/step4.md"
 						}
 					},
 					{
 						"id": "getting-started",
-						"title": "You're Always in Control",
-						"description": "Review Cline's plans and diffs. Approve changes before they happen. No surprises.",
+						"title": "您始终掌控一切",
+						"description": "审查 Cline 的计划和差异。在更改发生前批准它们。没有意外。",
 						"media": {
 							"markdown": "walkthrough/step5.md"
 						},
@@ -127,85 +127,85 @@
 		"commands": [
 			{
 				"command": "cline.plusButtonClicked",
-				"title": "New Task",
+				"title": "新任务",
 				"icon": "$(add)"
 			},
 			{
 				"command": "cline.mcpButtonClicked",
-				"title": "MCP Servers",
+				"title": "MCP 服务器",
 				"icon": "$(server)"
 			},
 			{
 				"command": "cline.historyButtonClicked",
-				"title": "History",
+				"title": "历史记录",
 				"icon": "$(history)"
 			},
 			{
 				"command": "cline.popoutButtonClicked",
-				"title": "Open in Editor",
+				"title": "在编辑器中打开",
 				"icon": "$(link-external)"
 			},
 			{
 				"command": "cline.accountButtonClicked",
-				"title": "Account",
+				"title": "账户",
 				"icon": "$(account)"
 			},
 			{
 				"command": "cline.settingsButtonClicked",
-				"title": "Settings",
+				"title": "设置",
 				"icon": "$(settings-gear)"
 			},
 			{
 				"command": "cline.openInNewTab",
-				"title": "Open In New Tab",
+				"title": "在新标签页中打开",
 				"category": "Cline"
 			},
 			{
 				"command": "cline.dev.createTestTasks",
-				"title": "Create Test Tasks",
+				"title": "创建测试任务",
 				"category": "Cline",
 				"when": "cline.isDevMode"
 			},
 			{
 				"command": "cline.addToChat",
-				"title": "Add to Cline",
+				"title": "添加到 Cline",
 				"category": "Cline"
 			},
 			{
 				"command": "cline.addTerminalOutputToChat",
-				"title": "Add to Cline",
+				"title": "添加到 Cline",
 				"category": "Cline"
 			},
 			{
 				"command": "cline.focusChatInput",
-				"title": "Jump to Chat Input",
+				"title": "跳转到聊天输入",
 				"category": "Cline"
 			},
 			{
 				"command": "cline.generateGitCommitMessage",
-				"title": "Generate Commit Message with Cline",
+				"title": "使用 Cline 生成提交消息",
 				"category": "Cline",
 				"icon": "$(robot)"
 			},
 			{
 				"command": "cline.abortGitCommitMessage",
-				"title": "Generate Commit Message with Cline - Stop",
+				"title": "使用 Cline 生成提交消息 - 停止",
 				"category": "Cline",
 				"icon": "$(debug-stop)"
 			},
 			{
 				"command": "cline.explainCode",
-				"title": "Explain with Cline",
+				"title": "使用 Cline 解释",
 				"category": "Cline"
 			},
 			{
 				"command": "cline.improveCode",
-				"title": "Improve with Cline",
+				"title": "使用 Cline 改进",
 				"category": "Cline"
 			},
 			{
 				"command": "cline.openWalkthrough",
-				"title": "Open Walkthrough",
+				"title": "打开引导教程",
 				"category": "Cline"
 			}
 		],
