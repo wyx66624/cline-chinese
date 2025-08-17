@@ -46,25 +46,39 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 			</h3>
 			<ul style={ulStyle}>
 				<li>
-					<b>Focus Chain:</b> 通过自动待办事项管理保持cline专注于长期任务，将复杂任务分解为可管理的步骤，具有实时进度跟踪和被动提醒功能。步骤显示在方便的待办事项列表中，可以在任务中途编辑。{" "}
+					Cline Chinese与胜算云达成合作啦！ 🚀 Cline Chinese与胜算云强强联手，极速开启AI编程新时代！全球模型快速调用，
+					1-2秒首字符狂写3000+行代码， o3（最新低价）、Gemini 2.5 pro 0605、Claude sonnet4 与
+					opus4注册可用，非逆向，支付宝/微信、充值折扣，可发票，可试用，实名/邀请好友享更多代金券，点击此处进行注册：
+					<VSCodeLink
+						href="https://router.shengsuanyun.com/auth?from=cline-chinese&callback_url=vscode://HybridTalentComputing.cline-chinese/ssy"
+						className="inline">
+						胜算云
+					</VSCodeLink>
+				</li>
+				<li>
+					<b>Focus Chain:</b>{" "}
+					通过自动待办事项管理保持cline专注于长期任务，将复杂任务分解为可管理的步骤，具有实时进度跟踪和被动提醒功能。步骤显示在方便的待办事项列表中，可以在任务中途编辑。{" "}
 					<VSCodeLink style={linkStyle} href="https://docs.cline.bot/features/focus-chain">
 						了解更多
 					</VSCodeLink>
 				</li>
 				<li>
-					<b>Auto Compact:</b> 当您的对话接近模型的上下文窗口限制时，自动总结您的任务和下一步。这显著帮助Cline在长时间任务会话中保持正轨！{" "}
+					<b>Auto Compact:</b>{" "}
+					当您的对话接近模型的上下文窗口限制时，自动总结您的任务和下一步。这显著帮助Cline在长时间任务会话中保持正轨！{" "}
 					<VSCodeLink style={linkStyle} href="https://docs.cline.bot/features/auto-compact">
 						了解更多
 					</VSCodeLink>
 				</li>
 				<li>
-					<b>Deep Planning:</b> 新的 <code>/deep-planning</code> 斜杠命令将Cline转变为架构师，在编写任何代码之前，他会调查您的代码库，提出澄清问题，并创建全面的计划。{" "}
+					<b>Deep Planning:</b> 新的 <code>/deep-planning</code>{" "}
+					斜杠命令将Cline转变为架构师，在编写任何代码之前，他会调查您的代码库，提出澄清问题，并创建全面的计划。{" "}
 					<VSCodeLink style={linkStyle} href="https://docs.cline.bot/features/slash-commands/deep-planning">
 						了解更多
 					</VSCodeLink>
 				</li>
 				<li>
-					<b>Claude Sonnet 4 的 1M 上下文:</b> Cline/OpenRouter 用户可立即访问，Anthropic 用户需要 Tier 4，Bedrock 用户必须在支持的区域。选择{" "}
+					<b>Claude Sonnet 4 的 1M 上下文:</b> Cline/OpenRouter 用户可立即访问，Anthropic 用户需要 Tier 4，Bedrock
+					用户必须在支持的区域。选择{" "}
 					<code>
 						claude-sonnet-4<b>:1m</b>
 					</code>{" "}
@@ -84,13 +98,16 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 					}}>
 					<ul style={ulStyle}>
 						<li>
-							<b>Optimized for Claude 4:</b> Cline 现在针对 Claude 4 系列模型进行了优化，提高了性能、可靠性和新功能。
+							<b>Optimized for Claude 4:</b> Cline 现在针对 Claude 4
+							系列模型进行了优化，提高了性能、可靠性和新功能。
 						</li>
 						<li>
-							<b>Gemini CLI Provider:</b> 添加了新的 Gemini CLI 提供商，允许您使用本地 Gemini CLI 身份验证免费访问 Gemini 模型。
+							<b>Gemini CLI Provider:</b> 添加了新的 Gemini CLI 提供商，允许您使用本地 Gemini CLI 身份验证免费访问
+							Gemini 模型。
 						</li>
 						<li>
-							<b>WebFetch Tool:</b> Gemini 2.5 Pro 和 Claude 4 模型现在支持 WebFetch 工具，允许 Cline 直接在对话中检索和总结网络内容。
+							<b>WebFetch Tool:</b> Gemini 2.5 Pro 和 Claude 4 模型现在支持 WebFetch 工具，允许 Cline
+							直接在对话中检索和总结网络内容。
 						</li>
 						<li>
 							<b>Self Knowledge:</b> 使用前沿模型时，Cline 对其功能和特性集有自我认知。
@@ -99,7 +116,8 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 							<b>Improved Diff Editing:</b> 改进了差异编辑，为前沿模型实现了差异编辑失败的历史新低。
 						</li>
 						<li>
-							<b>Claude 4 Models:</b> 现在在 Anthropic 和 Vertex 提供商中都支持 Anthropic Claude Sonnet 4 和 Claude Opus 4。
+							<b>Claude 4 Models:</b> 现在在 Anthropic 和 Vertex 提供商中都支持 Anthropic Claude Sonnet 4 和 Claude
+							Opus 4。
 						</li>
 						<li>
 							<b>New Settings Page:</b> 重新设计的设置，现在分为标签页，便于导航和更清洁的体验。
