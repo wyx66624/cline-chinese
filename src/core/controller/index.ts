@@ -30,7 +30,8 @@ import { ensureMcpServersDirectoryExists, ensureSettingsDirectoryExists, GlobalF
 import { Task } from "../task"
 import { sendMcpMarketplaceCatalogEvent } from "./mcp/subscribeToMcpMarketplaceCatalog"
 import { sendStateUpdate } from "./state/subscribeToState"
-
+import { SSYAccountService } from "../../services/account/SSYAccountService"
+import { sendSSYAuthCallbackEvent } from "./account/subscribeSSYAuthCallback"
 /*
 https://github.com/microsoft/vscode-webview-ui-toolkit-samples/blob/main/default/weather-webview/src/providers/WeatherViewProvider.ts
 
@@ -39,12 +40,14 @@ https://github.com/KumarVariable/vscode-extension-sidebar-html/blob/master/src/c
 
 export class Controller {
 	readonly id: string
+	public uriScheme = vscode.env.uriScheme
 	private disposables: vscode.Disposable[] = []
 	task?: Task
 
 	mcpHub: McpHub
 	accountService: ClineAccountService
 	authService: AuthService
+	accountServiceSSY: SSYAccountService
 	readonly cacheService: CacheService
 
 	constructor(
@@ -92,6 +95,11 @@ export class Controller {
 			() => ensureSettingsDirectoryExists(this.context),
 			this.context.extension?.packageJSON?.version ?? "1.0.0",
 		)
+		this.accountServiceSSY = new SSYAccountService(async () => {
+			const { apiConfiguration } = await this.getStateToPostToWebview()
+			return apiConfiguration?.shengSuanYunToken
+		})
+		this.accountService = ClineAccountService.getInstance()
 
 		// Clean up legacy checkpoints
 		cleanupLegacyCheckpoints(this.context.globalStorageUri.fsPath).catch((error) => {
@@ -490,6 +498,47 @@ export class Controller {
 			this.task.api = buildApiHandler({ ...updatedConfig, ulid: this.task.ulid }, currentMode)
 		}
 		// Dont send settingsButtonClicked because its bad ux if user is on welcome
+	}
+
+	// shengsuanyun Auth
+	async handleShengSuanYunCallback(code: string) {
+		let apiKey: string
+		let customToken: string
+		try {
+			const response = await axios.post("https://api.shengsuanyun.com/auth/keys", {
+				code: code,
+				callback_url: `${this.uriScheme || "vscode"}://HybridTalentComputing.cline-chinese/ssy`,
+			})
+			if (response.data && response.data.data && response.data.data.api_key) {
+				apiKey = response.data.data.api_key
+				customToken = response.data.data.jwt_token
+				await sendSSYAuthCallbackEvent(customToken)
+			} else {
+				throw new Error("Invalid response from handleShengSuanYunCallback()", { cause: response })
+			}
+		} catch (error) {
+			console.error("Error exchanging code for API key:", error)
+			throw error
+		}
+
+		const shengsuanyun: ApiProvider = "shengsuanyun"
+		const currentMode = await this.getCurrentMode()
+
+		const currentApiConfiguration = this.cacheService.getApiConfiguration()
+		const updatedConfig = {
+			...currentApiConfiguration,
+			planModeApiProvider: shengsuanyun,
+			actModeApiProvider: shengsuanyun,
+			shengSuanYunApiKey: apiKey,
+			shengSuanYunToken: customToken,
+		}
+		this.cacheService.setApiConfiguration(updatedConfig)
+
+		await this.postStateToWebview()
+		if (this.task) {
+			this.task.api = buildApiHandler({ ...updatedConfig, ulid: this.task.taskId }, currentMode)
+		}
+		// await this.postMessageToWebview({ type: "action", action: "settingsButtonClicked" }) // bad ux if user is on welcome
 	}
 
 	private async ensureCacheDirectoryExists(): Promise<string> {

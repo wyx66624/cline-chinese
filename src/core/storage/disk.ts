@@ -22,6 +22,7 @@ export const GlobalFileNames = {
 	cursorRulesFile: ".cursorrules",
 	windsurfRules: ".windsurfrules",
 	taskMetadata: "task_metadata.json",
+	shengSuanYunModels: "shengSuanYun_models.json",
 }
 
 export async function getDocumentsPath(): Promise<string> {

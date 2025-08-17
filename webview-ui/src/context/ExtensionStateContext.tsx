@@ -24,6 +24,8 @@ import {
 	openRouterDefaultModelInfo,
 	requestyDefaultModelId,
 	requestyDefaultModelInfo,
+	shengSuanYunDefaultModelId,
+	shengSuanYunDefaultModelInfo,
 } from "../../../src/shared/api"
 import type { McpMarketplaceCatalog, McpServer, McpViewTab } from "../../../src/shared/mcp"
 import {
@@ -34,6 +36,7 @@ import {
 	UiServiceClient,
 } from "../services/grpc-client"
 import { convertTextMateToHljs } from "../utils/textMateToHljs"
+import { ShengSuanYunModelInfo } from "@shared/proto/cline/models"
 
 interface ExtensionStateContextType extends ExtensionState {
 	didHydrateState: boolean
@@ -42,6 +45,7 @@ interface ExtensionStateContextType extends ExtensionState {
 	openRouterModels: Record<string, ModelInfo>
 	openAiModels: string[]
 	requestyModels: Record<string, ModelInfo>
+	shengSuanYunModels: Record<string, ShengSuanYunModelInfo>
 	groqModels: Record<string, ModelInfo>
 	basetenModels: Record<string, ModelInfo>
 	huggingFaceModels: Record<string, ModelInfo>
@@ -63,6 +67,7 @@ interface ExtensionStateContextType extends ExtensionState {
 	setShouldShowAnnouncement: (value: boolean) => void
 	setMcpServers: (value: McpServer[]) => void
 	setRequestyModels: (value: Record<string, ModelInfo>) => void
+	setShengSuanYunModels: (value: Record<string, ShengSuanYunModelInfo>) => void
 	setGroqModels: (value: Record<string, ModelInfo>) => void
 	setBasetenModels: (value: Record<string, ModelInfo>) => void
 	setHuggingFaceModels: (value: Record<string, ModelInfo>) => void
@@ -216,6 +221,9 @@ export const ExtensionStateContextProvider: React.FC<{
 	const [openAiModels, setOpenAiModels] = useState<string[]>([])
 	const [requestyModels, setRequestyModels] = useState<Record<string, ModelInfo>>({
 		[requestyDefaultModelId]: requestyDefaultModelInfo,
+	})
+	const [shengSuanYunModels, setShengSuanYunModels] = useState<Record<string, ShengSuanYunModelInfo>>({
+		[shengSuanYunDefaultModelId]: shengSuanYunDefaultModelInfo,
 	})
 	const [groqModelsState, setGroqModels] = useState<Record<string, ModelInfo>>({
 		[groqDefaultModelId]: groqModels[groqDefaultModelId],
@@ -637,6 +645,7 @@ export const ExtensionStateContextProvider: React.FC<{
 		openRouterModels,
 		openAiModels,
 		requestyModels,
+		shengSuanYunModels,
 		groqModels: groqModelsState,
 		basetenModels: basetenModelsState,
 		huggingFaceModels,
@@ -679,6 +688,7 @@ export const ExtensionStateContextProvider: React.FC<{
 			})),
 		setMcpServers: (mcpServers: McpServer[]) => setMcpServers(mcpServers),
 		setRequestyModels: (models: Record<string, ModelInfo>) => setRequestyModels(models),
+		setShengSuanYunModels: (models: Record<string, ShengSuanYunModelInfo>) => setShengSuanYunModels(models),
 		setGroqModels: (models: Record<string, ModelInfo>) => setGroqModels(models),
 		setBasetenModels: (models: Record<string, ModelInfo>) => setBasetenModels(models),
 		setHuggingFaceModels: (models: Record<string, ModelInfo>) => setHuggingFaceModels(models),

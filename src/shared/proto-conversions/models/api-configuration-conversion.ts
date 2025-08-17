@@ -13,6 +13,7 @@ import {
 	OpenAiCompatibleModelInfo,
 	OpenRouterModelInfo,
 	ThinkingConfig,
+	ShengSuanYunModelInfo,
 } from "@shared/proto/cline/models"
 
 // Convert application ThinkingConfig to proto ThinkingConfig
@@ -29,7 +30,7 @@ function convertThinkingConfigToProto(config: ModelInfo["thinkingConfig"]): Thin
 }
 
 // Convert proto ThinkingConfig to application ThinkingConfig
-function convertProtoToThinkingConfig(config: ThinkingConfig | undefined): ModelInfo["thinkingConfig"] | undefined {
+function convertProtoToThinkingConfig(config: ThinkingConfig | undefined): ThinkingConfig | undefined {
 	if (!config) {
 		return undefined
 	}
@@ -37,8 +38,8 @@ function convertProtoToThinkingConfig(config: ThinkingConfig | undefined): Model
 	return {
 		maxBudget: config.maxBudget,
 		outputPrice: config.outputPrice,
-		outputPriceTiers: config.outputPriceTiers.length > 0 ? config.outputPriceTiers : undefined,
-	}
+		outputPriceTiers: config.outputPriceTiers || [], // Provide empty array if undefined
+	} as ThinkingConfig
 }
 
 // Convert application ModelInfo to proto OpenRouterModelInfo
@@ -82,6 +83,47 @@ function convertProtoToModelInfo(info: OpenRouterModelInfo | undefined): ModelIn
 		thinkingConfig: convertProtoToThinkingConfig(info.thinkingConfig),
 		supportsGlobalEndpoint: info.supportsGlobalEndpoint,
 		tiers: info.tiers.length > 0 ? info.tiers : undefined,
+	}
+}
+
+// Convert application ModelInfo to proto ShengSuanYunModelInfo
+function convertModelInfoToProtoShengSuanYun(info: ShengSuanYunModelInfo | undefined): ShengSuanYunModelInfo | undefined {
+	if (!info) {
+		return undefined
+	}
+	return {
+		maxTokens: info.maxTokens,
+		contextWindow: info.contextWindow,
+		supportsImages: info.supportsImages,
+		supportsPromptCache: info.supportsPromptCache ?? false,
+		inputPrice: info.inputPrice,
+		outputPrice: info.outputPrice,
+		cacheWritesPrice: info.cacheWritesPrice,
+		cacheReadsPrice: info.cacheReadsPrice,
+		description: info.description,
+		thinkingConfig: convertThinkingConfigToProto(info.thinkingConfig),
+		supportsGlobalEndpoint: info.supportsGlobalEndpoint,
+	}
+}
+
+// Convert proto ShengSuanYunModelInfo to application ModelInfo
+function convertProtoToShengSuanYunModelInfo(info: ShengSuanYunModelInfo | undefined): ShengSuanYunModelInfo | undefined {
+	if (!info) {
+		return undefined
+	}
+
+	return {
+		maxTokens: info.maxTokens,
+		contextWindow: info.contextWindow,
+		supportsImages: info.supportsImages,
+		supportsPromptCache: info.supportsPromptCache,
+		inputPrice: info.inputPrice,
+		outputPrice: info.outputPrice,
+		cacheWritesPrice: info.cacheWritesPrice,
+		cacheReadsPrice: info.cacheReadsPrice,
+		description: info.description,
+		thinkingConfig: convertProtoToThinkingConfig(info.thinkingConfig),
+		supportsGlobalEndpoint: info.supportsGlobalEndpoint,
 	}
 }
 
@@ -246,10 +288,12 @@ function convertApiProviderToProto(provider: string | undefined): ProtoApiProvid
 			return ProtoApiProvider.SAPAICORE
 		case "claude-code":
 			return ProtoApiProvider.CLAUDE_CODE
+		case "shengsuanyun":
+			return ProtoApiProvider.SHENG_SUAN_YUN
 		case "huawei-cloud-maas":
 			return ProtoApiProvider.HUAWEI_CLOUD_MAAS
 		default:
-			return ProtoApiProvider.ANTHROPIC
+			return ProtoApiProvider.SHENG_SUAN_YUN
 	}
 }
 
@@ -316,10 +360,12 @@ function convertProtoToApiProvider(provider: ProtoApiProvider): ApiProvider {
 			return "sapaicore"
 		case ProtoApiProvider.CLAUDE_CODE:
 			return "claude-code"
+		case ProtoApiProvider.SHENG_SUAN_YUN:
+			return "shengsuanyun"
 		case ProtoApiProvider.HUAWEI_CLOUD_MAAS:
 			return "huawei-cloud-maas"
 		default:
-			return "anthropic"
+			return "shengsuanyun"
 	}
 }
 
@@ -389,6 +435,8 @@ export function convertApiConfigurationToProto(config: ApiConfiguration): ProtoA
 		sapAiResourceGroup: config.sapAiResourceGroup,
 		sapAiCoreTokenUrl: config.sapAiCoreTokenUrl,
 		sapAiCoreBaseUrl: config.sapAiCoreBaseUrl,
+		shengSuanYunApiKey: config.shengSuanYunApiKey,
+		shengSuanYunToken: config.shengSuanYunToken,
 		huaweiCloudMaasApiKey: config.huaweiCloudMaasApiKey,
 
 		// Plan mode configurations
@@ -418,6 +466,8 @@ export function convertApiConfigurationToProto(config: ApiConfiguration): ProtoA
 		planModeHuggingFaceModelId: config.planModeHuggingFaceModelId,
 		planModeHuggingFaceModelInfo: convertModelInfoToProtoOpenRouter(config.planModeHuggingFaceModelInfo),
 		planModeSapAiCoreModelId: config.planModeSapAiCoreModelId,
+		planModeShengSuanYunModelId: config.planModeShengSuanYunModelId,
+		planModeShengSuanYunModelInfo: convertModelInfoToProtoShengSuanYun(config.planModeShengSuanYunModelInfo),
 		planModeHuaweiCloudMaasModelId: config.planModeHuaweiCloudMaasModelId,
 		planModeHuaweiCloudMaasModelInfo: convertModelInfoToProtoOpenRouter(config.planModeHuaweiCloudMaasModelInfo),
 
@@ -448,6 +498,8 @@ export function convertApiConfigurationToProto(config: ApiConfiguration): ProtoA
 		actModeHuggingFaceModelId: config.actModeHuggingFaceModelId,
 		actModeHuggingFaceModelInfo: convertModelInfoToProtoOpenRouter(config.actModeHuggingFaceModelInfo),
 		actModeSapAiCoreModelId: config.actModeSapAiCoreModelId,
+		actModeShengSuanYunModelId: config.actModeShengSuanYunModelId,
+		actModeShengSuanYunModelInfo: convertModelInfoToProtoShengSuanYun(config.actModeShengSuanYunModelInfo),
 		actModeHuaweiCloudMaasModelId: config.actModeHuaweiCloudMaasModelId,
 		actModeHuaweiCloudMaasModelInfo: convertModelInfoToProtoOpenRouter(config.actModeHuaweiCloudMaasModelInfo),
 
@@ -522,6 +574,8 @@ export function convertProtoToApiConfiguration(protoConfig: ProtoApiConfiguratio
 		sapAiResourceGroup: protoConfig.sapAiResourceGroup,
 		sapAiCoreTokenUrl: protoConfig.sapAiCoreTokenUrl,
 		sapAiCoreBaseUrl: protoConfig.sapAiCoreBaseUrl,
+		shengSuanYunToken: protoConfig.shengSuanYunToken,
+		shengSuanYunApiKey: protoConfig.shengSuanYunApiKey,
 		huaweiCloudMaasApiKey: protoConfig.huaweiCloudMaasApiKey,
 
 		// Plan mode configurations
@@ -554,6 +608,8 @@ export function convertProtoToApiConfiguration(protoConfig: ProtoApiConfiguratio
 		planModeHuggingFaceModelId: protoConfig.planModeHuggingFaceModelId,
 		planModeHuggingFaceModelInfo: convertProtoToModelInfo(protoConfig.planModeHuggingFaceModelInfo),
 		planModeSapAiCoreModelId: protoConfig.planModeSapAiCoreModelId,
+		planModeShengSuanYunModelId: protoConfig.planModeShengSuanYunModelId,
+		planModeShengSuanYunModelInfo: convertProtoToShengSuanYunModelInfo(protoConfig.planModeShengSuanYunModelInfo),
 		planModeHuaweiCloudMaasModelId: protoConfig.planModeHuaweiCloudMaasModelId,
 		planModeHuaweiCloudMaasModelInfo: convertProtoToModelInfo(protoConfig.planModeHuaweiCloudMaasModelInfo),
 
@@ -585,6 +641,8 @@ export function convertProtoToApiConfiguration(protoConfig: ProtoApiConfiguratio
 		actModeHuggingFaceModelId: protoConfig.actModeHuggingFaceModelId,
 		actModeHuggingFaceModelInfo: convertProtoToModelInfo(protoConfig.actModeHuggingFaceModelInfo),
 		actModeSapAiCoreModelId: protoConfig.actModeSapAiCoreModelId,
+		actModeShengSuanYunModelId: protoConfig.actModeShengSuanYunModelId,
+		actModeShengSuanYunModelInfo: convertProtoToShengSuanYunModelInfo(protoConfig.actModeShengSuanYunModelInfo),
 		actModeHuaweiCloudMaasModelId: protoConfig.actModeHuaweiCloudMaasModelId,
 		actModeHuaweiCloudMaasModelInfo: convertProtoToModelInfo(protoConfig.actModeHuaweiCloudMaasModelInfo),
 

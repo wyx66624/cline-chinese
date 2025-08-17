@@ -25,6 +25,7 @@ import { AskSageHandler } from "./providers/asksage"
 import { XAIHandler } from "./providers/xai"
 import { SambanovaHandler } from "./providers/sambanova"
 import { CerebrasHandler } from "./providers/cerebras"
+import { ShengSuanYunHandler } from "./providers/shengsuanyun"
 import { SapAiCoreHandler } from "./providers/sapaicore"
 import { ClaudeCodeHandler } from "./providers/claude-code"
 import { MoonshotHandler } from "./providers/moonshot"
@@ -247,6 +248,16 @@ function createHandlerForProvider(
 			return new SambanovaHandler({
 				sambanovaApiKey: options.sambanovaApiKey,
 				apiModelId: mode === "plan" ? options.planModeApiModelId : options.actModeApiModelId,
+			})
+		case "shengsuanyun":
+			return new ShengSuanYunHandler({
+				shengSuanYunApiKey: options.shengSuanYunApiKey,
+				reasoningEffort: mode === "plan" ? options.planModeReasoningEffort : options.actModeReasoningEffort,
+				thinkingBudgetTokens:
+					mode === "plan" ? options.planModeThinkingBudgetTokens : options.actModeThinkingBudgetTokens,
+				shengSuanYunModelId: mode === "plan" ? options.planModeShengSuanYunModelId : options.actModeShengSuanYunModelId,
+				shengSuanYunModelInfo:
+					mode === "plan" ? options.planModeShengSuanYunModelInfo : options.actModeShengSuanYunModelInfo,
 			})
 		case "cerebras":
 			return new CerebrasHandler({

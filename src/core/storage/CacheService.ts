@@ -249,6 +249,8 @@ export class CacheService {
 			huggingFaceApiKey,
 			huaweiCloudMaasApiKey,
 			requestTimeoutMs,
+			shengSuanYunApiKey,
+			shengSuanYunToken,
 			// Plan mode configurations
 			planModeApiProvider,
 			planModeApiModelId,
@@ -278,6 +280,8 @@ export class CacheService {
 			planModeHuggingFaceModelInfo,
 			planModeHuaweiCloudMaasModelId,
 			planModeHuaweiCloudMaasModelInfo,
+			planModeShengSuanYunModelId,
+			planModeShengSuanYunModelInfo,
 			// Act mode configurations
 			actModeApiProvider,
 			actModeApiModelId,
@@ -307,6 +311,8 @@ export class CacheService {
 			actModeHuggingFaceModelInfo,
 			actModeHuaweiCloudMaasModelId,
 			actModeHuaweiCloudMaasModelInfo,
+			actModeShengSuanYunModelId,
+			actModeShengSuanYunModelInfo,
 		} = apiConfiguration
 
 		// Batch update global state keys
@@ -340,6 +346,8 @@ export class CacheService {
 			planModeHuggingFaceModelInfo,
 			planModeHuaweiCloudMaasModelId,
 			planModeHuaweiCloudMaasModelInfo,
+			planModeShengSuanYunModelId,
+			planModeShengSuanYunModelInfo,
 
 			// Act mode configuration updates
 			actModeApiProvider,
@@ -370,6 +378,8 @@ export class CacheService {
 			actModeHuggingFaceModelInfo,
 			actModeHuaweiCloudMaasModelId,
 			actModeHuaweiCloudMaasModelInfo,
+			actModeShengSuanYunModelId,
+			actModeShengSuanYunModelInfo,
 
 			// Global state updates
 			awsRegion,
@@ -404,6 +414,7 @@ export class CacheService {
 			sapAiCoreTokenUrl,
 			sapAiResourceGroup,
 			claudeCodePath,
+			shengSuanYunToken,
 		})
 
 		// Batch update secrets
@@ -439,6 +450,7 @@ export class CacheService {
 			basetenApiKey,
 			huggingFaceApiKey,
 			huaweiCloudMaasApiKey,
+			shengSuanYunApiKey,
 		})
 	}
 
@@ -663,6 +675,8 @@ export class CacheService {
 			huaweiCloudMaasApiKey,
 			requestTimeoutMs,
 			authNonce,
+			shengSuanYunApiKey,
+			shengSuanYunToken,
 			// Plan mode configurations
 			planModeApiProvider,
 			planModeApiModelId,
@@ -692,6 +706,8 @@ export class CacheService {
 			planModeHuggingFaceModelInfo,
 			planModeHuaweiCloudMaasModelId,
 			planModeHuaweiCloudMaasModelInfo,
+			planModeShengSuanYunModelId,
+			planModeShengSuanYunModelInfo,
 			// Act mode configurations
 			actModeApiProvider,
 			actModeApiModelId,
@@ -721,6 +737,8 @@ export class CacheService {
 			actModeHuggingFaceModelInfo,
 			actModeHuaweiCloudMaasModelId,
 			actModeHuaweiCloudMaasModelInfo,
+			actModeShengSuanYunModelId,
+			actModeShengSuanYunModelInfo,
 		} = state.apiConfiguration || {}
 
 		// Directly populate global state cache without triggering persistence
@@ -782,6 +800,8 @@ export class CacheService {
 			planModeHuggingFaceModelInfo,
 			planModeHuaweiCloudMaasModelId,
 			planModeHuaweiCloudMaasModelInfo,
+			planModeShengSuanYunModelId,
+			planModeShengSuanYunModelInfo,
 
 			// Act mode configuration updates
 			actModeApiProvider,
@@ -812,6 +832,8 @@ export class CacheService {
 			actModeHuggingFaceModelInfo,
 			actModeHuaweiCloudMaasModelId,
 			actModeHuaweiCloudMaasModelInfo,
+			actModeShengSuanYunModelId,
+			actModeShengSuanYunModelInfo,
 
 			// API configuration global state updates
 			awsRegion,
@@ -847,6 +869,7 @@ export class CacheService {
 			sapAiCoreTokenUrl,
 			sapAiResourceGroup,
 			claudeCodePath,
+			shengSuanYunToken,
 		} satisfies GlobalState
 
 		// Populate global state cache directly
@@ -886,6 +909,7 @@ export class CacheService {
 			authNonce,
 			huggingFaceApiKey,
 			huaweiCloudMaasApiKey,
+			shengSuanYunApiKey,
 		} satisfies Secrets
 
 		// Populate secrets cache directly
@@ -939,6 +963,7 @@ export class CacheService {
 			sapAiCoreClientSecret: this.secretsCache["sapAiCoreClientSecret"],
 			huggingFaceApiKey: this.secretsCache["huggingFaceApiKey"],
 			huaweiCloudMaasApiKey: this.secretsCache["huaweiCloudMaasApiKey"],
+			shengSuanYunApiKey: this.secretsCache["shengSuanYunApiKey"],
 
 			// Global state
 			awsRegion: this.globalStateCache["awsRegion"],
@@ -973,6 +998,7 @@ export class CacheService {
 			sapAiCoreTokenUrl: this.globalStateCache["sapAiCoreTokenUrl"],
 			sapAiResourceGroup: this.globalStateCache["sapAiResourceGroup"],
 			claudeCodePath: this.globalStateCache["claudeCodePath"],
+			shengSuanYunToken: this.globalStateCache["shengSuanYunToken"],
 
 			// Plan mode configurations
 			planModeApiProvider: this.globalStateCache["planModeApiProvider"],
@@ -1003,6 +1029,8 @@ export class CacheService {
 			planModeHuggingFaceModelInfo: this.globalStateCache["planModeHuggingFaceModelInfo"],
 			planModeHuaweiCloudMaasModelId: this.globalStateCache["planModeHuaweiCloudMaasModelId"],
 			planModeHuaweiCloudMaasModelInfo: this.globalStateCache["planModeHuaweiCloudMaasModelInfo"],
+			planModeShengSuanYunModelId: this.globalStateCache["planModeShengSuanYunModelId"],
+			planModeShengSuanYunModelInfo: this.globalStateCache["planModeShengSuanYunModelInfo"],
 
 			// Act mode configurations
 			actModeApiProvider: this.globalStateCache["actModeApiProvider"],
@@ -1033,6 +1061,8 @@ export class CacheService {
 			actModeHuggingFaceModelInfo: this.globalStateCache["actModeHuggingFaceModelInfo"],
 			actModeHuaweiCloudMaasModelId: this.globalStateCache["actModeHuaweiCloudMaasModelId"],
 			actModeHuaweiCloudMaasModelInfo: this.globalStateCache["actModeHuaweiCloudMaasModelInfo"],
+			actModeShengSuanYunModelId: this.globalStateCache["actModeShengSuanYunModelId"],
+			actModeShengSuanYunModelInfo: this.globalStateCache["actModeShengSuanYunModelInfo"],
 		}
 	}
 }

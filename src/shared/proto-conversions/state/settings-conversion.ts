@@ -97,6 +97,7 @@ export function convertApiConfigurationToProtoApiConfiguration(config: ApiConfig
 		planModeTogetherModelId: config.planModeTogetherModelId,
 		planModeFireworksModelId: config.planModeFireworksModelId,
 		planModeSapAiCoreModelId: config.planModeSapAiCoreModelId,
+		planModeShengSuanYunModelId: config.planModeShengSuanYunModelId,
 
 		// Act mode configurations
 		actModeApiProvider: config.actModeApiProvider,
@@ -123,9 +124,14 @@ export function convertApiConfigurationToProtoApiConfiguration(config: ApiConfig
 		actModeTogetherModelId: config.actModeTogetherModelId,
 		actModeFireworksModelId: config.actModeFireworksModelId,
 		actModeSapAiCoreModelId: config.actModeSapAiCoreModelId,
+		actModeShengSuanYunModelId: config.actModeShengSuanYunModelId,
 
 		// Favorited model IDs
 		favoritedModelIds: config.favoritedModelIds || [],
+
+		// ShengSuanYun specific fields
+		shengsuanyunApiKey: config.shengSuanYunApiKey,
+		shengsuanyunToken: config.shengSuanYunToken,
 	})
 }
 
@@ -213,6 +219,7 @@ export function convertProtoApiConfigurationToApiConfiguration(protoConfig: Prot
 		planModeTogetherModelId: protoConfig.planModeTogetherModelId,
 		planModeFireworksModelId: protoConfig.planModeFireworksModelId,
 		planModeSapAiCoreModelId: protoConfig.planModeSapAiCoreModelId,
+		planModeShengSuanYunModelId: protoConfig.planModeShengSuanYunModelId,
 
 		// Act mode configurations
 		actModeApiProvider: protoConfig.actModeApiProvider as ApiProvider,
@@ -232,15 +239,26 @@ export function convertProtoApiConfigurationToApiConfiguration(protoConfig: Prot
 		actModeTogetherModelId: protoConfig.actModeTogetherModelId,
 		actModeFireworksModelId: protoConfig.actModeFireworksModelId,
 		actModeSapAiCoreModelId: protoConfig.actModeSapAiCoreModelId,
+		actModeShengSuanYunModelId: protoConfig.actModeShengSuanYunModelId,
 
 		// Favorited model IDs
 		favoritedModelIds: protoConfig.favoritedModelIds || [],
+
+		// ShengSuanYun specific fields
+		shengSuanYunApiKey: protoConfig.shengsuanyunApiKey,
+		shengSuanYunToken: protoConfig.shengsuanyunToken,
 	}
 
 	// Handle complex JSON objects
 	try {
 		if (protoConfig.openaiHeaders) {
 			config.openAiHeaders = JSON.parse(protoConfig.openaiHeaders)
+		}
+		if (protoConfig.planModeShengSuanYunModelInfo) {
+			config.planModeShengSuanYunModelInfo = JSON.parse(protoConfig.planModeShengSuanYunModelInfo)
+		}
+		if (protoConfig.actModeShengSuanYunModelInfo) {
+			config.actModeShengSuanYunModelInfo = JSON.parse(protoConfig.actModeShengSuanYunModelInfo)
 		}
 		if (protoConfig.planModeVscodeLmModelSelector) {
 			config.planModeVsCodeLmModelSelector = JSON.parse(protoConfig.planModeVscodeLmModelSelector)

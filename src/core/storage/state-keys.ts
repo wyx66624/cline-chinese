@@ -10,6 +10,7 @@ import { AutoApprovalSettings } from "@/shared/AutoApprovalSettings"
 import { Mode, OpenaiReasoningEffort } from "@/shared/storage/types"
 import { McpMarketplaceCatalog } from "@/shared/mcp"
 import { FocusChainSettings } from "@shared/FocusChainSettings"
+import { ShengSuanYunModelInfo } from "@/shared/proto/index.cline"
 
 export type SecretKey =
 	| "apiKey"
@@ -38,6 +39,7 @@ export type SecretKey =
 	| "huggingFaceApiKey"
 	| "nebiusApiKey"
 	| "sambanovaApiKey"
+	| "shengSuanYunApiKey"
 	| "cerebrasApiKey"
 	| "sapAiCoreClientId"
 	| "sapAiCoreClientSecret"
@@ -92,6 +94,7 @@ export type GlobalStateKey =
 	| "terminalReuseEnabled"
 	| "defaultTerminalProfile"
 	| "isNewUser"
+	| "shengSuanYunToken"
 	| "welcomeViewCompleted"
 	| "terminalOutputLineLimit"
 	| "mcpDisplayMode"
@@ -133,6 +136,8 @@ export type GlobalStateKey =
 	| "planModeBasetenModelInfo"
 	| "planModeHuggingFaceModelId"
 	| "planModeHuggingFaceModelInfo"
+	| "planModeShengSuanYunModelId"
+	| "planModeShengSuanYunModelInfo"
 	| "planModeHuaweiCloudMaasModelId"
 	| "planModeHuaweiCloudMaasModelInfo"
 	// Act mode configurations
@@ -162,6 +167,8 @@ export type GlobalStateKey =
 	| "actModeBasetenModelInfo"
 	| "actModeHuggingFaceModelId"
 	| "actModeHuggingFaceModelInfo"
+	| "actModeShengSuanYunModelId"
+	| "actModeShengSuanYunModelInfo"
 	| "actModeHuaweiCloudMaasModelId"
 	| "actModeHuaweiCloudMaasModelInfo"
 
@@ -256,6 +263,8 @@ export interface GlobalState {
 	planModeHuggingFaceModelInfo: ModelInfo | undefined
 	planModeHuaweiCloudMaasModelId: string | undefined
 	planModeHuaweiCloudMaasModelInfo: ModelInfo | undefined
+	planModeShengSuanYunModelId: string | undefined
+	planModeShengSuanYunModelInfo: ShengSuanYunModelInfo | undefined
 	// Act mode configurations
 	actModeApiProvider: ApiProvider
 	actModeApiModelId: string | undefined
@@ -285,6 +294,9 @@ export interface GlobalState {
 	actModeHuggingFaceModelInfo: ModelInfo | undefined
 	actModeHuaweiCloudMaasModelId: string | undefined
 	actModeHuaweiCloudMaasModelInfo: ModelInfo | undefined
+	actModeShengSuanYunModelId: string | undefined
+	actModeShengSuanYunModelInfo: ShengSuanYunModelInfo | undefined
+	shengSuanYunToken: string | undefined
 }
 
 export interface Secrets {
@@ -320,6 +332,7 @@ export interface Secrets {
 	groqApiKey: string | undefined
 	huaweiCloudMaasApiKey: string | undefined
 	basetenApiKey: string | undefined
+	shengSuanYunApiKey: string | undefined
 }
 
 export interface LocalState {

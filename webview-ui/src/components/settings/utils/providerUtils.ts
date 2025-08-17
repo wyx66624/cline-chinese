@@ -46,6 +46,8 @@ import {
 	sapAiCoreDefaultModelId,
 	claudeCodeDefaultModelId,
 	claudeCodeModels,
+	shengSuanYunDefaultModelId,
+	shengSuanYunDefaultModelInfo,
 	groqModels,
 	groqDefaultModelId,
 	huaweiCloudMaasModels,
@@ -267,6 +269,20 @@ export function normalizeApiConfiguration(
 			}
 		case "sapaicore":
 			return getProviderData(sapAiCoreModels, sapAiCoreDefaultModelId)
+		case "shengsuanyun":
+			const shengSuanYunModelId =
+				currentMode === "plan"
+					? apiConfiguration?.planModeShengSuanYunModelId
+					: apiConfiguration?.actModeShengSuanYunModelId
+			const shengSuanYunModelInfo =
+				currentMode === "plan"
+					? apiConfiguration?.planModeShengSuanYunModelInfo
+					: apiConfiguration?.actModeShengSuanYunModelInfo
+			return {
+				selectedProvider: provider,
+				selectedModelId: shengSuanYunModelId || shengSuanYunDefaultModelId,
+				selectedModelInfo: shengSuanYunModelInfo || shengSuanYunDefaultModelInfo,
+			}
 		case "huawei-cloud-maas":
 			const huaweiCloudMaasModelId =
 				currentMode === "plan"
@@ -311,6 +327,7 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 			groqModelId: undefined,
 			basetenModelId: undefined,
 			huggingFaceModelId: undefined,
+			shengSuanYunModelId: undefined,
 			huaweiCloudMaasModelId: undefined,
 
 			// Model info objects
@@ -322,6 +339,7 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 			basetenModelInfo: undefined,
 			huggingFaceModelInfo: undefined,
 			vsCodeLmModelSelector: undefined,
+			shengSuanYunModelInfo: undefined,
 
 			// AWS Bedrock fields
 			awsBedrockCustomSelected: undefined,
@@ -355,6 +373,8 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 		basetenModelId: mode === "plan" ? apiConfiguration.planModeBasetenModelId : apiConfiguration.actModeBasetenModelId,
 		huggingFaceModelId:
 			mode === "plan" ? apiConfiguration.planModeHuggingFaceModelId : apiConfiguration.actModeHuggingFaceModelId,
+		shengSuanYunModelId:
+			mode === "plan" ? apiConfiguration.planModeShengSuanYunModelId : apiConfiguration.actModeShengSuanYunModelId,
 		huaweiCloudMaasModelId:
 			mode === "plan" ? apiConfiguration.planModeHuaweiCloudMaasModelId : apiConfiguration.actModeHuaweiCloudMaasModelId,
 
@@ -371,6 +391,8 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 			mode === "plan" ? apiConfiguration.planModeHuggingFaceModelInfo : apiConfiguration.actModeHuggingFaceModelInfo,
 		vsCodeLmModelSelector:
 			mode === "plan" ? apiConfiguration.planModeVsCodeLmModelSelector : apiConfiguration.actModeVsCodeLmModelSelector,
+		shengSuanYunModelInfo:
+			mode === "plan" ? apiConfiguration.planModeShengSuanYunModelInfo : apiConfiguration.actModeShengSuanYunModelInfo,
 
 		// AWS Bedrock fields
 		awsBedrockCustomSelected:
@@ -437,6 +459,13 @@ export async function syncModeConfigurations(
 			updates.actModeRequestyModelId = sourceFields.requestyModelId
 			updates.planModeRequestyModelInfo = sourceFields.requestyModelInfo
 			updates.actModeRequestyModelInfo = sourceFields.requestyModelInfo
+			break
+
+		case "shengsuanyun":
+			updates.planModeShengSuanYunModelId = sourceFields.shengSuanYunModelId
+			updates.actModeShengSuanYunModelId = sourceFields.shengSuanYunModelId
+			updates.planModeShengSuanYunModelInfo = sourceFields.shengSuanYunModelInfo
+			updates.actModeShengSuanYunModelInfo = sourceFields.shengSuanYunModelInfo
 			break
 
 		case "openai":

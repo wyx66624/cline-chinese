@@ -50,6 +50,15 @@ export class SharedUriHandler {
 					console.warn("SharedUriHandler: Missing idToken parameter for auth callback")
 					return false
 				}
+				case "/ssy":
+				case "shengsuanyun": {
+					const code = query.get("code")
+					if (code) {
+						await visibleWebview?.controller.handleShengSuanYunCallback(code)
+						return true
+					}
+					return false
+				}
 				default:
 					console.warn(`SharedUriHandler: Unknown path: ${path}`)
 					return false

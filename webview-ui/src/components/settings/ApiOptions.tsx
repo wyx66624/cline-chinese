@@ -36,6 +36,7 @@ import { LiteLlmProvider } from "./providers/LiteLlmProvider"
 import { VSCodeLmProvider } from "./providers/VSCodeLmProvider"
 import { LMStudioProvider } from "./providers/LMStudioProvider"
 import { useApiConfigurationHandlers } from "./utils/useApiConfigurationHandlers"
+import { ShengSuanYunProvider } from "./providers/ShengSuanYunProvider"
 import { GroqProvider } from "./providers/GroqProvider"
 import { BasetenProvider } from "./providers/BasetenProvider"
 import { Mode } from "@shared/storage/types"
@@ -137,6 +138,7 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 						minWidth: 130,
 						position: "relative",
 					}}>
+					<VSCodeOption value="shengsuanyun">胜算云</VSCodeOption>
 					<VSCodeOption value="cline">Cline</VSCodeOption>
 					<VSCodeOption value="openrouter">OpenRouter</VSCodeOption>
 					<VSCodeOption value="anthropic">Anthropic</VSCodeOption>
@@ -174,7 +176,9 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 			{apiConfiguration && selectedProvider === "cline" && (
 				<ClineProvider showModelOptions={showModelOptions} isPopup={isPopup} currentMode={currentMode} />
 			)}
-
+			{selectedProvider === "shengsuanyun" && (
+				<ShengSuanYunProvider showModelOptions={showModelOptions} isPopup={isPopup} currentMode={currentMode} />
+			)}
 			{apiConfiguration && selectedProvider === "asksage" && (
 				<AskSageProvider showModelOptions={showModelOptions} isPopup={isPopup} currentMode={currentMode} />
 			)}

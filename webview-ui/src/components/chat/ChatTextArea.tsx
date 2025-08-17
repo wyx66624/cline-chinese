@@ -1120,6 +1120,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				ollamaModelId,
 				liteLlmModelId,
 				requestyModelId,
+				shengSuanYunModelId,
 			} = getModeSpecificFields(apiConfiguration, mode)
 			const unknownModel = "unknown"
 			if (!apiConfiguration) return unknownModel
@@ -1142,6 +1143,8 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					return `${selectedProvider}:${liteLlmModelId}`
 				case "requesty":
 					return `${selectedProvider}:${requestyModelId}`
+				case "shengsuanyun":
+					return `${selectedProvider}:${shengSuanYunModelId}`
 				case "anthropic":
 				case "openrouter":
 				default:

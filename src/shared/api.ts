@@ -1,4 +1,5 @@
 import type { LanguageModelChatSelector } from "../api/providers/types"
+import { ShengSuanYunModelInfo } from "./proto/cline/models"
 
 export type ApiProvider =
 	| "anthropic"
@@ -26,6 +27,7 @@ export type ApiProvider =
 	| "asksage"
 	| "xai"
 	| "sambanova"
+	| "shengsuanyun"
 	| "cerebras"
 	| "sapaicore"
 	| "groq"
@@ -92,6 +94,8 @@ export interface ApiHandlerOptions {
 	groqApiKey?: string
 	basetenApiKey?: string
 	requestTimeoutMs?: number
+	shengSuanYunApiKey?: string
+	shengSuanYunToken?: string
 	sapAiCoreClientId?: string
 	sapAiCoreClientSecret?: string
 	sapAiResourceGroup?: string
@@ -125,6 +129,9 @@ export interface ApiHandlerOptions {
 	planModeBasetenModelInfo?: ModelInfo
 	planModeHuggingFaceModelId?: string
 	planModeHuggingFaceModelInfo?: ModelInfo
+	planModeShengSuanYunModelId?: string
+	planModeShengSuanYunModelInfo?: ShengSuanYunModelInfo
+
 	planModeHuaweiCloudMaasModelId?: string
 	planModeHuaweiCloudMaasModelInfo?: ModelInfo
 	// Act mode configurations
@@ -154,6 +161,8 @@ export interface ApiHandlerOptions {
 	actModeBasetenModelInfo?: ModelInfo
 	actModeHuggingFaceModelId?: string
 	actModeHuggingFaceModelInfo?: ModelInfo
+	actModeShengSuanYunModelId?: string
+	actModeShengSuanYunModelInfo?: ShengSuanYunModelInfo
 	actModeHuaweiCloudMaasModelId?: string
 	actModeHuaweiCloudMaasModelInfo?: ModelInfo
 }
@@ -2832,6 +2841,20 @@ export const requestyDefaultModelInfo: ModelInfo = {
 	cacheWritesPrice: 3.75,
 	cacheReadsPrice: 0.3,
 	description: "Anthropic's most intelligent model. Highest level of intelligence and capability.",
+}
+
+// ShengSuanYun
+// https://router.shengsuanyun.com/model
+export const shengSuanYunDefaultModelId: string = "anthropic/claude-sonnet-4"
+export const shengSuanYunDefaultModelInfo: ShengSuanYunModelInfo = {
+	maxTokens: 64_000,
+	contextWindow: 200_000,
+	supportsImages: true,
+	supportsPromptCache: true,
+	inputPrice: 3,
+	outputPrice: 15,
+	cacheWritesPrice: 0,
+	cacheReadsPrice: 0,
 }
 
 // SAP AI Core
