@@ -7,6 +7,9 @@ import { handleSignIn, useClineAuth } from "@/context/ClineAuthContext"
 import { handleSignInSSY, useShengSuanYunAuth } from "@/context/ShengSuanYunAuthContext"
 import CreditLimitErrorSSY from "./CreditLimitErrorSSY"
 import { SSYError, SSYErrorType } from "../../../../src/services/error/SSYError"
+import { useExtensionState } from "@/context/ExtensionStateContext"
+import { AccountServiceClient } from "@/services/grpc-client"
+import { EmptyRequest } from "@shared/proto/cline/common"
 
 const errorColor = "var(--vscode-errorForeground)"
 
@@ -18,7 +21,7 @@ interface ErrorRowProps {
 }
 
 const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStreamingFailedMessage }: ErrorRowProps) => {
-	const { userSSY: ssyUser } = useShengSuanYunAuth()
+	const { userInfo: ssyUser } = useExtensionState()
 
 	const renderErrorContent = () => {
 		switch (errorType) {
@@ -149,7 +152,13 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 											(点击下方的“重试”)
 										</span>
 									) : (
-										<VSCodeButton onClick={handleSignInSSY} className="w-full mb-4">
+										<VSCodeButton
+											onClick={() => {
+												AccountServiceClient.shengSuanYunLoginClicked(EmptyRequest.create()).catch(
+													(err) => console.error("Failed to get login URL:", err),
+												)
+											}}
+											className="w-full mb-4">
 											登录 Cline 胜算云
 										</VSCodeButton>
 									)}

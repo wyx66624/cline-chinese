@@ -17,18 +17,15 @@ service AccountService {
   rpc accountLogoutClicked(EmptyRequest) returns (Empty);
 
   // Subscribe to auth status update events (when authentication state changes)
-  rpc subscribeToAuthStatusUpdate(EmptyRequest) 
-      returns (stream AuthState);
+  rpc subscribeToAuthStatusUpdate(EmptyRequest) returns (stream AuthState);
     
   // Handles authentication state changes from the Firebase context.
   // Updates the user info in global state and returns the updated value.
-  rpc authStateChanged(AuthStateChangedRequest) 
-      returns (AuthState);
+  rpc authStateChanged(AuthStateChangedRequest) returns (AuthState);
   
   rpc shengSuanYunLoginClicked(EmptyRequest) returns (String);
   rpc shengSuanYunLogoutClicked(EmptyRequest) returns (Empty);
   rpc shengSuanYunUserData(EmptyRequest) returns (UserCreditsData);
-  rpc subscribeSSYAuthCallback(EmptyRequest) returns (stream String);
   // Fetches all user credits data
   // (balance, usage transactions, payment transactions)
   rpc getUserCredits(EmptyRequest) returns (UserCreditsData);

@@ -41,18 +41,21 @@ export function formatCreditsBalance(microcredits: number): number {
 }
 
 export function formatTimestamp(timestamp: string): string {
-	const date = new Date(timestamp)
-
-	const dateFormatter = new Intl.DateTimeFormat("en-US", {
-		month: "2-digit",
-		day: "2-digit",
-		year: "2-digit",
-		hour: "numeric",
-		minute: "2-digit",
-		hour12: true,
-	})
-
-	return dateFormatter.format(date)
+	try {
+		const date = new Date(timestamp)
+		const dateFormatter = new Intl.DateTimeFormat("zh-CN", {
+			month: "2-digit",
+			day: "2-digit",
+			year: "2-digit",
+			hour: "numeric",
+			minute: "2-digit",
+			hour12: true,
+		})
+		return dateFormatter.format(date)
+	} catch (e) {
+		console.log(e, timestamp)
+		return timestamp
+	}
 }
 
 export function formatSize(bytes?: number) {

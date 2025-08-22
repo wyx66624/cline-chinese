@@ -18,7 +18,7 @@ export class ExternalWebviewProvider extends WebviewProvider {
 		return URI.from({ scheme: "https", authority: this.RESOURCE_HOSTNAME, path: uri.fsPath })
 	}
 	override getCspSource() {
-		return `'self' https://${this.RESOURCE_HOSTNAME}`
+		return `'self' https://*.shengsuanyun.com https://${this.RESOURCE_HOSTNAME}`
 	}
 	override isVisible() {
 		return true

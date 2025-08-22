@@ -13,7 +13,7 @@ interface CreditsHistoryTableProps {
 
 const CreditsHistoryTable = ({ isLoading, usageData, paymentsData, showPayments }: CreditsHistoryTableProps) => {
 	const [activeTab, setActiveTab] = useState<"usage" | "payments">("usage")
-
+	console.log(usageData, "...........................")
 	return (
 		<div className="flex flex-col flex-grow h-full">
 			{/* Tabs container */}
@@ -58,11 +58,11 @@ const CreditsHistoryTable = ({ isLoading, usageData, paymentsData, showPayments 
 										{usageData.map((row, index) => (
 											<VSCodeDataGridRow key={index}>
 												<VSCodeDataGridCell grid-column="1">
-													{formatTimestamp(row.createdAt)}
+													{formatTimestamp(row.spentAt || "")}
 												</VSCodeDataGridCell>
-												<VSCodeDataGridCell grid-column="2">{`${row.aiModelName}`}</VSCodeDataGridCell>
+												<VSCodeDataGridCell grid-column="2">{`${row.model}`}</VSCodeDataGridCell>
 												{/* <VSCodeDataGridCell grid-column="3">{`${row.promptTokens} → ${row.completionTokens}`}</VSCodeDataGridCell> */}
-												<VSCodeDataGridCell grid-column="3">{`$${Number(row.creditsUsed / 1000000).toFixed(4)}`}</VSCodeDataGridCell>
+												<VSCodeDataGridCell grid-column="3">{`$${Number(row.credits).toFixed(4)}`}</VSCodeDataGridCell>
 											</VSCodeDataGridRow>
 										))}
 									</VSCodeDataGrid>

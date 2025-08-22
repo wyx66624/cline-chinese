@@ -4,12 +4,13 @@ import { UserCreditsData } from "@shared/proto/cline/account"
 export class SSYAccountService {
 	private readonly baseUrl = "https://api.shengsuanyun.com"
 	private getSSYApiKey: () => Promise<string | undefined>
+	private token: string = ""
 
 	constructor(getSSYApiKey: () => Promise<string | undefined>) {
 		this.getSSYApiKey = getSSYApiKey
 	}
 	private async authenticatedRequest<T>(endpoint: string, config: AxiosRequestConfig = {}): Promise<T> {
-		const ssyApiKey = await this.getSSYApiKey()
+		const ssyApiKey = this.token || (await this.getSSYApiKey())
 		if (!ssyApiKey) {
 			throw new Error("未找到胜算云 API key ")
 		}
@@ -29,6 +30,26 @@ export class SSYAccountService {
 			throw new Error(`Invalid response from ${endpoint} API`)
 		}
 		return res.data.data
+	}
+
+	async fetchUser(token: string = ""): Promise<any> {
+		if (token) {
+			this.token = token
+		}
+		try {
+			let user = await this.authenticatedRequest<any>("/user/info")
+			if (user) {
+				return {
+					photoUrl: user.HeadImg,
+					displayName: user.Nickname || user.Username,
+					email: user.Email,
+				}
+			}
+			return null
+		} catch (error) {
+			console.error("Failed fetchUserDataRPC:", error)
+			throw error
+		}
 	}
 
 	async fetchUserDataRPC(): Promise<UserCreditsData> {
@@ -71,7 +92,7 @@ export class SSYAccountService {
 			if (user.Wallet && user.Wallet.Assets) {
 				balance = { currentBalance: (rate * user.Wallet.Assets) / 10000 }
 			}
-			console.log("UserCreditsData", balance, usage, payment)
+			// console.log("UserCreditsData", JSON.stringify(usage,null,2))
 			return UserCreditsData.create({
 				balance: balance,
 				usageTransactions: usage,

@@ -31,7 +31,6 @@ import { Task } from "../task"
 import { sendMcpMarketplaceCatalogEvent } from "./mcp/subscribeToMcpMarketplaceCatalog"
 import { sendStateUpdate } from "./state/subscribeToState"
 import { SSYAccountService } from "../../services/account/SSYAccountService"
-import { sendSSYAuthCallbackEvent } from "./account/subscribeSSYAuthCallback"
 /*
 https://github.com/microsoft/vscode-webview-ui-toolkit-samples/blob/main/default/weather-webview/src/providers/WeatherViewProvider.ts
 
@@ -97,6 +96,7 @@ export class Controller {
 		)
 		this.accountServiceSSY = new SSYAccountService(async () => {
 			const { apiConfiguration } = await this.getStateToPostToWebview()
+
 			return apiConfiguration?.shengSuanYunToken
 		})
 		this.accountService = ClineAccountService.getInstance()
@@ -105,6 +105,8 @@ export class Controller {
 		cleanupLegacyCheckpoints(this.context.globalStorageUri.fsPath).catch((error) => {
 			console.error("Failed to cleanup legacy checkpoints:", error)
 		})
+
+		this.handleSignIn()
 	}
 
 	async getCurrentMode(): Promise<Mode> {
@@ -158,8 +160,26 @@ export class Controller {
 		}
 	}
 
-	async setUserInfo(info?: UserInfo) {
-		this.cacheService.setGlobalState("userInfo", info)
+	async handleSignIn(): Promise<boolean> {
+		try {
+			const user = await this.accountServiceSSY.fetchUser()
+			if (user) {
+				this.cacheService.setGlobalState("userInfo", user)
+				await this.postStateToWebview()
+				HostProvider.window.showMessage({
+					type: ShowMessageType.INFORMATION,
+					message: "Successfully logged out of Cline",
+				})
+				return true
+			}
+			return false
+		} catch (error) {
+			HostProvider.window.showMessage({
+				type: ShowMessageType.INFORMATION,
+				message: "Logout failed",
+			})
+			return false
+		}
 	}
 
 	async initTask(task?: string, images?: string[], files?: string[], historyItem?: HistoryItem) {
@@ -502,9 +522,9 @@ export class Controller {
 
 	// shengsuanyun Auth
 	async handleShengSuanYunCallback(code: string) {
-		let apiKey: string
-		let customToken: string
 		try {
+			let apiKey: string
+			let customToken: string
 			const response = await axios.post("https://api.shengsuanyun.com/auth/keys", {
 				code: code,
 				callback_url: `${this.uriScheme || "vscode"}://HybridTalentComputing.cline-chinese/ssy`,
@@ -512,33 +532,50 @@ export class Controller {
 			if (response.data && response.data.data && response.data.data.api_key) {
 				apiKey = response.data.data.api_key
 				customToken = response.data.data.jwt_token
-				await sendSSYAuthCallbackEvent(customToken)
 			} else {
 				throw new Error("Invalid response from handleShengSuanYunCallback()", { cause: response })
 			}
+			const user = await this.accountServiceSSY.fetchUser(customToken)
+			if (user) {
+				this.cacheService.setGlobalState("userInfo", user)
+			}
+
+			const shengsuanyun: ApiProvider = "shengsuanyun"
+			const planActSeparateModelsSetting = this.cacheService.getGlobalStateKey("planActSeparateModelsSetting")
+
+			const currentMode = await this.getCurrentMode()
+			const currentApiConfiguration = this.cacheService.getApiConfiguration()
+
+			const updatedConfig = {
+				...currentApiConfiguration,
+				shengSuanYunApiKey: apiKey,
+				shengSuanYunToken: customToken,
+			}
+
+			if (planActSeparateModelsSetting) {
+				if (currentMode === "plan") {
+					updatedConfig.planModeApiProvider = shengsuanyun
+				} else {
+					updatedConfig.actModeApiProvider = shengsuanyun
+				}
+			} else {
+				updatedConfig.planModeApiProvider = shengsuanyun
+				updatedConfig.actModeApiProvider = shengsuanyun
+			}
+			this.cacheService.setApiConfiguration(updatedConfig)
+			this.cacheService.setGlobalState("welcomeViewCompleted", true)
+
+			if (this.task) {
+				this.task.api = buildApiHandler({ ...updatedConfig, ulid: this.task.ulid }, currentMode)
+			}
+			await this.postStateToWebview()
 		} catch (error) {
-			console.error("Error exchanging code for API key:", error)
-			throw error
+			console.error("Failed to handle auth callback:", error)
+			HostProvider.window.showMessage({
+				type: ShowMessageType.ERROR,
+				message: "Failed to log in to Cline",
+			})
 		}
-
-		const shengsuanyun: ApiProvider = "shengsuanyun"
-		const currentMode = await this.getCurrentMode()
-
-		const currentApiConfiguration = this.cacheService.getApiConfiguration()
-		const updatedConfig = {
-			...currentApiConfiguration,
-			planModeApiProvider: shengsuanyun,
-			actModeApiProvider: shengsuanyun,
-			shengSuanYunApiKey: apiKey,
-			shengSuanYunToken: customToken,
-		}
-		this.cacheService.setApiConfiguration(updatedConfig)
-
-		await this.postStateToWebview()
-		if (this.task) {
-			this.task.api = buildApiHandler({ ...updatedConfig, ulid: this.task.taskId }, currentMode)
-		}
-		// await this.postMessageToWebview({ type: "action", action: "settingsButtonClicked" }) // bad ux if user is on welcome
 	}
 
 	private async ensureCacheDirectoryExists(): Promise<string> {
