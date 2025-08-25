@@ -14,8 +14,8 @@ const AboutSection = ({ version, renderSectionHeader }: AboutSectionProps) => {
 				<div className="text-center text-[var(--vscode-descriptionForeground)] text-xs leading-[1.2] px-0 py-0 pr-2 pb-[15px] mt-auto">
 					<p className="break-words m-0 p-0">
 						如果您有任何问题或反馈，请随时在{" "}
-						<VSCodeLink href="https://github.com/cline/cline" className="inline">
-							https://github.com/cline/cline
+						<VSCodeLink href="https://github.com/HybridTalentComputing/cline-chinese" className="inline">
+							https://github.com/HybridTalentComputing/cline-chinese
 						</VSCodeLink>
 						上提出 issue
 					</p>

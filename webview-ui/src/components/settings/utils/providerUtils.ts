@@ -74,7 +74,7 @@ export function normalizeApiConfiguration(
 	currentMode: Mode,
 ): NormalizedApiConfig {
 	const provider =
-		(currentMode === "plan" ? apiConfiguration?.planModeApiProvider : apiConfiguration?.actModeApiProvider) || "anthropic"
+		(currentMode === "plan" ? apiConfiguration?.planModeApiProvider : apiConfiguration?.actModeApiProvider) || "shengsuanyun"
 	const modelId = currentMode === "plan" ? apiConfiguration?.planModeApiModelId : apiConfiguration?.actModeApiModelId
 
 	const getProviderData = (models: Record<string, ModelInfo>, defaultId: string) => {
@@ -298,7 +298,12 @@ export function normalizeApiConfiguration(
 				selectedModelInfo: huaweiCloudMaasModelInfo || huaweiCloudMaasModels[huaweiCloudMaasDefaultModelId],
 			}
 		default:
-			return getProviderData(anthropicModels, anthropicDefaultModelId)
+			// For shengsuanyun and other providers without predefined models, use the default model info
+			return {
+				selectedProvider: provider,
+				selectedModelId: shengSuanYunDefaultModelId,
+				selectedModelInfo: shengSuanYunDefaultModelInfo,
+			}
 	}
 }
 

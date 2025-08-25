@@ -431,7 +431,7 @@ export async function getAllExtensionState(context: vscode.ExtensionContext) {
 		if (apiKey) {
 			apiProvider = "anthropic"
 		} else {
-			// New users should default to openrouter, since they've opted to use an API key instead of signing in
+			// New users should default to shengsuanyun (胜算云) as the preferred default
 			apiProvider = "shengsuanyun"
 		}
 	}

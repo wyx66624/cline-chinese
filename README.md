@@ -1,6 +1,6 @@
 # Cline-Chinese (Cline中文汉化版) 🌏
 
-> 🎉 截止到2025.08.17，Cline Chinese在VS Code插件市场的下载量突破95k啦！感谢大家的支持！
+> 🎉 截止到2025.08.25，Cline Chinese在VS Code插件市场的下载量突破97k啦！感谢大家的支持！
 
 
 
@@ -33,7 +33,7 @@ https://hybridtalentcomputing.gitbook.io/cline-chinese-doc/
 ## 功能展示
 
 <video width="100%" controls src="https://github.com/user-attachments/assets/a6db47a9-08d7-4d20-afa0-110d23b71a81"></video>
-> 演示视频使用 DeepSeek-R1-Distill-Qwen-14B 模型，展示了 Cline 中文汉化版的主要功能和使用效果，视频没有加速，推理速度快到飞起。
+> 推荐使用GLM-4.5,欢迎点击我的邀请链接，注册双方均可免费获得2000万tokens：[GLM-4.5](https://www.bigmodel.cn/invite?icode=egx%2FKxwhnTHBO3J87TVu8enfet45IvM%2BqDogImfeLyI%3D)
 
 >
 
@@ -46,7 +46,7 @@ Cline-Chinese已发布到VSCode插件市场，欢迎感兴趣的小伙伴们下�
 
 日常使用cline等编程助手时发现使用某些模型推理速度较慢（如deepseek-R1, Claude-3.5-Sonnet），这个项目优先尝试在中文输入下，对轻量化LLM进行实验（如Deepseek-R1-Distill-Qwen-7B/14B），优化中文prompt, 以提升推理速度，大大减少等待的时间。
 
-> **🚀 重要提示：经过测试，3.4.10版本下，DeepSeek-R1-Distill-Qwen-14B 模型工作良好，推理速度极快，强烈推荐尝试！**
+
 
 ## 背景
 
@@ -54,9 +54,12 @@ Cline-Chinese已发布到VSCode插件市场，欢迎感兴趣的小伙伴们下�
 另外，秉着学习的态度，未来将着手修改Cline的核心代码，增加新的功能，以提升体验。
 
 ## 特色功能
-1. 支持Dify Provider。
+1. 支持Dify Provider（2025.08.25已下线，请使用Dify MCP以获得更好的体验，使用方法请参考： [dify mcp](https://dify.ai/blog/turn-your-dify-app-into-an-mcp-server)）。
 
 ## 版本更新说明
+
+### 2025.08.25（ver.3.25.2）
+1. 同步近期cline更新。(上下文压缩，添加claude code provider)
 
 ### 2025.06.17（ver.3.17.11）
    1. 同步近期cline更新。

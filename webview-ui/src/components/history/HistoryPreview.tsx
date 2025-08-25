@@ -156,7 +156,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 													color: "var(--vscode-descriptionForeground)",
 												}}>
 												<span>
-													令牌: ↑{formatLargeNumber(item.tokensIn || 0)} ↓
+													令牌（仅供参考，请以实际消耗为准）: ↑{formatLargeNumber(item.tokensIn || 0)} ↓
 													{formatLargeNumber(item.tokensOut || 0)}
 												</span>
 												{!!item.cacheWrites && (

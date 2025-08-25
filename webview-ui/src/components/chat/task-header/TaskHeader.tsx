@@ -394,8 +394,8 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 									paddingRight: 2,
 								}}
 								onClick={() => setIsTextExpanded(!isTextExpanded)}>
-									收起
-								</div>
+								收起
+							</div>
 						)}
 						{((task.images && task.images.length > 0) || (task.files && task.files.length > 0)) && (
 							<Thumbnails images={task.images ?? []} files={task.files ?? []} />
@@ -422,7 +422,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 										flexWrap: "wrap",
 									}}>
 									<div style={{ display: "flex", alignItems: "center" }}>
-										<span style={{ fontWeight: "bold" }}>令牌:</span>
+										<span style={{ fontWeight: "bold" }}>令牌（仅供参考，请以实际消耗为准）:</span>
 									</div>
 									<HeroTooltip content="提示令牌">
 										<span className="flex items-center gap-[3px] cursor-pointer">
@@ -579,9 +579,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 														color: "var(--vscode-descriptionForeground)",
 														lineHeight: "1.4",
 													}}>
-													<div style={{ marginBottom: "2px" }}>
-														如果继续任务，将生成新的步骤
-													</div>
+													<div style={{ marginBottom: "2px" }}>如果继续任务，将生成新的步骤</div>
 												</div>
 											)}
 										</div>
