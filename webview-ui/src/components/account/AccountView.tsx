@@ -342,32 +342,27 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 }
 
 export const SSYAccountView = () => {
-	const { userSSY: ssyUser } = useShengSuanYunAuth()
-	const { userInfo, apiConfiguration } = useExtensionState()
-	let user = apiConfiguration?.shengSuanYunToken ? ssyUser || userInfo : undefined
-
+	const { userInfo: user } = useExtensionState()
 	const [balance, setBalance] = useState(0)
 	const [isLoading, setIsLoading] = useState(true)
 	const [usageData, setUsageData] = useState<UsageTransaction[]>([])
 	const [paymentsData, setPaymentsData] = useState<PaymentTransaction[]>([])
 
-	console.log("SSYAccountView user:", user)
+	// console.log("SSYAccountView user:", user)
 	// Fetch all account data when component mounts using gRPC
 	useEffect(() => {
-		if (user) {
-			setIsLoading(true)
-			AccountServiceClient.shengSuanYunUserData(EmptyRequest.create())
-				.then((res: any) => {
-					setBalance(res.balance?.currentBalance || 0)
-					setUsageData(res.usageTransactions)
-					setPaymentsData(res.paymentTransactions)
-					setIsLoading(false)
-				})
-				.catch((error: any) => {
-					console.error("Failed to fetch user credits data:", error)
-					setIsLoading(false)
-				})
-		}
+		if (!user) return
+		setIsLoading(true)
+		AccountServiceClient.shengSuanYunUserData(EmptyRequest.create())
+			.then((res: any) => {
+				setBalance(res.balance?.currentBalance || 0)
+				setUsageData(res.usageTransactions)
+				setPaymentsData(res.paymentTransactions)
+			})
+			.catch((error: any) => {
+				console.error("Failed to fetch user credits data:", error)
+			})
+			.finally(() => setIsLoading(false))
 	}, [user])
 
 	return (
@@ -376,8 +371,8 @@ export const SSYAccountView = () => {
 				<div className="flex flex-col pr-3 h-full">
 					<div className="flex flex-col w-full">
 						<div className="flex items-center mb-6 flex-wrap gap-y-4">
-							{user.photoURL ? (
-								<img src={user.photoURL} alt="Profile" className="size-16 rounded-full mr-4" />
+							{user.photoUrl ? (
+								<img src={user.photoUrl} alt="Profile" className="size-16 rounded-full mr-4" />
 							) : (
 								<div className="size-16 rounded-full bg-[var(--vscode-button-background)] flex items-center justify-center text-2xl text-[var(--vscode-button-foreground)] mr-4">
 									{user.displayName?.[0] || user.email?.[0] || "?"}

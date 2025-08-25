@@ -7,7 +7,8 @@ export async function shengSuanYunUserData(controller: Controller, request: Empt
 		if (!controller.accountServiceSSY) {
 			throw new Error("Account service not available")
 		}
-		return await controller.accountServiceSSY.fetchUserDataRPC()
+		const data = await controller.accountServiceSSY.fetchUserDataRPC()
+		return data
 	} catch (error) {
 		console.error(`Failed to fetch user credits data: ${error}`)
 		throw error
