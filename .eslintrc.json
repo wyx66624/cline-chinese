@@ -5,7 +5,7 @@
 		"ecmaVersion": 6,
 		"sourceType": "module"
 	},
-	"plugins": ["@typescript-eslint", "eslint-rules"],
+	"plugins": ["@typescript-eslint"],
 	"rules": {
 		"@typescript-eslint/naming-convention": [
 			"warn",
@@ -20,8 +20,13 @@
 		"no-throw-literal": "warn",
 		"semi": "off",
 		"react-hooks/exhaustive-deps": "off",
-		"eslint-rules/no-protobuf-object-literals": "error",
-		"eslint-rules/no-grpc-client-object-literals": "error"
+		"no-restricted-syntax": [
+			"error",
+			{
+				"selector": "VariableDeclarator[id.type=\"ObjectPattern\"][init.object.name=\"process\"][init.property.name=\"env\"]",
+				"message": "Use process.env.VARIABLE_NAME directly instead of destructuring"
+			}
+		]
 	},
-	"ignorePatterns": ["out", "dist", "**/*.d.ts"]
+	"ignorePatterns": ["out", "dist", "dist-standalone", "**/*.d.ts", "node_modules"]
 }

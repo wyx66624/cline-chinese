@@ -4,6 +4,8 @@ import * as path from "path"
 import { Controller } from "@core/controller"
 import { HistoryItem } from "@shared/HistoryItem"
 import { ClineMessage } from "@shared/ExtensionMessage"
+import { ShowMessageType } from "@/shared/proto/host/window"
+import { HostProvider } from "@/hosts/host-provider"
 
 /**
  * Registers development-only commands for task manipulation.
@@ -11,14 +13,16 @@ import { ClineMessage } from "@shared/ExtensionMessage"
  */
 export function registerTaskCommands(context: vscode.ExtensionContext, controller: Controller): vscode.Disposable[] {
 	return [
-		vscode.commands.registerCommand("cline.dev.createTestTasks", async () => {
-			const count = await vscode.window.showInputBox({
-				title: "Test Tasks",
-				prompt: "How many test tasks to create?",
-				value: "10",
-			})
+		vscode.commands.registerCommand("clineChinese.dev.createTestTasks", async () => {
+			const count = (
+				await HostProvider.window.showInputBox({
+					title: "Test Tasks",
+					prompt: "How many test tasks to create?",
+					value: "10",
+				})
+			).response
 
-			if (!count) {
+			if (count === undefined) {
 				return
 			}
 
@@ -96,7 +100,11 @@ export function registerTaskCommands(context: vscode.ExtensionContext, controlle
 					// Update the UI to show the new tasks
 					await controller.postStateToWebview()
 
-					vscode.window.showInformationMessage(`创建 ${tasksCount} 测试任务`)
+					const message = `Created ${tasksCount} test tasks`
+					HostProvider.window.showMessage({
+						type: ShowMessageType.INFORMATION,
+						message,
+					})
 				},
 			)
 		}),
@@ -120,7 +128,7 @@ function createRealisticMessageSequence(baseTimestamp: number, taskPrompt: strin
 
 	// Create a realistic message sequence
 	const messages: ClineMessage[] = [
-		// Initial task message - uses "say" with "text" which is the format used in Cline.ts
+		// Initial task message - uses "say" with "text" which is the format used in cline.ts
 		{
 			ts: baseTimestamp,
 			type: "say",

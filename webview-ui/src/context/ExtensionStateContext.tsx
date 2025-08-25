@@ -1,25 +1,25 @@
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react"
-import { useEvent } from "react-use"
-import {
-	StateServiceClient,
-	ModelsServiceClient,
-	UiServiceClient,
-	FileServiceClient,
-	McpServiceClient,
-} from "../services/grpc-client"
-import { EmptyRequest } from "@shared/proto/common"
-import { UpdateSettingsRequest } from "@shared/proto/state"
-import { WebviewProviderType as WebviewProviderTypeEnum, WebviewProviderTypeRequest } from "@shared/proto/ui"
-import { convertProtoToClineMessage } from "@shared/proto-conversions/cline-message"
+import type React from "react"
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react"
+import "../../../src/shared/webview/types"
 import { DEFAULT_AUTO_APPROVAL_SETTINGS } from "@shared/AutoApprovalSettings"
-import { DEFAULT_BROWSER_SETTINGS } from "@shared/BrowserSettings"
-import { ChatSettings, DEFAULT_CHAT_SETTINGS } from "@shared/ChatSettings"
-import { DEFAULT_PLATFORM, ExtensionMessage, ExtensionState } from "@shared/ExtensionMessage"
-import { TelemetrySetting } from "@shared/TelemetrySetting"
 import { findLastIndex } from "@shared/array"
+import { DEFAULT_BROWSER_SETTINGS } from "@shared/BrowserSettings"
+import { DEFAULT_FOCUS_CHAIN_SETTINGS } from "@shared/FocusChainSettings"
+import { DEFAULT_PLATFORM, type ExtensionState } from "@shared/ExtensionMessage"
+import { DEFAULT_MCP_DISPLAY_MODE } from "@shared/McpDisplayMode"
+import type { UserInfo } from "@shared/proto/cline/account"
+import { EmptyRequest, StringRequest } from "@shared/proto/cline/common"
+import type { OpenRouterCompatibleModelInfo } from "@shared/proto/cline/models"
+import { type TerminalProfile, UpdateSettingsRequest } from "@shared/proto/cline/state"
+import { WebviewProviderType as WebviewProviderTypeEnum, WebviewProviderTypeRequest } from "@shared/proto/cline/ui"
+import { convertProtoToClineMessage } from "@shared/proto-conversions/cline-message"
+import { convertProtoMcpServersToMcpServers } from "@shared/proto-conversions/mcp/mcp-server-conversion"
 import {
-	ApiConfiguration,
-	ModelInfo,
+	groqDefaultModelId,
+	groqModels,
+	basetenDefaultModelId,
+	basetenModels,
+	type ModelInfo,
 	openRouterDefaultModelId,
 	openRouterDefaultModelInfo,
 	requestyDefaultModelId,
@@ -27,11 +27,16 @@ import {
 	shengSuanYunDefaultModelId,
 	shengSuanYunDefaultModelInfo,
 } from "../../../src/shared/api"
-import { McpMarketplaceCatalog, McpServer, McpViewTab } from "../../../src/shared/mcp"
-import { convertProtoMcpServersToMcpServers } from "@shared/proto-conversions/mcp/mcp-server-conversion"
+import type { McpMarketplaceCatalog, McpServer, McpViewTab } from "../../../src/shared/mcp"
+import {
+	FileServiceClient,
+	McpServiceClient,
+	ModelsServiceClient,
+	StateServiceClient,
+	UiServiceClient,
+} from "../services/grpc-client"
 import { convertTextMateToHljs } from "../utils/textMateToHljs"
-import { vscode } from "../utils/vscode"
-import { OpenRouterCompatibleModelInfo } from "@shared/proto/models"
+import { ShengSuanYunModelInfo } from "@shared/proto/cline/models"
 
 interface ExtensionStateContextType extends ExtensionState {
 	didHydrateState: boolean
@@ -40,11 +45,14 @@ interface ExtensionStateContextType extends ExtensionState {
 	openRouterModels: Record<string, ModelInfo>
 	openAiModels: string[]
 	requestyModels: Record<string, ModelInfo>
-	shengSuanYunModels: Record<string, ModelInfo>
+	shengSuanYunModels: Record<string, ShengSuanYunModelInfo>
+	groqModels: Record<string, ModelInfo>
+	basetenModels: Record<string, ModelInfo>
+	huggingFaceModels: Record<string, ModelInfo>
 	mcpServers: McpServer[]
 	mcpMarketplaceCatalog: McpMarketplaceCatalog
-	filePaths: string[]
 	totalTasksSize: number | null
+	availableTerminalProfiles: TerminalProfile[]
 
 	// View state
 	showMcp: boolean
@@ -53,23 +61,16 @@ interface ExtensionStateContextType extends ExtensionState {
 	showHistory: boolean
 	showAccount: boolean
 	showAnnouncement: boolean
-	vendor: "cline" | "ssy"
 
 	// Setters
-	setApiConfiguration: (config: ApiConfiguration) => void
-	setCustomInstructions: (value?: string) => void
-	setTelemetrySetting: (value: TelemetrySetting) => void
 	setShowAnnouncement: (value: boolean) => void
-	setVendor: (value: "cline" | "ssy") => void
 	setShouldShowAnnouncement: (value: boolean) => void
-	setPlanActSeparateModelsSetting: (value: boolean) => void
-	setEnableCheckpointsSetting: (value: boolean) => void
-	setMcpMarketplaceEnabled: (value: boolean) => void
-	setMcpResponsesCollapsed: (value: boolean) => void
-	setShellIntegrationTimeout: (value: number) => void
-	setTerminalReuseEnabled: (value: boolean) => void
-	setChatSettings: (value: ChatSettings) => void
 	setMcpServers: (value: McpServer[]) => void
+	setRequestyModels: (value: Record<string, ModelInfo>) => void
+	setShengSuanYunModels: (value: Record<string, ShengSuanYunModelInfo>) => void
+	setGroqModels: (value: Record<string, ModelInfo>) => void
+	setBasetenModels: (value: Record<string, ModelInfo>) => void
+	setHuggingFaceModels: (value: Record<string, ModelInfo>) => void
 	setGlobalClineRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalClineRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalCursorRulesToggles: (toggles: Record<string, boolean>) => void
@@ -81,6 +82,7 @@ interface ExtensionStateContextType extends ExtensionState {
 
 	// Refresh functions
 	refreshOpenRouterModels: () => void
+	setUserInfo: (userInfo?: UserInfo) => void
 
 	// Navigation state setters
 	setShowMcp: (value: boolean) => void
@@ -119,7 +121,7 @@ export const ExtensionStateContextProvider: React.FC<{
 	const [showHistory, setShowHistory] = useState(false)
 	const [showAccount, setShowAccount] = useState(false)
 	const [showAnnouncement, setShowAnnouncement] = useState(false)
-	const [vendor, setVendor] = useState<"cline" | "ssy">("cline")
+
 	// Helper for MCP view
 	const closeMcpView = useCallback(() => {
 		setShowMcp(false)
@@ -181,72 +183,63 @@ export const ExtensionStateContextProvider: React.FC<{
 		shouldShowAnnouncement: false,
 		autoApprovalSettings: DEFAULT_AUTO_APPROVAL_SETTINGS,
 		browserSettings: DEFAULT_BROWSER_SETTINGS,
-		chatSettings: DEFAULT_CHAT_SETTINGS,
+		focusChainSettings: DEFAULT_FOCUS_CHAIN_SETTINGS,
+		focusChainFeatureFlagEnabled: false,
+		preferredLanguage: "Simplified Chinese - 简体中文",
+		openaiReasoningEffort: "medium",
+		mode: "act",
 		platform: DEFAULT_PLATFORM,
 		telemetrySetting: "unset",
 		distinctId: "",
 		planActSeparateModelsSetting: true,
 		enableCheckpointsSetting: true,
+		mcpDisplayMode: DEFAULT_MCP_DISPLAY_MODE,
 		globalClineRulesToggles: {},
 		localClineRulesToggles: {},
 		localCursorRulesToggles: {},
 		localWindsurfRulesToggles: {},
 		localWorkflowToggles: {},
 		globalWorkflowToggles: {},
-		shellIntegrationTimeout: 4000, // default timeout for shell integration
-		terminalReuseEnabled: true, // default to enabled for backward compatibility
+		shellIntegrationTimeout: 4000,
+		terminalReuseEnabled: true,
+		terminalOutputLineLimit: 500,
+		defaultTerminalProfile: "default",
 		isNewUser: false,
+		welcomeViewCompleted: false,
 		mcpResponsesCollapsed: false, // Default value (expanded), will be overwritten by extension state
+		strictPlanModeEnabled: false,
 	})
 	const [didHydrateState, setDidHydrateState] = useState(false)
 	const [showWelcome, setShowWelcome] = useState(false)
 	const [theme, setTheme] = useState<Record<string, string>>()
-	const [filePaths, setFilePaths] = useState<string[]>([])
 	const [openRouterModels, setOpenRouterModels] = useState<Record<string, ModelInfo>>({
 		[openRouterDefaultModelId]: openRouterDefaultModelInfo,
 	})
 	const [totalTasksSize, setTotalTasksSize] = useState<number | null>(null)
+	const [availableTerminalProfiles, setAvailableTerminalProfiles] = useState<TerminalProfile[]>([])
 
 	const [openAiModels, setOpenAiModels] = useState<string[]>([])
 	const [requestyModels, setRequestyModels] = useState<Record<string, ModelInfo>>({
 		[requestyDefaultModelId]: requestyDefaultModelInfo,
 	})
-	const [shengSuanYunModels, setShengSuanYunModels] = useState<Record<string, ModelInfo>>({
+	const [shengSuanYunModels, setShengSuanYunModels] = useState<Record<string, ShengSuanYunModelInfo>>({
 		[shengSuanYunDefaultModelId]: shengSuanYunDefaultModelInfo,
 	})
+	const [groqModelsState, setGroqModels] = useState<Record<string, ModelInfo>>({
+		[groqDefaultModelId]: groqModels[groqDefaultModelId],
+	})
+	const [basetenModelsState, setBasetenModels] = useState<Record<string, ModelInfo>>({
+		[basetenDefaultModelId]: basetenModels[basetenDefaultModelId],
+	})
+	const [huggingFaceModels, setHuggingFaceModels] = useState<Record<string, ModelInfo>>({})
 	const [mcpServers, setMcpServers] = useState<McpServer[]>([])
 	const [mcpMarketplaceCatalog, setMcpMarketplaceCatalog] = useState<McpMarketplaceCatalog>({ items: [] })
-	const handleMessage = useCallback((event: MessageEvent) => {
-		const message: ExtensionMessage = event.data
-		switch (message.type) {
-			case "openAiModels": {
-				const updatedModels = message.openAiModels ?? []
-				setOpenAiModels(updatedModels)
-				break
-			}
-			case "requestyModels": {
-				const updatedModels = message.requestyModels ?? {}
-				setRequestyModels({
-					[requestyDefaultModelId]: requestyDefaultModelInfo,
-					...updatedModels,
-				})
-				break
-			}
-			case "shengSuanYunModels": {
-				const updatedModels = message.shengSuanYunModels ?? {}
-				setShengSuanYunModels({
-					[shengSuanYunDefaultModelId]: shengSuanYunDefaultModelInfo,
-					...updatedModels,
-				})
-				break
-			}
-		}
-	}, [])
-
-	useEvent("message", handleMessage)
 
 	// References to store subscription cancellation functions
 	const stateSubscriptionRef = useRef<(() => void) | null>(null)
+
+	// Reference for focusChatInput subscription
+	const focusChatInputUnsubscribeRef = useRef<(() => void) | null>(null)
 	const mcpButtonUnsubscribeRef = useRef<(() => void) | null>(null)
 	const historyButtonClickedSubscriptionRef = useRef<(() => void) | null>(null)
 	const chatButtonUnsubscribeRef = useRef<(() => void) | null>(null)
@@ -270,12 +263,12 @@ export const ExtensionStateContextProvider: React.FC<{
 		}
 	}, [])
 	const mcpServersSubscriptionRef = useRef<(() => void) | null>(null)
+	const didBecomeVisibleUnsubscribeRef = useRef<(() => void) | null>(null)
 
 	// Subscribe to state updates and UI events using the gRPC streaming API
 	useEffect(() => {
-		// Determine the webview provider type
-		const webviewType =
-			window.WEBVIEW_PROVIDER_TYPE === "sidebar" ? WebviewProviderTypeEnum.SIDEBAR : WebviewProviderTypeEnum.TAB
+		// Use the already defined webview provider type
+		const webviewType = currentProviderType
 
 		// Set up state subscription
 		stateSubscriptionRef.current = StateServiceClient.subscribeToState(EmptyRequest.create({}), {
@@ -283,7 +276,6 @@ export const ExtensionStateContextProvider: React.FC<{
 				if (response.stateJson) {
 					try {
 						const stateData = JSON.parse(response.stateJson) as ExtensionState
-						console.log("[DEBUG] parsed state JSON, updating state")
 						setState((prevState) => {
 							// Versioning logic for autoApprovalSettings
 							const incomingVersion = stateData.autoApprovalSettings?.version ?? 1
@@ -298,35 +290,7 @@ export const ExtensionStateContextProvider: React.FC<{
 							}
 
 							// Update welcome screen state based on API configuration
-							const config = stateData.apiConfiguration
-							const hasKey = config
-								? [
-										config.apiKey,
-										config.openRouterApiKey,
-										config.awsRegion,
-										config.vertexProjectId,
-										config.openAiApiKey,
-										config.ollamaModelId,
-										config.lmStudioModelId,
-										config.liteLlmApiKey,
-										config.geminiApiKey,
-										config.openAiNativeApiKey,
-										config.deepSeekApiKey,
-										config.requestyApiKey,
-										config.togetherApiKey,
-										config.qwenApiKey,
-										config.doubaoApiKey,
-										config.mistralApiKey,
-										config.vsCodeLmModelSelector,
-										config.clineApiKey,
-										config.asksageApiKey,
-										config.xaiApiKey,
-										config.sambanovaApiKey,
-										config.shengSuanYunApiKey,
-									].some((key) => key !== undefined)
-								: false
-
-							setShowWelcome(!hasKey)
+							setShowWelcome(!newState.welcomeViewCompleted)
 							setDidHydrateState(true)
 
 							console.log("[DEBUG] returning new state in ESC")
@@ -400,6 +364,18 @@ export const ExtensionStateContextProvider: React.FC<{
 			onComplete: () => {},
 		})
 
+		// Subscribe to didBecomeVisible events
+		didBecomeVisibleUnsubscribeRef.current = UiServiceClient.subscribeToDidBecomeVisible(EmptyRequest.create({}), {
+			onResponse: () => {
+				console.log("[DEBUG] Received didBecomeVisible event from gRPC stream")
+				window.dispatchEvent(new CustomEvent("focusChatInput"))
+			},
+			onError: (error) => {
+				console.error("Error in didBecomeVisible subscription:", error)
+			},
+			onComplete: () => {},
+		})
+
 		// Subscribe to MCP servers updates
 		mcpServersSubscriptionRef.current = McpServiceClient.subscribeToMcpServers(EmptyRequest.create(), {
 			onResponse: (response) => {
@@ -414,18 +390,6 @@ export const ExtensionStateContextProvider: React.FC<{
 			onComplete: () => {
 				console.log("MCP servers subscription completed")
 			},
-		})
-
-		// Subscribe to workspace file updates
-		workspaceUpdatesUnsubscribeRef.current = FileServiceClient.subscribeToWorkspaceUpdates(EmptyRequest.create({}), {
-			onResponse: (response) => {
-				console.log("[DEBUG] Received workspace update event from gRPC stream")
-				setFilePaths(response.values || [])
-			},
-			onError: (error) => {
-				console.error("Error in workspace updates subscription:", error)
-			},
-			onComplete: () => {},
 		})
 
 		// Set up settings button clicked subscription
@@ -557,6 +521,15 @@ export const ExtensionStateContextProvider: React.FC<{
 			},
 		})
 
+		// Fetch available terminal profiles on launch
+		StateServiceClient.getAvailableTerminalProfiles(EmptyRequest.create({}))
+			.then((response) => {
+				setAvailableTerminalProfiles(response.profiles)
+			})
+			.catch((error) => {
+				console.error("Failed to fetch available terminal profiles:", error)
+			})
+
 		// Subscribe to relinquish control events
 		relinquishControlUnsubscribeRef.current = UiServiceClient.subscribeToRelinquishControl(EmptyRequest.create({}), {
 			onResponse: () => {
@@ -568,6 +541,24 @@ export const ExtensionStateContextProvider: React.FC<{
 			},
 			onComplete: () => {},
 		})
+
+		// Subscribe to focus chat input events
+		const clientId = (window as any).clineClientId
+		if (clientId) {
+			const request = StringRequest.create({ value: clientId })
+			focusChatInputUnsubscribeRef.current = UiServiceClient.subscribeToFocusChatInput(request, {
+				onResponse: () => {
+					// Dispatch a local DOM event within this webview only
+					window.dispatchEvent(new CustomEvent("focusChatInput"))
+				},
+				onError: (error: Error) => {
+					console.error("Error in focusChatInput subscription:", error)
+				},
+				onComplete: () => {},
+			})
+		} else {
+			console.error("Client ID not found in window object")
+		}
 
 		// Clean up subscriptions when component unmounts
 		return () => {
@@ -619,10 +610,17 @@ export const ExtensionStateContextProvider: React.FC<{
 				relinquishControlUnsubscribeRef.current()
 				relinquishControlUnsubscribeRef.current = null
 			}
-
+			if (focusChatInputUnsubscribeRef.current) {
+				focusChatInputUnsubscribeRef.current()
+				focusChatInputUnsubscribeRef.current = null
+			}
 			if (mcpServersSubscriptionRef.current) {
 				mcpServersSubscriptionRef.current()
 				mcpServersSubscriptionRef.current = null
+			}
+			if (didBecomeVisibleUnsubscribeRef.current) {
+				didBecomeVisibleUnsubscribeRef.current()
+				didBecomeVisibleUnsubscribeRef.current = null
 			}
 		}
 	}, [])
@@ -648,17 +646,19 @@ export const ExtensionStateContextProvider: React.FC<{
 		openAiModels,
 		requestyModels,
 		shengSuanYunModels,
+		groqModels: groqModelsState,
+		basetenModels: basetenModelsState,
+		huggingFaceModels,
 		mcpServers,
 		mcpMarketplaceCatalog,
-		filePaths,
 		totalTasksSize,
+		availableTerminalProfiles,
 		showMcp,
 		mcpTab,
 		showSettings,
 		showHistory,
 		showAccount,
 		showAnnouncement,
-		vendor,
 		globalClineRulesToggles: state.globalClineRulesToggles || {},
 		localClineRulesToggles: state.localClineRulesToggles || {},
 		localCursorRulesToggles: state.localCursorRulesToggles || {},
@@ -666,6 +666,7 @@ export const ExtensionStateContextProvider: React.FC<{
 		localWorkflowToggles: state.localWorkflowToggles || {},
 		globalWorkflowToggles: state.globalWorkflowToggles || {},
 		enableCheckpointsSetting: state.enableCheckpointsSetting,
+		currentFocusChainChecklist: state.currentFocusChainChecklist,
 
 		// Navigation functions
 		navigateToMcp,
@@ -679,96 +680,21 @@ export const ExtensionStateContextProvider: React.FC<{
 		hideHistory,
 		hideAccount,
 		hideAnnouncement,
-		setApiConfiguration: (value) =>
-			setState((prevState) => ({
-				...prevState,
-				apiConfiguration: value,
-			})),
-		setCustomInstructions: (value) =>
-			setState((prevState) => ({
-				...prevState,
-				customInstructions: value,
-			})),
-		setTelemetrySetting: (value) =>
-			setState((prevState) => ({
-				...prevState,
-				telemetrySetting: value,
-			})),
-		setPlanActSeparateModelsSetting: (value) =>
-			setState((prevState) => ({
-				...prevState,
-				planActSeparateModelsSetting: value,
-			})),
-		setEnableCheckpointsSetting: (value) =>
-			setState((prevState) => ({
-				...prevState,
-				enableCheckpointsSetting: value,
-			})),
-		setMcpMarketplaceEnabled: (value) =>
-			setState((prevState) => ({
-				...prevState,
-				mcpMarketplaceEnabled: value,
-			})),
-		setMcpResponsesCollapsed: (value) => {
-			setState((prevState) => ({
-				...prevState,
-				mcpResponsesCollapsed: value,
-			}))
-		},
 		setShowAnnouncement,
-		setVendor,
 		setShouldShowAnnouncement: (value) =>
 			setState((prevState) => ({
 				...prevState,
 				shouldShowAnnouncement: value,
 			})),
-		setShellIntegrationTimeout: (value) =>
-			setState((prevState) => ({
-				...prevState,
-				shellIntegrationTimeout: value,
-			})),
-		setTerminalReuseEnabled: (value) =>
-			setState((prevState) => ({
-				...prevState,
-				terminalReuseEnabled: value,
-			})),
 		setMcpServers: (mcpServers: McpServer[]) => setMcpServers(mcpServers),
+		setRequestyModels: (models: Record<string, ModelInfo>) => setRequestyModels(models),
+		setShengSuanYunModels: (models: Record<string, ShengSuanYunModelInfo>) => setShengSuanYunModels(models),
+		setGroqModels: (models: Record<string, ModelInfo>) => setGroqModels(models),
+		setBasetenModels: (models: Record<string, ModelInfo>) => setBasetenModels(models),
+		setHuggingFaceModels: (models: Record<string, ModelInfo>) => setHuggingFaceModels(models),
 		setMcpMarketplaceCatalog: (catalog: McpMarketplaceCatalog) => setMcpMarketplaceCatalog(catalog),
 		setShowMcp,
 		closeMcpView,
-		setChatSettings: async (value) => {
-			setState((prevState) => ({
-				...prevState,
-				chatSettings: value,
-			}))
-
-			try {
-				// Import the conversion functions
-				const { convertApiConfigurationToProtoApiConfiguration } = await import(
-					"@shared/proto-conversions/state/settings-conversion"
-				)
-				const { convertChatSettingsToProtoChatSettings } = await import(
-					"@shared/proto-conversions/state/chat-settings-conversion"
-				)
-
-				await StateServiceClient.updateSettings(
-					UpdateSettingsRequest.create({
-						chatSettings: convertChatSettingsToProtoChatSettings(value),
-						apiConfiguration: state.apiConfiguration
-							? convertApiConfigurationToProtoApiConfiguration(state.apiConfiguration)
-							: undefined,
-						customInstructionsSetting: state.customInstructions,
-						telemetrySetting: state.telemetrySetting,
-						planActSeparateModelsSetting: state.planActSeparateModelsSetting,
-						enableCheckpointsSetting: state.enableCheckpointsSetting,
-						mcpMarketplaceEnabled: state.mcpMarketplaceEnabled,
-						mcpResponsesCollapsed: state.mcpResponsesCollapsed,
-					}),
-				)
-			} catch (error) {
-				console.error("Failed to update chat settings:", error)
-			}
-		},
 		setGlobalClineRulesToggles: (toggles) =>
 			setState((prevState) => ({
 				...prevState,
@@ -803,6 +729,7 @@ export const ExtensionStateContextProvider: React.FC<{
 		setTotalTasksSize,
 		refreshOpenRouterModels,
 		onRelinquishControl,
+		setUserInfo: (userInfo?: UserInfo) => setState((prevState) => ({ ...prevState, userInfo })),
 	}
 
 	return <ExtensionStateContext.Provider value={contextValue}>{children}</ExtensionStateContext.Provider>

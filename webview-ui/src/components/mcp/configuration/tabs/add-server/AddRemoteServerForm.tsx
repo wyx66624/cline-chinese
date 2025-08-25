@@ -2,8 +2,9 @@ import { LINKS } from "@/constants"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { McpServiceClient } from "@/services/grpc-client"
 import { convertProtoMcpServersToMcpServers } from "@shared/proto-conversions/mcp/mcp-server-conversion"
-import { EmptyRequest } from "@shared/proto/common"
-import { AddRemoteMcpServerRequest } from "@shared/proto/mcp"
+import { McpServers } from "@shared/proto/cline/mcp"
+import { EmptyRequest } from "@shared/proto/cline/common"
+import { AddRemoteMcpServerRequest } from "@shared/proto/cline/mcp"
 import { VSCodeButton, VSCodeLink, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import { useState } from "react"
 
@@ -19,19 +20,19 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 		e.preventDefault()
 
 		if (!serverName.trim()) {
-			setError("Server name is required")
+			setError("服务器名称是必需的")
 			return
 		}
 
 		if (!serverUrl.trim()) {
-			setError("Server URL is required")
+			setError("服务器 URL 是必需的")
 			return
 		}
 
 		try {
 			new URL(serverUrl)
 		} catch (err) {
-			setError("Invalid URL format")
+			setError("无效的 URL 格式")
 			return
 		}
 
@@ -40,7 +41,7 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 		setShowConnectingMessage(true)
 
 		try {
-			const servers = await McpServiceClient.addRemoteMcpServer(
+			const servers: McpServers = await McpServiceClient.addRemoteMcpServer(
 				AddRemoteMcpServerRequest.create({
 					serverName: serverName.trim(),
 					serverUrl: serverUrl.trim(),
@@ -49,7 +50,7 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 
 			setIsSubmitting(false)
 
-			const mcpServers = convertProtoMcpServersToMcpServers(servers)
+			const mcpServers = convertProtoMcpServersToMcpServers(servers.mcpServers)
 			setMcpServers(mcpServers)
 
 			setServerName("")
@@ -58,7 +59,7 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 			setShowConnectingMessage(false)
 		} catch (error) {
 			setIsSubmitting(false)
-			setError(error instanceof Error ? error.message : "Failed to add server")
+			setError(error instanceof Error ? error.message : "添加服务器失败")
 			setShowConnectingMessage(false)
 		}
 	}
@@ -66,9 +67,9 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 	return (
 		<div className="p-4 px-5">
 			<div className="text-[var(--vscode-foreground)] mb-2">
-				通过提供名称及其 URL 端点来添加远程 MCP 服务器。{" "}
+				通过提供名称和 URL 端点来添加远程 MCP 服务器。了解更多信息{" "}
 				<VSCodeLink href={LINKS.DOCUMENTATION.REMOTE_MCP_SERVER_DOCS} style={{ display: "inline" }}>
-					了解更多信息
+					在此。
 				</VSCodeLink>
 			</div>
 
@@ -83,7 +84,7 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 						disabled={isSubmitting}
 						className="w-full"
 						placeholder="mcp-server">
-						服务名称
+						服务器名称
 					</VSCodeTextField>
 				</div>
 
@@ -97,7 +98,7 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 						disabled={isSubmitting}
 						placeholder="https://example.com/mcp-server"
 						className="w-full mr-4">
-						服务URL
+						服务器 URL
 					</VSCodeTextField>
 				</div>
 
@@ -105,16 +106,15 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 
 				<div className="flex items-center mt-3 w-full">
 					<VSCodeButton type="submit" disabled={isSubmitting} className="w-full">
-						{isSubmitting ? "添加..." : "添加服务"}
+						{isSubmitting ? "添加中..." : "添加服务器"}
 					</VSCodeButton>
 
 					{showConnectingMessage && (
 						<div className="ml-3 text-[var(--vscode-notificationsInfoIcon-foreground)] text-sm">
-							正在连接服务... 可能需要几秒钟.
+							正在连接到服务器... 这可能需要几秒钟。
 						</div>
 					)}
 				</div>
-
 				<VSCodeButton
 					appearance="secondary"
 					style={{ width: "100%", marginBottom: "5px", marginTop: 15 }}

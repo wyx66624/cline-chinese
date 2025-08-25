@@ -1,18 +1,7 @@
 import React from "react"
 import { ClineMessage } from "@shared/ExtensionMessage"
-import {
-	COLOR_WHITE,
-	COLOR_GRAY,
-	COLOR_DARK_GRAY,
-	COLOR_BEIGE,
-	COLOR_BLUE,
-	COLOR_RED,
-	COLOR_PURPLE,
-	COLOR_GREEN,
-} from "../colors"
 import { Tooltip } from "@heroui/react"
-
-// Color mapping for different message types
+import { getColor } from "./util"
 
 interface TaskTimelineTooltipProps {
 	message: ClineMessage
@@ -27,7 +16,7 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 				case "task":
 					return "任务消息"
 				case "user_feedback":
-					return "用户反馈"
+					return "用户消息"
 				case "text":
 					return "助手回复"
 				case "tool":
@@ -41,13 +30,13 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 								toolData.tool === "listCodeDefinitionNames" ||
 								toolData.tool === "searchFiles"
 							) {
-								return `读文件: ${toolData.tool}`
+								return `文件读取: ${toolData.tool}`
 							} else if (toolData.tool === "editedExistingFile") {
-								return `编辑文件: ${toolData.path || "未知文件"}`
+								return `文件编辑: ${toolData.path || "未知文件"}`
 							} else if (toolData.tool === "newFileCreated") {
 								return `新文件: ${toolData.path || "未知文件"}`
 							} else if (toolData.tool === "webFetch") {
-								return `读取网页: ${toolData.path || "未知的 URL"}`
+								return `网络获取: ${toolData.path || "未知URL"}`
 							}
 							return `工具: ${toolData.tool}`
 						} catch (e) {
@@ -66,16 +55,16 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 				case "completion_result":
 					return "任务完成"
 				case "checkpoint_created":
-					return "检查点创建"
+					return "检查点已创建"
 				default:
 					return message.say || "未知"
 			}
 		} else if (message.type === "ask") {
 			switch (message.ask) {
 				case "followup":
-					return "用户消息"
+					return "助手消息"
 				case "plan_mode_respond":
-					return "规划响应"
+					return "计划回复"
 				case "tool":
 					if (message.text) {
 						try {
@@ -87,13 +76,13 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 								toolData.tool === "listCodeDefinitionNames" ||
 								toolData.tool === "searchFiles"
 							) {
-								return `读文件批准: ${toolData.tool}`
+								return `文件读取批准: ${toolData.tool}`
 							} else if (toolData.tool === "editedExistingFile") {
-								return `编辑文件批准: ${toolData.path || "未知文件"}`
+								return `文件编辑批准: ${toolData.path || "未知文件"}`
 							} else if (toolData.tool === "newFileCreated") {
 								return `新文件批准: ${toolData.path || "未知文件"}`
 							} else if (toolData.tool === "webFetch") {
-								return `网页读取: ${toolData.path || "未知的 URL"}`
+								return `网络获取批准: ${toolData.path || "未知URL"}`
 							}
 							return `工具批准: ${toolData.tool}`
 						} catch (e) {
@@ -109,7 +98,6 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 					return message.ask || "未知"
 			}
 		}
-		console.log("Unknown Message Type --------", message)
 		return "未知消息类型"
 	}
 
@@ -149,20 +137,7 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 
 			const time = messageDate.toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: true })
 
-			const monthNames = [
-				"一月",
-				"二月",
-				"三月",
-				"四月",
-				"五月",
-				"六月",
-				"七月",
-				"八月",
-				"九月",
-				"十月",
-				"十一月",
-				"十二月",
-			]
+			const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 			const monthName = monthNames[messageDate.getMonth()]
 
 			if (messageDateOnly.getTime() === todayDate.getTime()) {
@@ -174,89 +149,6 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 			}
 		}
 		return ""
-	}
-
-	// Get color for the indicator based on message type
-	const getMessageColor = (message: ClineMessage): string => {
-		if (message.type === "say") {
-			switch (message.say) {
-				case "task":
-					return COLOR_WHITE // White for system prompt
-				case "user_feedback":
-					return COLOR_WHITE // White for user feedback
-				case "text":
-					return COLOR_GRAY // Gray for assistant responses
-				case "tool":
-					if (message.text) {
-						try {
-							const toolData = JSON.parse(message.text)
-							if (
-								toolData.tool === "readFile" ||
-								toolData.tool === "listFilesTopLevel" ||
-								toolData.tool === "listFilesRecursive" ||
-								toolData.tool === "listCodeDefinitionNames" ||
-								toolData.tool === "searchFiles"
-							) {
-								return COLOR_BEIGE // Beige for file read operations
-							} else if (toolData.tool === "editedExistingFile" || toolData.tool === "newFileCreated") {
-								return COLOR_BLUE // Blue for file edit/create operations
-							} else if (toolData.tool === "webFetch") {
-								return COLOR_PURPLE // Beige for web fetch operations
-							}
-						} catch (e) {
-							// JSON parse error here
-						}
-					}
-					return COLOR_BEIGE // Default beige for tool use
-				case "command":
-				case "command_output":
-					return COLOR_PURPLE // Red for terminal commands
-				case "browser_action":
-				case "browser_action_result":
-					return COLOR_PURPLE // Purple for browser actions
-				case "completion_result":
-					return COLOR_GREEN // Green for task success
-				default:
-					return COLOR_DARK_GRAY // Dark gray for unknown
-			}
-		} else if (message.type === "ask") {
-			switch (message.ask) {
-				case "followup":
-					return COLOR_GRAY // Gray for user messages
-				case "plan_mode_respond":
-					return COLOR_GRAY // Gray for planning responses
-				case "tool":
-					// Match the color of the tool approval with the tool type
-					if (message.text) {
-						try {
-							const toolData = JSON.parse(message.text)
-							if (
-								toolData.tool === "readFile" ||
-								toolData.tool === "listFilesTopLevel" ||
-								toolData.tool === "listFilesRecursive" ||
-								toolData.tool === "listCodeDefinitionNames" ||
-								toolData.tool === "searchFiles"
-							) {
-								return COLOR_BEIGE // Beige for file read operations
-							} else if (toolData.tool === "editedExistingFile" || toolData.tool === "newFileCreated") {
-								return COLOR_BLUE // Blue for file edit/create operations
-							} else if (toolData.tool === "webFetch") {
-								return COLOR_PURPLE // Purple for web fetch operations
-							}
-						} catch (e) {
-							// JSON parse error here
-						}
-					}
-					return COLOR_BEIGE // Default beige for tool approvals
-				case "command":
-					return COLOR_PURPLE // Red for command approvals (same as terminal commands)
-				case "browser_action_launch":
-					return COLOR_PURPLE // Purple for browser launch approvals (same as browser actions)
-				default:
-					return COLOR_DARK_GRAY // Dark gray for unknown
-			}
-		}
-		return COLOR_DARK_GRAY // Default dark gray
 	}
 
 	return (
@@ -272,7 +164,7 @@ const TaskTimelineTooltip = ({ message, children }: TaskTimelineTooltipProps) =>
 									minWidth: "10px", // Ensure fixed width
 									minHeight: "10px", // Ensure fixed height
 									borderRadius: "50%",
-									backgroundColor: getMessageColor(message),
+									backgroundColor: getColor(message),
 									marginRight: "8px",
 									display: "inline-block",
 									flexShrink: 0, // Prevent shrinking when space is limited

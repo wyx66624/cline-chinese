@@ -65,7 +65,7 @@ async function showLinuxNotification(options: NotificationOptions): Promise<void
 
 export async function showSystemNotification(options: NotificationOptions): Promise<void> {
 	try {
-		const { title = "Cline", message } = options
+		const { title = "Cline Chinese", message } = options
 
 		if (!message) {
 			throw new Error("Message is required")
@@ -74,7 +74,7 @@ export async function showSystemNotification(options: NotificationOptions): Prom
 		const escapedOptions = {
 			...options,
 			title: title.replace(/"/g, '\\"'),
-			message: message.replace(/\\/g, "\\\\").replace(/"/g, '\\"'),
+			message: message.replace(/"/g, '\\"'),
 			subtitle: options.subtitle?.replace(/"/g, '\\"') || "",
 		}
 

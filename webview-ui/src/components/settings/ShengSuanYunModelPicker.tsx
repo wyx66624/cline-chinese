@@ -1,20 +1,21 @@
 import { VSCodeLink, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import Fuse from "fuse.js"
 import React, { KeyboardEvent, memo, useEffect, useMemo, useRef, useState } from "react"
-import { useRemark } from "react-remark"
 import { useMount } from "react-use"
 import styled from "styled-components"
-import { shengSuanYunDefaultModelId } from "../../../../src/shared/api"
+import { shengSuanYunDefaultModelId, shengSuanYunDefaultModelInfo } from "@shared/api"
 import { useExtensionState } from "../../context/ExtensionStateContext"
 import { ModelsServiceClient, StateServiceClient } from "@/services/grpc-client"
 import { highlight } from "../history/HistoryView"
-import { ModelInfoView, normalizeApiConfiguration } from "./ApiOptions"
-import { CODE_BLOCK_BG_COLOR } from "../common/CodeBlock"
+import { ModelInfoView } from "./common/ModelInfoView"
 import ThinkingBudgetSlider from "./ThinkingBudgetSlider"
-import { EmptyRequest, StringRequest } from "@shared/proto/common"
-
+import { EmptyRequest, StringRequest } from "@shared/proto/cline/common"
+import { getModeSpecificFields, normalizeApiConfiguration } from "./utils/providerUtils"
+import { useApiConfigurationHandlers } from "./utils/useApiConfigurationHandlers"
+import { Mode } from "@shared/storage/types"
 export interface ShengSuanYunModelPickerProps {
 	isPopup?: boolean
+	currentMode: Mode
 }
 // Star icon for favorites
 const StarIcon = ({ isFavorite, onClick }: { isFavorite: boolean; onClick: (e: React.MouseEvent) => void }) => {
@@ -36,36 +37,47 @@ const StarIcon = ({ isFavorite, onClick }: { isFavorite: boolean; onClick: (e: R
 		</div>
 	)
 }
-const ShengSuanYunModelPicker: React.FC<ShengSuanYunModelPickerProps> = ({ isPopup }) => {
-	const { apiConfiguration, setApiConfiguration, shengSuanYunModels } = useExtensionState()
-	const [searchTerm, setSearchTerm] = useState(apiConfiguration?.shengSuanYunModelId || shengSuanYunDefaultModelId)
+const ShengSuanYunModelPicker: React.FC<ShengSuanYunModelPickerProps> = ({ isPopup, currentMode }) => {
+	const { apiConfiguration, shengSuanYunModels, setShengSuanYunModels } = useExtensionState()
+	const { handleModeFieldsChange } = useApiConfigurationHandlers()
+	const modeFields = getModeSpecificFields(apiConfiguration, currentMode)
+	const [searchTerm, setSearchTerm] = useState(modeFields.shengSuanYunModelId || shengSuanYunDefaultModelId)
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false)
 	const [selectedIndex, setSelectedIndex] = useState(-1)
 	const dropdownRef = useRef<HTMLDivElement>(null)
 	const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-	const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
 	const dropdownListRef = useRef<HTMLDivElement>(null)
 
 	const handleModelChange = (newModelId: string) => {
 		// could be setting invalid model id/undefined info but validation will catch it
-		setApiConfiguration({
-			...apiConfiguration,
-			...{
+		handleModeFieldsChange(
+			{
+				shengSuanYunModelId: { plan: "planModeShengSuanYunModelId", act: "actModeShengSuanYunModelId" },
+				shengSuanYunModelInfo: { plan: "planModeShengSuanYunModelInfo", act: "actModeShengSuanYunModelInfo" },
+			},
+			{
 				shengSuanYunModelId: newModelId,
 				shengSuanYunModelInfo: shengSuanYunModels[newModelId],
 			},
-		})
+			currentMode,
+		)
 		setSearchTerm(newModelId)
 	}
 
 	const { selectedModelId, selectedModelInfo } = useMemo(() => {
-		return normalizeApiConfiguration(apiConfiguration)
-	}, [apiConfiguration])
+		const cfg = normalizeApiConfiguration(apiConfiguration, currentMode)
+		return cfg
+	}, [apiConfiguration, currentMode])
 
 	useMount(() => {
-		ModelsServiceClient.refreshShengSuanYunModels(EmptyRequest.create({})).catch((error: Error) =>
-			console.error("Failed to refresh ShengSuanYun models:", error),
-		)
+		ModelsServiceClient.refreshShengSuanYunModels(EmptyRequest.create({}))
+			.then((res) => {
+				setShengSuanYunModels({
+					[shengSuanYunDefaultModelId]: shengSuanYunDefaultModelInfo,
+					...res.models,
+				})
+			})
+			.catch((error: Error) => console.error("Failed to refresh ShengSuanYun models:", error))
 	})
 
 	useEffect(() => {
@@ -163,7 +175,14 @@ const ShengSuanYunModelPicker: React.FC<ShengSuanYunModelPickerProps> = ({ isPop
 	}, [selectedIndex])
 
 	const showBudgetSlider = useMemo(() => {
-		return selectedModelId?.includes("claude-3-7-sonnet")
+		setSearchTerm(selectedModelId)
+		return (
+			selectedModelId?.toLowerCase().includes("claude-sonnet-4") ||
+			selectedModelId?.toLowerCase().includes("claude-opus-4") ||
+			selectedModelId?.toLowerCase().includes("claude-3-7-sonnet") ||
+			selectedModelId?.toLowerCase().includes("claude-3.7-sonnet") ||
+			selectedModelId?.toLowerCase().includes(":thinking")
+		)
 	}, [selectedModelId])
 
 	return (
@@ -250,16 +269,8 @@ const ShengSuanYunModelPicker: React.FC<ShengSuanYunModelPickerProps> = ({ isPop
 
 			{hasInfo ? (
 				<>
-					{showBudgetSlider && (
-						<ThinkingBudgetSlider apiConfiguration={apiConfiguration} setApiConfiguration={setApiConfiguration} />
-					)}
-					<ModelInfoView
-						selectedModelId={selectedModelId}
-						modelInfo={selectedModelInfo}
-						isDescriptionExpanded={isDescriptionExpanded}
-						setIsDescriptionExpanded={setIsDescriptionExpanded}
-						isPopup={isPopup}
-					/>
+					{showBudgetSlider && <ThinkingBudgetSlider currentMode={currentMode} />}
+					<ModelInfoView selectedModelId={selectedModelId} modelInfo={selectedModelInfo} isPopup={isPopup} />
 				</>
 			) : (
 				<p
@@ -278,8 +289,8 @@ const ShengSuanYunModelPicker: React.FC<ShengSuanYunModelPickerProps> = ({ isPop
 						如果你不确定使用哪个模型, Cline 可以和{" "}
 						<VSCodeLink
 							style={{ display: "inline", fontSize: "inherit" }}
-							onClick={() => handleModelChange("anthropic/claude-3.7-sonnet")}>
-							anthropic/claude-3.7-sonnet.
+							onClick={() => handleModelChange("anthropic/claude-sonnet-4")}>
+							anthropic/claude-sonnet-4
 						</VSCodeLink>
 						很好的工作
 					</>

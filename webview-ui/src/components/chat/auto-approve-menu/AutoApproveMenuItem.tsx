@@ -14,11 +14,9 @@ interface AutoApproveMenuItemProps {
 	showIcon?: boolean
 }
 
-const CheckboxContainer = styled.div<{
-	isFavorited?: boolean
-	onClick?: (e: MouseEvent) => void
-	onMouseDown?: (e: React.MouseEvent) => void
-}>`
+const CheckboxContainer = styled.div.withConfig({
+	shouldForwardProp: (prop) => !["isFavorited"].includes(prop),
+})<{ isFavorited?: boolean; onClick?: (e: MouseEvent) => void; onMouseDown?: (e: React.MouseEvent) => void }>`
 	display: flex;
 	align-items: center;
 	justify-content: space-between; /* Push content to edges */
@@ -94,25 +92,27 @@ const AutoApproveMenuItem = ({
 				<HeroTooltip content={action.description} delay={500}>
 					<CheckboxContainer isFavorited={favorited} onClick={onChange}>
 						<div className="left-content">
+							{onToggleFavorite && !condensed && (
+								<HeroTooltip
+									delay={500}
+									content={favorited ? "从快速访问菜单中移除" : "添加到快速访问菜单"}>
+									<span
+										className={`p-0.5 codicon codicon-${favorited ? "star-full" : "star-empty"} star`}
+										style={{
+											cursor: "pointer",
+										}}
+										onClick={async (e) => {
+											e.stopPropagation()
+											if (action.id === "enableAll") return
+											await onToggleFavorite?.(action.id)
+										}}
+									/>
+								</HeroTooltip>
+							)}
 							<VSCodeCheckbox checked={checked} />
 							{showIcon && <span className={`codicon ${action.icon} icon`}></span>}
 							<span className="label">{condensed ? action.shortName : action.label}</span>
 						</div>
-						{onToggleFavorite && !condensed && (
-							<HeroTooltip delay={500} content={favorited ? "从快速访问菜单删除" : "添加到快速访问菜单"}>
-								<span
-									className={`p-0.5 codicon codicon-${favorited ? "star-full" : "star-empty"} star`}
-									style={{
-										cursor: "pointer",
-									}}
-									onClick={async (e) => {
-										e.stopPropagation()
-										if (action.id === "enableAll") return
-										await onToggleFavorite?.(action.id)
-									}}
-								/>
-							</HeroTooltip>
-						)}
 					</CheckboxContainer>
 				</HeroTooltip>
 			</ActionButtonContainer>

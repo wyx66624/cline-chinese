@@ -1,7 +1,7 @@
 import { CODE_BLOCK_BG_COLOR } from "@/components/common/CodeBlock"
 import { CheckpointsServiceClient } from "@/services/grpc-client"
-import { CheckpointRestoreRequest } from "@shared/proto/checkpoints"
-import { Int64Request } from "@shared/proto/common"
+import { CheckpointRestoreRequest } from "@shared/proto/cline/checkpoints"
+import { Int64Request } from "@shared/proto/cline/common"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { useEffect, useRef, useState } from "react"
 import { useClickAway } from "react-use"
@@ -121,7 +121,7 @@ export const CheckpointOverlay = ({ messageTs }: CheckpointOverlayProps) => {
 	return (
 		<CheckpointControls onMouseLeave={handleControlsMouseLeave}>
 			<VSCodeButton
-				title="Compare"
+				title="比较"
 				appearance="secondary"
 				disabled={compareDisabled}
 				style={{ cursor: compareDisabled ? "wait" : "pointer" }}
@@ -143,7 +143,7 @@ export const CheckpointOverlay = ({ messageTs }: CheckpointOverlayProps) => {
 			</VSCodeButton>
 			<div style={{ position: "relative" }} ref={containerRef}>
 				<VSCodeButton
-					title="Restore"
+					title="恢复"
 					appearance="secondary"
 					style={{ cursor: "pointer" }}
 					onClick={() => setShowRestoreConfirm(true)}>
@@ -158,9 +158,9 @@ export const CheckpointOverlay = ({ messageTs }: CheckpointOverlayProps) => {
 								style={{
 									cursor: restoreBothDisabled ? "wait" : "pointer",
 								}}>
-								Restore Task and Workspace
+								任务和项目文件恢复
 							</VSCodeButton>
-							<p>Restores the task and your project's files back to a snapshot taken at this point</p>
+							<p>将任务和项目文件恢复到在此点拍摄的快照</p>
 						</RestoreOption>
 						<RestoreOption>
 							<VSCodeButton
@@ -169,9 +169,9 @@ export const CheckpointOverlay = ({ messageTs }: CheckpointOverlayProps) => {
 								style={{
 									cursor: restoreTaskDisabled ? "wait" : "pointer",
 								}}>
-								Restore Task Only
+								仅恢复任务
 							</VSCodeButton>
-							<p>Deletes messages after this point (does not affect workspace)</p>
+							<p>删除此点之后的消息（不影响项目文件）</p>
 						</RestoreOption>
 						<RestoreOption>
 							<VSCodeButton
@@ -180,9 +180,9 @@ export const CheckpointOverlay = ({ messageTs }: CheckpointOverlayProps) => {
 								style={{
 									cursor: restoreWorkspaceDisabled ? "wait" : "pointer",
 								}}>
-								Restore Workspace Only
+								仅恢复项目文件
 							</VSCodeButton>
-							<p>Restores your project's files to a snapshot taken at this point (task may become out of sync)</p>
+							<p>将项目文件恢复到在此点拍摄的快照（任务可能不同步）</p>
 						</RestoreOption>
 					</RestoreConfirmTooltip>
 				)}

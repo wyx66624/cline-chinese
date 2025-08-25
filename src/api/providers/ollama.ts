@@ -1,24 +1,54 @@
 import { Anthropic } from "@anthropic-ai/sdk"
-import { Message, Ollama } from "ollama"
+import { Message, Ollama, Config } from "ollama"
 import { ApiHandler } from "../"
 import { ApiHandlerOptions, ModelInfo, openAiModelInfoSaneDefaults } from "../../shared/api"
 import { convertToOllamaMessages } from "../transform/ollama-format"
 import { ApiStream } from "../transform/stream"
 import { withRetry } from "../retry"
-import fetch from "node-fetch"
+
+interface OllamaHandlerOptions {
+	ollamaBaseUrl?: string
+	ollamaApiKey?: string
+	ollamaModelId?: string
+	ollamaApiOptionsCtxNum?: string
+	requestTimeoutMs?: number
+}
 
 export class OllamaHandler implements ApiHandler {
-	private options: ApiHandlerOptions
-	private client: Ollama
+	private options: OllamaHandlerOptions
+	private client: Ollama | undefined
 
-	constructor(options: ApiHandlerOptions) {
+	constructor(options: OllamaHandlerOptions) {
 		this.options = options
-		this.client = new Ollama({ host: this.options.ollamaBaseUrl || "http://localhost:11434" })
+	}
+
+	private ensureClient(): Ollama {
+		if (!this.client) {
+			try {
+				const clientOptions: Partial<Config> = {
+					host: this.options.ollamaBaseUrl || "http://localhost:11434",
+				}
+
+				// Add API key if provided (for Ollama cloud or authenticated instances)
+				if (this.options.ollamaApiKey) {
+					clientOptions.headers = {
+						Authorization: `Bearer ${this.options.ollamaApiKey}`,
+					}
+				}
+
+				this.client = new Ollama(clientOptions)
+			} catch (error) {
+				throw new Error(`Error creating Ollama client: ${error.message}`)
+			}
+		}
+		return this.client
 	}
 
 	@withRetry({ retryAllErrors: true })
 	async *createMessage(systemPrompt: string, messages: Anthropic.Messages.MessageParam[]): ApiStream {
+		const client = this.ensureClient()
 		const ollamaMessages: Message[] = [{ role: "system", content: systemPrompt }, ...convertToOllamaMessages(messages)]
+
 		try {
 			// Create a promise that rejects after timeout
 			const timeoutMs = this.options.requestTimeoutMs || 30000
@@ -27,7 +57,7 @@ export class OllamaHandler implements ApiHandler {
 			})
 
 			// Create the actual API request promise
-			const apiPromise = this.client.chat({
+			const apiPromise = client.chat({
 				model: this.getModel().id,
 				messages: ollamaMessages,
 				stream: true,
@@ -71,7 +101,9 @@ export class OllamaHandler implements ApiHandler {
 			// Enhance error reporting
 			const statusCode = error.status || error.statusCode
 			const errorMessage = error.message || "Unknown error"
+
 			console.error(`Ollama API error (${statusCode || "unknown"}): ${errorMessage}`)
+			throw error
 		}
 	}
 

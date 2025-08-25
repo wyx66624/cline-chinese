@@ -2,7 +2,7 @@ import { useExtensionState } from "@/context/ExtensionStateContext"
 import { McpServiceClient } from "@/services/grpc-client"
 import { McpTool } from "@shared/mcp"
 import { convertProtoMcpServersToMcpServers } from "@shared/proto-conversions/mcp/mcp-server-conversion"
-import { ToggleToolAutoApproveRequest } from "@shared/proto/mcp"
+import { ToggleToolAutoApproveRequest } from "@shared/proto/cline/mcp"
 import { VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 
 type McpToolRowProps = {
@@ -85,7 +85,7 @@ const McpToolRow = ({ tool, serverName }: McpToolRowProps) => {
 								fontSize: "11px",
 								textTransform: "uppercase",
 							}}>
-							Parameters
+							参数
 						</div>
 						{Object.entries(tool.inputSchema.properties as Record<string, any>).map(([paramName, schema]) => {
 							const isRequired =
@@ -123,7 +123,7 @@ const McpToolRow = ({ tool, serverName }: McpToolRowProps) => {
 											overflowWrap: "break-word",
 											wordBreak: "break-word",
 										}}>
-										{schema.description || "No description"}
+										{schema.description || "无描述"}
 									</span>
 								</div>
 							)

@@ -1,7 +1,7 @@
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { TaskServiceClient } from "@/services/grpc-client"
 import { formatLargeNumber } from "@/utils/format"
-import { StringRequest } from "@shared/proto/common"
+import { StringRequest } from "@shared/proto/cline/common"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { memo, useState } from "react"
 
@@ -23,10 +23,10 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 		setIsExpanded(!isExpanded)
 	}
 
-	const formatDate = (timestamp: number, tz: string = "en-US") => {
+	const formatDate = (timestamp: number) => {
 		const date = new Date(timestamp)
 		return date
-			?.toLocaleString(tz, {
+			?.toLocaleString("en-US", {
 				month: "long",
 				day: "numeric",
 				hour: "numeric",
@@ -93,7 +93,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 						fontSize: "0.85em",
 						textTransform: "uppercase",
 					}}>
-					近期任务
+					最近任务
 				</span>
 			</div>
 
@@ -118,7 +118,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 														fontSize: "0.85em",
 														textTransform: "uppercase",
 													}}>
-													{formatDate(item.ts, "zh-CN")}
+													{formatDate(item.ts)}
 												</span>
 											</div>
 											{item.isFavorited && (
@@ -129,7 +129,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 														right: "12px",
 														color: "var(--vscode-button-background)",
 													}}>
-													<span className="codicon codicon-star-full" aria-label="Favorited" />
+													<span className="codicon codicon-star-full" aria-label="已收藏" />
 												</div>
 											)}
 
@@ -156,7 +156,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 													color: "var(--vscode-descriptionForeground)",
 												}}>
 												<span>
-													Tokens: ↑{formatLargeNumber(item.tokensIn || 0)} ↓
+													令牌（仅供参考，请以实际消耗为准）: ↑{formatLargeNumber(item.tokensIn || 0)} ↓
 													{formatLargeNumber(item.tokensOut || 0)}
 												</span>
 												{!!item.cacheWrites && (
@@ -195,7 +195,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 											fontSize: "var(--vscode-font-size)",
 											color: "var(--vscode-descriptionForeground)",
 										}}>
-										查看所有历史
+										查看全部历史
 									</div>
 								</VSCodeButton>
 							</div>
@@ -208,7 +208,7 @@ const HistoryPreview = ({ showHistoryView }: HistoryPreviewProps) => {
 								fontSize: "var(--vscode-font-size)",
 								padding: "10px 0",
 							}}>
-							最近没有任务
+							没有最近任务
 						</div>
 					)}
 				</div>

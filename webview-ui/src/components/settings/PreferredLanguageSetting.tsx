@@ -1,29 +1,28 @@
 import { VSCodeDropdown, VSCodeOption } from "@vscode/webview-ui-toolkit/react"
 import React from "react"
-import { ChatSettings } from "@shared/ChatSettings"
+import { useExtensionState } from "@/context/ExtensionStateContext"
+import { updateSetting } from "./utils/settingsHandlers"
 
-interface PreferredLanguageSettingProps {
-	chatSettings: ChatSettings
-	setChatSettings: (settings: ChatSettings) => void
-}
+const PreferredLanguageSetting: React.FC = () => {
+	const { preferredLanguage } = useExtensionState()
 
-const PreferredLanguageSetting: React.FC<PreferredLanguageSettingProps> = ({ chatSettings, setChatSettings }) => {
+	const handleLanguageChange = (newLanguage: string) => {
+		updateSetting("preferredLanguage", newLanguage)
+	}
+
 	return (
 		<div style={{}}>
 			<label htmlFor="preferred-language-dropdown" className="block mb-1 text-sm font-medium">
-				语言
+				首选语言
 			</label>
 			<VSCodeDropdown
 				id="preferred-language-dropdown"
-				currentValue={chatSettings.preferredLanguage || "Simplified Chinese - 简体中文"}
+				currentValue={preferredLanguage || "Simplified Chinese - 简体中文"}
 				onChange={(e: any) => {
-					const newLanguage = e.target.value
-					setChatSettings({
-						...chatSettings,
-						preferredLanguage: newLanguage,
-					}) // This constructs a full ChatSettings object
+					handleLanguageChange(e.target.value)
 				}}
 				style={{ width: "100%" }}>
+				<VSCodeOption value="Simplified Chinese - 简体中文">Simplified Chinese - 简体中文</VSCodeOption>
 				<VSCodeOption value="English">English</VSCodeOption>
 				<VSCodeOption value="Arabic - العربية">Arabic - العربية</VSCodeOption>
 				<VSCodeOption value="Portuguese - Português (Brasil)">Portuguese - Português (Brasil)</VSCodeOption>
@@ -38,12 +37,11 @@ const PreferredLanguageSetting: React.FC<PreferredLanguageSettingProps> = ({ cha
 				<VSCodeOption value="Polish - Polski">Polish - Polski</VSCodeOption>
 				<VSCodeOption value="Portuguese - Português (Portugal)">Portuguese - Português (Portugal)</VSCodeOption>
 				<VSCodeOption value="Russian - Русский">Russian - Русский</VSCodeOption>
-				<VSCodeOption value="Simplified Chinese - 简体中文">Simplified Chinese - 简体中文</VSCodeOption>
 				<VSCodeOption value="Spanish - Español">Spanish - Español</VSCodeOption>
 				<VSCodeOption value="Traditional Chinese - 繁體中文">Traditional Chinese - 繁體中文</VSCodeOption>
 				<VSCodeOption value="Turkish - Türkçe">Turkish - Türkçe</VSCodeOption>
 			</VSCodeDropdown>
-			<p className="text-xs text-[var(--vscode-descriptionForeground)] mt-1">Cline 应该用于沟通的语言。</p>
+			<p className="text-xs text-[var(--vscode-descriptionForeground)] mt-1">Cline 应该用于通信的语言。</p>
 		</div>
 	)
 }

@@ -1,5 +1,121 @@
 import * as vscode from "vscode"
-import { getWorkingState } from "@utils/git"
+import { writeTextToClipboard } from "@utils/env"
+import { HostProvider } from "@/hosts/host-provider"
+import { ShowMessageType, ShowTextDocumentRequest } from "@/shared/proto/host/window"
+import { buildApiHandler } from "@/api"
+import { readStateFromDisk } from "@/core/storage/utils/state-helpers"
+import { getWorkingState } from "@/utils/git"
+import { getCwd } from "@/utils/path"
+
+/**
+ * Git commit message generator module
+ */
+export const GitCommitGenerator = {
+	generate,
+	abort,
+}
+
+let commitGenerationAbortController: AbortController | undefined = undefined
+
+async function generate(context: vscode.ExtensionContext, scm?: vscode.SourceControl) {
+	const cwd = await getCwd()
+	if (!context || !cwd) {
+		HostProvider.window.showMessage({
+			type: ShowMessageType.ERROR,
+			message: "No workspace folder open",
+		})
+		return
+	}
+
+	const gitDiff = await getWorkingState(cwd)
+	if (gitDiff === "No changes in working directory") {
+		HostProvider.window.showMessage({
+			type: ShowMessageType.INFORMATION,
+			message: "No changes in workspace for commit message",
+		})
+		return
+	}
+
+	const inputBox = scm?.inputBox
+	if (!inputBox) {
+		HostProvider.window.showMessage({
+			type: ShowMessageType.ERROR,
+			message: "Git extension not found or no repositories available",
+		})
+		return
+	}
+
+	await vscode.window.withProgress(
+		{
+			location: vscode.ProgressLocation.SourceControl,
+			title: "Generating commit message...",
+			cancellable: true,
+		},
+		() => performCommitGeneration(context, gitDiff, inputBox),
+	)
+}
+
+async function performCommitGeneration(context: vscode.ExtensionContext, gitDiff: string, inputBox: any) {
+	try {
+		vscode.commands.executeCommand("setContext", "clineChinese.isGeneratingCommit", true)
+
+		const truncatedDiff = gitDiff.length > 5000 ? gitDiff.substring(0, 5000) + "\n\n[Diff truncated due to size]" : gitDiff
+
+		const prompt = `Based on the following git diff, generate a concise and descriptive commit message:
+${truncatedDiff}
+The commit message should:
+1. Start with a short summary (50-72 characters)
+2. Use the imperative mood (e.g., "Add feature" not "Added feature")
+3. Describe what was changed and why
+4. Be clear and descriptive
+Commit message:`
+
+		// Get the current API configuration
+		const { apiConfiguration } = await readStateFromDisk(context)
+		// Set to use Act mode for now by default
+		// TODO: A new mode for commit generation
+		const currentMode = "act"
+
+		// Build the API handler
+		const apiHandler = buildApiHandler(apiConfiguration, currentMode)
+
+		// Create a system prompt
+		const systemPrompt =
+			"You are a helpful assistant that generates concise and descriptive git commit messages based on git diffs."
+
+		// Create a message for the API
+		const messages = [{ role: "user" as const, content: prompt }]
+
+		commitGenerationAbortController = new AbortController()
+		const stream = apiHandler.createMessage(systemPrompt, messages)
+
+		let response = ""
+		for await (const chunk of stream) {
+			commitGenerationAbortController.signal.throwIfAborted()
+			if (chunk.type === "text") {
+				response += chunk.text
+				inputBox.value = extractCommitMessage(response)
+			}
+		}
+
+		if (!inputBox.value) {
+			throw new Error("empty API response")
+		}
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : String(error)
+		HostProvider.window.showMessage({
+			type: ShowMessageType.ERROR,
+			message: `Failed to generate commit message: ${errorMessage}`,
+		})
+	} finally {
+		vscode.commands.executeCommand("setContext", "clineChinese.isGeneratingCommit", false)
+	}
+}
+
+function abort() {
+	commitGenerationAbortController?.abort()
+	vscode.commands.executeCommand("setContext", "clineChinese.isGeneratingCommit", false)
+}
 
 /**
  * Formats the git diff into a prompt for the AI
@@ -30,26 +146,15 @@ Commit message:`
 
 /**
  * Extracts the commit message from the AI response
- * @param aiResponse The response from the AI
+ * @param str String containing the AI response
  * @returns The extracted commit message
  */
-export function extractCommitMessage(aiResponse: string): string {
+export function extractCommitMessage(str: string): string {
 	// Remove any markdown formatting or extra text
-	let message = aiResponse.trim()
-
-	// Remove markdown code blocks if present
-	if (message.startsWith("```") && message.endsWith("```")) {
-		message = message.substring(3, message.length - 3).trim()
-
-		// Remove language identifier if present (e.g., ```git)
-		const firstLineBreak = message.indexOf("\n")
-		if (firstLineBreak > 0 && firstLineBreak < 20) {
-			// Reasonable length for a language identifier
-			message = message.substring(firstLineBreak).trim()
-		}
-	}
-
-	return message
+	return str
+		.trim()
+		.replace(/^```[^\n]*\n?|```$/g, "")
+		.trim()
 }
 
 /**
@@ -57,8 +162,11 @@ export function extractCommitMessage(aiResponse: string): string {
  * @param message The commit message to copy
  */
 export async function copyCommitMessageToClipboard(message: string): Promise<void> {
-	await vscode.env.clipboard.writeText(message)
-	vscode.window.showInformationMessage("提交信息复制到剪贴板")
+	await writeTextToClipboard(message)
+	HostProvider.window.showMessage({
+		type: ShowMessageType.INFORMATION,
+		message: "Commit message copied to clipboard",
+	})
 }
 
 /**
@@ -66,17 +174,21 @@ export async function copyCommitMessageToClipboard(message: string): Promise<voi
  * @param message The generated commit message
  */
 export async function showCommitMessageOptions(message: string): Promise<void> {
-	const copyAction = "复制到剪贴板"
-	const applyAction = "应用到 Git 输入"
-	const editAction = "编辑消息"
+	const copyAction = "Copy to Clipboard"
+	const applyAction = "Apply to Git Input"
+	const editAction = "Edit Message"
 
-	const selectedAction = await vscode.window.showInformationMessage(
-		"生成提交信息",
-		{ modal: false, detail: message },
-		copyAction,
-		applyAction,
-		editAction,
-	)
+	const selectedAction = (
+		await HostProvider.window.showMessage({
+			type: ShowMessageType.INFORMATION,
+			message: "Commit message generated",
+			options: {
+				modal: false,
+				detail: message,
+				items: [copyAction, applyAction, editAction],
+			},
+		})
+	).selectedOption
 
 	// Handle user dismissing the dialog (selectedAction is undefined)
 	if (!selectedAction) {
@@ -108,13 +220,22 @@ async function applyCommitMessageToGitInput(message: string): Promise<void> {
 		if (api && api.repositories.length > 0) {
 			const repo = api.repositories[0]
 			repo.inputBox.value = message
-			vscode.window.showInformationMessage("提交信息应用到 Git 输入")
+			HostProvider.window.showMessage({
+				type: ShowMessageType.INFORMATION,
+				message: "Commit message applied to Git input",
+			})
 		} else {
-			vscode.window.showErrorMessage("未发现 Git 库")
+			HostProvider.window.showMessage({
+				type: ShowMessageType.ERROR,
+				message: "No Git repositories found",
+			})
 			await copyCommitMessageToClipboard(message)
 		}
 	} else {
-		vscode.window.showErrorMessage("Git 扩展未找到")
+		HostProvider.window.showMessage({
+			type: ShowMessageType.ERROR,
+			message: "Git extension not found",
+		})
 		await copyCommitMessageToClipboard(message)
 	}
 }
@@ -129,6 +250,13 @@ async function editCommitMessage(message: string): Promise<void> {
 		language: "markdown",
 	})
 
-	await vscode.window.showTextDocument(document)
-	vscode.window.showInformationMessage("编辑提交信息并复制")
+	await HostProvider.window.showTextDocument(
+		ShowTextDocumentRequest.create({
+			path: document.uri.fsPath,
+		}),
+	)
+	HostProvider.window.showMessage({
+		type: ShowMessageType.INFORMATION,
+		message: "Edit the commit message and copy when ready",
+	})
 }

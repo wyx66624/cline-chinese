@@ -2,7 +2,7 @@ import Thumbnails from "@/components/common/Thumbnails"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { CheckpointsServiceClient } from "@/services/grpc-client"
 import { ClineCheckpointRestore } from "@shared/WebviewMessage"
-import { CheckpointRestoreRequest } from "@shared/proto/checkpoints"
+import { CheckpointRestoreRequest } from "@shared/proto/cline/checkpoints"
 import React, { forwardRef, useRef, useState } from "react"
 import DynamicTextArea from "react-textarea-autosize"
 import { highlightText } from "./task-header/TaskHeader"
@@ -128,10 +128,10 @@ const UserMessage: React.FC<UserMessageProps> = ({ text, images, files, messageT
 							<RestoreButton
 								ref={restoreAllButtonRef}
 								type="taskAndWorkspace"
-								label="恢复所有"
+								label="恢复全部"
 								isPrimary={false}
 								onClick={handleRestoreWorkspace}
-								title="将聊天和工作区文件恢复到此检查点，并发送您编辑过的消息。"
+								title="恢复聊天和工作区文件到此检查点并发送您编辑的消息"
 							/>
 						)}
 						<RestoreButton
@@ -140,7 +140,7 @@ const UserMessage: React.FC<UserMessageProps> = ({ text, images, files, messageT
 							label="恢复聊天"
 							isPrimary={true}
 							onClick={handleRestoreWorkspace}
-							title="仅恢复聊天到此检查点并发送您编辑的信息"
+							title="仅恢复聊天到此检查点并发送您编辑的消息"
 						/>
 					</div>
 				</>

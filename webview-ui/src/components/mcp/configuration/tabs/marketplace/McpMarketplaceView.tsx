@@ -11,16 +11,18 @@ import {
 import { McpMarketplaceItem } from "@shared/mcp"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { vscode } from "@/utils/vscode"
+import { McpServiceClient } from "@/services/grpc-client"
+import { EmptyRequest } from "@shared/proto/cline/common"
 import McpMarketplaceCard from "./McpMarketplaceCard"
 import McpSubmitCard from "./McpSubmitCard"
 const McpMarketplaceView = () => {
-	const { mcpServers, mcpMarketplaceCatalog } = useExtensionState()
+	const { mcpServers, mcpMarketplaceCatalog, setMcpMarketplaceCatalog, mcpMarketplaceEnabled } = useExtensionState()
 	const [isLoading, setIsLoading] = useState(true)
 	const [error, setError] = useState<string | null>(null)
 	const [isRefreshing, setIsRefreshing] = useState(false)
 	const [searchQuery, setSearchQuery] = useState("")
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-	const [sortBy, setSortBy] = useState<"newest" | "stars" | "name" | "downloadCount">("downloadCount")
+	const [sortBy, setSortBy] = useState<"newest" | "stars" | "name" | "downloadCount">("newest")
 
 	const items = mcpMarketplaceCatalog?.items || []
 
@@ -57,23 +59,8 @@ const McpMarketplaceView = () => {
 	}, [items, searchQuery, selectedCategory, sortBy])
 
 	useEffect(() => {
-		const handleMessage = (event: MessageEvent) => {
-			const message = event.data
-			if (message.type === "mcpDownloadDetails") {
-				if (message.error) {
-					setError(message.error)
-				}
-			}
-		}
-
-		window.addEventListener("message", handleMessage)
-
 		// Fetch marketplace catalog on initial load
 		fetchMarketplace()
-
-		return () => {
-			window.removeEventListener("message", handleMessage)
-		}
 	}, [])
 
 	useEffect(() => {
@@ -92,7 +79,19 @@ const McpMarketplaceView = () => {
 			setIsLoading(true)
 		}
 		setError(null)
-		vscode.postMessage({ type: "fetchMcpMarketplace", bool: forceRefresh })
+
+		if (mcpMarketplaceEnabled) {
+			McpServiceClient.refreshMcpMarketplace(EmptyRequest.create({}))
+				.then((response) => {
+					setMcpMarketplaceCatalog(response)
+				})
+				.catch((error) => {
+					console.error("Error refreshing MCP marketplace:", error)
+					setError("Failed to load marketplace data")
+					setIsLoading(false)
+					setIsRefreshing(false)
+				})
+		}
 	}
 
 	if (isLoading || isRefreshing) {
@@ -142,7 +141,7 @@ const McpMarketplaceView = () => {
 				{/* Search row */}
 				<VSCodeTextField
 					style={{ width: "100%" }}
-					placeholder="搜索 MCPs..."
+					placeholder="搜索 MCP..."
 					value={searchQuery}
 					onInput={(e) => setSearchQuery((e.target as HTMLInputElement).value)}>
 					<div
@@ -156,7 +155,7 @@ const McpMarketplaceView = () => {
 					{searchQuery && (
 						<div
 							className="codicon codicon-close"
-							aria-label="清除"
+							aria-label="清除搜索"
 							onClick={() => setSearchQuery("")}
 							slot="end"
 							style={{
@@ -185,7 +184,7 @@ const McpMarketplaceView = () => {
 							fontWeight: 500,
 							flexShrink: 0,
 						}}>
-						过滤:
+						筛选:
 					</span>
 					<div
 						style={{
@@ -233,9 +232,9 @@ const McpMarketplaceView = () => {
 						}}
 						value={sortBy}
 						onChange={(e) => setSortBy((e.target as HTMLInputElement).value as typeof sortBy)}>
-						<VSCodeRadio value="downloadCount">安装量</VSCodeRadio>
+						<VSCodeRadio value="downloadCount">最多安装</VSCodeRadio>
 						<VSCodeRadio value="newest">最新</VSCodeRadio>
-						<VSCodeRadio value="stars">GitHub Stars</VSCodeRadio>
+						<VSCodeRadio value="stars">GitHub 星标</VSCodeRadio>
 						<VSCodeRadio value="name">名称</VSCodeRadio>
 					</VSCodeRadioGroup>
 				</div>
@@ -271,10 +270,14 @@ const McpMarketplaceView = () => {
 							padding: "20px",
 							color: "var(--vscode-descriptionForeground)",
 						}}>
-						{searchQuery || selectedCategory ? "未找到匹配的 MCP 服务器" : "在市场上找不到 MCP 服务器"}
+						{searchQuery || selectedCategory
+							? "未找到匹配的 MCP 服务器"
+							: "市场中未找到 MCP 服务器"}
 					</div>
 				) : (
-					filteredItems.map((item) => <McpMarketplaceCard key={item.mcpId} item={item} installedServers={mcpServers} />)
+					filteredItems.map((item) => (
+						<McpMarketplaceCard key={item.mcpId} item={item} installedServers={mcpServers} setError={setError} />
+					))
 				)}
 				<McpSubmitCard />
 			</div>

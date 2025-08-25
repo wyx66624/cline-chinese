@@ -1,23 +1,28 @@
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { useExtensionState } from "@/context/ExtensionStateContext"
-import { vscode } from "@/utils/vscode"
-import { WebServiceClient } from "@/services/grpc-client"
-import { StringRequest } from "@shared/proto/common"
+import { AccountServiceClient } from "@/services/grpc-client"
+import { EmptyRequest } from "@shared/proto/cline/common"
 
 export const ShengSuanYunAccountInfoCard = () => {
-	const { apiConfiguration } = useExtensionState()
-	const key = apiConfiguration?.shengSuanYunApiKey || null
+	const { apiConfiguration, navigateToAccount } = useExtensionState()
+	let key = apiConfiguration?.shengSuanYunApiKey || false
 	return (
 		<div className="max-w-[600px]">
-			{!key ? (
+			{key ? (
+				<VSCodeButton appearance="secondary" onClick={() => navigateToAccount()}>
+					查看账单与使用记录
+				</VSCodeButton>
+			) : (
 				<VSCodeButton
 					appearance="primary"
 					onClick={() => {
-						vscode.postMessage({ type: "accountLoginClickedSSY" })
+						AccountServiceClient.shengSuanYunLoginClicked(EmptyRequest.create()).catch((err) =>
+							console.error("shengSuanYunLoginClicked Failed to get login URL:", err),
+						)
 					}}>
 					登录胜算云
 				</VSCodeButton>
-			) : null}
+			)}
 		</div>
 	)
 }

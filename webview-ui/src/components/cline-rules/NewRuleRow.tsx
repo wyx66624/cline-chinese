@@ -51,7 +51,7 @@ const NewRuleRow: React.FC<NewRuleRowProps> = ({ isGlobal, ruleType }) => {
 			const extension = getExtension(trimmedFilename)
 
 			if (!isValidExtension(extension)) {
-				setError("支持的文件后缀 .md, .txt, 或无后缀文件。")
+				setError("只允许 .md、.txt 或无文件扩展名")
 				return
 			}
 
@@ -100,7 +100,9 @@ const NewRuleRow: React.FC<NewRuleRowProps> = ({ isGlobal, ruleType }) => {
 							ref={inputRef}
 							type="text"
 							placeholder={
-								ruleType === "workflow" ? "工作流名 (.md, .txt, 或无扩展名)" : "规则名 (.md, .txt, 或无扩展名)"
+								ruleType === "workflow"
+									? "工作流名称 (.md, .txt, 或无扩展名)"
+									: "规则名称 (.md, .txt, 或无扩展名)"
 							}
 							value={filename}
 							onChange={(e) => setFilename(e.target.value)}
@@ -115,8 +117,8 @@ const NewRuleRow: React.FC<NewRuleRowProps> = ({ isGlobal, ruleType }) => {
 							<VSCodeButton
 								appearance="icon"
 								type="submit"
-								aria-label="Create rule file"
-								title="Create rule file"
+								aria-label="创建规则文件"
+								title="创建规则文件"
 								style={{ padding: "0px" }}>
 								<span className="codicon codicon-add text-[14px]" />
 							</VSCodeButton>

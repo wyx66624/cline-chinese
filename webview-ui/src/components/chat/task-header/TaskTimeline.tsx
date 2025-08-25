@@ -4,108 +4,18 @@ import { ClineMessage } from "@shared/ExtensionMessage"
 import { combineApiRequests } from "@shared/combineApiRequests"
 import { combineCommandSequences } from "@shared/combineCommandSequences"
 import TaskTimelineTooltip from "./TaskTimelineTooltip"
-import {
-	COLOR_WHITE,
-	COLOR_GRAY,
-	COLOR_DARK_GRAY,
-	COLOR_BEIGE,
-	COLOR_BLUE,
-	COLOR_RED,
-	COLOR_PURPLE,
-	COLOR_GREEN,
-} from "../colors"
+import { getColor } from "./util"
+import { COLOR_WHITE, COLOR_GRAY, COLOR_DARK_GRAY, COLOR_BEIGE, COLOR_BLUE, COLOR_PURPLE, COLOR_GREEN } from "../colors"
 
 // Timeline dimensions and spacing
-const TIMELINE_HEIGHT = "18px"
-const BLOCK_WIDTH = "9px"
+const TIMELINE_HEIGHT = "13px"
+const BLOCK_WIDTH = "13px"
 const BLOCK_GAP = "3px"
 const TOOLTIP_MARGIN = 32 // 32px margin on each side
 
 interface TaskTimelineProps {
 	messages: ClineMessage[]
 	onBlockClick?: (messageIndex: number) => void
-}
-
-const getBlockColor = (message: ClineMessage): string => {
-	if (message.type === "say") {
-		switch (message.say) {
-			case "task":
-				return COLOR_WHITE // White for system prompt
-			case "user_feedback":
-				return COLOR_WHITE // White for user feedback
-			case "text":
-				return COLOR_GRAY // Gray for assistant responses
-			case "tool":
-				if (message.text) {
-					try {
-						const toolData = JSON.parse(message.text)
-						if (
-							toolData.tool === "readFile" ||
-							toolData.tool === "listFilesTopLevel" ||
-							toolData.tool === "listFilesRecursive" ||
-							toolData.tool === "listCodeDefinitionNames" ||
-							toolData.tool === "searchFiles"
-						) {
-							return COLOR_BEIGE // Beige for file read operations
-						} else if (toolData.tool === "editedExistingFile" || toolData.tool === "newFileCreated") {
-							return COLOR_BLUE // Blue for file edit/create operations
-						} else if (toolData.tool === "webFetch") {
-							return COLOR_PURPLE // Purple for web fetch operations
-						}
-					} catch (e) {
-						// JSON parse error here
-					}
-				}
-				return COLOR_BEIGE // Default beige for tool use
-			case "command":
-			case "command_output":
-				return COLOR_PURPLE // Red for terminal commands
-			case "browser_action":
-			case "browser_action_result":
-				return COLOR_PURPLE // Purple for browser actions
-			case "completion_result":
-				return COLOR_GREEN // Green for task success
-			default:
-				return COLOR_DARK_GRAY // Dark gray for unknown
-		}
-	} else if (message.type === "ask") {
-		switch (message.ask) {
-			case "followup":
-				return COLOR_GRAY // Gray for user messages
-			case "plan_mode_respond":
-				return COLOR_GRAY // Gray for planning responses
-			case "tool":
-				// Match the color of the tool approval with the tool type
-				if (message.text) {
-					try {
-						const toolData = JSON.parse(message.text)
-						if (
-							toolData.tool === "readFile" ||
-							toolData.tool === "listFilesTopLevel" ||
-							toolData.tool === "listFilesRecursive" ||
-							toolData.tool === "listCodeDefinitionNames" ||
-							toolData.tool === "searchFiles"
-						) {
-							return COLOR_BEIGE // Beige for file read operations
-						} else if (toolData.tool === "editedExistingFile" || toolData.tool === "newFileCreated") {
-							return COLOR_BLUE // Blue for file edit/create operations
-						} else if (toolData.tool === "webFetch") {
-							return COLOR_PURPLE // Purple for web fetch operations
-						}
-					} catch (e) {
-						// JSON parse error here
-					}
-				}
-				return COLOR_BEIGE // Default beige for tool approvals
-			case "command":
-				return COLOR_PURPLE // Red for command approvals (same as terminal commands)
-			case "browser_action_launch":
-				return COLOR_PURPLE // Purple for browser launch approvals (same as browser actions)
-			default:
-				return COLOR_DARK_GRAY // Dark gray for unknown
-		}
-	}
-	return COLOR_WHITE // Default color
 }
 
 const TaskTimeline: React.FC<TaskTimelineProps> = ({ messages, onBlockClick }) => {
@@ -129,6 +39,7 @@ const TaskTimeline: React.FC<TaskTimelineProps> = ({ messages, onBlockClick }) =
 					msg.say === "api_req_retried" ||
 					msg.say === "deleted_api_reqs" ||
 					msg.say === "checkpoint_created" ||
+					msg.say === "task_progress" ||
 					(msg.say === "text" && (!msg.text || msg.text.trim() === "")))
 			) {
 				return false
@@ -165,6 +76,22 @@ const TaskTimeline: React.FC<TaskTimelineProps> = ({ messages, onBlockClick }) =
 	// Render a timeline block
 	const TimelineBlock = useCallback(
 		(index: number) => {
+			// Show placeholder block when no items exist
+			if (taskTimelinePropsMessages.length === 0 || index >= taskTimelinePropsMessages.length) {
+				return (
+					<div
+						style={{
+							width: BLOCK_WIDTH,
+							height: "100%",
+							backgroundColor: "#e5e5e5", // Light gray placeholder
+							flexShrink: 0,
+							marginRight: BLOCK_GAP,
+							opacity: 0.5,
+						}}
+					/>
+				)
+			}
+
 			const message = taskTimelinePropsMessages[index]
 			const originalMessageIndex = messageIndexMap[index]
 
@@ -181,7 +108,7 @@ const TaskTimeline: React.FC<TaskTimelineProps> = ({ messages, onBlockClick }) =
 						style={{
 							width: BLOCK_WIDTH,
 							height: "100%",
-							backgroundColor: getBlockColor(message),
+							backgroundColor: getColor(message),
 							flexShrink: 0,
 							cursor: "pointer",
 							marginRight: BLOCK_GAP,
@@ -204,7 +131,37 @@ const TaskTimeline: React.FC<TaskTimelineProps> = ({ messages, onBlockClick }) =
 	}, [taskTimelinePropsMessages])
 
 	if (taskTimelinePropsMessages.length === 0) {
-		return null
+		return (
+			<div
+				ref={containerRef}
+				style={{
+					position: "relative",
+					width: "100%",
+					marginTop: "4px",
+					marginBottom: "4px",
+					overflow: "hidden",
+				}}>
+				<div
+					style={{
+						height: TIMELINE_HEIGHT,
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+					}}>
+					<div
+						style={{
+							width: BLOCK_WIDTH,
+							height: BLOCK_WIDTH,
+							backgroundColor: COLOR_GRAY,
+							borderRadius: "50%",
+							opacity: 0.5,
+							flexShrink: 0,
+							marginRight: BLOCK_GAP,
+						}}
+					/>
+				</div>
+			</div>
+		)
 	}
 
 	return (
@@ -213,9 +170,9 @@ const TaskTimeline: React.FC<TaskTimelineProps> = ({ messages, onBlockClick }) =
 			style={{
 				position: "relative",
 				width: "100%",
+				height: TIMELINE_HEIGHT,
 				marginTop: "4px",
 				marginBottom: "4px",
-				overflow: "hidden",
 			}}>
 			<style>
 				{`
@@ -236,8 +193,9 @@ const TaskTimeline: React.FC<TaskTimelineProps> = ({ messages, onBlockClick }) =
 				style={{
 					height: TIMELINE_HEIGHT,
 					width: "100%",
+					//overflowY: "hidden",
 				}}
-				totalCount={taskTimelinePropsMessages.length}
+				totalCount={Math.max(1, taskTimelinePropsMessages.length)}
 				itemContent={TimelineBlock}
 				horizontalDirection={true}
 				increaseViewportBy={12}

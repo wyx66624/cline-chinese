@@ -21,53 +21,46 @@ import {
 } from "@vscode/webview-ui-toolkit/react"
 
 function Demo() {
-	// function handleHowdyClick() {
-	// 	vscode.postMessage({
-	// 		command: "hello",
-	// 		text: "Hey there partner! 🤠",
-	// 	})
-	// }
-
 	const rowData = [
 		{
-			cell1: "Cell Data",
-			cell2: "Cell Data",
-			cell3: "Cell Data",
-			cell4: "Cell Data",
+			cell1: "单元格数据",
+			cell2: "单元格数据",
+			cell3: "单元格数据",
+			cell4: "单元格数据",
 		},
 		{
-			cell1: "Cell Data",
-			cell2: "Cell Data",
-			cell3: "Cell Data",
-			cell4: "Cell Data",
+			cell1: "单元格数据",
+			cell2: "单元格数据",
+			cell3: "单元格数据",
+			cell4: "单元格数据",
 		},
 		{
-			cell1: "Cell Data",
-			cell2: "Cell Data",
-			cell3: "Cell Data",
-			cell4: "Cell Data",
+			cell1: "单元格数据",
+			cell2: "单元格数据",
+			cell3: "单元格数据",
+			cell4: "单元格数据",
 		},
 	]
 
 	return (
 		<main>
-			<h1>Hello World!</h1>
-			<VSCodeButton>Howdy!</VSCodeButton>
+			<h1>你好世界！</h1>
+			<VSCodeButton>你好！</VSCodeButton>
 
 			<div className="grid gap-3 p-2 place-items-start">
 				<VSCodeDataGrid>
 					<VSCodeDataGridRow row-type="header">
 						<VSCodeDataGridCell cell-type="columnheader" grid-column="1">
-							A Custom Header Title
+							自定义标题
 						</VSCodeDataGridCell>
 						<VSCodeDataGridCell cell-type="columnheader" grid-column="2">
-							Another Custom Title
+							另一个自定义标题
 						</VSCodeDataGridCell>
 						<VSCodeDataGridCell cell-type="columnheader" grid-column="3">
-							Title Is Custom
+							标题是自定义的
 						</VSCodeDataGridCell>
 						<VSCodeDataGridCell cell-type="columnheader" grid-column="4">
-							Custom Title
+							自定义标题
 						</VSCodeDataGridCell>
 					</VSCodeDataGridRow>
 					{rowData.map((row, index) => (
@@ -82,13 +75,13 @@ function Demo() {
 
 				<VSCodeTextField>
 					<section slot="end" style={{ display: "flex", alignItems: "center" }}>
-						<VSCodeButton appearance="icon" aria-label="Match Case">
+						<VSCodeButton appearance="icon" aria-label="匹配大小写">
 							<span className="codicon codicon-case-sensitive"></span>
 						</VSCodeButton>
-						<VSCodeButton appearance="icon" aria-label="Match Whole Word">
+						<VSCodeButton appearance="icon" aria-label="匹配整个单词">
 							<span className="codicon codicon-whole-word"></span>
 						</VSCodeButton>
-						<VSCodeButton appearance="icon" aria-label="Use Regular Expression">
+						<VSCodeButton appearance="icon" aria-label="使用正则表达式">
 							<span className="codicon codicon-regex"></span>
 						</VSCodeButton>
 					</section>
@@ -98,30 +91,30 @@ function Demo() {
 				<span className="flex gap-3">
 					<VSCodeProgressRing />
 					<VSCodeTextField />
-					<VSCodeButton>Add</VSCodeButton>
-					<VSCodeButton appearance="secondary">Remove</VSCodeButton>
+					<VSCodeButton>添加</VSCodeButton>
+					<VSCodeButton appearance="secondary">删除</VSCodeButton>
 				</span>
 
-				<VSCodeBadge>Badge</VSCodeBadge>
-				<VSCodeCheckbox>Checkbox</VSCodeCheckbox>
+				<VSCodeBadge>徽章</VSCodeBadge>
+				<VSCodeCheckbox>复选框</VSCodeCheckbox>
 				<VSCodeDivider />
 				<VSCodeDropdown>
-					<VSCodeOption>Option 1</VSCodeOption>
-					<VSCodeOption>Option 2</VSCodeOption>
+					<VSCodeOption>选项 1</VSCodeOption>
+					<VSCodeOption>选项 2</VSCodeOption>
 				</VSCodeDropdown>
-				<VSCodeLink href="#">Link</VSCodeLink>
+				<VSCodeLink href="#">链接</VSCodeLink>
 				<VSCodePanels>
-					<VSCodePanelTab id="tab-1">Tab 1</VSCodePanelTab>
-					<VSCodePanelTab id="tab-2">Tab 2</VSCodePanelTab>
-					<VSCodePanelView id="view-1">Panel View 1</VSCodePanelView>
-					<VSCodePanelView id="view-2">Panel View 2</VSCodePanelView>
+					<VSCodePanelTab id="tab-1">标签 1</VSCodePanelTab>
+					<VSCodePanelTab id="tab-2">标签 2</VSCodePanelTab>
+					<VSCodePanelView id="view-1">面板视图 1</VSCodePanelView>
+					<VSCodePanelView id="view-2">面板视图 2</VSCodePanelView>
 				</VSCodePanels>
 				<VSCodeRadioGroup>
-					<VSCodeRadio>Radio 1</VSCodeRadio>
-					<VSCodeRadio>Radio 2</VSCodeRadio>
+					<VSCodeRadio>单选 1</VSCodeRadio>
+					<VSCodeRadio>单选 2</VSCodeRadio>
 				</VSCodeRadioGroup>
-				<VSCodeTag>Tag</VSCodeTag>
-				<VSCodeTextArea placeholder="Text Area" />
+				<VSCodeTag>标签</VSCodeTag>
+				<VSCodeTextArea placeholder="文本区域" />
 			</div>
 		</main>
 	)

@@ -102,7 +102,7 @@ const SlashCommandMenu: React.FC<SlashCommandMenuProps> = ({
 					</>
 				) : (
 					<div className="py-2 px-3 cursor-default flex flex-col">
-						<div className="text-[0.85em] text-[var(--vscode-descriptionForeground)]">没找到命令</div>
+						<div className="text-[0.85em] text-[var(--vscode-descriptionForeground)]">未找到匹配的命令</div>
 					</div>
 				)}
 			</div>

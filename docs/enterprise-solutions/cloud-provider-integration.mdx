@@ -1,0 +1,41 @@
+---
+title: "云提供商集成"
+---
+
+Cline 支持主要的云提供商，如 AWS Bedrock 和 Google 的 Cloud Vertex；无论您的团队目前使用哪个都是合适的，无需更改提供商即可利用 Cline 的功能。
+
+出于本文档的目的，我们假设您的组织将使用基于云的前沿模型。云推理提供商提供尖端功能和选择最适合您需求的模型的灵活性。
+
+某些场景可能需要使用本地模型，包括处理高度敏感数据、需要一致低延迟响应的应用程序，或遵守严格的数据主权要求。如果您的团队需要使用本地模型，请参阅 [在 Cline 中运行本地模型](/running-models-locally/read-me-first.mdx)。
+
+---
+
+## AWS Bedrock 设置指南
+
+#### [IAM 安全最佳实践](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)（适用于管理员）
+
+#### [使用 API 密钥的 AWS Bedrock 设置](/provider-config/aws-bedrock-with-apikey-authentication)
+
+#### [使用传统 IAM（AWS 凭据）的 AWS Bedrock 设置](/provider-config/aws-bedrock-with-credentials-authentication)
+
+#### [使用 SSO 令牌（AWS 配置文件）的 AWS Bedrock 设置](/provider-config/aws-bedrock-with-profile-authentication)
+
+#### VPC 端点设置
+
+为了保护您团队的数据，Cline 支持 VPC（虚拟私有云）端点，这些端点在您的数据和 AWS Bedrock 之间创建私有连接。AWS VPC 通过消除对公共 IP 地址、网络网关或复杂防火墙规则的需求来增强安全性——本质上为绕过公共互联网的数据创建了一条私有高速公路。通过将流量保持在 AWS 的私有网络内，团队在访问 AWS Bedrock 或自定义 API 等服务时还可以受益于更低的延迟和更可预测的性能。对于那些处理机密信息或在医疗保健或金融等高度监管行业工作的团队，VPC 在云服务的可访问性和私有基础设施的安全性之间提供了完美的平衡。
+
+---
+
+1. 查阅 [AWS 指南](https://docs.aws.amazon.com/bedrock/latest/userguide/vpc-interface-endpoints.html) 创建 VPC 端点。本文档指定了先决条件并描述了用于创建 VPC 端点的语法。
+2. 按照 AWS 控制台中 [创建 VPC 端点](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html#create-interface-endpoint-aws) 的说明进行操作。下图涉及上面链接的 AWS 指南的第 4 步和第 5 步。
+
+<Frame>
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/vpc-console.png" alt="VPC 控制台" />
+</Frame>
+
+3. 记下您的 VPC 端点的 IP 地址，打开 Cline 的设置菜单，并从 API 提供商下拉菜单中选择 `AWS Bedrock`。
+4. 点击 `使用自定义 VPC 端点` 复选框并输入您的 VPC 端点的 IP 地址
+
+<Frame>
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/vpc-settings-menu.png" alt="VPC 设置菜单" />
+</Frame>

@@ -1,6 +1,6 @@
 import { Controller } from ".."
-import { EmptyRequest } from "../../../shared/proto/common"
-import { OpenRouterCompatibleModelInfo, ShengSuanYunModelInfo } from "../../../shared/proto/models"
+import { EmptyRequest } from "@shared/proto/cline/common"
+import { OpenRouterCompatibleModelInfo, ShengSuanYunModelInfo } from "@shared/proto/cline/models"
 import axios from "axios"
 import path from "path"
 import fs from "fs/promises"
@@ -35,7 +35,7 @@ export async function refreshShengSuanYunModels(
 				const modelInfo: Partial<ShengSuanYunModelInfo> = {
 					maxTokens: model.max_tokens || undefined,
 					contextWindow: model.context_window,
-					supportsImages: model.architecture?.input?.includes("image"),
+					supportsImages: model.architecture?.input?.toLowerCase().includes("image"),
 					supportsPromptCache: model.supports_prompt_cache,
 					inputPrice: parsePrice(model.pricing?.prompt),
 					outputPrice: parsePrice(model.pricing?.completion),
@@ -73,12 +73,6 @@ export async function refreshShengSuanYunModels(
 			description: model.description ?? "",
 		}
 	}
-
-	controller.postMessageToWebview({
-		type: "shengSuanYunModels",
-		shengSuanYunModels: typedModels,
-	})
-
 	return OpenRouterCompatibleModelInfo.create({ models: typedModels })
 }
 

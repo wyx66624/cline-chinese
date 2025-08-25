@@ -3,7 +3,7 @@ import { VSCodeButton, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 
 import { McpServiceClient, UiServiceClient } from "@/services/grpc-client"
 
-import { EmptyRequest, StringRequest } from "@shared/proto/common"
+import { EmptyRequest, StringRequest } from "@shared/proto/cline/common"
 import ServersToggleList from "./ServersToggleList"
 const InstalledServersView = () => {
 	const { mcpServers: servers, navigateToSettings } = useExtensionState()
@@ -17,16 +17,17 @@ const InstalledServersView = () => {
 					marginBottom: "16px",
 					marginTop: "5px",
 				}}>
+				The{" "}
 				<VSCodeLink href="https://github.com/modelcontextprotocol" style={{ display: "inline" }}>
 					模型上下文协议
 				</VSCodeLink>{" "}
-				支持与本地运行的 MCP 服务器通信，这些服务器提供额外的工具和资源来扩展 Cline 的能力。您可以使用
+				支持与本地运行的 MCP 服务器通信，这些服务器提供额外的工具和资源来扩展 Cline 的功能。您可以使用{" "}
 				<VSCodeLink href="https://github.com/modelcontextprotocol/servers" style={{ display: "inline" }}>
-					社区版服务器
+					社区制作的服务器
 				</VSCodeLink>{" "}
-				或要求 Cline 创建特定于您的工作流程的新工具（例如，“添加获取最新 npm 文档的工具”）.{" "}
+				或要求 Cline 创建特定于您工作流的新工具（例如，"添加一个获取最新 npm 文档的工具"）。{" "}
 				<VSCodeLink href="https://x.com/sdrzn/status/1867271665086074969" style={{ display: "inline" }}>
-					查看 demo.
+					在此查看演示。
 				</VSCodeLink>
 			</div>
 
@@ -43,7 +44,7 @@ const InstalledServersView = () => {
 						})
 					}}>
 					<span className="codicon codicon-server" style={{ marginRight: "6px" }}></span>
-					配置 MCP 服务
+					配置 MCP 服务器
 				</VSCodeButton>
 
 				<div style={{ textAlign: "center" }}>
@@ -62,7 +63,7 @@ const InstalledServersView = () => {
 							}, 300)
 						}}
 						style={{ fontSize: "12px" }}>
-						MCP 高级设置
+						高级 MCP 设置
 					</VSCodeLink>
 				</div>
 			</div>

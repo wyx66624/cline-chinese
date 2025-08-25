@@ -2,8 +2,8 @@ import { VSCodeButton, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import { memo, useState } from "react"
 import styled from "styled-components"
 import { useExtensionState } from "@/context/ExtensionStateContext"
-import { vscode } from "@/utils/vscode"
-import { TelemetrySetting } from "@shared/TelemetrySetting"
+import { StateServiceClient } from "@/services/grpc-client"
+import { TelemetrySettingEnum, TelemetrySettingRequest } from "@shared/proto/cline/state"
 
 const BannerContainer = styled.div`
 	background-color: var(--vscode-banner-background);
@@ -53,29 +53,37 @@ const TelemetryBanner = () => {
 		navigateToSettings()
 	}
 
-	const handleClose = () => {
-		vscode.postMessage({ type: "telemetrySetting", telemetrySetting: "enabled" satisfies TelemetrySetting })
+	const handleClose = async () => {
+		try {
+			await StateServiceClient.updateTelemetrySetting(
+				TelemetrySettingRequest.create({
+					setting: TelemetrySettingEnum.ENABLED,
+				}),
+			)
+		} catch (error) {
+			console.error("Error updating telemetry setting:", error)
+		}
 	}
 
 	return (
 		<BannerContainer>
-			<CloseButton onClick={handleClose} aria-label="Close banner and enable telemetry">
+			<CloseButton onClick={handleClose} aria-label="关闭横幅并启用遥测">
 				✕
 			</CloseButton>
 			<div>
-				<strong>帮助改进 Cline Chinese</strong>
+				<strong>帮助改进 Cline</strong>
 				<i>
 					<br />
-					(and access experimental features)
+					(并访问实验性功能)
 				</i>
 				<div style={{ marginTop: 4 }}>
-					Cline Chinese收集匿名错误和使用数据，以帮助我们修复错误并改进扩展。绝不会发送任何代码、提示或个人信息。
+					Cline 收集错误和使用数据以帮助我们修复错误和改进扩展。永远不会发送代码、提示或个人信息。
 					<div style={{ marginTop: 4 }}>
-						您可以在此关闭该设置{" "}
+						您可以在{" "}
 						<VSCodeLink href="#" onClick={handleOpenSettings}>
 							设置
 						</VSCodeLink>
-						.
+						中关闭此设置。
 					</div>
 				</div>
 			</div>

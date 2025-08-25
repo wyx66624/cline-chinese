@@ -1,0 +1,52 @@
+---
+title: "问题提及"
+sidebarTitle: "问题提及"
+---
+
+问题提及让 Cline 可以立即访问工作区中的所有错误和警告。只需输入 `@problems`，Cline 就能看到 VSCode 检测到的每个诊断问题。
+
+当您在聊天中输入 `@` 时，从菜单中选择"问题"或直接输入 `@problems`。Cline 将立即看到工作区中的所有错误和警告，包括文件位置和错误消息。
+
+当我在构建错误或 TypeScript 问题上遇到困难时，我会经常使用问题提及。无需尝试描述错误或一个一个地复制它们，我只需询问：
+
+```
+我遇到这些 TypeScript 错误，我不确定如何修复它们：@problems
+
+您能帮助我理解问题是什么以及如何修复它吗？
+```
+
+这给 Cline 提供了带有确切位置和消息的完整错误列表。然后 Cline 可以分析多个错误的模式并提出全面的解决方案。
+
+当与文件提及结合使用时，问题提及特别强大。当我处理复杂的类型错误时，我会引用两者：
+
+```
+我遇到这些类型错误：@problems
+
+这是我的组件：@/src/components/DataTable.tsx
+还有类型文件：@/src/types/api.ts
+
+我如何修复这些问题？
+```
+
+这种方法给 Cline 提供了它需要的一切 - 确切的错误、组件代码和类型定义 - 而无需我手动复制任何内容。
+
+下次您遇到错误时，尝试使用 `@problems` 而不是复制错误消息。您将获得更准确的帮助，因为 Cline 可以看到完整的错误上下文和位置。
+
+## 幕后工作原理
+
+当您在消息中使用问题提及时，幕后会发生以下情况：
+
+1. 当您发送消息时，Cline 检测文本中的 `@problems` 模式
+2. 扩展调用 VSCode 内置的 `vscode.languages.getDiagnostics()` API 来获取所有错误和警告
+3. 它将这些诊断格式化为带有文件路径、行号和错误消息的结构化文本表示
+4. 格式化的问题列表以结构化格式附加到您的消息中：
+    ```
+    <workspace_diagnostics>
+    /path/to/file.js:10:5 - error TS2322: Type 'string' is not assignable to type 'number'.
+    /path/to/file.js:15:3 - warning: This variable is never used.
+    </workspace_diagnostics>
+    ```
+5. 这个包含嵌入诊断的增强消息被发送给 AI
+6. AI 现在可以"看到"工作区中的所有错误和警告，包括它们的位置和消息
+
+每当您使用问题提及时，这个过程都会自动发生，给 AI 提供工作区中所有问题的全面视图，而您无需手动复制它们。

@@ -1,76 +1,27 @@
 // type that represents json data that is sent from extension to webview, called ExtensionMessage and has 'type' enum which can be 'plusButtonClicked' or 'settingsButtonClicked' or 'hello'
-
-import { GitCommit } from "../utils/git"
-import { ApiConfiguration, ModelInfo } from "./api"
+import { ApiConfiguration } from "./api"
 import { AutoApprovalSettings } from "./AutoApprovalSettings"
 import { BrowserSettings } from "./BrowserSettings"
-import { ChatSettings } from "./ChatSettings"
+import { FocusChainSettings } from "./FocusChainSettings"
+import { Mode, OpenaiReasoningEffort } from "./storage/types"
 import { HistoryItem } from "./HistoryItem"
-import { McpServer, McpMarketplaceCatalog, McpDownloadResponse, McpViewTab } from "./mcp"
 import { TelemetrySetting } from "./TelemetrySetting"
-import type { BalanceResponse, UsageTransaction, PaymentTransaction } from "../shared/ClineAccount"
 import { ClineRulesToggles } from "./cline-rules"
+import { UserInfo } from "./UserInfo"
+import { McpDisplayMode } from "./McpDisplayMode"
 
 // webview will hold state
 export interface ExtensionMessage {
-	type:
-		| "action"
-		| "state"
-		| "selectedImages"
-		| "openAiModels"
-		| "requestyModels"
-		| "mcpDownloadDetails"
-		| "userCreditsBalance"
-		| "userCreditsUsage"
-		| "userCreditsPayments"
-		| "grpc_response" // New type for gRPC responses
-		| "setActiveQuote"
-		| "fetchUSDRate"
-		| "shengSuanYunModels"
-		| "authCallback"
-	text?: string
-	action?: "didBecomeVisible" | "accountLogoutClicked" | "focusChatInput"
-	state?: ExtensionState
-	images?: string[]
-	files?: string[]
-	ollamaModels?: string[]
-	lmStudioModels?: string[]
-	vsCodeLmModels?: { vendor?: string; family?: string; version?: string; id?: string }[]
-	openAiModels?: string[]
-	requestyModels?: Record<string, ModelInfo>
-	mcpServers?: McpServer[]
-	customToken?: string
-	mcpMarketplaceCatalog?: McpMarketplaceCatalog
-	error?: string
-	mcpDownloadDetails?: McpDownloadResponse
-	commits?: GitCommit[]
-	url?: string
-	isImage?: boolean
-	fetchUSDRate?: number
-	userCreditsBalance?: BalanceResponse
-	userCreditsUsage?: UsageTransaction[]
-	userCreditsPayments?: PaymentTransaction[]
-	success?: boolean
-	endpoint?: string
-	isBundled?: boolean
-	isConnected?: boolean
-	isRemote?: boolean
-	host?: string
-	mentionsRequestId?: string
-	results?: Array<{
-		path: string
-		type: "file" | "folder"
-		label?: string
-	}>
-	tab?: McpViewTab
-	grpc_response?: {
-		message?: any // JSON serialized protobuf message
-		request_id: string // Same ID as the request
-		error?: string // Optional error message
-		is_streaming?: boolean // Whether this is part of a streaming response
-		sequence_number?: number // For ordering chunks in streaming responses
-	}
-	shengSuanYunModels?: Record<string, ModelInfo>
+	type: "grpc_response" // New type for gRPC responses
+	grpc_response?: GrpcResponse
+}
+
+export type GrpcResponse = {
+	message?: any // JSON serialized protobuf message
+	request_id: string // Same ID as the request
+	error?: string // Optional error message
+	is_streaming?: boolean // Whether this is part of a streaming response
+	sequence_number?: number // For ordering chunks in streaming responses
 }
 
 export type Platform = "aix" | "darwin" | "freebsd" | "linux" | "openbsd" | "sunos" | "win32" | "unknown"
@@ -79,16 +30,20 @@ export const DEFAULT_PLATFORM = "unknown"
 
 export interface ExtensionState {
 	isNewUser: boolean
+	welcomeViewCompleted: boolean
 	apiConfiguration?: ApiConfiguration
 	autoApprovalSettings: AutoApprovalSettings
 	browserSettings: BrowserSettings
 	remoteBrowserHost?: string
-	chatSettings: ChatSettings
+	preferredLanguage?: string
+	openaiReasoningEffort?: OpenaiReasoningEffort
+	mode: Mode
 	checkpointTrackerErrorMessage?: string
 	clineMessages: ClineMessage[]
 	currentTaskItem?: HistoryItem
-	customInstructions?: string
+	currentFocusChainChecklist?: string | null
 	mcpMarketplaceEnabled?: boolean
+	mcpDisplayMode: McpDisplayMode
 	planActSeparateModelsSetting: boolean
 	enableCheckpointsSetting?: boolean
 	platform: Platform
@@ -97,8 +52,10 @@ export interface ExtensionState {
 	telemetrySetting: TelemetrySetting
 	shellIntegrationTimeout: number
 	terminalReuseEnabled?: boolean
+	terminalOutputLineLimit: number
+	defaultTerminalProfile?: string
 	uriScheme?: string
-	userInfo?: any
+	userInfo?: UserInfo
 	version: string
 	distinctId: string
 	globalClineRulesToggles: ClineRulesToggles
@@ -108,6 +65,9 @@ export interface ExtensionState {
 	localCursorRulesToggles: ClineRulesToggles
 	localWindsurfRulesToggles: ClineRulesToggles
 	mcpResponsesCollapsed?: boolean
+	strictPlanModeEnabled?: boolean
+	focusChainSettings: FocusChainSettings
+	focusChainFeatureFlagEnabled?: boolean
 }
 
 export interface ClineMessage {
@@ -143,6 +103,7 @@ export type ClineAsk =
 	| "use_mcp_server"
 	| "new_task"
 	| "condense"
+	| "summarize_task"
 	| "report_bug"
 
 export type ClineSay =
@@ -165,6 +126,7 @@ export type ClineSay =
 	| "browser_action_result"
 	| "mcp_server_request_started"
 	| "mcp_server_response"
+	| "mcp_notification"
 	| "use_mcp_server"
 	| "diff_error"
 	| "deleted_api_reqs"
@@ -172,6 +134,7 @@ export type ClineSay =
 	| "checkpoint_created"
 	| "load_mcp_documentation"
 	| "info" // Added for general informational messages like retry status
+	| "task_progress"
 
 export interface ClineSayTool {
 	tool:
@@ -183,6 +146,7 @@ export interface ClineSayTool {
 		| "listCodeDefinitionNames"
 		| "searchFiles"
 		| "webFetch"
+		| "summarizeTask"
 	path?: string
 	diff?: string
 	content?: string

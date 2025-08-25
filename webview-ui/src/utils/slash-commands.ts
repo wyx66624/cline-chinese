@@ -7,22 +7,27 @@ export interface SlashCommand {
 export const DEFAULT_SLASH_COMMANDS: SlashCommand[] = [
 	{
 		name: "newtask",
-		description: "创建一个新任务，包含当前任务的上下文",
+		description: "Create a new task with context from the current task",
 		section: "default",
 	},
 	{
 		name: "smol",
-		description: "压缩当前的上下文窗口",
+		description: "Condenses your current context window",
 		section: "default",
 	},
 	{
 		name: "newrule",
-		description: "根据您的对话创建一个新的客户端规则",
+		description: "Create a new Cline rule based on your conversation",
 		section: "default",
 	},
 	{
 		name: "reportbug",
-		description: "用Cline创建一个Github问题",
+		description: "Create a Github issue with Cline",
+		section: "default",
+	},
+	{
+		name: "deep-planning",
+		description: "Create a comprehensive implementation plan before coding",
 		section: "default",
 	},
 ]

@@ -1,8 +1,21 @@
 import { ApiConfiguration, openRouterDefaultModelId, ModelInfo } from "@shared/api"
+import { getModeSpecificFields } from "@/components/settings/utils/providerUtils"
+import { Mode } from "@shared/storage/types"
 
-export function validateApiConfiguration(apiConfiguration?: ApiConfiguration): string | undefined {
+export function validateApiConfiguration(currentMode: Mode, apiConfiguration?: ApiConfiguration): string | undefined {
 	if (apiConfiguration) {
-		switch (apiConfiguration.apiProvider) {
+		const {
+			apiProvider,
+			openAiModelId,
+			requestyModelId,
+			fireworksModelId,
+			togetherModelId,
+			ollamaModelId,
+			lmStudioModelId,
+			vsCodeLmModelSelector,
+		} = getModeSpecificFields(apiConfiguration, currentMode)
+
+		switch (apiProvider) {
 			case "anthropic":
 				if (!apiConfiguration.apiKey) {
 					return "您必须提供有效的API密钥或选择其他提供者。"
@@ -59,48 +72,53 @@ export function validateApiConfiguration(apiConfiguration?: ApiConfiguration): s
 				}
 				break
 			case "cline":
-				if (!apiConfiguration.clineApiKey) {
-					return "您必须提供有效的API密钥或选择其他提供者。"
+				if (!apiConfiguration.clineAccountId) {
+					return "You must provide a valid API key or choose a different provider."
 				}
 				break
 			case "openai":
-				if (!apiConfiguration.openAiBaseUrl || !apiConfiguration.openAiApiKey || !apiConfiguration.openAiModelId) {
+				if (!apiConfiguration.openAiBaseUrl || !apiConfiguration.openAiApiKey || !openAiModelId) {
 					return "您必须提供一个有效的基本网址、API 密钥和模型 ID。"
 				}
 				break
 			case "requesty":
-				if (!apiConfiguration.requestyApiKey || !apiConfiguration.requestyModelId) {
-					return "您必须提供有效的API密钥或选择其他提供者。"
+				if (!apiConfiguration.requestyApiKey) {
+					return "You must provide a valid API key or choose a different provider."
 				}
 				break
 			case "fireworks":
-				if (!apiConfiguration.fireworksApiKey || !apiConfiguration.fireworksModelId) {
-					return "您必须提供有效的API密钥或选择其他提供者。"
+				if (!apiConfiguration.fireworksApiKey || !fireworksModelId) {
+					return "您必须提供一个有效的 API密钥"
 				}
 				break
 			case "together":
-				if (!apiConfiguration.togetherApiKey || !apiConfiguration.togetherModelId) {
-					return "您必须提供有效的API密钥或选择其他提供者。"
+				if (!apiConfiguration.togetherApiKey || !togetherModelId) {
+					return "您必须提供一个有效的 API密钥"
 				}
 				break
 			case "ollama":
-				if (!apiConfiguration.ollamaModelId) {
-					return "您必须提供一个有效的模型ID。"
+				if (!ollamaModelId) {
+					return "您必须提供一个有效的模型 ID。"
 				}
 				break
 			case "lmstudio":
-				if (!apiConfiguration.lmStudioModelId) {
-					return "您必须提供一个有效的模型ID。"
+				if (!lmStudioModelId) {
+					return "您必须提供一个有效的模型 ID。"
 				}
 				break
 			case "vscode-lm":
-				if (!apiConfiguration.vsCodeLmModelSelector) {
-					return "您必须提供一个有效的模型选择器。"
+				if (!vsCodeLmModelSelector) {
+					return "您必须提供一个有效的模型 ID。"
+				}
+				break
+			case "moonshot":
+				if (!apiConfiguration.moonshotApiKey) {
+					return "You must provide a valid API key or choose a different provider."
 				}
 				break
 			case "nebius":
 				if (!apiConfiguration.nebiusApiKey) {
-					return "You must provide a valid API key or choose a different provider."
+					return "您必须提供有效的API密钥或选择其他提供者。"
 				}
 				break
 			case "asksage":
@@ -118,9 +136,18 @@ export function validateApiConfiguration(apiConfiguration?: ApiConfiguration): s
 					return "您必须提供有效的API密钥或选择其他提供者。"
 				}
 				break
-			case "dify":
-				if (!apiConfiguration.difyApiKey || !apiConfiguration.difyBaseUrl) {
-					return "您必须同时提供有效的 API 密钥和基本 URL。"
+			case "sapaicore":
+				if (!apiConfiguration.sapAiCoreBaseUrl) {
+					return "您必须提供有效的 URL 密钥或选择其他提供者。"
+				}
+				if (!apiConfiguration.sapAiCoreClientId) {
+					return "您必须提供有效的客户端ID密钥或选择其他提供者。"
+				}
+				if (!apiConfiguration.sapAiCoreClientSecret) {
+					return "您必须提供有效的客户端密钥或选择其他提供者。"
+				}
+				if (!apiConfiguration.sapAiCoreTokenUrl) {
+					return "您必须提供有效的用户认证URL或选择其他提供者。"
 				}
 				break
 		}
@@ -129,14 +156,16 @@ export function validateApiConfiguration(apiConfiguration?: ApiConfiguration): s
 }
 
 export function validateModelId(
+	currentMode: Mode,
 	apiConfiguration?: ApiConfiguration,
 	openRouterModels?: Record<string, ModelInfo>,
 ): string | undefined {
 	if (apiConfiguration) {
-		switch (apiConfiguration.apiProvider) {
+		const { apiProvider, openRouterModelId } = getModeSpecificFields(apiConfiguration, currentMode)
+		switch (apiProvider) {
 			case "openrouter":
 			case "cline":
-				const modelId = apiConfiguration.openRouterModelId || openRouterDefaultModelId // in case the user hasn't changed the model id, it will be undefined by default
+				const modelId = openRouterModelId || openRouterDefaultModelId // in case the user hasn't changed the model id, it will be undefined by default
 				if (!modelId) {
 					return "You must provide a model ID."
 				}
