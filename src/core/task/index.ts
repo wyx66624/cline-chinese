@@ -2606,7 +2606,7 @@ export class Task {
 		let details = ""
 
 		// It could be useful for cline to know if the user went from one or no file to another between messages, so we always include this context
-		details += "\n\n# VSCode Visible Files"
+		details += "\n\n# VSCode Visible Files" //遍历 vscode.window.visibleTextEditors，收集当前“真正可见的”编辑器，当前切到的vscode页面（视窗里显示的文本编辑器）对应文档的绝对路径。
 		const visibleFilePaths = (await HostProvider.window.getVisibleTabs({})).paths.map((absolutePath) =>
 			path.relative(this.cwd, absolutePath),
 		)
@@ -2623,7 +2623,7 @@ export class Task {
 			details += "\n(No visible files)"
 		}
 
-		details += "\n\n# VSCode Open Tabs"
+		details += "\n\n# VSCode Open Tabs" //所有打开状态的标签页文件路径（包括在后台未当前可见的）
 		const openTabPaths = (await HostProvider.window.getOpenTabs({})).paths.map((absolutePath) =>
 			path.relative(this.cwd, absolutePath),
 		)

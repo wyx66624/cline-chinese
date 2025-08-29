@@ -135,13 +135,15 @@ export class MessageStateHandler {
 		this.clineMessages = newMessages
 		await this.saveClineMessagesAndUpdateHistory()
 	}
-
+	//更新cline消息历史中的特定消息
+	//__参数1__：`lastApiReqStartedIndex` - 要更新的消息在消息数组中的索引位置
+	//__参数2__：包含更新内容的对象，这里是 `{ text: JSON.stringify(...) }`
 	async updateClineMessage(index: number, updates: Partial<ClineMessage>): Promise<void> {
 		if (index < 0 || index >= this.clineMessages.length) {
 			throw new Error(`Invalid message index: ${index}`)
 		}
 
-		// Apply updates to the message
+		// 将updates对象的属性赋值到this.clineMessages[index]中
 		Object.assign(this.clineMessages[index], updates)
 
 		// Save changes and update history

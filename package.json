@@ -352,7 +352,7 @@
 		"compile-tests": "node ./scripts/build-tests.js",
 		"watch-tests": "tsc -p . -w --outDir out",
 		"check-types": "npm run protos && npx tsc --noEmit && cd webview-ui && npx tsc -b --noEmit",
-		"lint": "eslint src --ext ts && eslint webview-ui/src --ext ts && buf lint && cd webview-ui && npm run lint",
+		"lint": "eslint src --ext ts && buf lint && cd webview-ui && npm run lint",
 		"format": "prettier . --check",
 		"format:fix": "prettier . --write",
 		"pretest": "npm run compile && npm run compile-tests && npm run compile-standalone && npm run lint",

@@ -1,237 +1,247 @@
 import type { LanguageModelChatSelector } from "../api/providers/types"
 import { ShengSuanYunModelInfo } from "./proto/cline/models"
 
+// API提供者类型，定义了所有支持的AI模型提供商
 export type ApiProvider =
-	| "anthropic"
-	| "claude-code"
-	| "openrouter"
-	| "bedrock"
-	| "vertex"
-	| "openai"
-	| "ollama"
-	| "lmstudio"
-	| "gemini"
-	| "openai-native"
-	| "requesty"
-	| "together"
-	| "deepseek"
-	| "qwen"
-	| "doubao"
-	| "mistral"
-	| "vscode-lm"
-	| "cline"
-	| "litellm"
-	| "moonshot"
-	| "nebius"
-	| "fireworks"
-	| "asksage"
-	| "xai"
-	| "sambanova"
-	| "shengsuanyun"
-	| "cerebras"
-	| "sapaicore"
-	| "groq"
-	| "huggingface"
-	| "huawei-cloud-maas"
-	| "baseten"
+	| "anthropic" // Anthropic (Claude系列模型)
+	| "claude-code" // Claude Code专用模式
+	| "openrouter" // OpenRouter (多模型聚合平台)
+	| "bedrock" // AWS Bedrock
+	| "vertex" // Google Vertex AI
+	| "openai" // OpenAI (兼容模式)
+	| "ollama" // Ollama (本地模型运行器)
+	| "lmstudio" // LM Studio (本地模型运行器)
+	| "gemini" // Google Gemini
+	| "openai-native" // OpenAI原生API
+	| "requesty" // Requesty (模型聚合平台)
+	| "together" // Together AI
+	| "deepseek" // DeepSeek (深度求索)
+	| "qwen" // Qwen (通义千问)
+	| "doubao" // Doubao (豆包)
+	| "mistral" // Mistral AI
+	| "vscode-lm" // VSCode语言模型API
+	| "cline" // Cline内置模型
+	| "litellm" // LiteLLM (轻量级模型代理)
+	| "moonshot" // Moonshot AI (月之暗面)
+	| "nebius" // Nebius AI
+	| "fireworks" // Fireworks AI
+	| "asksage" // AskSage
+	| "xai" // X AI (xAI)
+	| "sambanova" // SambaNova
+	| "shengsuanyun" // ShengSuanYun (神算云)
+	| "cerebras" // Cerebras
+	| "sapaicore" // SAP AI Core
+	| "groq" // Groq
+	| "huggingface" // Hugging Face
+	| "huawei-cloud-maas" // 华为云MaaS
+	| "baseten" // Baseten
 
+// API处理器选项接口，定义了所有API提供者的配置选项
 export interface ApiHandlerOptions {
-	// Global configuration (not mode-specific)
-	apiKey?: string // anthropic
-	clineAccountId?: string
-	ulid?: string // Used to identify the task in API requests
-	liteLlmBaseUrl?: string
-	liteLlmApiKey?: string
-	liteLlmUsePromptCache?: boolean
-	openAiHeaders?: Record<string, string> // Custom headers for OpenAI requests
-	anthropicBaseUrl?: string
-	openRouterApiKey?: string
-	openRouterProviderSorting?: string
-	awsAccessKey?: string
-	awsSecretKey?: string
-	awsSessionToken?: string
-	awsRegion?: string
-	awsUseCrossRegionInference?: boolean
-	awsBedrockUsePromptCache?: boolean
-	awsAuthentication?: string
-	awsUseProfile?: boolean
-	awsProfile?: string
-	awsBedrockApiKey?: string
-	awsBedrockEndpoint?: string
-	claudeCodePath?: string
-	vertexProjectId?: string
-	vertexRegion?: string
-	openAiBaseUrl?: string
-	openAiApiKey?: string
-	ollamaBaseUrl?: string
-	ollamaApiKey?: string
-	ollamaApiOptionsCtxNum?: string
-	lmStudioBaseUrl?: string
-	geminiApiKey?: string
-	geminiBaseUrl?: string
-	openAiNativeApiKey?: string
-	deepSeekApiKey?: string
-	requestyApiKey?: string
-	requestyBaseUrl?: string
-	togetherApiKey?: string
-	fireworksApiKey?: string
-	fireworksModelMaxCompletionTokens?: number
-	fireworksModelMaxTokens?: number
-	qwenApiKey?: string
-	doubaoApiKey?: string
-	mistralApiKey?: string
-	azureApiVersion?: string
-	qwenApiLine?: string
-	moonshotApiLine?: string
-	moonshotApiKey?: string
-	huggingFaceApiKey?: string
-	nebiusApiKey?: string
-	asksageApiUrl?: string
-	asksageApiKey?: string
-	xaiApiKey?: string
-	sambanovaApiKey?: string
-	cerebrasApiKey?: string
-	groqApiKey?: string
-	basetenApiKey?: string
-	requestTimeoutMs?: number
-	shengSuanYunApiKey?: string
-	shengSuanYunToken?: string
-	sapAiCoreClientId?: string
-	sapAiCoreClientSecret?: string
-	sapAiResourceGroup?: string
-	sapAiCoreTokenUrl?: string
-	sapAiCoreBaseUrl?: string
-	huaweiCloudMaasApiKey?: string
-	onRetryAttempt?: (attempt: number, maxRetries: number, delay: number, error: any) => void
-	// Plan mode configurations
-	planModeApiModelId?: string
-	planModeThinkingBudgetTokens?: number
-	planModeReasoningEffort?: string
-	planModeVsCodeLmModelSelector?: LanguageModelChatSelector
-	planModeAwsBedrockCustomSelected?: boolean
-	planModeAwsBedrockCustomModelBaseId?: BedrockModelId
-	planModeOpenRouterModelId?: string
-	planModeOpenRouterModelInfo?: ModelInfo
-	planModeOpenAiModelId?: string
-	planModeOpenAiModelInfo?: OpenAiCompatibleModelInfo
-	planModeOllamaModelId?: string
-	planModeLmStudioModelId?: string
-	planModeLiteLlmModelId?: string
-	planModeLiteLlmModelInfo?: LiteLLMModelInfo
-	planModeRequestyModelId?: string
-	planModeRequestyModelInfo?: ModelInfo
-	planModeTogetherModelId?: string
-	planModeFireworksModelId?: string
-	planModeSapAiCoreModelId?: string
-	planModeGroqModelId?: string
-	planModeGroqModelInfo?: ModelInfo
-	planModeBasetenModelId?: string
-	planModeBasetenModelInfo?: ModelInfo
-	planModeHuggingFaceModelId?: string
-	planModeHuggingFaceModelInfo?: ModelInfo
-	planModeShengSuanYunModelId?: string
-	planModeShengSuanYunModelInfo?: ShengSuanYunModelInfo
+	// 全局配置（非模式特定）
+	apiKey?: string // Anthropic API密钥
+	clineAccountId?: string // Cline账户ID
+	ulid?: string // 用于在API请求中标识任务的唯一ID
+	liteLlmBaseUrl?: string // LiteLLM基础URL
+	liteLlmApiKey?: string // LiteLLM API密钥
+	liteLlmUsePromptCache?: boolean // 是否使用LiteLLM提示缓存
+	openAiHeaders?: Record<string, string> // OpenAI请求的自定义头部
+	anthropicBaseUrl?: string // Anthropic基础URL
+	openRouterApiKey?: string // OpenRouter API密钥
+	openRouterProviderSorting?: string // OpenRouter提供商排序
+	awsAccessKey?: string // AWS访问密钥
+	awsSecretKey?: string // AWS密钥
+	awsSessionToken?: string // AWS会话令牌
+	awsRegion?: string // AWS区域
+	awsUseCrossRegionInference?: boolean // 是否使用跨区域推理
+	awsBedrockUsePromptCache?: boolean // AWS Bedrock是否使用提示缓存
+	awsAuthentication?: string // AWS认证方式
+	awsUseProfile?: boolean // 是否使用AWS配置文件
+	awsProfile?: string // AWS配置文件名
+	awsBedrockApiKey?: string // AWS Bedrock API密钥
+	awsBedrockEndpoint?: string // AWS Bedrock端点
+	claudeCodePath?: string // Claude Code路径
+	vertexProjectId?: string // Google Vertex项目ID
+	vertexRegion?: string // Google Vertex区域
+	openAiBaseUrl?: string // OpenAI基础URL
+	openAiApiKey?: string // OpenAI API密钥
+	ollamaBaseUrl?: string // Ollama基础URL
+	ollamaApiKey?: string // Ollama API密钥
+	ollamaApiOptionsCtxNum?: string // Ollama API选项上下文数量
+	lmStudioBaseUrl?: string // LM Studio基础URL
+	geminiApiKey?: string // Gemini API密钥
+	geminiBaseUrl?: string // Gemini基础URL
+	openAiNativeApiKey?: string // OpenAI原生API密钥
+	deepSeekApiKey?: string // DeepSeek API密钥
+	requestyApiKey?: string // Requesty API密钥
+	requestyBaseUrl?: string // Requesty基础URL
+	togetherApiKey?: string // Together API密钥
+	fireworksApiKey?: string // Fireworks API密钥
+	fireworksModelMaxCompletionTokens?: number // Fireworks模型最大完成令牌数
+	fireworksModelMaxTokens?: number // Fireworks模型最大令牌数
+	qwenApiKey?: string // Qwen API密钥
+	doubaoApiKey?: string // Doubao API密钥
+	mistralApiKey?: string // Mistral API密钥
+	azureApiVersion?: string // Azure API版本
+	qwenApiLine?: string // Qwen API线路
+	moonshotApiLine?: string // Moonshot API线路
+	moonshotApiKey?: string // Moonshot API密钥
+	huggingFaceApiKey?: string // Hugging Face API密钥
+	nebiusApiKey?: string // Nebius API密钥
+	asksageApiUrl?: string // AskSage API URL
+	asksageApiKey?: string // AskSage API密钥
+	xaiApiKey?: string // X AI API密钥
+	sambanovaApiKey?: string // SambaNova API密钥
+	cerebrasApiKey?: string // Cerebras API密钥
+	groqApiKey?: string // Groq API密钥
+	basetenApiKey?: string // Baseten API密钥
+	requestTimeoutMs?: number // 请求超时时间（毫秒）
+	shengSuanYunApiKey?: string // 神算云API密钥
+	shengSuanYunToken?: string // 神算云令牌
+	sapAiCoreClientId?: string // SAP AI Core客户端ID
+	sapAiCoreClientSecret?: string // SAP AI Core客户端密钥
+	sapAiResourceGroup?: string // SAP AI资源组
+	sapAiCoreTokenUrl?: string // SAP AI Core令牌URL
+	sapAiCoreBaseUrl?: string // SAP AI Core基础URL
+	huaweiCloudMaasApiKey?: string // 华为云MaaS API密钥
+	onRetryAttempt?: (attempt: number, maxRetries: number, delay: number, error: any) => void // 重试尝试回调函数
 
-	planModeHuaweiCloudMaasModelId?: string
-	planModeHuaweiCloudMaasModelInfo?: ModelInfo
-	// Act mode configurations
+	// 计划模式配置
+	planModeApiModelId?: string // 计划模式API模型ID
+	planModeThinkingBudgetTokens?: number // 计划模式思考预算令牌数
+	planModeReasoningEffort?: string // 计划模式推理努力程度
+	planModeVsCodeLmModelSelector?: LanguageModelChatSelector // 计划模式VSCode语言模型选择器
+	planModeAwsBedrockCustomSelected?: boolean // 计划模式AWS Bedrock自定义选择
+	planModeAwsBedrockCustomModelBaseId?: BedrockModelId // 计划模式AWS Bedrock自定义模型基础ID
+	planModeOpenRouterModelId?: string // 计划模式OpenRouter模型ID
+	planModeOpenRouterModelInfo?: ModelInfo // 计划模式OpenRouter模型信息
+	planModeOpenAiModelId?: string // 计划模式OpenAI模型ID
+	planModeOpenAiModelInfo?: OpenAiCompatibleModelInfo // 计划模式OpenAI模型信息
+	planModeOllamaModelId?: string // 计划模式Ollama模型ID
+	planModeLmStudioModelId?: string // 计划模式LM Studio模型ID
+	planModeLiteLlmModelId?: string // 计划模式LiteLLM模型ID
+	planModeLiteLmModelInfo?: LiteLLMModelInfo // 计划模式LiteLLM模型信息
+	planModeRequestyModelId?: string // 计划模式Requesty模型ID
+	planModeRequestyModelInfo?: ModelInfo // 计划模式Requesty模型信息
+	planModeTogetherModelId?: string // 计划模式Together模型ID
+	planModeFireworksModelId?: string // 计划模式Fireworks模型ID
+	planModeSapAiCoreModelId?: string // 计划模式SAP AI Core模型ID
+	planModeGroqModelId?: string // 计划模式Groq模型ID
+	planModeGroqModelInfo?: ModelInfo // 计划模式Groq模型信息
+	planModeBasetenModelId?: string // 计划模式Baseten模型ID
+	planModeBasetenModelInfo?: ModelInfo // 计划模式Baseten模型信息
+	planModeHuggingFaceModelId?: string // 计划模式Hugging Face模型ID
+	planModeHuggingFaceModelInfo?: ModelInfo // 计划模式Hugging Face模型信息
+	planModeShengSuanYunModelId?: string // 计划模式神算云模型ID
+	planModeShengSuanYunModelInfo?: ShengSuanYunModelInfo // 计划模式神算云模型信息
+	planModeHuaweiCloudMaasModelId?: string // 计划模式华为云MaaS模型ID
+	planModeHuaweiCloudMaasModelInfo?: ModelInfo // 计划模式华为云MaaS模型信息
 
-	actModeApiModelId?: string
-	actModeThinkingBudgetTokens?: number
-	actModeReasoningEffort?: string
-	actModeVsCodeLmModelSelector?: LanguageModelChatSelector
-	actModeAwsBedrockCustomSelected?: boolean
-	actModeAwsBedrockCustomModelBaseId?: BedrockModelId
-	actModeOpenRouterModelId?: string
-	actModeOpenRouterModelInfo?: ModelInfo
-	actModeOpenAiModelId?: string
-	actModeOpenAiModelInfo?: OpenAiCompatibleModelInfo
-	actModeOllamaModelId?: string
-	actModeLmStudioModelId?: string
-	actModeLiteLlmModelId?: string
-	actModeLiteLlmModelInfo?: LiteLLMModelInfo
-	actModeRequestyModelId?: string
-	actModeRequestyModelInfo?: ModelInfo
-	actModeTogetherModelId?: string
-	actModeFireworksModelId?: string
-	actModeSapAiCoreModelId?: string
-	actModeGroqModelId?: string
-	actModeGroqModelInfo?: ModelInfo
-	actModeBasetenModelId?: string
-	actModeBasetenModelInfo?: ModelInfo
-	actModeHuggingFaceModelId?: string
-	actModeHuggingFaceModelInfo?: ModelInfo
-	actModeShengSuanYunModelId?: string
-	actModeShengSuanYunModelInfo?: ShengSuanYunModelInfo
-	actModeHuaweiCloudMaasModelId?: string
-	actModeHuaweiCloudMaasModelInfo?: ModelInfo
+	// 执行模式配置
+	actModeApiModelId?: string // 执行模式API模型ID
+	actModeThinkingBudgetTokens?: number // 执行模式思考预算令牌数
+	actModeReasoningEffort?: string // 执行模式推理努力程度
+	actModeVsCodeLmModelSelector?: LanguageModelChatSelector // 执行模式VSCode语言模型选择器
+	actModeAwsBedrockCustomSelected?: boolean // 执行模式AWS Bedrock自定义选择
+	actModeAwsBedrockCustomModelBaseId?: BedrockModelId // 执行模式AWS Bedrock自定义模型基础ID
+	actModeOpenRouterModelId?: string // 执行模式OpenRouter模型ID
+	actModeOpenRouterModelInfo?: ModelInfo // 执行模式OpenRouter模型信息
+	actModeOpenAiModelId?: string // 执行模式OpenAI模型ID
+	actModeOpenAiModelInfo?: OpenAiCompatibleModelInfo // 执行模式OpenAI模型信息
+	actModeOllamaModelId?: string // 执行模式Ollama模型ID
+	actModeLmStudioModelId?: string // 执行模式LM Studio模型ID
+	actModeLiteLlmModelId?: string // 执行模式LiteLLM模型ID
+	actModeLiteLmModelInfo?: LiteLLMModelInfo // 执行模式LiteLLM模型信息
+	actModeRequestyModelId?: string // 执行模式Requesty模型ID
+	actModeRequestyModelInfo?: ModelInfo // 执行模式Requesty模型信息
+	actModeTogetherModelId?: string // 执行模式Together模型ID
+	actModeFireworksModelId?: string // 执行模式Fireworks模型ID
+	actModeSapAiCoreModelId?: string // 执行模式SAP AI Core模型ID
+	actModeGroqModelId?: string // 执行模式Groq模型ID
+	actModeGroqModelInfo?: ModelInfo // 执行模式Groq模型信息
+	actModeBasetenModelId?: string // 执行模式Baseten模型ID
+	actModeBasetenModelInfo?: ModelInfo // 执行模式Baseten模型信息
+	actModeHuggingFaceModelId?: string // 执行模式Hugging Face模型ID
+	actModeHuggingFaceModelInfo?: ModelInfo // 执行模式Hugging Face模型信息
+	actModeShengSuanYunModelId?: string // 执行模式神算云模型ID
+	actModeShengSuanYunModelInfo?: ShengSuanYunModelInfo // 执行模式神算云模型信息
+	actModeHuaweiCloudMaasModelId?: string // 执行模式华为云MaaS模型ID
+	actModeHuaweiCloudMaasModelInfo?: ModelInfo // 执行模式华为云MaaS模型信息
 }
 
 export type ApiConfiguration = ApiHandlerOptions & {
-	planModeApiProvider?: ApiProvider
-	actModeApiProvider?: ApiProvider
-	favoritedModelIds?: string[]
+	planModeApiProvider?: ApiProvider // 计划模式API提供者
+	actModeApiProvider?: ApiProvider // 执行模式API提供者
+	favoritedModelIds?: string[] // 收藏的模型ID列表
 }
 
-// Models
+// 模型相关类型定义
 
+// 价格层级接口，用于定义不同输入令牌数量的价格 tier
 interface PriceTier {
-	tokenLimit: number // Upper limit (inclusive) of *input* tokens for this price. Use Infinity for the highest tier.
-	price: number // Price per million tokens for this tier.
+	tokenLimit: number // 此价格层级的输入令牌上限（包含）。使用 Infinity 表示最高层级。
+	price: number // 每百万令牌的价格。
 }
 
+// 模型信息接口，定义了模型的基本属性和定价信息
 export interface ModelInfo {
-	maxTokens?: number
-	contextWindow?: number
-	supportsImages?: boolean
-	supportsPromptCache: boolean // this value is hardcoded for now
-	inputPrice?: number // Keep for non-tiered input models
-	outputPrice?: number // Keep for non-tiered output models
+	maxTokens?: number // 模型支持的最大输出令牌数
+	contextWindow?: number // 模型的上下文窗口大小
+	supportsImages?: boolean // 是否支持图像输入
+	supportsPromptCache: boolean // 是否支持提示缓存（此值目前是硬编码的）
+	inputPrice?: number // 非分层输入模型的价格（每百万令牌）
+	outputPrice?: number // 非分层输出模型的价格（每百万令牌）
 	thinkingConfig?: {
-		maxBudget?: number // Max allowed thinking budget tokens
-		outputPrice?: number // Output price per million tokens when budget > 0
-		outputPriceTiers?: PriceTier[] // Optional: Tiered output price when budget > 0
+		// 思考配置
+		maxBudget?: number // 最大允许的思考预算令牌数
+		outputPrice?: number // 当预算 > 0 时的输出价格（每百万令牌）
+		outputPriceTiers?: PriceTier[] // 可选：当预算 > 0 时的分层输出价格
 	}
-	supportsGlobalEndpoint?: boolean // Whether the model supports a global endpoint with Vertex AI
-	cacheWritesPrice?: number
-	cacheReadsPrice?: number
-	description?: string
+	supportsGlobalEndpoint?: boolean // 模型是否支持Vertex AI的全局端点
+	cacheWritesPrice?: number // 缓存写入价格（每百万令牌）
+	cacheReadsPrice?: number // 缓存读取价格（每百万令牌）
+	description?: string // 模型描述
 	tiers?: {
-		contextWindow: number
-		inputPrice?: number
-		outputPrice?: number
-		cacheWritesPrice?: number
-		cacheReadsPrice?: number
+		// 价格分层配置
+		contextWindow: number // 上下文窗口大小
+		inputPrice?: number // 输入价格（每百万令牌）
+		outputPrice?: number // 输出价格（每百万令牌）
+		cacheWritesPrice?: number // 缓存写入价格（每百万令牌）
+		cacheReadsPrice?: number // 缓存读取价格（每百万令牌）
 	}[]
 }
 
+// OpenAI兼容模型信息接口，扩展了ModelInfo接口
 export interface OpenAiCompatibleModelInfo extends ModelInfo {
-	temperature?: number
-	isR1FormatRequired?: boolean
+	temperature?: number // 温度参数，控制输出的随机性
+	isR1FormatRequired?: boolean // 是否需要R1格式
 }
 
+// Claude Sonnet 4 1M上下文窗口模型后缀标识符
 export const CLAUDE_SONNET_4_1M_SUFFIX = ":1m"
+
+// Claude Sonnet 4 1M上下文窗口的价格分层配置
 export const CLAUDE_SONNET_4_1M_TIERS = [
 	{
-		contextWindow: 200000,
-		inputPrice: 3.0,
-		outputPrice: 15,
-		cacheWritesPrice: 3.75,
-		cacheReadsPrice: 0.3,
+		contextWindow: 200000, // 200K上下文窗口
+		inputPrice: 3.0, // 输入价格：每百万令牌3.0美元
+		outputPrice: 15, // 输出价格：每百万令牌15美元
+		cacheWritesPrice: 3.75, // 缓存写入价格：每百万令牌3.75美元
+		cacheReadsPrice: 0.3, // 缓存读取价格：每百万令牌0.3美元
 	},
 	{
-		contextWindow: Number.MAX_SAFE_INTEGER, // storing infinity in vs storage is not possible, it converts to 'null', which causes crash in webview ModelInfoView
-		inputPrice: 6,
-		outputPrice: 22.5,
-		cacheWritesPrice: 7.5,
-		cacheReadsPrice: 0.6,
+		contextWindow: Number.MAX_SAFE_INTEGER, // 存储infinity在VS存储中不可能，它会转换为'null'，这会导致webview ModelInfoView崩溃
+		inputPrice: 6, // 输入价格：每百万令牌6美元
+		outputPrice: 22.5, // 输出价格：每百万令牌22.5美元
+		cacheWritesPrice: 7.5, // 缓存写入价格：每百万令牌7.5美元
+		cacheReadsPrice: 0.6, // 缓存读取价格：每百万令牌0.6美元
 	},
 ]
 
-// Anthropic
+// Anthropic Claude模型定义
 // https://docs.anthropic.com/en/docs/about-claude/models // prices updated 2025-01-02
-export type AnthropicModelId = keyof typeof anthropicModels
-export const anthropicDefaultModelId: AnthropicModelId = "claude-sonnet-4-20250514"
+export type AnthropicModelId = keyof typeof anthropicModels // Anthropic模型ID类型
+export const anthropicDefaultModelId: AnthropicModelId = "claude-sonnet-4-20250514" // Anthropic默认模型ID
 export const anthropicModels = {
 	"claude-sonnet-4-20250514:1m": {
 		maxTokens: 8192,
@@ -329,9 +339,9 @@ export const anthropicModels = {
 	},
 } as const satisfies Record<string, ModelInfo> // as const assertion makes the object deeply readonly
 
-// Claude Code
-export type ClaudeCodeModelId = keyof typeof claudeCodeModels
-export const claudeCodeDefaultModelId: ClaudeCodeModelId = "claude-sonnet-4-20250514"
+// Claude Code专用模型
+export type ClaudeCodeModelId = keyof typeof claudeCodeModels // Claude Code模型ID类型
+export const claudeCodeDefaultModelId: ClaudeCodeModelId = "claude-sonnet-4-20250514" // Claude Code默认模型ID
 export const claudeCodeModels = {
 	"claude-sonnet-4-20250514": {
 		...anthropicModels["claude-sonnet-4-20250514"],
@@ -365,10 +375,10 @@ export const claudeCodeModels = {
 	},
 } as const satisfies Record<string, ModelInfo>
 
-// AWS Bedrock
+// AWS Bedrock模型定义
 // https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html
-export type BedrockModelId = keyof typeof bedrockModels
-export const bedrockDefaultModelId: BedrockModelId = "anthropic.claude-sonnet-4-20250514-v1:0"
+export type BedrockModelId = keyof typeof bedrockModels // AWS Bedrock模型ID类型
+export const bedrockDefaultModelId: BedrockModelId = "anthropic.claude-sonnet-4-20250514-v1:0" // AWS Bedrock默认模型ID
 export const bedrockModels = {
 	"anthropic.claude-sonnet-4-20250514-v1:0:1m": {
 		maxTokens: 8192,
@@ -547,10 +557,10 @@ export const bedrockModels = {
 	},
 } as const satisfies Record<string, ModelInfo>
 
-// OpenRouter
+// OpenRouter模型定义
 // https://openrouter.ai/models?order=newest&supported_parameters=tools
-export const openRouterDefaultModelId = "anthropic/claude-sonnet-4" // will always exist in openRouterModels
-export const openRouterClaudeSonnet41mModelId = `anthropic/claude-sonnet-4${CLAUDE_SONNET_4_1M_SUFFIX}`
+export const openRouterDefaultModelId = "anthropic/claude-sonnet-4" // OpenRouter默认模型ID（在openRouterModels中始终存在）
+export const openRouterClaudeSonnet41mModelId = `anthropic/claude-sonnet-4${CLAUDE_SONNET_4_1M_SUFFIX}` // OpenRouter Claude Sonnet 4 1M模型ID
 export const openRouterDefaultModelInfo: ModelInfo = {
 	maxTokens: 8192,
 	contextWindow: 200_000,
@@ -561,13 +571,13 @@ export const openRouterDefaultModelInfo: ModelInfo = {
 	cacheWritesPrice: 3.75,
 	cacheReadsPrice: 0.3,
 	description:
-		"Claude Sonnet 4 delivers superior intelligence across coding, agentic search, and AI agent capabilities. It's a powerful choice for agentic coding, and can complete tasks across the entire software development lifecycle—from initial planning to bug fixes, maintenance to large refactors. It offers strong performance in both planning and solving for complex coding tasks, making it an ideal choice to power end-to-end software development processes.\n\nRead more in the [blog post here](https://www.anthropic.com/claude/sonnet)",
+		"Claude Sonnet 4在编码、代理搜索和AI代理功能方面提供卓越的智能。它是代理编码的强大选择，能够完成整个软件开发生命周期的任务——从初始规划到错误修复、维护到大型重构。它在复杂编码任务的规划和解决方面表现出色，是端到端软件开发流程的理想选择。\n\n在[此处的博客文章](https://www.anthropic.com/claude/sonnet)中了解更多。",
 }
-// Vertex AI
+// Google Vertex AI模型定义
 // https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude
 // https://cloud.google.com/vertex-ai/generative-ai/pricing#partner-models
-export type VertexModelId = keyof typeof vertexModels
-export const vertexDefaultModelId: VertexModelId = "claude-sonnet-4@20250514"
+export type VertexModelId = keyof typeof vertexModels // Vertex AI模型ID类型
+export const vertexDefaultModelId: VertexModelId = "claude-sonnet-4@20250514" // Vertex AI默认模型ID
 export const vertexModels = {
 	"claude-sonnet-4@20250514": {
 		maxTokens: 8192,
@@ -895,10 +905,10 @@ export const openAiModelInfoSaneDefaults: OpenAiCompatibleModelInfo = {
 	temperature: 0,
 }
 
-// Gemini
+// Google Gemini模型定义
 // https://ai.google.dev/gemini-api/docs/models/gemini
-export type GeminiModelId = keyof typeof geminiModels
-export const geminiDefaultModelId: GeminiModelId = "gemini-2.5-pro"
+export type GeminiModelId = keyof typeof geminiModels // Gemini模型ID类型
+export const geminiDefaultModelId: GeminiModelId = "gemini-2.5-pro" // Gemini默认模型ID
 export const geminiModels = {
 	"gemini-2.5-pro": {
 		maxTokens: 65536,
@@ -1069,10 +1079,10 @@ export const geminiModels = {
 	},
 } as const satisfies Record<string, ModelInfo>
 
-// OpenAI Native
+// OpenAI原生模型定义
 // https://openai.com/api/pricing/
-export type OpenAiNativeModelId = keyof typeof openAiNativeModels
-export const openAiNativeDefaultModelId: OpenAiNativeModelId = "gpt-5-2025-08-07"
+export type OpenAiNativeModelId = keyof typeof openAiNativeModels // OpenAI原生模型ID类型
+export const openAiNativeDefaultModelId: OpenAiNativeModelId = "gpt-5-2025-08-07" // OpenAI原生默认模型ID
 export const openAiNativeModels = {
 	"gpt-5-2025-08-07": {
 		maxTokens: 8_192, // 128000 breaks context window truncation
@@ -1232,12 +1242,12 @@ export const openAiNativeModels = {
 // Azure OpenAI
 // https://learn.microsoft.com/en-us/azure/ai-services/openai/api-version-deprecation
 // https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#api-specs
-export const azureOpenAiDefaultApiVersion = "2024-08-01-preview"
+export const azureOpenAiDefaultApiVersion = "2024-08-01-preview" // Azure OpenAI默认API版本
 
-// DeepSeek
+// DeepSeek (深度求索)
 // https://api-docs.deepseek.com/quick_start/pricing
-export type DeepSeekModelId = keyof typeof deepSeekModels
-export const deepSeekDefaultModelId: DeepSeekModelId = "deepseek-chat"
+export type DeepSeekModelId = keyof typeof deepSeekModels // DeepSeek模型ID类型
+export const deepSeekDefaultModelId: DeepSeekModelId = "deepseek-chat" // DeepSeek默认模型ID
 export const deepSeekModels = {
 	"deepseek-chat": {
 		maxTokens: 8_000,
@@ -1261,10 +1271,10 @@ export const deepSeekModels = {
 	},
 } as const satisfies Record<string, ModelInfo>
 
-// Hugging Face Inference Providers
+// Hugging Face推理提供者
 // https://huggingface.co/docs/inference-providers/en/index
-export type HuggingFaceModelId = keyof typeof huggingFaceModels
-export const huggingFaceDefaultModelId: HuggingFaceModelId = "moonshotai/Kimi-K2-Instruct"
+export type HuggingFaceModelId = keyof typeof huggingFaceModels // Hugging Face模型ID类型
+export const huggingFaceDefaultModelId: HuggingFaceModelId = "moonshotai/Kimi-K2-Instruct" // Hugging Face默认模型ID
 export const huggingFaceModels = {
 	"openai/gpt-oss-120b": {
 		maxTokens: 32766,
@@ -1333,10 +1343,11 @@ export const huggingFaceModels = {
 	},
 } as const satisfies Record<string, ModelInfo>
 
-// Qwen
+// Qwen (通义千问)
 // https://bailian.console.aliyun.com/
 // The first model in the list is used as the default model for each region
 export const internationalQwenModels = {
+	// 国际版Qwen模型
 	"qwen3-coder-plus": {
 		maxTokens: 65_536,
 		contextWindow: 1_000_000,
@@ -1676,6 +1687,7 @@ export const internationalQwenModels = {
 } as const satisfies Record<string, ModelInfo>
 
 export const mainlandQwenModels = {
+	// 大陆版Qwen模型
 	"qwen3-235b-a22b": {
 		maxTokens: 16_384,
 		contextWindow: 131_072,
@@ -2029,11 +2041,11 @@ export const internationalQwenDefaultModelId: InternationalQwenModelId = Object.
 )[0] as InternationalQwenModelId
 export const mainlandQwenDefaultModelId: MainlandQwenModelId = Object.keys(mainlandQwenModels)[0] as MainlandQwenModelId
 
-// Doubao
+// Doubao (豆包)
 // https://www.volcengine.com/docs/82379/1298459
 // https://console.volcengine.com/ark/region:ark+cn-beijing/openManagement
-export type DoubaoModelId = keyof typeof doubaoModels
-export const doubaoDefaultModelId: DoubaoModelId = "doubao-1-5-pro-256k-250115"
+export type DoubaoModelId = keyof typeof doubaoModels // Doubao模型ID类型
+export const doubaoDefaultModelId: DoubaoModelId = "doubao-1-5-pro-256k-250115" // Doubao默认模型ID
 export const doubaoModels = {
 	"doubao-1-5-pro-256k-250115": {
 		maxTokens: 12_288,
@@ -2077,10 +2089,10 @@ export const doubaoModels = {
 	},
 } as const satisfies Record<string, ModelInfo>
 
-// Mistral
+// Mistral (Mistral AI)
 // https://docs.mistral.ai/getting-started/models/models_overview/
-export type MistralModelId = keyof typeof mistralModels
-export const mistralDefaultModelId: MistralModelId = "devstral-small-2505"
+export type MistralModelId = keyof typeof mistralModels // Mistral模型ID类型
+export const mistralDefaultModelId: MistralModelId = "devstral-small-2505" // Mistral默认模型ID
 export const mistralModels = {
 	"mistral-large-2411": {
 		maxTokens: 128_000,
@@ -2188,15 +2200,17 @@ export const mistralModels = {
 	},
 } as const satisfies Record<string, ModelInfo>
 
-// LiteLLM
+// LiteLLM (轻量级模型代理)
 // https://docs.litellm.ai/docs/
-export type LiteLLMModelId = string
-export const liteLlmDefaultModelId = "anthropic/claude-3-7-sonnet-20250219"
+export type LiteLLMModelId = string // LiteLLM模型ID类型
+export const liteLlmDefaultModelId = "anthropic/claude-3-7-sonnet-20250219" // LiteLLM默认模型ID
 export interface LiteLLMModelInfo extends ModelInfo {
-	temperature?: number
+	// LiteLLM模型信息接口，扩展了ModelInfo接口
+	temperature?: number // 温度参数，控制输出的随机性
 }
 
 export const liteLlmModelInfoSaneDefaults: LiteLLMModelInfo = {
+	// LiteLLM模型信息的合理默认值
 	maxTokens: -1,
 	contextWindow: 128_000,
 	supportsImages: true,
@@ -2208,12 +2222,13 @@ export const liteLlmModelInfoSaneDefaults: LiteLLMModelInfo = {
 	temperature: 0,
 }
 
-// AskSage Models
+// AskSage Models (AskSage模型)
 // https://docs.asksage.ai/
-export type AskSageModelId = keyof typeof askSageModels
-export const askSageDefaultModelId: AskSageModelId = "claude-4-sonnet"
-export const askSageDefaultURL: string = "https://api.asksage.ai/server"
+export type AskSageModelId = keyof typeof askSageModels // AskSage模型ID类型
+export const askSageDefaultModelId: AskSageModelId = "claude-4-sonnet" // AskSage默认模型ID
+export const askSageDefaultURL: string = "https://api.asksage.ai/server" // AskSage默认API URL
 export const askSageModels = {
+	// AskSage模型定义
 	"gpt-4o": {
 		maxTokens: 4096,
 		contextWindow: 128_000,
@@ -2288,9 +2303,10 @@ export const askSageModels = {
 	},
 }
 
-// Nebius AI Studio
+// Nebius AI Studio (Nebius AI工作室)
 // https://docs.nebius.com/studio/inference/models
 export const nebiusModels = {
+	// Nebius模型定义
 	"deepseek-ai/DeepSeek-V3": {
 		maxTokens: 32_000,
 		contextWindow: 96_000,
@@ -2383,11 +2399,12 @@ export const nebiusModels = {
 export type NebiusModelId = keyof typeof nebiusModels
 export const nebiusDefaultModelId = "Qwen/Qwen2.5-32B-Instruct-fast" satisfies NebiusModelId
 
-// X AI
+// X AI (X AI)
 // https://docs.x.ai/docs/api-reference
-export type XAIModelId = keyof typeof xaiModels
-export const xaiDefaultModelId: XAIModelId = "grok-4"
+export type XAIModelId = keyof typeof xaiModels // X AI模型ID类型
+export const xaiDefaultModelId: XAIModelId = "grok-4" // X AI默认模型ID
 export const xaiModels = {
+	// X AI模型定义
 	"grok-4": {
 		maxTokens: 8192,
 		contextWindow: 262144,
@@ -2543,11 +2560,12 @@ export const xaiModels = {
 	},
 } as const satisfies Record<string, ModelInfo>
 
-// SambaNova
+// SambaNova (SambaNova)
 // https://docs.sambanova.ai/cloud/docs/get-started/supported-models
-export type SambanovaModelId = keyof typeof sambanovaModels
-export const sambanovaDefaultModelId: SambanovaModelId = "Meta-Llama-3.3-70B-Instruct"
+export type SambanovaModelId = keyof typeof sambanovaModels // SambaNova模型ID类型
+export const sambanovaDefaultModelId: SambanovaModelId = "Meta-Llama-3.3-70B-Instruct" // SambaNova默认模型ID
 export const sambanovaModels = {
+	// SambaNova模型定义
 	"Llama-4-Maverick-17B-128E-Instruct": {
 		maxTokens: 4096,
 		contextWindow: 8_000,
