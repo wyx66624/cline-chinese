@@ -38,18 +38,34 @@ import { FileChangeEvent_ChangeType, SubscribeToFileRequest } from "../../shared
 import { DEFAULT_REQUEST_TIMEOUT_MS } from "./constants"
 import { BaseConfigSchema, McpSettingsSchema, ServerConfigSchema } from "./schemas"
 import { McpConnection, McpServerConfig, Transport } from "./types"
+/**
+ * McpHub 负责：
+ *  1. 读取 & 监听 MCP 配置文件(mcp.json)并维护连接集合
+ *  2. 按服务器类型建立对应传输 (stdio / sse / streamableHttp)
+ *  3. 拉取工具、资源、模板列表并缓存
+ *  4. 处理通知 (notifications/message) 与回调派发
+ *  5. 提供外部操作接口：增删改服务器、调用工具、读取资源、切换自动批准等
+ */
 export class McpHub {
+	/** 返回存放 MCP servers（可执行或脚本）的根路径函数 */
 	getMcpServersPath: () => Promise<string>
+	/** 返回配置文件所在目录路径函数 */
 	private getSettingsDirectoryPath: () => Promise<string>
+	/** 客户端版本（用于向服务器标识自身） */
 	private clientVersion: string
 
+	/** VSCode 可释放资源集合（文件订阅等） */
 	private disposables: vscode.Disposable[] = []
+	/** 监听设置文件的 VSCode watcher（当前 gRPC 已订阅，可空） */
 	private settingsWatcher?: vscode.FileSystemWatcher
+	/** 针对 stdio 服务器产物（build/index.js 等）的文件变更 watcher 映射 */
 	private fileWatchers: Map<string, FSWatcher> = new Map()
+	/** 当前所有服务器连接（含禁用态占位） */
 	connections: McpConnection[] = []
+	/** 全局连接/重连过程中的忙碌标记，避免并发操作 */
 	isConnecting: boolean = false
 
-	// Store notifications for display in chat
+	// 暂存服务器通知（若当前没有活动回调，则先缓存供前端轮询/拉取）
 	private pendingNotifications: Array<{
 		serverName: string
 		level: string
@@ -57,7 +73,7 @@ export class McpHub {
 		timestamp: number
 	}> = []
 
-	// Callback for sending notifications to active task
+	// 当前活动任务的实时通知回调
 	private notificationCallback?: (serverName: string, level: string, message: string) => void
 
 	constructor(
@@ -68,16 +84,19 @@ export class McpHub {
 		this.getMcpServersPath = getMcpServersPath
 		this.getSettingsDirectoryPath = getSettingsDirectoryPath
 		this.clientVersion = clientVersion
-		this.watchMcpSettingsFile()
-		this.initializeMcpServers()
+		this.watchMcpSettingsFile() // 启动对配置文件的订阅
+		this.initializeMcpServers() // 初次加载配置并建立连接
 	}
 
+	/** 获取当前启用状态的服务器（过滤掉 disabled） */
 	getServers(): McpServer[] {
-		// Only return enabled servers
-
 		return this.connections.filter((conn) => !conn.server.disabled).map((conn) => conn.server)
 	}
 
+	/**
+	 * 确保 MCP 设置文件存在，不存在则以空模板创建
+	 * 获取mcpsetting.json的路径
+	 */
 	async getMcpSettingsFilePath(): Promise<string> {
 		const mcpSettingsFilePath = path.join(await this.getSettingsDirectoryPath(), GlobalFileNames.mcpSettings)
 		const fileExists = await fileExistsAtPath(mcpSettingsFilePath)
@@ -94,6 +113,9 @@ export class McpHub {
 		return mcpSettingsFilePath
 	}
 
+	/** 读取 + 解析 + Schema 校验配置文件；失败返回 undefined
+	 * 读取和验证mcpsetting.json格式
+	 */
 	private async readAndValidateMcpSettingsFile(): Promise<z.infer<typeof McpSettingsSchema> | undefined> {
 		try {
 			const settingsPath = await this.getMcpSettingsFilePath()
@@ -112,7 +134,7 @@ export class McpHub {
 				return undefined
 			}
 
-			// Validate against schema
+			// Validate against schema 解析结果通过各式验证
 			const result = McpSettingsSchema.safeParse(config)
 			if (!result.success) {
 				HostProvider.window.showMessage({
@@ -129,6 +151,7 @@ export class McpHub {
 		}
 	}
 
+	/** 订阅配置文件变更（通过底层 gRPC WatchService） */
 	private async watchMcpSettingsFile(): Promise<void> {
 		const settingsPath = await this.getMcpSettingsFilePath()
 
@@ -139,7 +162,7 @@ export class McpHub {
 				path: settingsPath,
 			}),
 			{
-				onResponse: async (response) => {
+				onResponse: async (response: any) => {
 					// console.log(
 					// 	`[DEBUG] MCP settings ${response.type === FileChangeEvent_ChangeType.CHANGED ? "changed" : "event"}`,
 					// )
@@ -156,7 +179,7 @@ export class McpHub {
 						}
 					}
 				},
-				onError: (error) => {
+				onError: (error: any) => {
 					console.error("Error watching MCP settings file:", error)
 				},
 				onComplete: () => {
@@ -169,6 +192,7 @@ export class McpHub {
 		this.disposables.push({ dispose: cancelSubscription })
 	}
 
+	/** 首次初始化：读取配置并建立连接 */
 	private async initializeMcpServers(): Promise<void> {
 		const settings = await this.readAndValidateMcpSettingsFile()
 		if (settings) {
@@ -176,10 +200,12 @@ export class McpHub {
 		}
 	}
 
+	/** 按名称查找连接对象 */
 	private findConnection(name: string, source: "rpc" | "internal"): McpConnection | undefined {
 		return this.connections.find((conn) => conn.server.name === name)
 	}
 
+	/** 建立单个服务器连接（含禁用占位、通知处理、初始资源加载） */
 	private async connectToServer(
 		name: string,
 		config: z.infer<typeof ServerConfigSchema>,
@@ -427,11 +453,13 @@ export class McpHub {
 		}
 	}
 
+	/** 累加错误信息（保持已有信息） */
 	private appendErrorMessage(connection: McpConnection, error: string) {
 		const newError = connection.server.error ? `${connection.server.error}\n${error}` : error
 		connection.server.error = newError //.slice(0, 800)
 	}
 
+	/** 拉取工具列表并套用 autoApprove 标记 */
 	private async fetchToolsList(serverName: string): Promise<McpTool[]> {
 		try {
 			const connection = this.connections.find((conn) => conn.server.name === serverName)
@@ -468,6 +496,7 @@ export class McpHub {
 		}
 	}
 
+	/** 拉取资源列表 */
 	private async fetchResourcesList(serverName: string): Promise<McpResource[]> {
 		try {
 			const connection = this.connections.find((conn) => conn.server.name === serverName)
@@ -487,6 +516,7 @@ export class McpHub {
 		}
 	}
 
+	/** 拉取资源模板列表 */
 	private async fetchResourceTemplatesList(serverName: string): Promise<McpResourceTemplate[]> {
 		try {
 			const connection = this.connections.find((conn) => conn.server.name === serverName)
@@ -511,6 +541,7 @@ export class McpHub {
 		}
 	}
 
+	/** 删除连接（关闭传输与客户端） */
 	async deleteConnection(name: string): Promise<void> {
 		const connection = this.connections.find((conn) => conn.server.name === name)
 		if (connection) {
@@ -529,6 +560,7 @@ export class McpHub {
 		}
 	}
 
+	/** 根据新配置增删改连接（RPC 触发，不主动通知 webview） */
 	async updateServerConnectionsRPC(newServers: Record<string, McpServerConfig>): Promise<void> {
 		this.isConnecting = true
 		this.removeAllFileWatchers()
@@ -576,6 +608,7 @@ export class McpHub {
 		this.isConnecting = false
 	}
 
+	/** 根据新配置增删改连接（内部触发，结束时通知 webview） */
 	async updateServerConnections(newServers: Record<string, McpServerConfig>): Promise<void> {
 		this.isConnecting = true
 		this.removeAllFileWatchers()
@@ -623,6 +656,7 @@ export class McpHub {
 		this.isConnecting = false
 	}
 
+	/** 针对 stdio 构建产物设定文件变更监听，自动重启 */
 	private setupFileWatcher(name: string, config: Extract<McpServerConfig, { type: "stdio" }>) {
 		const filePath = config.args?.find((arg: string) => arg.includes("build/index.js"))
 		if (filePath) {
@@ -642,11 +676,13 @@ export class McpHub {
 		}
 	}
 
+	/** 移除全部文件监听器 */
 	private removeAllFileWatchers() {
 		this.fileWatchers.forEach((watcher) => watcher.close())
 		this.fileWatchers.clear()
 	}
 
+	/** RPC 触发的重启：返回最新服务器列表 */
 	async restartConnectionRPC(serverName: string): Promise<McpServer[]> {
 		this.isConnecting = true
 
@@ -677,6 +713,7 @@ export class McpHub {
 		return this.getSortedMcpServers(serverOrder)
 	}
 
+	/** 内部重启：用于文件改动触发或 UI 操作 */
 	async restartConnection(serverName: string): Promise<void> {
 		this.isConnecting = true
 
@@ -718,6 +755,7 @@ export class McpHub {
 	 * @param serverOrder Array of server names in the order they appear in settings
 	 * @returns Array of McpServer objects sorted according to settings order
 	 */
+	/** 按配置文件出现顺序排序服务器 */
 	private getSortedMcpServers(serverOrder: string[]): McpServer[] {
 		return [...this.connections]
 			.sort((a, b) => {
@@ -728,6 +766,7 @@ export class McpHub {
 			.map((connection) => connection.server)
 	}
 
+	/** 通过 gRPC 推送最新服务器列表到前端 */
 	private async notifyWebviewOfServerChanges(): Promise<void> {
 		// servers should always be sorted in the order they are defined in the settings file
 		const settingsPath = await this.getMcpSettingsFilePath()
@@ -744,10 +783,12 @@ export class McpHub {
 		})
 	}
 
+	/** 主动发送最新服务器列表 */
 	async sendLatestMcpServers() {
 		await this.notifyWebviewOfServerChanges()
 	}
 
+	/** RPC 获取（不触发推送）当前排序后的服务器列表 */
 	async getLatestMcpServersRPC(): Promise<McpServer[]> {
 		const settings = await this.readAndValidateMcpSettingsFile()
 		if (!settings) {
@@ -763,6 +804,7 @@ export class McpHub {
 
 	// Public methods for server management
 
+	/** 启用/禁用服务器（RPC 版本，返回最新列表） */
 	public async toggleServerDisabledRPC(serverName: string, disabled: boolean): Promise<McpServer[]> {
 		try {
 			const config = await this.readAndValidateMcpSettingsFile()

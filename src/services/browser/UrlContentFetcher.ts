@@ -10,19 +10,33 @@ import { fileExistsAtPath } from "@utils/fs"
 import { BrowserSettings, DEFAULT_BROWSER_SETTINGS } from "@shared/BrowserSettings" // Import the interface and defaults
 
 interface PCRStats {
-	puppeteer: { launch: typeof launch }
-	executablePath: string
+	puppeteer: { launch: typeof launch } // 含有 launch 方法的 puppeteer 实例封装
+	executablePath: string // Chromium 可执行文件绝对路径
 }
 
+/**
+ * UrlContentFetcher
+ * 作用：利用 puppeteer 打开网页，将主体 HTML 清理后转为 Markdown 供模型纳入上下文。
+ * 负责：
+ *  - 确保本地存在（或下载）Chromium
+ *  - 启动浏览器 + 创建页面
+ *  - 加载 URL、等待基本稳定 (domcontentloaded + networkidle2)
+ *  - 过滤无关标签（script/style/nav/footer/header）
+ *  - HTML -> Markdown (Turndown)
+ * 使用方式：
+ *  const f = new UrlContentFetcher(ctx); await f.launchBrowser(); const md = await f.urlToMarkdown(url); await f.closeBrowser();
+ */
+
 export class UrlContentFetcher {
-	private context: vscode.ExtensionContext
-	private browser?: Browser
-	private page?: Page
+	private context: vscode.ExtensionContext // VSCode 扩展上下文，用于存储目录
+	private browser?: Browser // puppeteer Browser 实例
+	private page?: Page // 当前单页面（简单场景只需要一个）
 
 	constructor(context: vscode.ExtensionContext) {
 		this.context = context
 	}
 
+	/** 确保已下载 Chromium（若不存在会自动下载）；返回执行路径与 puppeteer 封装 */
 	private async ensureChromiumExists(): Promise<PCRStats> {
 		const globalStoragePath = this.context?.globalStorageUri?.fsPath
 		if (!globalStoragePath) {
@@ -41,6 +55,7 @@ export class UrlContentFetcher {
 		return stats
 	}
 
+	/** 启动（如果尚未启动）浏览器并创建新页面 */
 	async launchBrowser(): Promise<void> {
 		if (this.browser) {
 			return
@@ -61,13 +76,17 @@ export class UrlContentFetcher {
 		this.page = await this.browser?.newPage()
 	}
 
+	/** 关闭浏览器并释放引用 */
 	async closeBrowser(): Promise<void> {
 		await this.browser?.close()
 		this.browser = undefined
 		this.page = undefined
 	}
 
-	// must make sure to call launchBrowser before and closeBrowser after using this
+	/**
+	 * 加载指定 URL 并转为 Markdown。
+	 * 需要：调用前确保已 launchBrowser。
+	 */
 	async urlToMarkdown(url: string): Promise<string> {
 		if (!this.browser || !this.page) {
 			throw new Error("Browser not initialized")

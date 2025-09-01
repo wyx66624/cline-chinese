@@ -2,7 +2,15 @@ import * as net from "net"
 import axios from "axios"
 
 /**
- * Check if a port is open on a given host
+ * 浏览器发现 / 连通性检测辅助函数集合。
+ * 场景：被 BrowserSession 远程模式使用，用来探测本地或给定 host 上 9222 端口的 Chrome DevTools 协议是否可用。
+ */
+
+/**
+ * 检测指定 host:port 是否可建立 TCP 连接。
+ * @param host 主机名 (eg. localhost)
+ * @param port 端口 (默认调试端口 9222 中会用到)
+ * @param timeout 毫秒超时
  */
 export async function isPortOpen(host: string, port: number, timeout = 1000): Promise<boolean> {
 	return new Promise((resolve) => {
@@ -39,7 +47,8 @@ export async function isPortOpen(host: string, port: number, timeout = 1000): Pr
 }
 
 /**
- * Try to connect to Chrome at a specific IP address
+ * 尝试访问 http://<ip>:9222/json/version 并解析 webSocketDebuggerUrl。
+ * 成功返回 {endpoint, ip}，失败返回 null。
  */
 export async function tryConnect(ipAddress: string): Promise<{ endpoint: string; ip: string } | null> {
 	try {
@@ -52,7 +61,8 @@ export async function tryConnect(ipAddress: string): Promise<{ endpoint: string;
 }
 
 /**
- * Discover Chrome instances (localhost only)
+ * 简单发现：仅在 localhost / 127.0.0.1 上尝试是否有开启 --remote-debugging-port=9222 的 Chrome。
+ * 找到则返回基础 HTTP 前缀 (不含 /json/version)。
  */
 export async function discoverChromeInstances(): Promise<string | null> {
 	// Only try localhost
@@ -70,7 +80,7 @@ export async function discoverChromeInstances(): Promise<string | null> {
 }
 
 /**
- * Test connection to a remote browser
+ * 验证远程浏览器 DevTools 版本接口是否可访问，并返回实际的 webSocketDebuggerUrl。
  */
 export async function testBrowserConnection(host: string): Promise<{ success: boolean; message: string; endpoint?: string }> {
 	try {

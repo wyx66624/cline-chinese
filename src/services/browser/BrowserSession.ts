@@ -19,18 +19,18 @@ import { telemetryService } from "@/services/posthog/PostHogClientProvider"
 import os from "os"
 
 interface PCRStats {
-	puppeteer: { launch: typeof launch }
-	executablePath: string
+	puppeteer: { launch: typeof launch } // 提供 launch 的 puppeteer 适配
+	executablePath: string // Chromium/Chrome 可执行文件路径
 }
 
 // Define browser connection info interface
 export interface BrowserConnectionInfo {
-	isConnected: boolean
-	isRemote: boolean
-	host?: string
+	isConnected: boolean // 是否已经有 Browser 实例
+	isRemote: boolean // 是否为远程调试模式
+	host?: string // 远程主机（仅远程时提供）
 }
 
-const DEBUG_PORT = 9222 // Chrome's default debugging port
+const DEBUG_PORT = 9222 // Chrome DevTools 默认调试端口
 
 // helper function required to append custom browser arguments from UI
 function splitArgs(str?: string | null): string[] {
@@ -41,21 +41,29 @@ function splitArgs(str?: string | null): string[] {
 	return (str.match(/"[^"]+"|\S+/g) || []).map((s) => s.replace(/^"(.*)"$/, "$1"))
 }
 
+/**
+ * BrowserSession
+ * 提供：本地(headless)或远程(non-headless) Chrome/Chromium 的统一自动化封装。
+ * 功能：启动/连接、导航、点击、输入、滚动、截图、日志收集、稳定性等待、遥测统计。
+ * 如果你只需要“内核逻辑”且不希望具备浏览器搜索/网页交互能力，可以：
+ *  1. 保留接口但替换为空实现；或
+ *  2. 清理调用点（搜索 browserSession / navigateToUrl 等），删除本文件和相关 BrowserSettings。
+ */
 export class BrowserSession {
-	private context: vscode.ExtensionContext
-	private browser?: Browser
-	private page?: Page
-	private currentMousePosition?: string
-	private cachedWebSocketEndpoint?: string
-	private lastConnectionAttempt: number = 0
-	browserSettings: BrowserSettings
-	private isConnectedToRemote: boolean = false
-	private useWebp: boolean
+	private context: vscode.ExtensionContext // VSCode 扩展上下文
+	private browser?: Browser // puppeteer Browser 实例（本地或远程）
+	private page?: Page // 当前使用的 Page
+	private currentMousePosition?: string // 最近一次 click 坐标 "x,y"
+	private cachedWebSocketEndpoint?: string // 缓存远程 websocket endpoint 便于重连
+	private lastConnectionAttempt: number = 0 // 上次远程连接时间戳
+	browserSettings: BrowserSettings // 配置（分辨率、自定义启动参数、远程 host 等）
+	private isConnectedToRemote: boolean = false // 当前是否为远程模式
+	private useWebp: boolean // 截图是否优先使用 webp
 
-	// Telemetry tracking properties
-	private sessionStartTime: number = 0
-	private browserActions: string[] = []
-	private ulid?: string
+	// Telemetry 追踪属性
+	private sessionStartTime: number = 0 // 会话开始时间
+	private browserActions: string[] = [] // 动作记录（navigate / click / scroll ...）
+	private ulid?: string // 任务 ULID，用于遥测关联
 
 	constructor(context: vscode.ExtensionContext, browserSettings: BrowserSettings, useWebp: boolean = true) {
 		this.context = context
@@ -64,6 +72,7 @@ export class BrowserSession {
 	}
 
 	// Tests remote browser connection
+	/** 测试远程 host 是否可达（DevTools 接口） */
 	async testConnection(host: string): Promise<{ success: boolean; message: string; endpoint?: string }> {
 		return testBrowserConnection(host)
 	}
@@ -71,6 +80,7 @@ export class BrowserSession {
 	/**
 	 * Get current browser connection information
 	 */
+	/** 获取当前连接信息 */
 	getConnectionInfo(): BrowserConnectionInfo {
 		return {
 			isConnected: !!this.browser,
@@ -82,6 +92,7 @@ export class BrowserSession {
 	/**
 	 * Migrates the chromeExecutablePath setting from VSCode configuration to browserSettings
 	 */
+	/** 迁移旧设置项 chromeExecutablePath 到 browserSettings */
 	private async migrateChromeExecutablePathSetting(): Promise<void> {
 		const config = vscode.workspace.getConfiguration("cline")
 		const configPath = vscode.workspace.getConfiguration("cline").get<string>("chromeExecutablePath")
@@ -93,6 +104,7 @@ export class BrowserSession {
 		}
 	}
 
+	/** 获取优先可用的 Chrome/Chromium 路径（用户->系统->下载） */
 	async getDetectedChromePath(): Promise<{ path: string; isBundled: boolean }> {
 		// First check browserSettings (from UI, stored in global state)
 		await this.migrateChromeExecutablePathSetting()
@@ -119,6 +131,7 @@ export class BrowserSession {
 		return { path: stats.executablePath, isBundled: true }
 	}
 
+	/** 确保存在（或下载）Chromium 并返回信息 */
 	async ensureChromiumExists(): Promise<PCRStats> {
 		const globalStoragePath = this.context?.globalStorageUri?.fsPath
 		if (!globalStoragePath) {
@@ -137,6 +150,7 @@ export class BrowserSession {
 		return stats
 	}
 
+	/** 使用系统 Chrome 重新以调试端口模式启动（辅助用户配置远程调试） */
 	async relaunchChromeDebugMode(controller: Controller): Promise<string> {
 		try {
 			const userDataDir = path.join(os.tmpdir(), "chrome-debug-profile")
@@ -186,10 +200,12 @@ export class BrowserSession {
 	 * Set the ULID for telemetry tracking
 	 * @param ulid The task ID to associate with browser actions
 	 */
+	/** 设置 ULID，用于关联遥测事件 */
 	setUlid(ulid: string) {
 		this.ulid = ulid
 	}
 
+	/** 根据配置启动（优先远程，失败回退本地）并记录会话开始 */
 	async launchBrowser() {
 		if (this.browser) {
 			await this.closeBrowser() // this may happen when the model launches a browser again after having used it already before
@@ -245,6 +261,7 @@ export class BrowserSession {
 		}
 	}
 
+	/** 启动本地 headless 实例 */
 	async launchLocalBrowser() {
 		const { path } = await this.getDetectedChromePath()
 		const userArgs = splitArgs(this.browserSettings.customArgs)
@@ -260,6 +277,7 @@ export class BrowserSession {
 		this.isConnectedToRemote = false
 	}
 
+	/** 连接远程 Chrome；包含缓存 endpoint 和自动发现逻辑 */
 	async launchRemoteBrowser() {
 		let remoteBrowserHost = this.browserSettings.remoteBrowserHost
 		let browserWSEndpoint: string | undefined = this.cachedWebSocketEndpoint
@@ -374,6 +392,7 @@ export class BrowserSession {
 	/**
 	 * Kill all Chrome instances, including those not launched by chrome-launcher
 	 */
+	/** 杀掉系统上所有 Chrome 进程（调试/清理用） */
 	private async killAllChromeBrowsers(): Promise<void> {
 		// First try chrome-launcher's killAll to handle instances it launched
 		try {
@@ -405,6 +424,7 @@ export class BrowserSession {
 		}
 	}
 
+	/** 关闭浏览器或断开远程连接，发送会话结束遥测 */
 	async closeBrowser(): Promise<BrowserActionResult> {
 		if (this.browser || this.page) {
 			// Send telemetry for browser tool end if we have a task ID and session was started
@@ -443,6 +463,7 @@ export class BrowserSession {
 		return {}
 	}
 
+	/** 包装单个页面操作，收集日志 + 等待静默 + 截图 */
 	async doAction(action: (page: Page) => Promise<void>): Promise<BrowserActionResult> {
 		if (!this.page) {
 			throw new Error(
@@ -546,6 +567,7 @@ export class BrowserSession {
 		}
 	}
 
+	/** 导航到 URL 并等待页面相对稳定 */
 	async navigateToUrl(url: string): Promise<BrowserActionResult> {
 		this.browserActions.push(`navigate: url`)
 
@@ -562,6 +584,7 @@ export class BrowserSession {
 
 	// page.goto { waitUntil: "networkidle0" } may not ever resolve, and not waiting could return page content too early before js has loaded
 	// https://stackoverflow.com/questions/52497252/puppeteer-wait-until-page-is-completely-loaded/61304202#61304202
+	/** 轮询 HTML 长度直到稳定若干次为止（防止早截） */
 	private async waitTillHTMLStable(page: Page, timeout = 5_000) {
 		const checkDurationMsecs = 500 // 1000
 		const maxChecks = timeout / checkDurationMsecs
@@ -593,6 +616,7 @@ export class BrowserSession {
 		}
 	}
 
+	/** 点击指定像素坐标，并在触发网络活动时等待加载 */
 	async click(coordinate: string): Promise<BrowserActionResult> {
 		this.browserActions.push(`click: coordinate`)
 
@@ -628,6 +652,7 @@ export class BrowserSession {
 		})
 	}
 
+	/** 在当前聚焦元素键入文本 */
 	async type(text: string): Promise<BrowserActionResult> {
 		this.browserActions.push(`type:${text.length} chars`)
 
@@ -636,6 +661,7 @@ export class BrowserSession {
 		})
 	}
 
+	/** 向下滚动 600 像素 */
 	async scrollDown(): Promise<BrowserActionResult> {
 		this.browserActions.push("scrollDown")
 
@@ -650,6 +676,7 @@ export class BrowserSession {
 		})
 	}
 
+	/** 向上滚动 600 像素 */
 	async scrollUp(): Promise<BrowserActionResult> {
 		this.browserActions.push("scrollUp")
 
@@ -664,6 +691,7 @@ export class BrowserSession {
 		})
 	}
 
+	/** 资源释放别名 */
 	async dispose() {
 		await this.closeBrowser()
 	}
