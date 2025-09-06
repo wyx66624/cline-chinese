@@ -181,7 +181,7 @@ export class Controller {
 			return false
 		}
 	}
-
+	//初始化任务
 	async initTask(task?: string, images?: string[], files?: string[], historyItem?: HistoryItem) {
 		await this.clearTask() // ensures that an existing task doesn't exist before starting a new one, although this shouldn't be possible since user must clear task before starting a new one
 

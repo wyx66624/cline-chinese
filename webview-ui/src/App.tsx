@@ -41,7 +41,6 @@ const AppContent = () => {
 			// Use the gRPC client instead of direct WebviewMessage
 			UiServiceClient.onDidShowAnnouncement({} as EmptyRequest)
 				.then((response) => {
-					// eslint-disable-next-line @typescript-eslint/ban-types
 					setShouldShowAnnouncement((response as Boolean).value)
 				})
 				.catch((error) => {

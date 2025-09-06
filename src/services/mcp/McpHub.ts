@@ -183,7 +183,7 @@ export class McpHub {
 					console.error("Error watching MCP settings file:", error)
 				},
 				onComplete: () => {
-					//console.log("[DEBUG] MCP settings file watch completed")
+					console.log("[DEBUG] MCP settings file watch completed")
 				},
 			},
 		)
@@ -200,7 +200,10 @@ export class McpHub {
 		}
 	}
 
-	/** 按名称查找连接对象 */
+	/** 按名称查找连接对象
+	 * "rpc": 代表由外部（通常是前端 Webview 通过扩展暴露的命令 / gRPC / Host 层请求）发起的显式操作。
+	 * "internal": 代表后端内部逻辑自主触发的更新，不是直接响应某个前端 RPC 调用。
+	 */
 	private findConnection(name: string, source: "rpc" | "internal"): McpConnection | undefined {
 		return this.connections.find((conn) => conn.server.name === name)
 	}
@@ -940,6 +943,10 @@ export class McpHub {
 			const connection = this.connections.find((conn) => conn.server.name === serverName)
 			if (connection && connection.server.tools) {
 				// Update the autoApprove property of each tool in the in-memory server object
+				/*`...tool` 是 JavaScript/TypeScript 中对象展开运算符（Spread Operator）__：
+			- __作用__：将 `tool` 对象的所有可枚举属性展开并复制到新对象中
+			- __结果__：创建一个新对象，包含 `tool` 的所有原有属性，然后可以添加新属性或覆盖现有属性
+				*/
 				connection.server.tools = connection.server.tools.map((tool) => ({
 					...tool,
 					autoApprove: autoApprove.includes(tool.name),
@@ -971,7 +978,7 @@ export class McpHub {
 				const toolIndex = autoApprove.indexOf(toolName)
 
 				if (shouldAllow && toolIndex === -1) {
-					// Add tool to autoApprove list
+					// Add tool to autoApprove list 如果没有找到该元素，返回-1
 					autoApprove.push(toolName)
 				} else if (!shouldAllow && toolIndex !== -1) {
 					// Remove tool from autoApprove list
@@ -1168,5 +1175,141 @@ export class McpHub {
 			this.settingsWatcher.dispose()
 		}
 		this.disposables.forEach((d) => d.dispose())
+	}
+
+	/**
+	 * 使用原生VS Code FileSystemWatcher监听MCP设置文件的变化
+	 * 此方法与原有的watchMcpSettingsFile功能相同，但使用VS Code原生API
+	 * 可以替代基于gRPC的文件监听实现
+	 */
+	private async watchMcpSettingsFileWithNativeWatcher(): Promise<void> {
+		const settingsPath = await this.getMcpSettingsFilePath()
+		
+		// 创建VS Code原生的文件系统监听器
+		// 监听指定路径的文件变化（创建、修改、删除）
+		this.settingsWatcher = vscode.workspace.createFileSystemWatcher(
+			new vscode.RelativePattern(
+				vscode.Uri.file(path.dirname(settingsPath)),
+				path.basename(settingsPath)
+			),
+			false, // 不忽略创建事件
+			false, // 不忽略修改事件  
+			false  // 不忽略删除事件
+		)
+
+		// 监听文件修改事件 - 这是最主要的事件
+		// 当用户或程序修改cline_mcp_settings.json时触发
+		this.settingsWatcher.onDidChange(async (uri: vscode.Uri) => {
+			console.log(`[Native Watcher] MCP settings file changed: ${uri.fsPath}`)
+			
+			try {
+				// 读取并验证配置文件内容
+				const settings = await this.readAndValidateMcpSettingsFile()
+				if (settings) {
+					// 更新服务器连接配置，这里使用internal模式
+					// 因为这是由文件变化自动触发的，不是RPC调用
+					await this.updateServerConnections(settings.mcpServers)
+					console.log(`[Native Watcher] Successfully updated MCP server connections`)
+				} else {
+					console.warn(`[Native Watcher] Failed to read or validate MCP settings after change`)
+				}
+			} catch (error) {
+				console.error(`[Native Watcher] Error processing MCP settings change:`, error)
+				// 显示错误消息给用户
+				HostProvider.window.showMessage({
+					type: ShowMessageType.ERROR,
+					message: `Failed to process MCP settings change: ${error instanceof Error ? error.message : String(error)}`,
+				})
+			}
+		})
+
+		// 监听文件创建事件
+		// 当首次创建cline_mcp_settings.json时触发
+		this.settingsWatcher.onDidCreate(async (uri: vscode.Uri) => {
+			console.log(`[Native Watcher] MCP settings file created: ${uri.fsPath}`)
+			
+			try {
+				// 文件刚创建时，读取初始配置
+				const settings = await this.readAndValidateMcpSettingsFile()
+				if (settings) {
+					await this.updateServerConnections(settings.mcpServers)
+					console.log(`[Native Watcher] Successfully loaded initial MCP server connections`)
+				}
+			} catch (error) {
+				console.error(`[Native Watcher] Error processing MCP settings creation:`, error)
+			}
+		})
+
+		// 监听文件删除事件
+		// 当cline_mcp_settings.json被删除时触发
+		this.settingsWatcher.onDidDelete(async (uri: vscode.Uri) => {
+			console.log(`[Native Watcher] MCP settings file deleted: ${uri.fsPath}`)
+			
+			try {
+				// 文件被删除时，断开所有服务器连接
+				// 传递空配置对象，这会导致所有连接被清理
+				await this.updateServerConnections({})
+				console.log(`[Native Watcher] Disconnected all MCP servers due to settings file deletion`)
+				
+			} catch (error) {
+				console.error(`[Native Watcher] Error processing MCP settings deletion:`, error)
+			}
+		})
+
+		// 将文件监听器添加到disposables数组，确保在清理时正确释放资源
+		this.disposables.push(this.settingsWatcher)
+
+		console.log(`[Native Watcher] Started watching MCP settings file: ${settingsPath}`)
+	}
+
+	/**
+	 * 切换到原生文件监听器的便捷方法
+	 * 调用此方法可以将当前的gRPC文件监听切换为VS Code原生文件监听
+	 * 注意：调用此方法前应确保已经停止了gRPC监听
+	 */
+	public async switchToNativeFileWatcher(): Promise<void> {
+		try {
+			// 如果已经有settingsWatcher，先清理它
+			if (this.settingsWatcher) {
+				this.settingsWatcher.dispose()
+				this.settingsWatcher = undefined
+			}
+
+			// 启动原生文件监听器
+			await this.watchMcpSettingsFileWithNativeWatcher()
+			
+			console.log(`[Native Watcher] Successfully switched to native file watcher`)
+			
+			// 可选：显示成功消息
+			HostProvider.window.showMessage({
+				type: ShowMessageType.INFORMATION,
+				message: `Switched to native VS Code file watcher for MCP settings monitoring.`,
+			})
+		} catch (error) {
+			console.error(`[Native Watcher] Failed to switch to native file watcher:`, error)
+			throw error
+		}
+	}
+
+	/**
+	 * 获取当前使用的文件监听器类型
+	 * @returns 'native' 如果使用VS Code原生监听器，'grpc' 如果使用gRPC监听器，'none' 如果都没有
+	 */
+	public getFileWatcherType(): 'native' | 'grpc' | 'none' {
+		if (this.settingsWatcher) {
+			return 'native'
+		}
+		
+		// 检查disposables中是否有gRPC订阅
+		// gRPC订阅通过disposables管理，但没有直接的属性引用
+		const hasGrpcSubscription = this.disposables.some(d => 
+			d && typeof d.dispose === 'function' && d !== this.settingsWatcher
+		)
+		
+		if (hasGrpcSubscription) {
+			return 'grpc'
+		}
+		
+		return 'none'
 	}
 }
